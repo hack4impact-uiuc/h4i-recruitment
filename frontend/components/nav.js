@@ -15,6 +15,9 @@ const Nav = () => (
         <Link prefetch href="/">
           <a>Home</a>
         </Link>
+        <Link prefetch href="/facemash">
+          <a>Facemash</a>
+        </Link>
       </li>
       <ul>
         {links.map(

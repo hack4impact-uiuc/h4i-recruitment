@@ -4,7 +4,16 @@
   "main": "index.js",
   "author": "Timothy Ko",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js --trace-warnings",
+    "parse": "node parseSheet.js"
+  },
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.12",
+    "xlsx": "^0.12.7"
   }
 }

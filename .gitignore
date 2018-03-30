@@ -1,2 +1,5 @@
 .vscode
 node_modules
+backend/.env
+package-lock.json
+yarn.lock
