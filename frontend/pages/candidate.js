@@ -1,6 +1,5 @@
 import { Component } from 'react'
 import Router from 'next/router'
-import { URL }from 'url'
 
 class CandidatesPage extends Component {
   constructor (props) {
