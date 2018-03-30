@@ -1,0 +1,10 @@
+{
+  "name": "h4i-recruitment-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Timothy Ko",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
