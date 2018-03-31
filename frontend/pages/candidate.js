@@ -46,6 +46,7 @@ class CandidatesPage extends Component {
         <p>Tech Experience: {candidate.techExperience}</p>
         <p>How They know us: {candidate.howTheyKnowUs}</p>
         <p>Additional Comments: {candidate.additionalComments}</p>
+        <button className='btn btn-primary'>Add Interview</button>
       </div>
     )
   }

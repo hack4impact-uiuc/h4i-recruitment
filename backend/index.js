@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Candidate = require('./model')
 const cors = require('cors')
+var XLSX = require('xlsx')
 
 mongoose.connect('mongodb://tko:tko@ds229549.mlab.com:29549/h4i-recruitment')
 mongoose.Promise = global.Promise
@@ -48,6 +49,19 @@ app.get('/candidates/:candidateId', async (req, res) => {
   } catch (err) {
     res.status(400).json({ 'message': err.message })
   }
+})
+
+app.get('/parse', async (req, res) => {
+  const wb = XLSX.readFile('candidates.xlsx')
+  const ws = wb.Sheets[wb.SheetNames[0]]
+  var i = 0
+  for (var elm in ws) {
+    console.log(elm)
+    i++
+    if (i >= 10) break
+  }
+
+  res.send('hi')
 })
 
 app.listen(8080, () => console.log('Example app listening on port 8080!'))

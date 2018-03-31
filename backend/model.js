@@ -17,7 +17,14 @@ const Candidate = new mongoose.Schema({
   timeCanDevote: { type: Number },
   techExperience: { type: String },
   howTheyKnowUs: { type: String },
-  additionalComments: { type: String }
+  additionalComments: { type: String },
+  interviews: [{
+    timeCommitmentNotes: { type: String },
+    dedicationToCommunityNotes: { type: String },
+    techCompetenceNotes: { type: String },
+    otherNotes: { type: String },
+    interviewer: { type: String }
+  }]
 })
 
 Candidate.methods.enoughTimeCommitment = (candidate) => candidate.timeCanDevote >= 8
