@@ -14,7 +14,7 @@ const Candidate = new mongoose.Schema({
   roleReason: { type: String },
   joinReason: { type: String },
   timeCommitment: { type: String },
-  timeCanDevote: { type: Number },
+  timeCanDevote: { type: String },
   techExperience: { type: String },
   howTheyKnowUs: { type: String },
   additionalComments: { type: String },

@@ -10,7 +10,7 @@ const CandidateListComponent = ({ candidates }) => (
               <a>{candidate.name}</a>
             </Link>
             <p>Major: <span className='highlight'>{candidate.major}</span></p>
-            <a style={{textDecoration: candidate.website ? null : 'line-through'}} href={`http://localhost:8080/files/${candidate.resumeID}`}>Resume</a>
+            <a style={{textDecoration: candidate.resumeID ? null : 'line-through'}} href={`${candidate.resumeID}`}>Resume</a>
             <p>Graduation Date: <span className='highlight'>{candidate.graduationDate}</span></p>
             <p>Role: <span className='highlight'>{candidate.role}</span></p>
             <p>Time Commitment: <span className='highlight'>{candidate.timeCanDevote}</span></p>

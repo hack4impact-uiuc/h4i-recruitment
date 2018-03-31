@@ -34,18 +34,18 @@ class CandidatesPage extends Component {
           <a style={{textDecoration: candidate.linkedIn ? null : 'line-through'}} href={candidate.linkedIn}>LinkedIn</a>
           <a style={{textDecoration: candidate.github ? null : 'line-through'}} href={candidate.github}>Github</a>
         </div>
-        <p>Major: {candidate.major}</p>
-        <p>Graduation Date: {candidate.graduationDate}</p>
-        <p>Minor: {candidate.minor}</p>
+        <p><b>Major:</b> {candidate.major}</p>
+        <p><b>Graduation Date:</b> {candidate.graduationDate}</p>
+        <p><b>Minor:</b> {candidate.minor}</p>
         
-        <p>Applied Role: {candidate.role}</p>
-        <p>Role Reason: {candidate.roleReason}</p>
-        <p>Reason for joining: {candidate.joinReason}</p>
-        <p>Time Commitment: {candidate.timeCanDevote}</p>
-        <p>Time Commitment List: {candidate.timeCommitment}</p>
-        <p>Tech Experience: {candidate.techExperience}</p>
-        <p>How They know us: {candidate.howTheyKnowUs}</p>
-        <p>Additional Comments: {candidate.additionalComments}</p>
+        <p><b>Applied Role:</b> {candidate.role}</p>
+        <p><b>Role Reason:</b> {candidate.roleReason}</p>
+        <p><b>Reason for joining:</b> {candidate.joinReason}</p>
+        <p><b>Time Commitment:</b> {candidate.timeCanDevote}</p>
+        <p><b>Time Commitment List:</b> {candidate.timeCommitment}</p>
+        <p><b>Tech Experience:</b> {candidate.techExperience}</p>
+        <p><b>How They know us:</b> {candidate.howTheyKnowUs}</p>
+        <p><b>Additional Comments:</b> {candidate.additionalComments}</p>
         <button className='btn btn-primary'>Add Interview</button>
       </div>
     )
