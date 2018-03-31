@@ -1,0 +1,23 @@
+a {
+    color: #067df7;
+    text-decoration: none;
+    font-size: 15px;
+}
+p {
+    font-size: 15px;
+}
+.candidate-list-box p {
+    padding-right: 10px;
+}
+.candidate-list-box a{
+    padding-right: 10px;
+}
+.candidate-box {
+    margin-top: 20px;
+    padding: 14px 0 0 14px;
+    border: 1px solid #067df7;
+    border-radius: 5px;
+}
+.highlight {
+    color: #db5858;
+}
