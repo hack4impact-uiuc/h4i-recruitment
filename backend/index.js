@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Candidate = require('./model')
+const cors = require('cors')
 
 mongoose.connect('mongodb://tko:tko@ds229549.mlab.com:29549/h4i-recruitment')
 mongoose.Promise = global.Promise
@@ -9,6 +10,7 @@ mongoose.connection
   .on('error', error => console.log('Error connecting to MongoLab:', error))
 
 const app = express()
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('hi')
@@ -19,27 +21,18 @@ app.get('/candidates', async (req, res) => {
     const candidates = await Candidate.find()
     res.json({ 'result': candidates })
   } catch (err) {
-
+    res.json(400, { 'message': err.message })
   }
-  const c = new Candidate({
-    name: 'Tim',
-    email: 'timothy@gmail.com',
-    graduationDate: '2018',
-    major: 'CompE',
-    resumeID: 'resume.pdf',
-    role: 'SWE'
-  })
-  await c.save()
 })
 
 app.post('/candidates', async (req, res) => {
   try {
     const c = new Candidate({
       name: 'Tim',
-      email: 'timothy@gmail.com',
+      email: 'other@gmail.com',
       graduationDate: '2018',
       major: 'CompE',
-      resumeID: 'resume.pdf',
+      resumeID: 'resume2.pdf',
       role: 'SWE'
     })
     await c.save()
@@ -48,9 +41,13 @@ app.post('/candidates', async (req, res) => {
   }
 })
 
-app.get('/candidates/:candidateId', (req, res) => {
-  const candidate = Candidate.findById(req.params.candidateId)
-  res.json({ 'result': candidate })
+app.get('/candidates/:candidateId', async (req, res) => {
+  try {
+    const candidate = await Candidate.findById(req.params.candidateId)
+    res.json({ 'result': candidate })
+  } catch (err) {
+    res.status(400).json({ 'message': err.message })
+  }
 })
 
 app.listen(8080, () => console.log('Example app listening on port 8080!'))

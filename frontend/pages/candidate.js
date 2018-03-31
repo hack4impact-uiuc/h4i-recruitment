@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import Router from 'next/router'
+import { getCandidateById } from '../utils'
 
 class CandidatesPage extends Component {
   constructor (props) {
@@ -10,11 +11,13 @@ class CandidatesPage extends Component {
   }
   static async getInitialProps ({ query }) {
     // check whether query.id is real candidate
-    // const res = await fetch('backend url to check whether candidate exists')
     return { query }
   }
+  async componentDidMount () {
+    const { data, err } = await getCandidateById(this.props.query.id)
+    console.log('data: ', data)
+  }
   render () {
-    console.log(this.props.url)
     return (
       <div>
         <h2>{this.props.query ? this.props.query.id : 'user does not exist' }</h2>
