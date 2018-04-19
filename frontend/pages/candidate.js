@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { getCandidateById } from '../utils'
+import { getCandidateById } from '../utils/api'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import Candidate from '../components/candidate'

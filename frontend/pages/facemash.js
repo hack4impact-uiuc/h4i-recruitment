@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import { getAllCandidates } from '../utils'
+import { getAllCandidates } from '../utils.api'
 import Candidate from '../components/candidate'
 
 class FaceMash extends Component {

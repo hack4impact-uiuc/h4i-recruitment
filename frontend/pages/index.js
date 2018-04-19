@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
-import { getAllCandidates } from '../utils'
+import { getAllCandidates } from '../utils/api'
 
 class HomePage extends Component {
   constructor (props) {
