@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { getCandidateById } from '../utils/api'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import Candidate from '../components/candidate'
+import Candidate from '../components/candidateBox'
 
 class CandidatePage extends Component {
   constructor (props) {

@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { getCandidateById } from '../utils/api'
 import Head from './head'
 
-const CandidateComponent = (props) => {
+const CandidateBox = (props) => {
   if (!props.candidate) {
     return (<div>User doesn't exist</div>)
   }
@@ -33,4 +33,4 @@ const CandidateComponent = (props) => {
   )
 }
 
-export default CandidateComponent
+export default CandidateBox

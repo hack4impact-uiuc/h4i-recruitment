@@ -34,6 +34,7 @@ class HomePage extends Component {
         <Head title='Home' />
         <Nav />
         <h1>Hack4Impact Recruitment Portal</h1>
+        <button className="btn btn-primary">Sort by</button>
         <div className='hero'>
           <CandidateListComponent candidates={this.props.result} />
         </div>

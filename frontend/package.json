@@ -12,8 +12,10 @@
     "react-dom": "^16.3.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^11.0.0",
     "eslint-plugin-prettier": "^2.6.0",
     "prettier": "^1.12.1"
   }

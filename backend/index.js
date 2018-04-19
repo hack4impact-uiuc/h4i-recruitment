@@ -1,8 +1,8 @@
-import { RSA_PKCS1_OAEP_PADDING } from 'constants'
-
 const express = require('express')
+const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const Candidate = require('./model')
+const { Candidate, Stats } = require('./models')
+const { errorWrap, getStats } = require('./utils')
 const cors = require('cors')
 var XLSX = require('xlsx')
 
@@ -14,19 +14,20 @@ mongoose.connection
 
 const app = express()
 app.use(cors())
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
   res.send('hi')
 })
 
-app.get('/candidates', async (req, res) => {
+app.get('/candidates', errorWrap(async (req, res) => {
   try {
     const candidates = await Candidate.find()
     res.json({ 'result': candidates })
   } catch (err) {
     res.json(400, { 'message': err.message })
   }
-})
+}))
 
 app.post('/candidates', async (req, res) => {
   try {
@@ -53,6 +54,25 @@ app.get('/candidates/:candidateId', async (req, res) => {
   }
 })
 
+app.get('/matchCandidates', async (req, res) => {
+  try {
+    const candidates = await Candidate.find().sort('facemashRankings.total').limit(2)
+    res.json({ 'result': candidates })
+  } catch (err) {
+    res.json(400, { 'message': err.message })
+  }
+})
+
+app.post('/matchCandidates', async (req, res) => {
+  try {
+    const data = req.body
+    console.log(data)
+    res.json({ 'result': data })
+  } catch (err) {
+    res.json(400, { 'message': err.message })
+  }
+})
+
 app.get('/parse', async (req, res) => {
   const wb = XLSX.readFile('candidates.xlsx')
   const ws = wb.Sheets[wb.SheetNames[0]]
@@ -66,7 +86,11 @@ app.get('/parse', async (req, res) => {
   res.send('hi')
 })
 
-app.listen(8080, () => console.log('Example app listening on port 8080!'))
+app.listen(8080, async () => {
+  console.log('Server listening on port 8080!')
+  const stats = await getStats()
+  console.log(stats)
+})
 
 process.on('unhandledRejection', error => {
   // Will print "unhandledRejection err is not defined"

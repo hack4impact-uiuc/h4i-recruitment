@@ -1,14 +1,39 @@
+//@flow
 import fetch from 'isomorphic-unfetch'
 
+const API_URL = 'http://localhost:8080'
+
 function getCandidateById (id) {
-  return fetch(`http://localhost:8080/candidates/${id}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
 function getAllCandidates () {
-  return fetch('http://localhost:8080/candidates').then(res => res.json())
+  return fetch(`${API_URL}/candidates`).then(res => res.json())
+}
+
+function getCandidateMatch () {
+  return fetch(`${API_URL}/matchCandidates`).then(res => res.json())
+}
+
+function setMatchWinner (candidate1: String, candidate2: String, winnerID: String, matchID: String) {
+  return fetch(`${API_URL}/matchCandidates`, {
+    body: JSON.stringify({
+      candidate1,
+      candidate2,
+      winnerID,
+      matchID
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  })
 }
 
 export {
   getCandidateById,
-  getAllCandidates
+  getAllCandidates,
+  getCandidateMatch,
+  setMatchWinner
 }
