@@ -1,15 +1,15 @@
 import { Component } from 'react'
-import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates } from '../utils'
+import Candidate from '../components/candidate'
 
-class HomePage extends Component {
+class FaceMash extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      candidates: []
+      candidates: [],
+      error: false
     }
   }
   static async getInitialProps ({ query }) {
@@ -30,16 +30,22 @@ class HomePage extends Component {
       return <div>Bad Fetch. Try again</div>
     }
     return (
-      <div className='container-fluid' style={{padding: '0 30px 0 30px'}}>
-        <Head title='Home' />
-        <Nav />
-        <h1>Hack4Impact Recruitment Portal</h1>
-        <div className='hero'>
-          <CandidateListComponent candidates={this.props.result} />
+      <div>
+        <Head title='FaceMash' />
+        <Nav/>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-6">
+              <Candidate candidate={this.props.result[0]}/>
+            </div>
+            <div className="col-md-6">
+              <Candidate candidate={this.props.result[1]}/>
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 }
 
-export default HomePage
+export default FaceMash

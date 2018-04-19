@@ -24,7 +24,17 @@ const Candidate = new mongoose.Schema({
     techCompetenceNotes: { type: String },
     otherNotes: { type: String },
     interviewer: { type: String }
-  }]
+  }],
+  facemashRankings: {
+    total: { type: Number },
+    results: [{
+      winner: { type: Boolean },
+      against: {
+        id: { type: String },
+        name: {type: String}
+      }
+    }]
+  }
 })
 
 Candidate.methods.enoughTimeCommitment = (candidate) => candidate.timeCanDevote >= 8

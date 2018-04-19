@@ -11,9 +11,10 @@ const CandidateListComponent = ({ candidates }) => (
             </Link>
             <p>Major: <span className='highlight'>{candidate.major}</span></p>
             <a style={{textDecoration: candidate.resumeID ? null : 'line-through'}} href={`${candidate.resumeID}`}>Resume</a>
-            <p>Graduation Date: <span className='highlight'>{candidate.graduationDate}</span></p>
-            <p>Role: <span className='highlight'>{candidate.role}</span></p>
-            <p>Time Commitment: <span className='highlight'>{candidate.timeCanDevote}</span></p>
+            <a style={{textDecoration: candidate.website ? null : 'line-through'}} href={`${candidate.website}`}>Website</a>
+            <p><span className='highlight'>{candidate.graduationDate}</span></p>
+            <p><span className='highlight'>{candidate.role}</span></p>
+            <p><span className='highlight'>{candidate.timeCanDevote}</span></p>
           </div>
         )) : 'No candidates'
     }
