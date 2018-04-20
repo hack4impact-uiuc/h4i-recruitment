@@ -16,6 +16,7 @@ function getCandidateMatch () {
 }
 
 function setMatchWinner (candidate1: String, candidate2: String, winnerID: String, matchID: String) {
+  console.log('setMatachWinener');
   return fetch(`${API_URL}/matchCandidates`, {
     body: JSON.stringify({
       candidate1,
@@ -28,7 +29,7 @@ function setMatchWinner (candidate1: String, candidate2: String, winnerID: Strin
     },
     method: 'POST',
     mode: 'cors'
-  })
+  }).then(res => res.json())
 }
 
 export {

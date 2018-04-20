@@ -26,14 +26,7 @@ const Candidate = new mongoose.Schema({
     interviewer: { type: String }
   }],
   facemashRankings: {
-    total: { type: Number, default: 0 },
-    results: [{
-      winner: { type: Boolean },
-      against: {
-        id: { type: String },
-        name: {type: String}
-      }
-    }]
+    total: { type: Number, default: 0 }
   }
 })
 

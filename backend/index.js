@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const { Candidate, Stats } = require('./models')
+const { Candidate, Stats, Match } = require('./models')
 const { errorWrap, getStats } = require('./utils')
 const cors = require('cors')
 var XLSX = require('xlsx')
@@ -56,8 +56,19 @@ app.get('/candidates/:candidateId', async (req, res) => {
 
 app.get('/matchCandidates', async (req, res) => {
   try {
-    const candidates = await Candidate.find().sort('facemashRankings.total').limit(2)
-    res.json({ 'result': candidates })
+    // not very efficient, nor should we have this algorithm for matches
+    // TODO: change this to a better algorithm
+    const candidates = await Candidate.aggregate([{$sample: {size: 5}}])
+    const match = new Match({
+      candidate1: candidates[0]._id,
+      candidate2: candidates[1]._id
+    })
+    match.save()
+    res.json({ 'result': {
+      candidate1: candidates[0],
+      candidate2: candidates[1],
+      matchID: match._id
+    }})
   } catch (err) {
     res.json(400, { 'message': err.message })
   }
@@ -66,8 +77,10 @@ app.get('/matchCandidates', async (req, res) => {
 app.post('/matchCandidates', async (req, res) => {
   try {
     const data = req.body
-    console.log(data)
-    res.json({ 'result': data })
+    let match = await Match.findById(data.matchID)
+    match.winnerID = data.winnerID
+    match.save()
+    res.json({ 'success': 'true' })
   } catch (err) {
     res.json(400, { 'message': err.message })
   }
@@ -86,11 +99,12 @@ app.get('/parse', async (req, res) => {
   res.send('hi')
 })
 
-app.listen(8080, async () => {
-  console.log('Server listening on port 8080!')
-  const stats = await getStats()
-  console.log(stats)
-})
+app.get('/matches', errorWrap(async (req, res) => {
+  const matches = await Match.find()
+  res.send({ 'result': matches })
+}))
+
+app.listen(8080, async () => (console.log('Server listening on port 8080!')))
 
 process.on('unhandledRejection', error => {
   // Will print "unhandledRejection err is not defined"
