@@ -6,7 +6,7 @@ const { errorWrap, getStats } = require('./utils')
 const cors = require('cors')
 var XLSX = require('xlsx')
 
-mongoose.connect('mongodb://tko:tko@ds229549.mlab.com:29549/h4i-recruitment')
+mongoose.connect(process.env.MONGO_URL)
 mongoose.Promise = global.Promise
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))

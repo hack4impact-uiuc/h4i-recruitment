@@ -1,8 +1,8 @@
 var XLSX = require('xlsx')
 var mongoose = require('mongoose')
-var Candidate = require('./model')
+var Candidate = require('./models/candidate')
 
-mongoose.connect('mongodb://tko:tko@ds229549.mlab.com:29549/h4i-recruitment')
+mongoose.connect(process.env.MONGO_URL)
 mongoose.Promise = global.Promise
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
