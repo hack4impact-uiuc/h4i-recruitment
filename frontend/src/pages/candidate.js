@@ -5,13 +5,13 @@ import Nav from '../components/nav'
 import Candidate from '../components/candidateBox'
 
 class CandidatePage extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      form: { }
+      form: {}
     }
   }
-  static async getInitialProps ({ query }) {
+  static async getInitialProps({ query }) {
     // check whether query.id is real candidate
     try {
       const { result } = await getCandidateById(query.id)
@@ -21,18 +21,18 @@ class CandidatePage extends Component {
       return { error: 'Bad Request' }
     }
   }
-  render () {
+  render() {
     if (!this.props.result) {
       console.log('cad', this.props.result)
-      return (<div>User doesn't exist</div>)
+      return <div>User doesn't exist</div>
     }
     const candidate = this.props.result
     return (
-      <div className='container'>
-        <Head title='Candidate' />
-        <Nav/>
-        <Candidate candidate={candidate}/>
-        <button className='btn btn-primary'>Add Interview</button>
+      <div className="container">
+        <Head title="Candidate" />
+        <Nav />
+        <Candidate candidate={candidate} />
+        <button className="btn btn-primary">Add Interview</button>
       </div>
     )
   }
