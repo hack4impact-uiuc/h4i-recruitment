@@ -29,7 +29,7 @@ app.get('/candidates', errorWrap(async (req, res) => {
   }
 }))
 
-app.post('/candidates', async (req, res) => {
+app.post('/candidates', errorWrap(async (req, res) => {
   try {
     const c = new Candidate({
       name: 'Tim',
@@ -43,16 +43,16 @@ app.post('/candidates', async (req, res) => {
   } catch (err) {
     res.json(400, { 'message': err.message })
   }
-})
+}))
 
-app.get('/candidates/:candidateId', async (req, res) => {
+app.get('/candidates/:candidateId', errorWrap(async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.params.candidateId)
     res.json({ 'result': candidate })
   } catch (err) {
     res.status(400).json({ 'message': err.message })
   }
-})
+}))
 
 app.get('/matchCandidates', async (req, res) => {
   try {
