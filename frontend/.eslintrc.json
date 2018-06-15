@@ -1,18 +1,18 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "sourceType": "module"
-    },
-    "extends": ["standard","prettier"],
-    "parser": "babel-eslint",
-		"plugins": ["prettier"],
-    "rules": {
-			"prettier/prettier": "error"
-    }
+    "sourceType": "module"
+  },
+  "extends": ["standard", "prettier"],
+  "parser": "babel-eslint",
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
 }

@@ -18,18 +18,21 @@ const Candidate = new mongoose.Schema({
   techExperience: { type: String },
   howTheyKnowUs: { type: String },
   additionalComments: { type: String },
-  interviews: [{
-    timeCommitmentNotes: { type: String },
-    dedicationToCommunityNotes: { type: String },
-    techCompetenceNotes: { type: String },
-    otherNotes: { type: String },
-    interviewer: { type: String }
-  }],
+  interviews: [
+    {
+      timeCommitmentNotes: { type: String },
+      dedicationToCommunityNotes: { type: String },
+      techCompetenceNotes: { type: String },
+      otherNotes: { type: String },
+      interviewer: { type: String }
+    }
+  ],
   facemashRankings: {
     total: { type: Number, default: 0 }
   }
 })
 
-Candidate.methods.enoughTimeCommitment = (candidate) => candidate.timeCanDevote >= 8
+Candidate.methods.enoughTimeCommitment = candidate =>
+  candidate.timeCanDevote >= 8
 
 module.exports = mongoose.model('Candidate', Candidate)
