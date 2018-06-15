@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build_frontend:
+    docker:
+      - image: node:8.4.0
+    working_directory: /home/h4i-recruitment
+    steps:
+      - checkout
+      - run: cd frontend && yarn && yarn format:check
+  build_backend:
+    docker:
+      - image: node:8.4.0
+    working_directory: /home/h4i-recruitment
+    steps:
+      - checkout
+      - run: cd backend && yarn && yarn format:check
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_frontend
+      - build_backend
