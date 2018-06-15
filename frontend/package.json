@@ -1,9 +1,11 @@
 {
   "name": "create-next-example-app",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "dev": "next src",
+    "build": "next build src",
+    "start": "next start src",
+    "format": "prettier --config ../.prettierrc.json --write '{src,test}/**/*.{js,jsx,json,css}'",
+    "format:check": "prettier --list-different \"{src,test}/**/*.js\""
   },
   "dependencies": {
     "isomorphic-unfetch": "^2.0.0",
@@ -13,10 +15,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-prettier": "^2.6.0",
+    "flow-bin": "^0.74.0",
     "prettier": "^1.12.1"
   }
 }

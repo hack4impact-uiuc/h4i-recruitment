@@ -24,20 +24,32 @@ jsonSheet.map(candidate => {
     linkedIn: candidate.LinkedIn,
     website: candidate.Website,
     role: candidate['Which role(s) are you applying for? '],
-    roleReason: candidate['For each role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'],
-    joinReason: candidate['Why do you want to join Hack4Impact, and what do you hope to gain from it?'],
+    roleReason:
+      candidate[
+        'For each role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
+      ],
+    joinReason:
+      candidate[
+        'Why do you want to join Hack4Impact, and what do you hope to gain from it?'
+      ],
     timeCommitment: candidate['Please list your time commitments'],
-    timeCanDevote: candidate['How much time can you devote to Hack4Impact per week?'],
-    techExperience: candidate['List technical/design experience (classes taken, side projects, internships, class projects, portfolio link)'],
+    timeCanDevote:
+      candidate['How much time can you devote to Hack4Impact per week?'],
+    techExperience:
+      candidate[
+        'List technical/design experience (classes taken, side projects, internships, class projects, portfolio link)'
+      ],
     howTheyKnowUs: candidate['How did you hear about us?'],
     additionalComments: candidate['Any additional comments?'],
-    interviews: [{
-      timeCommitmentNotes: candidate['Time Commitment'],
-      dedicationToCommunityNotes: candidate['Dedication to Community'],
-      techCompetenceNotes: candidate['Technical Competence '],
-      otherNotes: candidate.Notes,
-      interviewer: candidate.Interviewers
-    }]
+    interviews: [
+      {
+        timeCommitmentNotes: candidate['Time Commitment'],
+        dedicationToCommunityNotes: candidate['Dedication to Community'],
+        techCompetenceNotes: candidate['Technical Competence '],
+        otherNotes: candidate.Notes,
+        interviewer: candidate.Interviewers
+      }
+    ]
   })
   newCandidate.save()
 })
