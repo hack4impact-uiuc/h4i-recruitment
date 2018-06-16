@@ -3,6 +3,8 @@ import { getCandidateById } from '../utils/api'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import Candidate from '../components/candidateBox'
+import { Container, Button } from 'reactstrap'
+import Router from 'next/router'
 
 class CandidatePage extends Component {
   constructor(props) {
@@ -21,19 +23,26 @@ class CandidatePage extends Component {
       return { error: 'Bad Request' }
     }
   }
+  goBack = () => {
+    Router.back()
+  }
   render() {
     if (!this.props.result) {
-      console.log('cad', this.props.result)
       return <div>User doesn't exist</div>
     }
     const candidate = this.props.result
     return (
-      <div className="container">
+      <Container>
         <Head title="Candidate" />
         <Nav />
+        <Button color="primary" onClick={this.goBack}>
+          Back
+        </Button>
         <Candidate candidate={candidate} />
-        <button className="btn btn-primary">Add Interview</button>
-      </div>
+        <Button outline color="primary">
+          Add Interview
+        </Button>
+      </Container>
     )
   }
 }
