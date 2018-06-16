@@ -15,12 +15,7 @@ function getCandidateMatch() {
   return fetch(`${API_URL}/matchCandidates`).then(res => res.json())
 }
 
-function setMatchWinner(
-  candidate1: String,
-  candidate2: String,
-  winnerID: String,
-  matchID: String
-) {
+function setMatchWinner(candidate1: string, candidate2: string, winnerID: string, matchID: string) {
   console.log('setMatachWinener')
   return fetch(`${API_URL}/matchCandidates`, {
     body: JSON.stringify({

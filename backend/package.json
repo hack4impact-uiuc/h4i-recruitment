@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "dev": "node src/index.js --trace-warnings",
     "parse": "node src/parseSheet.js",
-    "format": "prettier --config ../.prettierrc.json --write '{src,test}/**/*.{js,jsx,json,css}'",
+    "format": "prettier --write '{src,test}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\""
   },
   "dependencies": {

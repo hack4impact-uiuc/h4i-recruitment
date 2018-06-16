@@ -9,7 +9,7 @@
     },
     "sourceType": "module"
   },
-  "extends": ["standard", "prettier"],
+  "extends": ["prettier/standard", "prettier", "prettier/react"],
   "parser": "babel-eslint",
   "plugins": ["prettier"],
   "rules": {

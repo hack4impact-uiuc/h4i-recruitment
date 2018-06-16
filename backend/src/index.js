@@ -63,11 +63,12 @@ app.get(
   })
 )
 
-app.get('/matchCandidates', async (req, res) => {
+app.get('/matchCandidates', errorWrap(async (req, res) => {
   try {
     // not very efficient, nor should we have this algorithm for matches
     // TODO: change this to a better algorithm
     const candidates = await Candidate.aggregate([{ $sample: { size: 5 } }])
+    // create the match
     const match = new Match({
       candidate1: candidates[0]._id,
       candidate2: candidates[1]._id
@@ -83,21 +84,26 @@ app.get('/matchCandidates', async (req, res) => {
   } catch (err) {
     res.json(400, { message: err.message })
   }
-})
+}))
 
-app.post('/matchCandidates', async (req, res) => {
+app.post('/matchCandidates', errorWrap(async (req, res) => {
   try {
     const data = req.body
+
+    // given the matchID that was passed from the backend
+    // when a match was created
+    // This will verify whether the match exists
+    // so any frontend client can't "fake" a match
     let match = await Match.findById(data.matchID)
-    match.winnerID = data.winnerID
+    match.winnerID = data.winnerID // update the winner
     match.save()
     res.json({ success: 'true' })
   } catch (err) {
     res.json(400, { message: err.message })
   }
-})
+}))
 
-app.get('/parse', async (req, res) => {
+app.get('/parse', errorWrap(async (req, res) => {
   const wb = XLSX.readFile('candidates.xlsx')
   const ws = wb.Sheets[wb.SheetNames[0]]
   var i = 0
@@ -108,7 +114,7 @@ app.get('/parse', async (req, res) => {
   }
 
   res.send('hi')
-})
+}))
 
 app.get(
   '/matches',
@@ -122,5 +128,6 @@ app.listen(8080, async () => console.log('Server listening on port 8080!'))
 
 process.on('unhandledRejection', error => {
   // Will print "unhandledRejection err is not defined"
-  console.log('unhandledRejection', error.message)
+  console.error('ERROR: unhandledRejection, did you run `dotenv` before yarn dev?', error.message)
+  process.exit(1)
 })

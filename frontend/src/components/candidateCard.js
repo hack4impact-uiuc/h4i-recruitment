@@ -1,0 +1,61 @@
+// @flow
+import Link from 'next/link'
+import { Card, CardBody, CardTitle, Button } from 'reactstrap'
+import FileIcon from '../static/icons/file.svg'
+import Router from 'next/router'
+
+const handler = (_id: string) =>
+  Router.push({
+    pathname: '/candidate',
+    query: { id: _id }
+  })
+
+type Props = {
+  candidate: Array<mixed> // TODO: make this more specific
+}
+
+const CandidateCardComponent = ({ candidate }: Props) => (
+  <Card className="candidate-card">
+    <CardBody>
+      <CardTitle>
+        <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+          <a className="card-title">{candidate.name}</a>
+        </Link>
+        <a
+          className="card-links"
+          style={{
+            textDecoration: candidate.resumeID ? null : 'line-through'
+          }}
+          href={`${candidate.resumeID}`}
+        >
+          Resume
+        </a>
+        <a
+          className="card-links"
+          style={{
+            textDecoration: candidate.website ? null : 'line-through'
+          }}
+          href={`${candidate.website}`}
+        >
+          Website
+        </a>
+      </CardTitle>
+      <div onClick={e => handler(candidate._id)}>
+        <p>
+          Major: <span className="highlight">{candidate.major}</span>
+        </p>
+        <p>
+          <span className="highlight">{candidate.graduationDate}</span>
+        </p>
+        <p>
+          <span className="highlight">{candidate.role}</span>
+        </p>
+        <p>
+          Hours: <span className="highlight">{candidate.timeCanDevote}</span>
+        </p>
+      </div>
+    </CardBody>
+  </Card>
+)
+
+export default CandidateCardComponent

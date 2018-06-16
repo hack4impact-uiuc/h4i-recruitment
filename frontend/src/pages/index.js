@@ -1,15 +1,30 @@
+// @flow
 import { Component } from 'react'
 import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates } from '../utils/api'
+import {
+  Container,
+  Button,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Row
+} from 'reactstrap'
 
-class HomePage extends Component {
+type Props = {
+  result: {}
+}
+
+class HomePage extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      candidates: []
+      candidates: [],
+      dropdownOpen: false
     }
   }
   static async getInitialProps({ query }) {
@@ -21,24 +36,37 @@ class HomePage extends Component {
       }
       return { result }
     } catch (err) {
-      console.log('Candidate Page error: ', err.message)
+      console.error('Candidate Page error: ', err.message)
       return { error: 'Bad Request' }
     }
+  }
+  toggle = () => {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }))
   }
   render() {
     if (this.props.error) {
       return <div>Bad Fetch. Try again</div>
     }
     return (
-      <div className="container-fluid" style={{ padding: '0 30px 0 30px' }}>
+      <Container style={{ padding: '0 30px 0 30px' }}>
         <Head title="Home" />
         <Nav />
         <h1>Hack4Impact Recruitment Portal</h1>
-        <button className="btn btn-primary">Sort by</button>
-        <div className="hero">
+        <Row>
+          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+            <DropdownToggle caret>Categorize</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Year</DropdownItem>
+              <DropdownItem>Major</DropdownItem>
+              <DropdownItem>Application Role</DropdownItem>
+              <DropdownItem>Interviewed</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           <CandidateListComponent candidates={this.props.result} />
-        </div>
-      </div>
+        </Row>
+      </Container>
     )
   }
 }
