@@ -1,12 +1,9 @@
 import { Component } from 'react'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import {
-  getAllCandidates,
-  getCandidateMatch,
-  setMatchWinner
-} from '../utils/api'
+import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
+import { Container } from 'reactstrap'
 
 class FaceMash extends Component {
   constructor(props) {
@@ -59,31 +56,23 @@ class FaceMash extends Component {
       <div>
         <Head title="FaceMash" />
         <Nav />
-        <div className="container-fluid">
+        <Container>
           <p>{this.state.message}</p>
           <div className="row">
             <div className="col-md-6">
               <Candidate candidate={this.state.results.candidate1} />
-              <button
-                name="0"
-                className="btn btn-info"
-                onClick={this.handleClick}
-              >
+              <button name="0" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
             </div>
             <div className="col-md-6">
               <Candidate candidate={this.state.results.candidate2} />
-              <button
-                name="1"
-                className="btn btn-info"
-                onClick={this.handleClick}
-              >
+              <button name="1" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
             </div>
           </div>
-        </div>
+        </Container>
       </div>
     )
   }

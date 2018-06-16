@@ -1,15 +1,20 @@
+// @flow
 import { Component } from 'react'
 import { getCandidateById } from '../utils/api'
 import Head from './head'
+import { Container, Button } from 'reactstrap'
 
-const CandidateBox = props => {
+type Props = {
+  candidate: {}
+}
+
+const CandidateBox = (props: Props) => {
   if (!props.candidate) {
     return <div>User doesn't exist</div>
   }
   const { candidate } = props
   return (
-    <div className="container">
-      <Head title="Candidate" />
+    <div>
       <div>
         <h2>{candidate.name}</h2>
         <a

@@ -3,20 +3,38 @@ a {
   text-decoration: none;
   font-size: 15px;
 }
+a:hover{
+  text-decoration: none !important;
+}
 p {
   font-size: 15px;
+}
+.card-title {
+  font-size: 25px;
+  color: #4b4b4b;
+}
+.card-links {
+  font-weight: 400;
+  float:right;
+}
+.candidate-list-box {
+  margin-top: 20px;
 }
 .candidate-list-box p {
   padding-right: 10px;
 }
 .candidate-list-box a {
-  padding-right: 10px;
+  padding-right: 20px;
 }
-.candidate-box {
-  margin-top: 20px;
-  padding: 14px 0 0 14px;
-  border: 1px solid #067df7;
-  border-radius: 5px;
+.candidate-card {
+  transition: all 200ms;
+  cursor: pointer;
+}
+.candidate-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 .highlight {
   color: #db5858;

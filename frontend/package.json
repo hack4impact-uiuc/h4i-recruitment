@@ -4,22 +4,26 @@
     "dev": "next src",
     "build": "next build src",
     "start": "next start src",
-    "format": "prettier --config ../.prettierrc.json --write '{src,test}/**/*.{js,jsx,json,css}'",
-    "format:check": "prettier --list-different \"{src,test}/**/*.js\""
+    "format": "prettier --write '{src,test}/**/*.{js,jsx,json,css}'",
+    "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
+    "flow": "flow"
   },
   "dependencies": {
     "isomorphic-unfetch": "^2.0.0",
     "next": "^5.1.0",
     "react": "^16.3.0",
-    "react-dom": "^16.3.0"
+    "react-dom": "^16.3.0",
+    "reactstrap": "^6.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
+    "babel-plugin-inline-react-svg": "^0.5.2",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.9.1",
     "flow-bin": "^0.74.0",
     "prettier": "^1.12.1"
   }
