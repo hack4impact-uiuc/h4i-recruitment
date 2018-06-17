@@ -63,58 +63,67 @@ app.get(
   })
 )
 
-app.get('/matchCandidates', errorWrap(async (req, res) => {
-  try {
-    // not very efficient, nor should we have this algorithm for matches
-    // TODO: change this to a better algorithm
-    const candidates = await Candidate.aggregate([{ $sample: { size: 5 } }])
-    // create the match
-    const match = new Match({
-      candidate1: candidates[0]._id,
-      candidate2: candidates[1]._id
-    })
-    match.save()
-    res.json({
-      result: {
-        candidate1: candidates[0],
-        candidate2: candidates[1],
-        matchID: match._id
-      }
-    })
-  } catch (err) {
-    res.json(400, { message: err.message })
-  }
-}))
+app.get(
+  '/matchCandidates',
+  errorWrap(async (req, res) => {
+    try {
+      // not very efficient, nor should we have this algorithm for matches
+      // TODO: change this to a better algorithm
+      const candidates = await Candidate.aggregate([{ $sample: { size: 5 } }])
+      // create the match
+      const match = new Match({
+        candidate1: candidates[0]._id,
+        candidate2: candidates[1]._id
+      })
+      match.save()
+      res.json({
+        result: {
+          candidate1: candidates[0],
+          candidate2: candidates[1],
+          matchID: match._id
+        }
+      })
+    } catch (err) {
+      res.json(400, { message: err.message })
+    }
+  })
+)
 
-app.post('/matchCandidates', errorWrap(async (req, res) => {
-  try {
-    const data = req.body
+app.post(
+  '/matchCandidates',
+  errorWrap(async (req, res) => {
+    try {
+      const data = req.body
 
-    // given the matchID that was passed from the backend
-    // when a match was created
-    // This will verify whether the match exists
-    // so any frontend client can't "fake" a match
-    let match = await Match.findById(data.matchID)
-    match.winnerID = data.winnerID // update the winner
-    match.save()
-    res.json({ success: 'true' })
-  } catch (err) {
-    res.json(400, { message: err.message })
-  }
-}))
+      // given the matchID that was passed from the backend
+      // when a match was created
+      // This will verify whether the match exists
+      // so any frontend client can't "fake" a match
+      let match = await Match.findById(data.matchID)
+      match.winnerID = data.winnerID // update the winner
+      match.save()
+      res.json({ success: 'true' })
+    } catch (err) {
+      res.json(400, { message: err.message })
+    }
+  })
+)
 
-app.get('/parse', errorWrap(async (req, res) => {
-  const wb = XLSX.readFile('candidates.xlsx')
-  const ws = wb.Sheets[wb.SheetNames[0]]
-  var i = 0
-  for (var elm in ws) {
-    console.log(elm)
-    i++
-    if (i >= 10) break
-  }
+app.get(
+  '/parse',
+  errorWrap(async (req, res) => {
+    const wb = XLSX.readFile('candidates.xlsx')
+    const ws = wb.Sheets[wb.SheetNames[0]]
+    var i = 0
+    for (var elm in ws) {
+      console.log(elm)
+      i++
+      if (i >= 10) break
+    }
 
-  res.send('hi')
-}))
+    res.send('hi')
+  })
+)
 
 app.get(
   '/matches',
