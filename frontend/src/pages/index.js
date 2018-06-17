@@ -56,12 +56,21 @@ class HomePage extends Component<Props> {
         <h1>Hack4Impact Recruitment Portal</h1>
         <Row>
           <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-            <DropdownToggle caret>Categorize</DropdownToggle>
+            <DropdownToggle caret>Sort</DropdownToggle>
             <DropdownMenu>
               <DropdownItem>Year</DropdownItem>
               <DropdownItem>Major</DropdownItem>
               <DropdownItem>Application Role</DropdownItem>
               <DropdownItem>Interviewed</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+            <DropdownToggle caret>Show</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Accepted</DropdownItem>
+              <DropdownItem>Declined</DropdownItem>
+              <DropdownItem>Interviewed</DropdownItem>
+              <DropdownItem>Pending</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <CandidateListComponent candidates={this.props.result} />
