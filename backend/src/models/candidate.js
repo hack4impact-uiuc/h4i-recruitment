@@ -32,7 +32,6 @@ const Candidate = new mongoose.Schema({
   }
 })
 
-Candidate.methods.enoughTimeCommitment = candidate =>
-  candidate.timeCanDevote >= 8
+Candidate.methods.enoughTimeCommitment = candidate => candidate.timeCanDevote >= 8
 
 module.exports = mongoose.model('Candidate', Candidate)
