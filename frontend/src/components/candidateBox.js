@@ -8,6 +8,7 @@ type Props = {
   candidate: {}
 }
 
+// Another way of describing Components
 const CandidateBox = (props: Props) => {
   if (!props.candidate) {
     return <div>User doesn't exist</div>
