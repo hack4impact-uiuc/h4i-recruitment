@@ -1,5 +1,6 @@
 const errorHandler = (err, req, res, _next) => {
-  res.status(500).json({ message: err })
+  console.error(err)
+  res.status(500).json({ status: 'Failed', message: err })
 }
 
 module.exports = errorHandler
