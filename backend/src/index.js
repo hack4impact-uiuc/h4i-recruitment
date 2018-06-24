@@ -3,7 +3,9 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const querystring = require('querystring')
 const { Candidate, Stats, Match } = require('./models')
-const { errorWrap, getStats } = require('./utils')
+const { getStats } = require('./utils')
+const { errorWrap } = require('./middleware')
+const errorHandler = require('./middleware/errorHandler')
 const cors = require('cors')
 var XLSX = require('xlsx')
 
@@ -14,8 +16,6 @@ mongoose.connection
   .on('error', error => console.log('Error connecting to MongoLab:', error))
 
 const app = express()
-app.use(cors())
-app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
   res.send('hi')
@@ -41,77 +41,61 @@ app.get(
 app.post(
   '/candidates',
   errorWrap(async (req, res) => {
-    try {
-      const c = new Candidate({
-        name: 'Tim',
-        email: 'other@gmail.com',
-        graduationDate: '2018',
-        major: 'CompE',
-        resumeID: 'resume2.pdf',
-        role: 'SWE'
-      })
-      await c.save()
-    } catch (err) {
-      res.json(400, { message: err.message })
-    }
+    const c = new Candidate({
+      name: 'Tim',
+      email: 'other@gmail.com',
+      graduationDate: '2018',
+      major: 'CompE',
+      resumeID: 'resume2.pdf',
+      role: 'SWE'
+    })
+    await c.save()
   })
 )
 
 app.get(
   '/candidates/:candidateId',
   errorWrap(async (req, res) => {
-    try {
-      const candidate = await Candidate.findById(req.params.candidateId)
-      res.json({ result: candidate })
-    } catch (err) {
-      res.status(400).json({ message: err.message })
-    }
+    const candidate = await Candidate.findById(req.params.candidateId)
+    res.json({ result: candidate })
   })
 )
 
 app.get(
   '/matchCandidates',
   errorWrap(async (req, res) => {
-    try {
-      // not very efficient, nor should we have this algorithm for matches
-      // TODO: change this to a better algorithm
-      const candidates = await Candidate.aggregate([{ $sample: { size: 5 } }])
-      // create the match
-      const match = new Match({
-        candidate1: candidates[0]._id,
-        candidate2: candidates[1]._id
-      })
-      match.save()
-      res.json({
-        result: {
-          candidate1: candidates[0],
-          candidate2: candidates[1],
-          matchID: match._id
-        }
-      })
-    } catch (err) {
-      res.json(400, { message: err.message })
-    }
+    // not very efficient, nor should we have this algorithm for matches
+    // TODO: change this to a better algorithm
+    const candidates = await Candidate.aggregate([{ $sample: { size: 5 } }])
+    // create the match
+    const match = new Match({
+      candidate1: candidates[0]._id,
+      candidate2: candidates[1]._id
+    })
+    match.save()
+    res.json({
+      result: {
+        candidate1: candidates[0],
+        candidate2: candidates[1],
+        matchID: match._id
+      }
+    })
   })
 )
 
 app.post(
   '/matchCandidates',
   errorWrap(async (req, res) => {
-    try {
-      const data = req.body
+    const data = req.body
 
-      // given the matchID that was passed from the backend
-      // when a match was created
-      // This will verify whether the match exists
-      // so any frontend client can't "fake" a match
-      let match = await Match.findById(data.matchID)
-      match.winnerID = data.winnerID // update the winner
-      match.save()
-      res.json({ success: 'true' })
-    } catch (err) {
-      res.json(400, { message: err.message })
-    }
+    // given the matchID that was passed from the backend
+    // when a match was created
+    // This will verify whether the match exists
+    // so any frontend client can't "fake" a match
+    let match = await Match.findById(data.matchID)
+    match.winnerID = data.winnerID // update the winner
+    match.save()
+    res.json({ success: 'true' })
   })
 )
 
@@ -175,6 +159,10 @@ app.get(
     res.send({ result: matches })
   })
 )
+
+app.use(cors())
+app.use(bodyParser.json())
+app.use(errorHandler)
 
 app.listen(8080, async () => console.log('Server listening on port 8080!'))
 
