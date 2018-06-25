@@ -1,11 +1,12 @@
+// @flow
 import { Component } from 'react'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
-
-class FaceMash extends Component {
+type Props = {}
+class FaceMash extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
