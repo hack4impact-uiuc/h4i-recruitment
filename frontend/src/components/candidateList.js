@@ -12,6 +12,8 @@ const CardCol = ({ children, ...rest }) => (
   </Col>
 )
 
+// component that destructs Props - Props would look like this { candidates: {} }
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
 const CandidateListComponent = ({ candidates }: Props) => (
   <div className="candidate-list-box row">
     {candidates !== undefined
