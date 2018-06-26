@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const querystring = require('querystring')
 const { Candidate, Stats, Match } = require('./models')
 const { errorWrap, getStats } = require('./utils')
 const cors = require('cors')
@@ -23,12 +24,17 @@ app.get('/', (req, res) => {
 app.get(
   '/candidates',
   errorWrap(async (req, res) => {
-    try {
-      const candidates = await Candidate.find()
-      res.json({ result: candidates })
-    } catch (err) {
-      res.json(400, { message: err.message })
+    let candidates
+    if (req.query.status) {
+      if (req.query.status == 'everyone') {
+        candidates = await Candidate.find()
+      } else {
+        candidates = await Candidate.find({ status: req.query.status })
+      }
+    } else {
+      candidates = await Candidate.find()
     }
+    res.json({ result: candidates })
   })
 )
 
@@ -112,7 +118,7 @@ app.post(
 app.get(
   '/parse',
   errorWrap(async (req, res) => {
-    const wb = XLSX.readFile('candidates.xlsx')
+    const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
     const ws = wb.Sheets[wb.SheetNames[0]]
     var i = 0
     for (var elm in ws) {
@@ -122,6 +128,43 @@ app.get(
     }
 
     res.send('hi')
+  })
+)
+
+app.post(
+  '/set-status/',
+  errorWrap(async (req, res) => {
+    data = req.body
+    let response = 'Status set Sucessfully'
+    switch (data.status) {
+      case 'pending':
+        await Candidate.findByIdAndUpdate(data.id, { status: 'pending' })
+        break
+      case 'accepted':
+        await Candidate.findByIdAndUpdate(data.id, { status: 'accepted' })
+        break
+      case 'interviewing':
+        await Candidate.findByIdAndUpdate(data.id, { status: 'interviewing' })
+        break
+      case 'rejected':
+        await Candidate.findByIdAndUpdate(data.id, { status: 'rejected' })
+        break
+      default:
+        response = 'Invalid status, please try again'
+    }
+    res.json({ result: response })
+  })
+)
+
+app.get(
+  '/initialize-status',
+  errorWrap(async (req, res) => {
+    await Candidate.update({}, { status: 'pending' }, { multi: true }, err => {
+      if (err) {
+        console.log(err.message)
+      }
+    })
+    res.send('Set all status to pending')
   })
 )
 

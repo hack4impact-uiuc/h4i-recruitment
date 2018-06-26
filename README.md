@@ -19,6 +19,7 @@ In order to sustain the increasing amount of interest and applicants for Hack4Im
 - List of Candidates: A screen showing a list of candidates showing the "important" information about each candidate. You will also be able to sort candidates by different attributes such as their FaceMash ranking described later. Declined candidates will go to the bottom of the list **or** show up in a different page
 - FaceMash: A separate portal for general members to go to, where they will be continuously shown two different candidates with all their information and they will decide who is better. Eventually, with enough entries, candidates will be ranked by our algorithm for the first round eliminations.
 - Candidate Pages: Shows all the candidate's application answers and information. Interviewers will be able to submit their interview notes (let's call it an `interviewer submission`). There should only be 2 interviewer submissions that include the interviewer's name, notes, and score they give the candidate.
+#### After those core features are done...
 - a secret key that would allow you leads to enter interviewer notes + look at candidates
 - specific keys for our general members that would link to back to them. this is to keep general members accountable and prevent general members from cheating the system (a general member can give their friend that's applying to the H4I the link to faceMash, who would then consistently vote for himself/herself or a general member can randomly pick candidates without much consideration, causing a weird disparity of rankings). 
 
@@ -26,5 +27,10 @@ In order to sustain the increasing amount of interest and applicants for Hack4Im
 - We must keep track of the time tickets of each interviewer submission, faceMash submission, declining submission (when we decline a candidate moving them to the "declined" list)
 - We must create the application form on our main website that will call this api
 - this is a proposal and requires much flushing out
+
+## Stages of this App
+- Before/During FaceMash
+- After 1st Round eliminations & during Interviews
+- Deliberations
 
 by @tko22
