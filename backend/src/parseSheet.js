@@ -8,7 +8,7 @@ mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
   .on('error', error => console.log('Error connecting to MongoLab:', error))
 
-const wb = XLSX.readFile('candidates.xlsx')
+const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
 const ws = wb.Sheets[wb.SheetNames[0]]
 
 const jsonSheet = XLSX.utils.sheet_to_json(ws)
