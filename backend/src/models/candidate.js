@@ -29,7 +29,8 @@ const Candidate = new mongoose.Schema({
   ],
   facemashRankings: {
     total: { type: Number, default: 0 }
-  }
+  },
+  status: { type: String, default: 'pending' }
 })
 
 Candidate.methods.enoughTimeCommitment = candidate => candidate.timeCanDevote >= 8
