@@ -5,6 +5,8 @@ const querystring = require('querystring')
 const { Candidate, Stats, Match } = require('./models')
 const { getStats } = require('./utils')
 const { errorWrap, errorHandler } = require('./middleware')
+const candidates = require('./candidates')
+const matchCandidates = require('./matchCandidates')
 const cors = require('cors')
 var XLSX = require('xlsx')
 
@@ -20,83 +22,8 @@ app.get('/', (req, res) => {
   res.send('hi')
 })
 
-app.get(
-  '/candidates',
-  errorWrap(async (req, res) => {
-    let candidates
-    if (req.query.status) {
-      if (req.query.status == 'everyone') {
-        candidates = await Candidate.find()
-      } else {
-        candidates = await Candidate.find({ status: req.query.status })
-      }
-    } else {
-      candidates = await Candidate.find()
-    }
-    res.json({ result: candidates })
-  })
-)
-
-app.post(
-  '/candidates',
-  errorWrap(async (req, res) => {
-    const c = new Candidate({
-      name: 'Tim',
-      email: 'other@gmail.com',
-      graduationDate: '2018',
-      major: 'CompE',
-      resumeID: 'resume2.pdf',
-      role: 'SWE'
-    })
-    await c.save()
-  })
-)
-
-app.get(
-  '/candidates/:candidateId',
-  errorWrap(async (req, res) => {
-    const candidate = await Candidate.findById(req.params.candidateId)
-    res.json({ result: candidate })
-  })
-)
-
-app.get(
-  '/matchCandidates',
-  errorWrap(async (req, res) => {
-    // not very efficient, nor should we have this algorithm for matches
-    // TODO: change this to a better algorithm
-    const candidates = await Candidate.aggregate([{ $sample: { size: 5 } }])
-    // create the match
-    const match = new Match({
-      candidate1: candidates[0]._id,
-      candidate2: candidates[1]._id
-    })
-    match.save()
-    res.json({
-      result: {
-        candidate1: candidates[0],
-        candidate2: candidates[1],
-        matchID: match._id
-      }
-    })
-  })
-)
-
-app.post(
-  '/matchCandidates',
-  errorWrap(async (req, res) => {
-    const data = req.body
-
-    // given the matchID that was passed from the backend
-    // when a match was created
-    // This will verify whether the match exists
-    // so any frontend client can't "fake" a match
-    let match = await Match.findById(data.matchID)
-    match.winnerID = data.winnerID // update the winner
-    match.save()
-    res.json({ success: 'true' })
-  })
-)
+app.use('/candidates', candidates)
+app.use('/matchCandidates', matchCandidates)
 
 app.get(
   '/parse',
