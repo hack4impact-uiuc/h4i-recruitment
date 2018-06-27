@@ -3,8 +3,6 @@ const candidates = express.Router()
 const { errorWrap } = require('./middleware')
 const { Candidate } = require('./models')
 
-
-
 candidates.get(
   '/',
   errorWrap(async (req, res) => {
