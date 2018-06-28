@@ -16,7 +16,7 @@ function getCandidateMatch() {
 }
 
 function setCandidateStatus(id: string, status: string) {
-  return fetch(`${API_URL}/set-status`, {
+  return fetch(`${API_URL}/candidates/set-status`, {
     body: JSON.stringify({
       id: id,
       status: status
