@@ -2,5 +2,7 @@
 node_modules
 backend/.env
 ./package-lock.json
-./yarn.lock
 .DS_Store
+package.json
+yarn.lock
+backend/yarn-error.log
