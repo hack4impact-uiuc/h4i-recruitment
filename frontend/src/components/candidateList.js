@@ -1,6 +1,7 @@
 // @flow
+import { Component } from 'react'
 import CandidateCardComponent from './candidateCard'
-import { Col } from 'reactstrap'
+import { Col, Form, FormGroup, Label, Input } from 'reactstrap'
 
 type Props = {
   candidates: Array<mixed> // TODO: make this more specific
@@ -12,18 +13,50 @@ const CardCol = ({ children, ...rest }) => (
   </Col>
 )
 
+type Props = {
+  candidates: Array<mixed>
+}
 // component that destructs Props - Props would look like this { candidates: {} }
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-const CandidateListComponent = ({ candidates }: Props) => (
-  <div className="candidate-list-box row">
-    {candidates !== undefined
-      ? candidates.map(candidate => (
-          <CardCol key={candidate._id}>
-            <CandidateCardComponent candidate={candidate} />
-          </CardCol>
-        ))
-      : 'No candidates'}
-  </div>
-)
+class CandidateListComponent extends Component<Props> {
+  constructor() {
+    super()
+    this.state = {
+      search: ''
+    }
+  }
+  handleChange = event => {
+    this.setState({ [event.target.id]: event.target.value })
+  }
+  render() {
+    const { search } = this.state
+    const { candidates } = this.props
+    return (
+      <div className="candidate-list-box row">
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <Label for="search">Search</Label>
+            <Input
+              type="search"
+              id="search"
+              value={search}
+              placeholder="Search Candidates"
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+        </Form>
+        {candidates !== undefined
+          ? candidates.map(candidate => {
+              return candidate.name.toLowerCase().includes(this.state.search.toLowerCase()) ? (
+                <CardCol key={candidate._id}>
+                  <CandidateCardComponent candidate={candidate} />
+                </CardCol>
+              ) : null
+            })
+          : 'No candidates'}
+      </div>
+    )
+  }
+}
 
 export default CandidateListComponent
