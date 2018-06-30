@@ -4,5 +4,5 @@ backend/.env
 ./package-lock.json
 .DS_Store
 package.json
-yarn.lock
+*.lock
 backend/yarn-error.log
