@@ -5,7 +5,7 @@ import * as action from './actionTypes.js'
 // Function to send data to store about new match
 function newMatch(id_1, id_2) {
 	return {
-		type: action.NEW_MATCH
+		type: action.NEW_MATCH,
 		candidates: [id_1, id_2]
 	}
 }
