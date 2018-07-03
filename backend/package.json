@@ -9,7 +9,8 @@
     "dev": "node src/index.js --trace-warnings",
     "parse": "node src/parseSheet.js",
     "format": "prettier --write '{src,test}/**/*.{js,jsx,json,css}'",
-    "format:check": "prettier --list-different \"{src,test}/**/*.js\""
+    "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
+    "test": "mocha tests"
   },
   "dependencies": {
     "body-parser": "^1.18.2",

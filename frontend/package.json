@@ -1,5 +1,7 @@
 {
-  "name": "create-next-example-app",
+  "name": "h4i-recruitment-frontend",
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "dev": "next src",
     "build": "next build src",
