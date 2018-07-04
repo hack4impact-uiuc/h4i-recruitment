@@ -1,4 +1,4 @@
-# h4i-recruitment
+# h4i-recruitment ![CircleCi](https://circleci.com/gh/hack4impact-uiuc/h4i-recruitment.png?circle-token=:circle-token)
 H4I UIUC recruitment platform (in progress)
 
 This application uses [Next.js](https://github.com/zeit/next.js), an incredible framework built on top of React that allows for server-side rendering, [Express.js](https://expressjs.com/) for the backend API along with MongoDB as the choice of data persistence.
