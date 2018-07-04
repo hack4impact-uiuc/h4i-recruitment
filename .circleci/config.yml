@@ -1,22 +1,42 @@
 version: 2
 jobs:
-  build_frontend:
+  frontend_build_lint:
     docker:
       - image: node:8.4.0
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
-      - run: cd frontend && yarn && yarn format:check
-  build_backend:
+      - run:
+          command: |
+            cd frontend
+            yarn
+            yarn format:check
+  backend_build_lint:
     docker:
       - image: node:8.4.0
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
-      - run: cd backend && yarn && yarn format:check
+      - run:
+          command: |
+            cd backend
+            yarn
+            yarn format:check
+  backend_test:
+    docker:
+      - image: node:8.4.0
+    working_directory: /home/h4i-recruitment
+    steps:
+      - checkout
+      - run:
+          command: |
+            cd backend
+            yarn
+            yarn test
 workflows:
   version: 2
-  build:
+  build_test:
     jobs:
-      - build_frontend
-      - build_backend
+      - frontend_build_lint
+      - backend_build_lint
+      - backend_test
