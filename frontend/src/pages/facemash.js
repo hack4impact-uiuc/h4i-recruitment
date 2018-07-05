@@ -1,11 +1,14 @@
 // @flow
 import { Component } from 'react'
+import { connect } from 'react-redux'
+import Page from './wrapperPage.js'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
 type Props = {}
+
 class FaceMash extends Component<Props> {
   constructor(props) {
     super(props)
@@ -15,6 +18,7 @@ class FaceMash extends Component<Props> {
       message: ''
     }
   }
+
   static async getInitialProps({ query }) {
     // check whether query.id is real candidate
     // TODO: do not fetch again, if user hasn't responded to previous match
@@ -29,6 +33,7 @@ class FaceMash extends Component<Props> {
       return { error: 'Bad Request' }
     }
   }
+
   handleClick = async e => {
     const winner = e.target.name
     try {
@@ -49,6 +54,7 @@ class FaceMash extends Component<Props> {
       console.err(('Error': err.message))
     }
   }
+
   render() {
     if (this.props.error) {
       return <div>Bad Fetch. Try again</div>
@@ -79,4 +85,4 @@ class FaceMash extends Component<Props> {
   }
 }
 
-export default FaceMash
+export default Page(connect(state => state)(FaceMash))

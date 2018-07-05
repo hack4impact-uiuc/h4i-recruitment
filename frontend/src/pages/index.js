@@ -1,12 +1,12 @@
 // @flow
-import { Component } from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import Page from './wrapperPage.js'
 import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
-import { Provider } from 'react-redux'
-import configureStore from './../store/appStore.js'
 import {
   Container,
   Button,
@@ -17,8 +17,6 @@ import {
   Row,
   Badge
 } from 'reactstrap'
-
-const store = configureStore()
 
 type Props = {
   result: {}
@@ -75,48 +73,46 @@ class HomePage extends Component<Props> {
       return <div>Bad Fetch. Try again</div>
     }
     return (
-      <Provider store={store}>
-        <Container style={{ padding: '0 30px 0 30px' }}>
-          <Head title="Home" />
-          <Nav />
-          <h1>Hack4Impact Recruitment Portal</h1>
-          <Row>
-            <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
-              <DropdownToggle caret>Sort</DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>Year</DropdownItem>
-                <DropdownItem>Major</DropdownItem>
-                <DropdownItem>Application Role</DropdownItem>
-                <DropdownItem>Interviewed</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
-              <DropdownToggle caret>Show</DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem onClick={this.handleClickShow} value="accepted">
+      <Container style={{ padding: '0 30px 0 30px' }}>
+        <Head title="Home" />
+        <Nav />
+        <h1>Hack4Impact Recruitment Portal</h1>
+        <Row>
+          <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
+            <DropdownToggle caret>Sort</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Year</DropdownItem>
+              <DropdownItem>Major</DropdownItem>
+              <DropdownItem>Application Role</DropdownItem>
+              <DropdownItem>Interviewed</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
+            <DropdownToggle caret>Show</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={this.handleClickShow} value="accepted">
                   Accepted
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="rejected">
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="rejected">
                   Rejected
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="interviewing">
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="interviewing">
                   Interviewing
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="pending">
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="pending">
                   Pending
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="everyone">
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="everyone">
                   Everyone
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <div>Showing: {this.state.showing}</div>
-            <CandidateListComponent candidates={this.state.candidates} />
-          </Row>
-        </Container>
-      </Provider>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <div>Showing: {this.state.showing}</div>
+          <CandidateListComponent candidates={this.state.candidates} />
+        </Row>
+      </Container>
     )
   }
 }
 
-export default HomePage
+export default Page(connect(state => state)(HomePage))
