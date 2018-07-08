@@ -6,7 +6,7 @@ export default function recruitmentApp(state = initialState, action) {
 		case NEW_MATCH:
 			return {
 				...state,
-				...{candidates: action.candidates}
+				["candidates"]: action.candidates
 			}
 		default:
 			return {

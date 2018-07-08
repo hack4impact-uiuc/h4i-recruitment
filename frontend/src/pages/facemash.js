@@ -1,13 +1,30 @@
 // @flow
 import { Component } from 'react'
-import { connect } from 'react-redux'
-import Page from './wrapperPage.js'
+import { generateMatchData } from './../actions'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
+import { bindActionCreators } from 'redux'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
 type Props = {}
+
+function mapStateToProps(state) {
+  return {
+    candidates: state.candidates
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      generateMatchData
+    },
+    dispatch
+  )
+}
 
 class FaceMash extends Component<Props> {
   constructor(props) {
@@ -85,4 +102,4 @@ class FaceMash extends Component<Props> {
   }
 }
 
-export default Page(connect(state => state)(FaceMash))
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(FaceMash)

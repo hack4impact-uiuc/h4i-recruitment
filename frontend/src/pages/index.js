@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Page from './wrapperPage.js'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
 import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
@@ -115,4 +115,4 @@ class HomePage extends Component<Props> {
   }
 }
 
-export default Page(connect(state => state)(HomePage))
+export default withRedux(configureStore)(HomePage)
