@@ -44,15 +44,14 @@ router.get(
     await Candidate.find({}, async (err, candidates) => {
       candidates.map(async candidate => {
         if (!candidate.github) {
-          await Candidate.findByIdAndUpdate(candidate._id, {githubContributions: "N/A"})
-        }
-        else {
+          await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: 'N/A' })
+        } else {
           let contributions = await getGithubContributions(candidate.github)
-          await Candidate.findByIdAndUpdate(candidate._id, {githubContributions: contributions})
+          await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: contributions })
         }
       })
     })
-    res.send("done updating")
+    res.send('done updating')
   })
 )
 
