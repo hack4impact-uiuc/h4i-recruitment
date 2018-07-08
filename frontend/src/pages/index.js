@@ -91,19 +91,19 @@ class HomePage extends Component<Props> {
             <DropdownToggle caret>Show</DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={this.handleClickShow} value="accepted">
-                  Accepted
+                Accepted
               </DropdownItem>
               <DropdownItem onClick={this.handleClickShow} value="rejected">
-                  Rejected
+                Rejected
               </DropdownItem>
               <DropdownItem onClick={this.handleClickShow} value="interviewing">
-                  Interviewing
+                Interviewing
               </DropdownItem>
               <DropdownItem onClick={this.handleClickShow} value="pending">
-                  Pending
+                Pending
               </DropdownItem>
               <DropdownItem onClick={this.handleClickShow} value="everyone">
-                  Everyone
+                Everyone
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

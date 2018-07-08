@@ -1,5 +1,5 @@
 const initialState = {
-	candidates: ['abc']
+  candidates: ['abc']
 }
 
 export default initialState
