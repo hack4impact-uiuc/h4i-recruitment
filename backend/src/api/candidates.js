@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Candidate } = require('../models')
+const { getGithubContributions } = require('../gitScraper')
 
 router.get(
   '/',
@@ -38,6 +39,24 @@ router.post(
 )
 
 router.get(
+  '/initialize-git',
+  errorWrap(async (req, res) => {
+    await Candidate.find({}, async (err, candidates) => {
+      candidates.map(async candidate => {
+        if (!candidate.github) {
+          await Candidate.findByIdAndUpdate(candidate._id, {githubContributions: "N/A"})
+        }
+        else {
+          let contributions = await getGithubContributions(candidate.github)
+          await Candidate.findByIdAndUpdate(candidate._id, {githubContributions: contributions})
+        }
+      })
+    })
+    res.send("done updating")
+  })
+)
+
+router.get(
   '/:candidateId',
   errorWrap(async (req, res) => {
     const candidate = await Candidate.findById(req.params.candidateId)
@@ -67,18 +86,6 @@ router.post(
         response = 'Invalid status, please try again'
     }
     res.json({ result: response })
-  })
-)
-
-router.get(
-  '/initialize-status',
-  errorWrap(async (req, res) => {
-    await Candidate.update({}, { status: 'pending' }, { multi: true }, err => {
-      if (err) {
-        console.log(err.message)
-      }
-    })
-    res.send('Set all status to pending')
   })
 )
 

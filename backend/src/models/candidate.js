@@ -8,6 +8,7 @@ const Candidate = new mongoose.Schema({
   minor: { type: String },
   resumeID: { type: String, require: true, unique: true },
   github: { type: String },
+  githubContributions: { type: String },
   linkedIn: { type: String },
   website: { type: String },
   role: { type: String, require: true },
@@ -30,7 +31,8 @@ const Candidate = new mongoose.Schema({
   facemashRankings: {
     total: { type: Number, default: 0 }
   },
-  status: { type: String, default: 'pending' }
+  status: { type: String, default: 'pending' },
+  
 })
 
 Candidate.methods.enoughTimeCommitment = candidate => candidate.timeCanDevote >= 8
