@@ -1,9 +1,8 @@
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 // const ReactCSSTG = React.addons.CSSTransitionGroup
 import { Component } from 'react'
 import Head from '../components/head'
 import Nav from '../components/nav'
-
 
 type Props = {}
 
@@ -54,6 +53,7 @@ class Login extends React.Component {
       <div>
         <Head title="Login" />
         <Nav />
+        <h2>Enter your key</h2>
         <ReactCSSTransitionGroup
           transitionName="animation"
           transitionAppear={true}
@@ -74,11 +74,10 @@ class Modal extends React.Component {
     return (
       <div className="Modal">
         <form onSubmit={this.props.onSubmit}>
-          <Input type="text" name="username" placeholder="username" />
-          <Input type="password" name="password" placeholder="password" />
+          <Input type="text" name="key" placeholder="key" />
           <button> Sign In</button>
         </form>
-        <a href="#">Lost your password ?</a>
+        <a href="#">Lost your key ?</a>
       </div>
     )
   }
@@ -96,7 +95,6 @@ class Input extends React.Component {
           required
           autocomplete="false"
         />
-        <label for={this.props.name} />
       </div>
     )
   }
@@ -112,7 +110,5 @@ class ModalBack extends React.Component {
     )
   }
 }
-
-// ReactDOM.render(<App />, document.getElementById('app'))
 
 export default Login
