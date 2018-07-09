@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Candidate } = require('../models')
-const { getGithubContributions } = require('../gitScraper')
+const { getGithubContributions } = require('../utils/gitScraper')
 
 router.get(
   '/',
@@ -41,7 +41,7 @@ router.post(
 router.get(
   '/initialize-git',
   errorWrap(async (req, res) => {
-    await Candidate.find({}, async (err, candidates) => {
+    const candidates = await Candidate.find()
       candidates.map(async candidate => {
         if (!candidate.github) {
           await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: 'N/A' })
@@ -50,7 +50,6 @@ router.get(
           await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: contributions })
         }
       })
-    })
     res.send('done updating')
   })
 )

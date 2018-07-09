@@ -1,4 +1,4 @@
-const { Stats } = require('./models')
+const { Stats } = require('../models')
 
 const getStats = async () => {
   const res = await Stats.find()
