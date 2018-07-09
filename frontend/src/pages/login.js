@@ -1,12 +1,12 @@
-const ReactCSSTG = React.addons.CSSTransitionGroup
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+// const ReactCSSTG = React.addons.CSSTransitionGroup
 import { Component } from 'react'
+import Head from '../components/head'
+import Nav from '../components/nav'
+
 
 type Props = {}
-let component = this.state.isVisible ? (
-  <Modal onSubmit={this.handleSubmit} key="modal" />
-) : (
-  <ModalBack onClick={this.handleRemount} key="bringitback" />
-)
+
 // Main app
 class Login extends React.Component {
   constructor(props) {
@@ -44,12 +44,17 @@ class Login extends React.Component {
   }
   render() {
     // const for React CSS transition declaration
+    let component = this.state.isVisible ? (
+      <Modal onSubmit={this.handleSubmit} key="modal" />
+    ) : (
+      <ModalBack onClick={this.handleRemount} key="bringitback" />
+    )
 
     return (
       <div>
         <Head title="Login" />
         <Nav />
-        <ReactCSSTG
+        <ReactCSSTransitionGroup
           transitionName="animation"
           transitionAppear={true}
           transitionAppearTimeout={500}
@@ -57,7 +62,7 @@ class Login extends React.Component {
           transitionLeaveTimeout={300}
         >
           {component}
-        </ReactCSSTG>
+        </ReactCSSTransitionGroup>
       </div>
     )
   }
