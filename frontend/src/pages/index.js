@@ -1,5 +1,7 @@
 // @flow
-import { Component } from 'react'
+import React, { Component } from 'react'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
 import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
@@ -30,16 +32,19 @@ class HomePage extends Component<Props> {
       showing: 'everyone'
     }
   }
+
   toggleSort = () => {
     this.setState(prevState => ({
       sortDropdownOpen: !prevState.sortDropdownOpen
     }))
   }
+
   toggleShow = () => {
     this.setState(prevState => ({
       showDropdownOpen: !prevState.showDropdownOpen
     }))
   }
+
   handleClickShow = async e => {
     const status = e.target.value
     const response = await getCandidatesByStatus(status)
@@ -48,6 +53,7 @@ class HomePage extends Component<Props> {
       showing: status
     })
   }
+
   static async getInitialProps({ query }) {
     // check whether query.id is real candidate
     try {
@@ -61,6 +67,7 @@ class HomePage extends Component<Props> {
       return { error: 'Bad Request' }
     }
   }
+
   render() {
     if (this.props.error) {
       return <div>Bad Fetch. Try again</div>
@@ -108,4 +115,4 @@ class HomePage extends Component<Props> {
   }
 }
 
-export default HomePage
+export default withRedux(configureStore)(HomePage)

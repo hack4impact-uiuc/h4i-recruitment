@@ -1,5 +1,7 @@
 import { Component } from 'react'
 import { getCandidateById } from '../utils/api'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import Candidate from '../components/candidateBox'
@@ -28,7 +30,7 @@ class CandidatePage extends Component {
   }
   render() {
     if (!this.props.result) {
-      return <div>User doesn't exist</div>
+      return <div>User doesn&#39;t exist</div>
     }
     const candidate = this.props.result
     return (
@@ -47,4 +49,4 @@ class CandidatePage extends Component {
   }
 }
 
-export default CandidatePage
+export default withRedux(configureStore)(CandidatePage)
