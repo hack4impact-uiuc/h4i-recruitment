@@ -1,11 +1,31 @@
 // @flow
 import { Component } from 'react'
+import { generateMatchData } from './../actions'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
+import { bindActionCreators } from 'redux'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
 type Props = {}
+
+function mapStateToProps(state) {
+  return {
+    candidates: state.candidates
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      generateMatchData
+    },
+    dispatch
+  )
+}
+
 class FaceMash extends Component<Props> {
   constructor(props) {
     super(props)
@@ -15,6 +35,7 @@ class FaceMash extends Component<Props> {
       message: ''
     }
   }
+
   static async getInitialProps({ query }) {
     // check whether query.id is real candidate
     // TODO: do not fetch again, if user hasn't responded to previous match
@@ -29,6 +50,7 @@ class FaceMash extends Component<Props> {
       return { error: 'Bad Request' }
     }
   }
+
   handleClick = async e => {
     const winner = e.target.name
     try {
@@ -49,6 +71,7 @@ class FaceMash extends Component<Props> {
       console.err(('Error': err.message))
     }
   }
+
   render() {
     if (this.props.error) {
       return <div>Bad Fetch. Try again</div>
@@ -79,4 +102,4 @@ class FaceMash extends Component<Props> {
   }
 }
 
-export default FaceMash
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(FaceMash)
