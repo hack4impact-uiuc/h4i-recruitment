@@ -7,6 +7,7 @@ import Nav from '../components/nav'
 import Candidate from '../components/candidateBox'
 import { Container, Button } from 'reactstrap'
 import Router from 'next/router'
+import withPersistGate from '../utils/withPersistGate'
 
 class CandidatePage extends Component {
   constructor(props) {
@@ -49,4 +50,4 @@ class CandidatePage extends Component {
   }
 }
 
-export default withRedux(configureStore)(CandidatePage)
+export default withRedux(configureStore)(withPersistGate(CandidatePage))
