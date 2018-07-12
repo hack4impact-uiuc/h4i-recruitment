@@ -1,4 +1,4 @@
-import NEW_MATCH from './actionTypes.js'
+import { NEW_MATCH } from './actionTypes.js'
 
 // Action Creators
 

@@ -4,9 +4,14 @@ import withRedux from 'next-redux-wrapper'
 import configureStore from './../store/appStore'
 import Link from 'next/link'
 import Head from '../components/head'
+import { bindActionCreators } from 'redux'
+import { generateMatchData } from './../actions'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
+import withPersistGate from '../utils/withPersistGate'
+import { PersistGate } from 'redux-persist/integration/react'
+
 import {
   Container,
   Button,
@@ -22,8 +27,24 @@ type Props = {
   result: {}
 }
 
+function mapStateToProps(state) {
+  return {
+    candidates: state.candidates,
+    persistor: state.__persistor
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      generateMatchData
+    },
+    dispatch
+  )
+}
+
 class HomePage extends Component<Props> {
-  constructor(props) {
+  constructor(props, context) {
     super(props)
     this.state = {
       candidates: this.props.result,
@@ -73,46 +94,49 @@ class HomePage extends Component<Props> {
       return <div>Bad Fetch. Try again</div>
     }
     return (
-      <Container style={{ padding: '0 30px 0 30px' }}>
-        <Head title="Home" />
-        <Nav />
-        <h1>Hack4Impact Recruitment Portal</h1>
-        <Row>
-          <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
-            <DropdownToggle caret>Sort</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Year</DropdownItem>
-              <DropdownItem>Major</DropdownItem>
-              <DropdownItem>Application Role</DropdownItem>
-              <DropdownItem>Interviewed</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
-            <DropdownToggle caret>Show</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem onClick={this.handleClickShow} value="accepted">
-                Accepted
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="rejected">
-                Rejected
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="interviewing">
-                Interviewing
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="pending">
-                Pending
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="everyone">
-                Everyone
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <div>Showing: {this.state.showing}</div>
-          <CandidateListComponent candidates={this.state.candidates} />
-        </Row>
-      </Container>
+      <PersistGate loading={<div>sup</div>} persistor={this.props.persist}>
+        <Container style={{ padding: '0 30px 0 30px' }}>
+          <Head title="Home" />
+          <Nav />
+          <h1>Hack4Impact Recruitment Portal</h1>
+          <Row>
+            <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
+              <DropdownToggle caret>Sort</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem>Year</DropdownItem>
+                <DropdownItem>Major</DropdownItem>
+                <DropdownItem>Application Role</DropdownItem>
+                <DropdownItem>Interviewed</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
+              <DropdownToggle caret>Show</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.handleClickShow} value="accepted">
+                  Accepted
+                </DropdownItem>
+                <DropdownItem onClick={this.handleClickShow} value="rejected">
+                  Rejected
+                </DropdownItem>
+                <DropdownItem onClick={this.handleClickShow} value="interviewing">
+                  Interviewing
+                </DropdownItem>
+                <DropdownItem onClick={this.handleClickShow} value="pending">
+                  Pending
+                </DropdownItem>
+                <DropdownItem onClick={this.handleClickShow} value="everyone">
+                  Everyone
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <div>Showing: {this.state.showing}</div>
+            <CandidateListComponent candidates={this.state.candidates} />
+          </Row>
+        </Container>
+      </PersistGate>
     )
   }
 }
 
-export default withRedux(configureStore)(HomePage)
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(HomePage)
+// export default withRedux(configureStore)(withPersistGate(HomePage))
