@@ -42,14 +42,14 @@ router.get(
   '/initialize-git',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-      candidates.map(async candidate => {
-        if (!candidate.github) {
-          await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: 'N/A' })
-        } else {
-          let contributions = await getGithubContributions(candidate.github)
-          await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: contributions })
-        }
-      })
+    candidates.map(async candidate => {
+      if (!candidate.github) {
+        await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: 'N/A' })
+      } else {
+        let contributions = await getGithubContributions(candidate.github)
+        await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: contributions })
+      }
+    })
     res.send('done updating')
   })
 )
