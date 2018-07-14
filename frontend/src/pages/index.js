@@ -91,44 +91,44 @@ class HomePage extends Component<Props> {
       return <div>Bad Fetch. Try again</div>
     }
     return (
-        <Container style={{ padding: '0 30px 0 30px' }}>
-          <Head title="Home" />
-          <Nav />
-          <h1>Hack4Impact Recruitment Portal</h1>
-          <Row>
-            <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
-              <DropdownToggle caret>Sort</DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>Year</DropdownItem>
-                <DropdownItem>Major</DropdownItem>
-                <DropdownItem>Application Role</DropdownItem>
-                <DropdownItem>Interviewed</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
-              <DropdownToggle caret>Show</DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem onClick={this.handleClickShow} value="accepted">
-                  Accepted
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="rejected">
-                  Rejected
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="interviewing">
-                  Interviewing
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="pending">
-                  Pending
-                </DropdownItem>
-                <DropdownItem onClick={this.handleClickShow} value="everyone">
-                  Everyone
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <div>Showing: {this.state.showing}</div>
-            <CandidateListComponent candidates={this.state.candidates} />
-          </Row>
-        </Container>
+      <Container style={{ padding: '0 30px 0 30px' }}>
+        <Head title="Home" />
+        <Nav />
+        <h1>Hack4Impact Recruitment Portal</h1>
+        <Row>
+          <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
+            <DropdownToggle caret>Sort</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Year</DropdownItem>
+              <DropdownItem>Major</DropdownItem>
+              <DropdownItem>Application Role</DropdownItem>
+              <DropdownItem>Interviewed</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
+            <DropdownToggle caret>Show</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={this.handleClickShow} value="accepted">
+                Accepted
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="rejected">
+                Rejected
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="interviewing">
+                Interviewing
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="pending">
+                Pending
+              </DropdownItem>
+              <DropdownItem onClick={this.handleClickShow} value="everyone">
+                Everyone
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <div>Showing: {this.state.showing}</div>
+          <CandidateListComponent candidates={this.state.candidates} />
+        </Row>
+      </Container>
     )
   }
 }
