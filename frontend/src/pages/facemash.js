@@ -35,6 +35,10 @@ class FaceMash extends Component<Props> {
       error: false,
       message: ''
     }
+    const { candidates, generateMatchData } = this.props
+    if (candidates == null || candidates.length != 2) {
+      generateMatchData(this.state.results.candidate1, this.state.results.candidate2)
+    }
   }
 
   static async getInitialProps({ query }) {
@@ -77,7 +81,8 @@ class FaceMash extends Component<Props> {
     if (this.props.error) {
       return <div>Bad Fetch. Try again</div>
     }
-    return (
+    const { candidates } = this.props
+    return candidates && candidates.length == 2 ? (
       <div>
         <Head title="FaceMash" />
         <Nav />
@@ -85,13 +90,13 @@ class FaceMash extends Component<Props> {
           <p>{this.state.message}</p>
           <div className="row">
             <div className="col-md-6">
-              <Candidate candidate={this.state.results.candidate1} />
+              <Candidate candidate={candidates[0]} />
               <button name="0" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
             </div>
             <div className="col-md-6">
-              <Candidate candidate={this.state.results.candidate2} />
+              <Candidate candidate={candidates[1]} />
               <button name="1" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
@@ -99,10 +104,8 @@ class FaceMash extends Component<Props> {
           </div>
         </Container>
       </div>
-    )
+    ) : (null)
   }
 }
 
-export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(
-  withPersistGate(FaceMash)
-)
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(FaceMash)

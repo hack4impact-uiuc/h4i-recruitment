@@ -29,8 +29,7 @@ type Props = {
 
 function mapStateToProps(state) {
   return {
-    candidates: state.candidates,
-    persistor: state.__persistor
+    candidates: state.candidates
   }
 }
 
@@ -94,7 +93,6 @@ class HomePage extends Component<Props> {
       return <div>Bad Fetch. Try again</div>
     }
     return (
-      <PersistGate loading={<div>sup</div>} persistor={this.props.persist}>
         <Container style={{ padding: '0 30px 0 30px' }}>
           <Head title="Home" />
           <Nav />
@@ -133,10 +131,8 @@ class HomePage extends Component<Props> {
             <CandidateListComponent candidates={this.state.candidates} />
           </Row>
         </Container>
-      </PersistGate>
     )
   }
 }
 
 export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(HomePage)
-// export default withRedux(configureStore)(withPersistGate(HomePage))

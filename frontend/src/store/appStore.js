@@ -1,26 +1,28 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import recruitmentApp from './../reducers/actionReducers.js'
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { loadState, saveState } from './localStorage'
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['candidates']
+// const persistedReducer = persistReducer(persistConfig, recruitmentApp)
+const persistedState = loadState()
+
+const savePersistedState = (store) => () => {
+  saveState({
+    candidates: store.getState().candidates
+  })
 }
 
-const persistedReducer = persistReducer(persistConfig, recruitmentApp)
+const devtools = (typeof window !== 'undefined' &&
+                  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
+const composeEnhancers = devtools || compose
 
 export default function configureStore() {
   let store = createStore(
-    persistedReducer,
-    typeof window !== 'undefined' &&
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(thunk)
+    recruitmentApp,
+    persistedState,
+    composeEnhancers(applyMiddleware(thunk))
   )
-  let persistor = persistStore(store)
-  store.__persistor = persistor
+  store.subscribe(savePersistedState(store))
   return store
 }
