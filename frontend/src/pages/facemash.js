@@ -103,7 +103,7 @@ class FaceMash extends Component<Props> {
           </div>
         </Container>
       </div>
-    ) : (null)
+    ) : null
   }
 }
 
