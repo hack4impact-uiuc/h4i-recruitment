@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Interview = require('./interview')
 
 const Candidate = new mongoose.Schema({
   name: { type: String, require: true },
@@ -18,15 +19,8 @@ const Candidate = new mongoose.Schema({
   techExperience: { type: String },
   howTheyKnowUs: { type: String },
   additionalComments: { type: String },
-  interviews: [
-    {
-      timeCommitmentNotes: { type: String },
-      dedicationToCommunityNotes: { type: String },
-      techCompetenceNotes: { type: String },
-      otherNotes: { type: String },
-      interviewer: { type: String }
-    }
-  ],
+  interviews: [Interview],
+  overallScore: Number,
   facemashRankings: {
     total: { type: Number, default: 0 }
   },
