@@ -9,7 +9,6 @@ import Nav from '../components/nav'
 import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
-import withPersistGate from '../utils/withPersistGate'
 type Props = {}
 
 function mapStateToProps(state) {
