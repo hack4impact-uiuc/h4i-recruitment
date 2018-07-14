@@ -9,8 +9,6 @@ import { generateMatchData } from './../actions'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
-import withPersistGate from '../utils/withPersistGate'
-import { PersistGate } from 'redux-persist/integration/react'
 
 import {
   Container,
