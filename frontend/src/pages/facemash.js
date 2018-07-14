@@ -70,7 +70,15 @@ class FaceMash extends Component<Props> {
           success: 'Successfully Submitted'
         })
       }
-      // TODO: fetch for new match
+
+      // Get New Match
+      const { result } = await getCandidateMatch()
+      if (result === undefined) {
+        return { error: 'Bad Request' }
+      }
+
+      const { generateMatchData } = this.props
+      generateMatchData(result.candidate1, result.candidate2)
     } catch (err) {
       console.err(('Error': err.message))
     }
