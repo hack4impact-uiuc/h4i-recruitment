@@ -4,6 +4,7 @@ const Candidate = new mongoose.Schema({
   name: { type: String, require: true },
   email: { type: String, require: true, unique: true },
   graduationDate: { type: String },
+  year: { type: String },
   major: { type: String, require: true },
   minor: { type: String },
   resumeID: { type: String, require: true, unique: true },
