@@ -2,7 +2,7 @@ const request = require('supertest')
 const app = require('../src/app')
 const sinon = require('sinon');
 const { Candidate, Match } = require('../src/models')
-const { expect, assert } = require('chai')
+const { expect, assert} = require('chai')
 
 describe ('GET /matchCandidates', () => {
   
@@ -26,5 +26,4 @@ describe ('GET /matchCandidates', () => {
     matchSaveStub.restore()
   })
 })
-
 // TODO: test utility functions
