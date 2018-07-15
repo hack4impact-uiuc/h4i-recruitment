@@ -38,10 +38,40 @@ router.post(
 )
 
 router.get(
-  '/:candidateId',
+  '/initialize-status',
   errorWrap(async (req, res) => {
-    const candidate = await Candidate.findById(req.params.candidateId)
-    res.json({ result: candidate })
+    await Candidate.update({}, { status: 'pending' }, { multi: true }, err => {
+      if (err) {
+        console.log(err.message)
+      }
+    })
+    res.send('Set all status to pending')
+  })
+)
+
+router.get(
+  '/initialize-year',
+  errorWrap(async (req, res) => {
+    const candidates = await Candidate.find()
+    const years = ['freshman', 'sophomore', 'junior', 'senior']
+    candidates.map(async candidate => {
+      let idx = Math.floor(Math.random() * 4); 
+      await Candidate.findByIdAndUpdate(candidate._id, { year: years[idx] })
+    })
+    res.send("Initialize Years")
+  })
+)
+
+router.get(
+  '/initialize-role',
+  errorWrap(async (req, res) => {
+    const candidates = await Candidate.find()
+    const roles = ['software engineer', 'product manager', 'tech lead', 'community director']
+    candidates.map(async candidate => {
+      let idx = Math.floor(Math.random() * 4); 
+      await Candidate.findByIdAndUpdate(candidate._id, { role: roles[idx] })
+    })
+    res.send("Initialized Roles")
   })
 )
 
@@ -71,14 +101,10 @@ router.post(
 )
 
 router.get(
-  '/initialize-status',
+  '/:candidateId',
   errorWrap(async (req, res) => {
-    await Candidate.update({}, { status: 'pending' }, { multi: true }, err => {
-      if (err) {
-        console.log(err.message)
-      }
-    })
-    res.send('Set all status to pending')
+    const candidate = await Candidate.findById(req.params.candidateId)
+    res.json({ result: candidate })
   })
 )
 
