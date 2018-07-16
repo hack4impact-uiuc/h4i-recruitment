@@ -41,6 +41,31 @@ export default function recruitmentApp(state = initialState, action) {
           candidatesError: action.payload
         }
       }
+    case ADD_FILTER:
+      let { category, filter } = action.payload
+      return {
+        ...state,
+        candidateListPage: {
+          ...state.candidateListPage,
+          filters: {
+            category: [...state.candidateListPage.filters.category, filter]
+          }
+        }
+      }
+    case REMOVE_FILTER:
+      console.log(action)
+      category = action.payload[category]
+      filter = action.payload[filter]
+      return {
+        ...state,
+        candidateListPage: {
+          ...state.candidateListPage,
+          filters: {
+            ...state.candidateListPage.filters,
+            category: state.candidateListPage.filters[category].filter(e => e != filter)
+          }
+        }
+      }
     default:
       return {
         ...state
