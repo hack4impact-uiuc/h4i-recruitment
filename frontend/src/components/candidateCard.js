@@ -71,6 +71,9 @@ class CandidateCardComponent extends Component {
             <p>
               Status: <span className="highlight">{this.state.status}</span>
             </p>
+            <p>
+              Year: <span className="highlight">{candidate.year}</span>
+            </p>
           </div>
           <p>
             Change Status:

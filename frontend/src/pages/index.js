@@ -18,7 +18,7 @@ import {
   Badge
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { fetchCandidates } from '../actions'
+import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import { bindActionCreators } from 'redux'
 
 // type Props = {
@@ -28,30 +28,49 @@ import { bindActionCreators } from 'redux'
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      fetchCandidates
+      fetchCandidates,
+      addFilter,
+      removeFilter
     },
     dispatch
   )
 }
 
-const mapStateToProps = state => ({
-  candidateListPage: state.candidateListPage
-})
+const mapStateToProps = state => {
+  return {
+    candidates: state.candidateListPage.candidates,
+    loading: state.candidateListPage.candidatesLoading,
+    error: state.candidateListPage.candidatesError,
+    filters: state.candidateListPage.filters,
+    sort: state.candidateListPage.sort
+  }
+}
 
 class HomePage extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      candidates: [],
-      sortDropdownOpen: false,
-      showDropdownOpen: false,
-      showing: 'everyone'
+      candidates: this.props.candidates,
+      error: this.props.error,
+      loading: this.props.loading,
+      filters: this.props.filters,
+      sort: this.props.sort
     }
   }
 
   componentDidMount() {
     this.props.fetchCandidates()
   }
+
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.candidateListPage != prevProps.candidateListPage) {
+  //     this.setState({
+  //       candidates: this.props.candidateListPage.candidates,
+  //       filters: this.props.candidateListPage.filters,
+  //       sort: this.props.candidateListPage.sort
+  //     })
+  //   }
+  // }
 
   toggleSort = () => {
     this.setState(prevState => ({
@@ -74,22 +93,26 @@ class HomePage extends Component<Props> {
     })
   }
 
-  render() {
-    let candidates, loading, error
-    const yearFilter = this.props.candidateListPage.filters.years
-    const statusFilter = this.props.candidateListPage.filters.statuses
-    const roleFilter = this.props.candidateListPage.filters.roles
-    if (this.props.candidateListPage) {
-      candidates = this.props.candidateListPage.candidates.filter(candidate => {
-        return (
-          yearFilter.includes(candidate.year) &&
-          statusFilter.includes(candidate.status) &&
-          roleFilter.includes(candidate.role)
-        )
-      })
-      loading = this.props.candidateListPage.candidatesLoading
-      error = this.props.candidateListPage.candidatesError
+  handleChange = event => {
+    if (event.target.checked) {
+      this.props.addFilter(event.target.name, event.target.value)
+    } else {
+      this.props.removeFilter(event.target.name, event.target.value)
     }
+  }
+
+  render() {
+    let { candidates, error, loading, filters, sort } = this.props
+    const statusFilter = this.props.filters.statuses
+    const roleFilter = this.props.filters.roles
+    const yearFilter = this.props.filters.years
+    candidates = candidates.filter(candidate => {
+      return (
+        statusFilter.includes(candidate.status) &&
+        roleFilter.includes(candidate.role) &&
+        yearFilter.includes(candidate.year)
+      )
+    })
     if (error) {
       return <div>Bad Fetch. Try again</div>
     }
@@ -99,36 +122,154 @@ class HomePage extends Component<Props> {
         <Nav />
         <h1>Hack4Impact Recruitment Portal</h1>
         <Row>
-          <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
-            <DropdownToggle caret>Sort</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Year</DropdownItem>
-              <DropdownItem>Major</DropdownItem>
-              <DropdownItem>Application Role</DropdownItem>
-              <DropdownItem>Interviewed</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
-            <DropdownToggle caret>Show</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem onClick={this.handleClickShow} value="accepted">
-                Accepted
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="rejected">
-                Rejected
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="interviewing">
-                Interviewing
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="pending">
-                Pending
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="everyone">
-                Everyone
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <div>Showing: {this.state.showing}</div>
+          <div>Sort By:</div>
+          <Button color="primary">Age</Button>
+          <Button color="secondary">Interview Score</Button>
+          <Button color="success">FaceSmash Score</Button>
+          <p>
+            <h1>Filter By:</h1>
+          </p>
+          <p>
+            <h2>Status</h2>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="accepted"
+              name="statuses"
+              value="accepted"
+              checked={statusFilter.includes('accepted')}
+              onChange={this.handleChange}
+            />
+            <label for="accepted">Accepted</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="denied"
+              name="statuses"
+              value="denied"
+              checked={statusFilter.includes('denied')}
+              onChange={this.handleChange}
+            />
+            <label for="denied">Denied</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="pending"
+              name="statuses"
+              value="pending"
+              checked={statusFilter.includes('pending')}
+              onChange={this.handleChange}
+            />
+            <label for="pending">Pending</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="interviewing"
+              name="statuses"
+              value="interviewing"
+              checked={statusFilter.includes('interviewing')}
+              onChange={this.handleChange}
+            />
+            <label for="interviewing">Interviewing</label>
+          </p>
+          <p>
+            <h2>Year</h2>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="freshman"
+              name="years"
+              value="freshman"
+              checked={yearFilter.includes('freshman')}
+              onChange={this.handleChange}
+            />
+            <label for="freshman">Freshman</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="sophomore"
+              name="years"
+              value="sophomore"
+              checked={yearFilter.includes('sophomore')}
+              onChange={this.handleChange}
+            />
+            <label for="sophomore">Sophomore</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="junior"
+              name="years"
+              value="junior"
+              checked={yearFilter.includes('junior')}
+              onChange={this.handleChange}
+            />
+            <label for="junior">Junior</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="senior"
+              name="years"
+              value="senior"
+              checked={yearFilter.includes('senior')}
+              onChange={this.handleChange}
+            />
+            <label for="senior">Senior</label>
+          </p>
+          <p>
+            <h2>Role</h2>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="software engineer"
+              name="roles"
+              value="software engineer"
+              checked={roleFilter.includes('software engineer')}
+              onChange={this.handleChange}
+            />
+            <label for="software engineer">Software Engineer</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="tech lead"
+              name="roles"
+              value="tech lead"
+              checked={roleFilter.includes('tech lead')}
+              onChange={this.handleChange}
+            />
+            <label for="tech lead">Tech Lead</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="product manager"
+              name="roles"
+              value="product manager"
+              checked={roleFilter.includes('product manager')}
+              onChange={this.handleChange}
+            />
+            <label for="product manager">Product Manager</label>
+          </p>
+          <p>
+            <input
+              type="checkbox"
+              id="community director"
+              name="roles"
+              value="community director"
+              checked={roleFilter.includes('community director')}
+              onChange={this.handleChange}
+            />
+            <label for="community director">Community Director</label>
+          </p>
           {loading ? <div>Loading</div> : <CandidateListComponent candidates={candidates} />}
         </Row>
       </Container>
