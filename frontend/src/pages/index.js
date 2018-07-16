@@ -35,16 +35,14 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => ({
-  candidates: state.candidateListPage.candidates,
-  loading: state.candidateListPage.candidatesLoading,
-  error: state.candidateListPage.candidatesError
+  candidateListPage: state.candidateListPage
 })
 
 class HomePage extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      candidates: this.props.result,
+      candidates: [],
       sortDropdownOpen: false,
       showDropdownOpen: false,
       showing: 'everyone'
@@ -76,26 +74,24 @@ class HomePage extends Component<Props> {
     })
   }
 
-  // static async getInitialProps({ query }) {
-  //   // check whether query.id is real candidate
-  //   try {
-  //     const { result } = await getCandidatesByStatus('everyone')
-  //     if (result === undefined) {
-  //       return { error: 'Bad Request' }
-  //     }
-  //     return { result }
-  //   } catch (err) {
-  //     console.error('Candidate Page error: ', err.message)
-  //     return { error: 'Bad Request' }
-  //   }
-  // }
-
   render() {
-    if (this.props.error) {
-      return <div>Bad Fetch. Try again</div>
+    let candidates, loading, error
+    const yearFilter = this.props.candidateListPage.filters.years
+    const statusFilter = this.props.candidateListPage.filters.statuses
+    const roleFilter = this.props.candidateListPage.filters.roles
+    if (this.props.candidateListPage) {
+      candidates = this.props.candidateListPage.candidates.filter(candidate => {
+        return (
+          yearFilter.includes(candidate.year) &&
+          statusFilter.includes(candidate.status) &&
+          roleFilter.includes(candidate.role)
+        )
+      })
+      loading = this.props.candidateListPage.candidatesLoading
+      error = this.props.candidateListPage.candidatesError
     }
-    if (this.props.loading) {
-      return <div>Loading</div>
+    if (error) {
+      return <div>Bad Fetch. Try again</div>
     }
     return (
       <Container style={{ padding: '0 30px 0 30px' }}>
@@ -133,7 +129,7 @@ class HomePage extends Component<Props> {
             </DropdownMenu>
           </Dropdown>
           <div>Showing: {this.state.showing}</div>
-          <CandidateListComponent candidates={this.props.candidates} />
+          {loading ? <div>Loading</div> : <CandidateListComponent candidates={candidates} />}
         </Row>
       </Container>
     )

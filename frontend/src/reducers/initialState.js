@@ -2,7 +2,6 @@ import { getAllCandidates } from '../utils/api'
 import { yearsenum, rolesenum, statusenum } from '../utils/enums'
 
 const initialState = {
-  candidates: [],
   facemash: {
     candidates: 'abc'
   },
