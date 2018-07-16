@@ -7,7 +7,7 @@ export const yearsenum = {
 
 export const statusenum = {
   ACCEPTED: 'accepted',
-  DENIED: 'denied',
+  DENIED: 'rejected',
   INTERVIEWING: 'interviewing',
   PENDING: 'pending'
 }

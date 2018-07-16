@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
-import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
+import FilterComponent from '../components/filterComponent'
 import {
   Container,
   Button,
@@ -63,20 +63,6 @@ class HomePage extends Component<Props> {
     this.props.fetchCandidates()
   }
 
-  capitalizeFirstLetter = str => {
-    return str.replace(/\w\S*/g, function(txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    })
-  }
-
-  handleChange = event => {
-    if (event.target.checked) {
-      this.props.addFilter(event.target.name, event.target.value)
-    } else {
-      this.props.removeFilter(event.target.name, event.target.value)
-    }
-  }
-
   render() {
     let { candidates, error, loading, filters, sort } = this.props
     const years = [yearsenum.FRESHMAN, yearsenum.SOPHOMORE, yearsenum.JUNIOR, yearsenum.SENIOR]
@@ -106,74 +92,80 @@ class HomePage extends Component<Props> {
         <Nav />
         <h1>Hack4Impact Recruitment Portal</h1>
         <Row>
-          <div>Sort By:</div>
-          <Button color="primary">Age</Button>
-          <Button color="secondary">Interview Score</Button>
-          <Button color="success">FaceSmash Score</Button>
-          <p>
-            <h1>Filter By:</h1>
-          </p>
-          <p>
-            <h2>Status</h2>
-          </p>
           <div>
-            {statuses.map(el => {
-              return (
-                <p>
-                  <input
-                    type="checkbox"
-                    id={el}
-                    name="statuses"
-                    value={el}
-                    checked={statusFilter.includes(el)}
-                    onChange={this.handleChange}
-                  />
-                  <label for={el}>{this.capitalizeFirstLetter(el)}</label>
-                </p>
-              )
-            })}
-          </div>
-          <p>
-            <h2>Year</h2>
-          </p>
-          <div>
-            {years.map(el => {
-              return (
-                <p>
-                  <input
-                    type="checkbox"
-                    id={el}
-                    name="years"
-                    value={el}
-                    checked={yearFilter.includes(el)}
-                    onChange={this.handleChange}
-                  />
-                  <label for={el}>{this.capitalizeFirstLetter(el)}</label>
-                </p>
-              )
-            })}
+            <FilterComponent />
+            {/* <div>
+            <div>Sort By:</div>
+            <Button color="primary">Age</Button>
+            <Button color="secondary">Interview Score</Button>
+            <Button color="success">FaceSmash Score</Button>
           </div>
           <div>
-            <h2>Role</h2>
+            <p>
+              <h1>Filter By:</h1>
+            </p>
+            <p>
+              <h2>Status</h2>
+            </p>
+            <div>
+              {statuses.map(el => {
+                return (
+                  <p>
+                    <input
+                      type="checkbox"
+                      id={el}
+                      name="statuses"
+                      value={el}
+                      checked={statusFilter.includes(el)}
+                      onChange={this.handleChange}
+                    />
+                    <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+                  </p>
+                )
+              })}
+            </div>
+            <p>
+              <h2>Year</h2>
+            </p>
+            <div>
+              {years.map(el => {
+                return (
+                  <p>
+                    <input
+                      type="checkbox"
+                      id={el}
+                      name="years"
+                      value={el}
+                      checked={yearFilter.includes(el)}
+                      onChange={this.handleChange}
+                    />
+                    <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+                  </p>
+                )
+              })}
+            </div>
+            <div>
+              <h2>Role</h2>
+            </div>
+            <div>
+              {roles.map(el => {
+                return (
+                  <p>
+                    <input
+                      type="checkbox"
+                      id={el}
+                      name="roles"
+                      value={el}
+                      checked={roleFilter.includes(el)}
+                      onChange={this.handleChange}
+                    />
+                    <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+                  </p>
+                )
+              })}
+            </div> */}
+            {loading ? <div>Loading</div> : <CandidateListComponent candidates={candidates} />}
           </div>
-          <div>
-            {roles.map(el => {
-              return (
-                <p>
-                  <input
-                    type="checkbox"
-                    id={el}
-                    name="roles"
-                    value={el}
-                    checked={roleFilter.includes(el)}
-                    onChange={this.handleChange}
-                  />
-                  <label for={el}>{this.capitalizeFirstLetter(el)}</label>
-                </p>
-              )
-            })}
-          </div>
-          {loading ? <div>Loading</div> : <CandidateListComponent candidates={candidates} />}
         </Row>
       </Container>
     )
