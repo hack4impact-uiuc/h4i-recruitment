@@ -74,6 +74,7 @@ router.get(
     const candidates = await Candidate.find()
     const years = enumToArray(yearsEnum)
     candidates.map(async candidate => {
+<<<<<<< HEAD
       let idx = Math.floor(Math.random() * years.length)
       await Candidate.findByIdAndUpdate(candidate._id, { year: years[idx] })
     })
@@ -91,6 +92,12 @@ router.get(
       await Candidate.findByIdAndUpdate(candidate._id, { graduationDate: gradyears[idx] })
     })
     res.send('Initialize gradyears')
+=======
+      let idx = Math.floor(Math.random() * 4)
+      await Candidate.findByIdAndUpdate(candidate._id, { year: years[idx] })
+    })
+    res.send('Initialize Years')
+>>>>>>> style: ran yarn format
   })
 )
 
@@ -100,6 +107,7 @@ router.get(
     const candidates = await Candidate.find()
     const roles = enumToArray(rolesEnum)
     candidates.map(async candidate => {
+<<<<<<< HEAD
       let idx = Math.floor(Math.random() * roles.length)
       let idx2 = Math.floor(Math.random() * roles.length)
       if (idx == 3) {
@@ -107,6 +115,10 @@ router.get(
       } else {
         await Candidate.findByIdAndUpdate(candidate._id, { role: [roles[idx]] })
       }
+=======
+      let idx = Math.floor(Math.random() * 4)
+      await Candidate.findByIdAndUpdate(candidate._id, { role: roles[idx] })
+>>>>>>> style: ran yarn format
     })
     res.send('Initialized Roles')
   })
