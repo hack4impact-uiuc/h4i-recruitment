@@ -23,6 +23,11 @@ const mapStateToProps = state => {
   }
 }
 
+type Props = {
+  filters: Object,
+  sort: Object
+}
+
 class FilterComponent extends Component<props> {
   handleChange = event => {
     if (event.target.checked) {
