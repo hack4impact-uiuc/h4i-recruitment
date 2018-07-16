@@ -22,9 +22,13 @@ import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import { bindActionCreators } from 'redux'
 import { yearsenum, statusenum, rolesenum } from '../utils/enums'
 
-// type Props = {
-//   result: {}
-// }
+type Props = {
+  candidates: Array<any>,
+  loading: boolean,
+  error: boolean,
+  filters: Object,
+  sort: Object
+}
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -65,14 +69,6 @@ class HomePage extends Component<Props> {
 
   render() {
     let { candidates, error, loading, filters, sort } = this.props
-    const years = [yearsenum.FRESHMAN, yearsenum.SOPHOMORE, yearsenum.JUNIOR, yearsenum.SENIOR]
-    const roles = [rolesenum.SWE, rolesenum.TL, rolesenum.CD, rolesenum.PM]
-    const statuses = [
-      statusenum.PENDING,
-      statusenum.ACCEPTED,
-      statusenum.DENIED,
-      statusenum.INTERVIEWING
-    ]
     const statusFilter = this.props.filters.statuses
     const roleFilter = this.props.filters.roles
     const yearFilter = this.props.filters.years
@@ -94,76 +90,6 @@ class HomePage extends Component<Props> {
         <Row>
           <div>
             <FilterComponent />
-            {/* <div>
-            <div>Sort By:</div>
-            <Button color="primary">Age</Button>
-            <Button color="secondary">Interview Score</Button>
-            <Button color="success">FaceSmash Score</Button>
-          </div>
-          <div>
-            <p>
-              <h1>Filter By:</h1>
-            </p>
-            <p>
-              <h2>Status</h2>
-            </p>
-            <div>
-              {statuses.map(el => {
-                return (
-                  <p>
-                    <input
-                      type="checkbox"
-                      id={el}
-                      name="statuses"
-                      value={el}
-                      checked={statusFilter.includes(el)}
-                      onChange={this.handleChange}
-                    />
-                    <label for={el}>{this.capitalizeFirstLetter(el)}</label>
-                  </p>
-                )
-              })}
-            </div>
-            <p>
-              <h2>Year</h2>
-            </p>
-            <div>
-              {years.map(el => {
-                return (
-                  <p>
-                    <input
-                      type="checkbox"
-                      id={el}
-                      name="years"
-                      value={el}
-                      checked={yearFilter.includes(el)}
-                      onChange={this.handleChange}
-                    />
-                    <label for={el}>{this.capitalizeFirstLetter(el)}</label>
-                  </p>
-                )
-              })}
-            </div>
-            <div>
-              <h2>Role</h2>
-            </div>
-            <div>
-              {roles.map(el => {
-                return (
-                  <p>
-                    <input
-                      type="checkbox"
-                      id={el}
-                      name="roles"
-                      value={el}
-                      checked={roleFilter.includes(el)}
-                      onChange={this.handleChange}
-                    />
-                    <label for={el}>{this.capitalizeFirstLetter(el)}</label>
-                  </p>
-                )
-              })}
-            </div> */}
             {loading ? <div>Loading</div> : <CandidateListComponent candidates={candidates} />}
           </div>
         </Row>
