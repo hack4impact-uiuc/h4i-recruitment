@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Candidate } = require('../models')
+const { statusEnum, yearsEnum, rolesEnum, gradEnum, enumToArray } = require('../utils/enums')
+const { getGithubContributions } = require('../utils/gitScraper')
 
 router.get(
   '/',
@@ -37,15 +39,32 @@ router.post(
   })
 )
 
+//Initialize endpoints generate dummy data for development purposes
+
+router.get(
+  '/initialize-git',
+  errorWrap(async (req, res) => {
+    const candidates = await Candidate.find()
+    candidates.map(async candidate => {
+      if (!candidate.github) {
+        await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: 'N/A' })
+      } else {
+        let contributions = await getGithubContributions(candidate.github)
+        await Candidate.findByIdAndUpdate(candidate._id, { githubContributions: contributions })
+      }
+    })
+    res.send('done updating')
+  })
+)
+
 router.get(
   '/initialize-status',
   errorWrap(async (req, res) => {
-    await Candidate.update({}, { status: 'pending' }, { multi: true }, err => {
-      if (err) {
-        console.log(err.message)
-      }
+    const candidates = await Candidate.find()
+    candidates.map(async candidate => {
+      await Candidate.findByIdAndUpdate(candidate._id, { status: statusEnum.PENDING })
     })
-    res.send('Set all status to pending')
+    res.send('Set all status to Pending')
   })
 )
 
@@ -53,12 +72,25 @@ router.get(
   '/initialize-year',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-    const years = ['freshman', 'sophomore', 'junior', 'senior']
+    const years = enumToArray(yearsEnum)
     candidates.map(async candidate => {
-      let idx = Math.floor(Math.random() * 4); 
+      let idx = Math.floor(Math.random() * years.length)
       await Candidate.findByIdAndUpdate(candidate._id, { year: years[idx] })
     })
-    res.send("Initialize Years")
+    res.send('Initialize Years')
+  })
+)
+
+router.get(
+  '/initialize-gradyear',
+  errorWrap(async (req, res) => {
+    const candidates = await Candidate.find()
+    const gradyears = enumToArray(gradEnum)
+    candidates.map(async candidate => {
+      let idx = Math.floor(Math.random() * gradyears.length)
+      await Candidate.findByIdAndUpdate(candidate._id, { graduationDate: gradyears[idx] })
+    })
+    res.send('Initialize gradyears')
   })
 )
 
@@ -66,12 +98,17 @@ router.get(
   '/initialize-role',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-    const roles = ['software engineer', 'product manager', 'tech lead', 'community director']
+    const roles = enumToArray(rolesEnum)
     candidates.map(async candidate => {
-      let idx = Math.floor(Math.random() * 4); 
-      await Candidate.findByIdAndUpdate(candidate._id, { role: roles[idx] })
+      let idx = Math.floor(Math.random() * roles.length)
+      let idx2 = Math.floor(Math.random() * roles.length)
+      if (idx == 3) {
+        await Candidate.findByIdAndUpdate(candidate._id, { role: [roles[idx], roles[idx2]] })
+      } else {
+        await Candidate.findByIdAndUpdate(candidate._id, { role: [roles[idx]] })
+      }
     })
-    res.send("Initialized Roles")
+    res.send('Initialized Roles')
   })
 )
 
@@ -81,17 +118,17 @@ router.post(
     data = req.body
     let response = 'Status set Sucessfully'
     switch (data.status) {
-      case 'pending':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'pending' })
+      case statusEnum.PENDING:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.PENDING })
         break
-      case 'accepted':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'accepted' })
+      case statusEnum.ACCEPTED:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.ACCEPTED })
         break
-      case 'interviewing':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'interviewing' })
+      case statusEnum.INTERVIEWING:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.INTERVIEWING })
         break
-      case 'rejected':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'rejected' })
+      case statusEnum.DENIED:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.DENIED })
         break
       default:
         response = 'Invalid status, please try again'

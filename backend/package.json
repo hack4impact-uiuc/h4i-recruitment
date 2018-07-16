@@ -21,10 +21,13 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "cheerio": "^1.0.0-rc.2",
     "lint-staged": "^7.2.0",
     "mocha": "^5.2.0",
     "pre-commit": "^1.2.2",
     "prettier": "^1.13.5",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
     "sinon": "^6.0.1",
     "supertest": "^3.1.0"
   }
