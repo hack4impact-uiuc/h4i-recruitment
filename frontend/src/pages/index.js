@@ -17,10 +17,28 @@ import {
   Row,
   Badge
 } from 'reactstrap'
+import { connect } from 'react-redux'
+import { fetchCandidates } from '../actions'
+import { bindActionCreators } from 'redux'
 
-type Props = {
-  result: {}
+// type Props = {
+//   result: {}
+// }
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      fetchCandidates
+    },
+    dispatch
+  )
 }
+
+const mapStateToProps = state => ({
+  candidates: state.candidateListPage.candidates,
+  loading: state.candidateListPage.candidatesLoading,
+  error: state.candidateListPage.candidatesError
+})
 
 class HomePage extends Component<Props> {
   constructor(props) {
@@ -31,6 +49,10 @@ class HomePage extends Component<Props> {
       showDropdownOpen: false,
       showing: 'everyone'
     }
+  }
+
+  componentDidMount() {
+    this.props.fetchCandidates()
   }
 
   toggleSort = () => {
@@ -54,23 +76,26 @@ class HomePage extends Component<Props> {
     })
   }
 
-  static async getInitialProps({ query }) {
-    // check whether query.id is real candidate
-    try {
-      const { result } = await getCandidatesByStatus('everyone')
-      if (result === undefined) {
-        return { error: 'Bad Request' }
-      }
-      return { result }
-    } catch (err) {
-      console.error('Candidate Page error: ', err.message)
-      return { error: 'Bad Request' }
-    }
-  }
+  // static async getInitialProps({ query }) {
+  //   // check whether query.id is real candidate
+  //   try {
+  //     const { result } = await getCandidatesByStatus('everyone')
+  //     if (result === undefined) {
+  //       return { error: 'Bad Request' }
+  //     }
+  //     return { result }
+  //   } catch (err) {
+  //     console.error('Candidate Page error: ', err.message)
+  //     return { error: 'Bad Request' }
+  //   }
+  // }
 
   render() {
     if (this.props.error) {
       return <div>Bad Fetch. Try again</div>
+    }
+    if (this.props.loading) {
+      return <div>Loading</div>
     }
     return (
       <Container style={{ padding: '0 30px 0 30px' }}>
@@ -108,11 +133,16 @@ class HomePage extends Component<Props> {
             </DropdownMenu>
           </Dropdown>
           <div>Showing: {this.state.showing}</div>
-          <CandidateListComponent candidates={this.state.candidates} />
+          <CandidateListComponent candidates={this.props.candidates} />
         </Row>
       </Container>
     )
   }
 }
 
-export default withRedux(configureStore)(HomePage)
+const connectedHomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePage)
+
+export default withRedux(configureStore)(connectedHomePage)
