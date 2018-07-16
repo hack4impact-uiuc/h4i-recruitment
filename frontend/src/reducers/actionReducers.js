@@ -7,6 +7,7 @@ import {
   ADD_FILTER,
   REMOVE_FILTER
 } from '../actions/actionTypes'
+import { yearsenum, statusenum, rolesenum } from '../utils/enums'
 
 export default function recruitmentApp(state = initialState, action) {
   switch (action.type) {
@@ -42,33 +43,35 @@ export default function recruitmentApp(state = initialState, action) {
         }
       }
     case ADD_FILTER:
-      let { category, filter } = action.payload
-      return {
-        ...state,
-        candidateListPage: {
-          ...state.candidateListPage,
-          filters: {
-            category: [...state.candidateListPage.filters.category, filter]
-          }
-        }
-      }
-    case REMOVE_FILTER:
-      console.log(action)
-      category = action.payload[category]
-      filter = action.payload[filter]
+      let addCategory = action.payload.category
+      let addFilter = action.payload.filter
+      console.log(action.payload)
       return {
         ...state,
         candidateListPage: {
           ...state.candidateListPage,
           filters: {
             ...state.candidateListPage.filters,
-            category: state.candidateListPage.filters[category].filter(e => e != filter)
+            [addCategory]: [...state.candidateListPage.filters[addCategory], addFilter]
+          }
+        }
+      }
+    case REMOVE_FILTER:
+      let deleteCategory = action.payload.category
+      let deleteFilter = action.payload.filter
+      return {
+        ...state,
+        candidateListPage: {
+          ...state.candidateListPage,
+          filters: {
+            ...state.candidateListPage.filters,
+            [deleteCategory]: state.candidateListPage.filters[deleteCategory].filter(
+              e => e != deleteFilter
+            )
           }
         }
       }
     default:
-      return {
-        ...state
-      }
+      return state
   }
 }
