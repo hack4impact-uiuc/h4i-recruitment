@@ -55,10 +55,10 @@ router.get(
     const candidates = await Candidate.find()
     const years = ['freshman', 'sophomore', 'junior', 'senior']
     candidates.map(async candidate => {
-      let idx = Math.floor(Math.random() * 4); 
+      let idx = Math.floor(Math.random() * 4)
       await Candidate.findByIdAndUpdate(candidate._id, { year: years[idx] })
     })
-    res.send("Initialize Years")
+    res.send('Initialize Years')
   })
 )
 
@@ -68,10 +68,10 @@ router.get(
     const candidates = await Candidate.find()
     const roles = ['software engineer', 'product manager', 'tech lead', 'community director']
     candidates.map(async candidate => {
-      let idx = Math.floor(Math.random() * 4); 
+      let idx = Math.floor(Math.random() * 4)
       await Candidate.findByIdAndUpdate(candidate._id, { role: roles[idx] })
     })
-    res.send("Initialized Roles")
+    res.send('Initialized Roles')
   })
 )
 
