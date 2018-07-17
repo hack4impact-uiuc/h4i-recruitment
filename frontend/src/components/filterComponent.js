@@ -53,17 +53,17 @@ class FilterComponent extends Component<props> {
     const gradFilter = this.props.filters.gradDates
     return (
       <div>
-        <p>
-          <h1>Filter By:</h1>
-        </p>
-        <Button onClick={this.handleClick}>Reset Filters</Button>
-        <p>
-          <h2>Status</h2>
-        </p>
         <div>
-          {statuses.map(el => {
+          <h1>Filter By:</h1>
+        </div>
+        <Button onClick={this.handleClick}>Reset Filters</Button>
+        <div>
+          <h2>Status</h2>
+        </div>
+        <div>
+          {statuses.map((el, idx) => {
             return (
-              <p>
+              <p key={idx}>
                 <input
                   type="checkbox"
                   id={el}
@@ -72,18 +72,18 @@ class FilterComponent extends Component<props> {
                   checked={statusFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{el}</label>
+                <label htmlFor={el}>{el}</label>
               </p>
             )
           })}
         </div>
-        <p>
-          <h2>Year</h2>
-        </p>
         <div>
-          {years.map(el => {
+          <h2>Year</h2>
+        </div>
+        <div>
+          {years.map((el, idx) => {
             return (
-              <p>
+              <p key={idx}>
                 <input
                   type="checkbox"
                   id={el}
@@ -92,7 +92,7 @@ class FilterComponent extends Component<props> {
                   checked={yearFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{el}</label>
+                <label htmlFor={el}>{el}</label>
               </p>
             )
           })}
@@ -101,9 +101,9 @@ class FilterComponent extends Component<props> {
           <h2>Role</h2>
         </div>
         <div>
-          {roles.map(el => {
+          {roles.map((el, idx) => {
             return (
-              <p>
+              <p key={idx}>
                 <input
                   type="checkbox"
                   id={el}
@@ -112,7 +112,7 @@ class FilterComponent extends Component<props> {
                   checked={roleFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{el}</label>
+                <label htmlFor={el}>{el}</label>
               </p>
             )
           })}
@@ -121,9 +121,9 @@ class FilterComponent extends Component<props> {
           <h2>Graduation Date:</h2>
         </div>
         <div>
-          {gradDates.map(el => {
+          {gradDates.map((el, idx) => {
             return (
-              <p>
+              <p key={idx}>
                 <input
                   type="checkbox"
                   id={el}
@@ -132,7 +132,7 @@ class FilterComponent extends Component<props> {
                   checked={gradFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{el}</label>
+                <label htmlFor={el}>{el}</label>
               </p>
             )
           })}
