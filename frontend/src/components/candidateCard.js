@@ -1,11 +1,16 @@
 // @flow
 import React, { Component } from 'react'
+import withRedux from 'next-redux-wrapper'
+import configureStore from '../store/appStore'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import Link from 'next/link'
 import { Card, CardBody, CardTitle, Button } from 'reactstrap'
 import FileIcon from '../static/icons/file.svg'
 import Router from 'next/router'
 import { setCandidateStatus } from '../utils/api'
-
+import { statusenum } from '../utils/enums'
+import { setStatus } from '../actions/actionCreators'
 const handler = (_id: string) =>
   Router.push({
     pathname: '/candidate',
@@ -14,6 +19,15 @@ const handler = (_id: string) =>
 
 type Props = {
   candidate: Array<mixed> // TODO: make this more specific
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setStatus
+    },
+    dispatch
+  )
 }
 
 class CandidateCardComponent extends Component {
@@ -25,6 +39,7 @@ class CandidateCardComponent extends Component {
   }
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
+    this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
   render() {
@@ -81,10 +96,10 @@ class CandidateCardComponent extends Component {
               <option value="" selected disabled hidden>
                 Choose here
               </option>
-              <option value="pending">Pending</option>
-              <option value="accepted">Accepted</option>
-              <option value="rejected">Rejected</option>
-              <option value="interviewing">Interviewing</option>
+              <option value={statusenum.PENDING}>Pending</option>
+              <option value={statusenum.ACCEPTED}>Accepted</option>
+              <option value={statusenum.DENIED}>Rejected</option>
+              <option value={statusenum.INTERVIEWING}>Interviewing</option>
             </select>
           </p>
         </CardBody>
@@ -93,4 +108,9 @@ class CandidateCardComponent extends Component {
   }
 }
 
-export default CandidateCardComponent
+const connectedCandidateCardComponent = connect(
+  null,
+  mapDispatchToProps
+)(CandidateCardComponent)
+
+export default withRedux(configureStore)(connectedCandidateCardComponent)

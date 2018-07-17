@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Candidate } = require('../models')
+const { statusenum, yearsenum, rolesenum, gradenum, enumToArray } = require('../enums')
 
 router.get(
   '/',
@@ -37,15 +38,17 @@ router.post(
   })
 )
 
+//Initialize endpoints generate dummy data for development purposes
+
 router.get(
   '/initialize-status',
   errorWrap(async (req, res) => {
-    await Candidate.update({}, { status: 'pending' }, { multi: true }, err => {
+    await Candidate.update({}, { status: statusenum.PENDING }, { multi: true }, err => {
       if (err) {
         console.log(err.message)
       }
     })
-    res.send('Set all status to pending')
+    res.send('Set all status to Pending')
   })
 )
 
@@ -53,9 +56,9 @@ router.get(
   '/initialize-year',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-    const years = ['freshman', 'sophomore', 'junior', 'senior']
+    const years = enumToArray(yearsenum)
     candidates.map(async candidate => {
-      let idx = Math.floor(Math.random() * 4)
+      let idx = Math.floor(Math.random() * years.length)
       await Candidate.findByIdAndUpdate(candidate._id, { year: years[idx] })
     })
     res.send('Initialize Years')
@@ -63,12 +66,25 @@ router.get(
 )
 
 router.get(
+  '/initialize-gradyear',
+  errorWrap(async (req, res) => {
+    const candidates = await Candidate.find()
+    const gradyears = enumToArray(gradenum)
+    candidates.map(async candidate => {
+      let idx = Math.floor(Math.random() * gradyears.length)
+      await Candidate.findByIdAndUpdate(candidate._id, { graduationDate: gradyears[idx] })
+    })
+    res.send('Initialize gradyears')
+  })
+)
+
+router.get(
   '/initialize-role',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-    const roles = ['software engineer', 'product manager', 'tech lead', 'community director']
+    const roles = enumToArray(rolesenum)
     candidates.map(async candidate => {
-      let idx = Math.floor(Math.random() * 4)
+      let idx = Math.floor(Math.random() * roles.length)
       await Candidate.findByIdAndUpdate(candidate._id, { role: roles[idx] })
     })
     res.send('Initialized Roles')
@@ -81,17 +97,17 @@ router.post(
     data = req.body
     let response = 'Status set Sucessfully'
     switch (data.status) {
-      case 'pending':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'pending' })
+      case statusenum.PENDING:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.PENDING })
         break
-      case 'accepted':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'accepted' })
+      case statusenum.ACCEPTED:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.ACCEPTED })
         break
-      case 'interviewing':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'interviewing' })
+      case statusenum.INTERVIEWING:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.INTERVIEWING })
         break
-      case 'rejected':
-        await Candidate.findByIdAndUpdate(data.id, { status: 'rejected' })
+      case statusenum.DENIED:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.DENIED })
         break
       default:
         response = 'Invalid status, please try again'

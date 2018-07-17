@@ -5,7 +5,8 @@ import {
   FETCH_CANDIDATES_FAILURE,
   FETCH_CANDIDATES_SUCCESS,
   ADD_FILTER,
-  REMOVE_FILTER
+  REMOVE_FILTER,
+  SET_STATUS
 } from '../actions/actionTypes'
 import { yearsenum, statusenum, rolesenum } from '../utils/enums'
 
@@ -69,6 +70,24 @@ export default function recruitmentApp(state = initialState, action) {
               e => e != deleteFilter
             )
           }
+        }
+      }
+    case SET_STATUS:
+      const { candidateId, status } = action.payload
+      const newCandidates = state.candidateListPage.candidates.map(el => {
+        if (el._id == candidateId) {
+          return {
+            ...el,
+            status: status
+          }
+        }
+        return el
+      })
+      return {
+        ...state,
+        candidateListPage: {
+          ...state.candidateListPage,
+          candidates: newCandidates
         }
       }
     default:

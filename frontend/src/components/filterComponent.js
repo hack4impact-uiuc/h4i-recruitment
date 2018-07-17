@@ -4,7 +4,7 @@ import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsenum, statusenum, rolesenum } from '../utils/enums'
+import { yearsenum, statusenum, rolesenum, gradenum, enumToArray } from '../utils/enums'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -42,17 +42,14 @@ class FilterComponent extends Component<props> {
     })
   }
   render() {
-    const years = [yearsenum.FRESHMAN, yearsenum.SOPHOMORE, yearsenum.JUNIOR, yearsenum.SENIOR]
-    const roles = [rolesenum.SWE, rolesenum.TL, rolesenum.CD, rolesenum.PM]
-    const statuses = [
-      statusenum.PENDING,
-      statusenum.ACCEPTED,
-      statusenum.DENIED,
-      statusenum.INTERVIEWING
-    ]
+    const years = enumToArray(yearsenum)
+    const roles = enumToArray(rolesenum)
+    const statuses = enumToArray(statusenum)
+    const gradDates = enumToArray(gradenum)
     const statusFilter = this.props.filters.statuses
     const roleFilter = this.props.filters.roles
     const yearFilter = this.props.filters.years
+    const gradFilter = this.props.filters.gradDates
     return (
       <div>
         <p>
@@ -111,6 +108,26 @@ class FilterComponent extends Component<props> {
                   name="roles"
                   value={el}
                   checked={roleFilter.includes(el)}
+                  onChange={this.handleChange}
+                />
+                <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+              </p>
+            )
+          })}
+        </div>
+        <div>
+          <h2>Graduation Date:</h2>
+        </div>
+        <div>
+          {gradDates.map(el => {
+            return (
+              <p>
+                <input
+                  type="checkbox"
+                  id={el}
+                  name="gradDates"
+                  value={el}
+                  checked={gradFilter.includes(el)}
                   onChange={this.handleChange}
                 />
                 <label for={el}>{this.capitalizeFirstLetter(el)}</label>

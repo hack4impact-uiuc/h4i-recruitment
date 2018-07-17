@@ -32,7 +32,7 @@ class CandidateListComponent extends Component<Props> {
     const { search } = this.state
     const { candidates } = this.props
     return (
-      <div className="candidate-list-box row">
+      <div>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label for="search">Search</Label>
@@ -45,15 +45,17 @@ class CandidateListComponent extends Component<Props> {
             />
           </FormGroup>
         </Form>
-        {candidates !== undefined
-          ? candidates.map(candidate => {
-              return candidate.name.toLowerCase().includes(this.state.search.toLowerCase()) ? (
-                <CardCol key={candidate._id}>
-                  <CandidateCardComponent candidate={candidate} />
-                </CardCol>
-              ) : null
-            })
-          : 'No candidates'}
+        <div className="candidate-list-box row">
+          {candidates !== undefined
+            ? candidates.map(candidate => {
+                return candidate.name.toLowerCase().includes(this.state.search.toLowerCase()) ? (
+                  <CardCol key={candidate._id}>
+                    <CandidateCardComponent candidate={candidate} />
+                  </CardCol>
+                ) : null
+              })
+            : 'No candidates'}
+        </div>
       </div>
     )
   }

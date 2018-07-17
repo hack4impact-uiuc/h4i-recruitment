@@ -4,13 +4,21 @@ import {
   FETCH_CANDIDATES_FAILURE,
   FETCH_CANDIDATES_SUCCESS,
   ADD_FILTER,
-  REMOVE_FILTER
+  REMOVE_FILTER,
+  SET_STATUS
 } from './actionTypes.js'
 import { getAllCandidates } from '../utils/api'
 // Action Creators
 
 export const fetchCandidatesFailure = error => ({ type: FETCH_CANDIDATES_FAILURE, payload: error })
 export const fetchCandidatesBegin = () => ({ type: FETCH_CANDIDATES_BEGIN })
+export const setStatus = (candidateId, status) => ({
+  type: SET_STATUS,
+  payload: {
+    candidateId: candidateId,
+    status: status
+  }
+})
 export const fetchCandidatesSuccess = candidates => ({
   type: FETCH_CANDIDATES_SUCCESS,
   payload: candidates

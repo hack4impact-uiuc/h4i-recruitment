@@ -6,3 +6,4 @@ backend/.env
 package.json
 *.lock
 backend/yarn-error.log
+frontend/yarn-error.log
