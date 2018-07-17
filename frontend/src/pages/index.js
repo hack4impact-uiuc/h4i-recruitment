@@ -25,11 +25,9 @@ type Props = {
   result: {}
 }
 
-function mapStateToProps(state) {
-  return {
-    candidates: state.candidates
-  }
-}
+const mapStateToProps = state => ({
+  candidates: state.candidates
+})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
