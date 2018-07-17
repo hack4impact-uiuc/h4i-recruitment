@@ -11,11 +11,10 @@ import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
 type Props = {}
 
-function mapStateToProps(state) {
-  return {
-    candidates: state.candidates
-  }
-}
+const mapStateToProps = state => ({
+  candidates: state.candidates,
+  matchID: state.matchID
+})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
@@ -30,57 +29,47 @@ class FaceMash extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      results: this.props.result,
       error: false,
       message: ''
     }
-    const { candidates, generateMatchData } = this.props
-    if (candidates == null || candidates.length != 2) {
-      generateMatchData(this.state.results.candidate1, this.state.results.candidate2)
-    }
   }
 
-  static async getInitialProps({ query }) {
-    // check whether query.id is real candidate
-    // TODO: do not fetch again, if user hasn't responded to previous match
-    try {
-      const { result } = await getCandidateMatch()
-      if (result === undefined) {
-        return { error: 'Bad Request' }
-      }
-      return { result }
-    } catch (err) {
-      console.log('Candidate Page error: ', err.message)
-      return { error: 'Bad Request' }
+  async getNewMatch() {
+    const { result } = await getCandidateMatch()
+    if (result === undefined) {
+      console.log('Could not get new FaceMash match')
+    }
+    console.log('Got new match')
+    const { generateMatchData } = this.props
+    generateMatchData(result.candidate1, result.candidate2, result.matchID)
+  }
+
+  componentDidMount() {
+    const { candidates } = this.props
+    if (candidates == null || candidates.length != 2) {
+      this.getNewMatch()
     }
   }
 
   handleClick = async e => {
     const winner = e.target.name
     try {
-      const { candidate1, candidate2, matchID } = this.state.results
+      const { candidates, matchID } = this.props
       const res = await setMatchWinner(
-        candidate1._id,
-        candidate2._id,
-        winner === '0' ? candidate1._id : candidate2._id,
+        candidates[0]._id,
+        candidates[1]._id,
+        winner === '0' ? candidates[0]._id : candidates[1]._id,
         matchID
       )
+      console.log('madeuit')
       if (res.success) {
         this.setState({
           success: 'Successfully Submitted'
         })
       }
-
-      // Get New Match
-      const { result } = await getCandidateMatch()
-      if (result === undefined) {
-        return { error: 'Bad Request' }
-      }
-
-      const { generateMatchData } = this.props
-      generateMatchData(result.candidate1, result.candidate2)
+      this.getNewMatch()
     } catch (err) {
-      console.err(('Error': err.message))
+      console.error(('Error': err))
     }
   }
 

@@ -11,6 +11,7 @@ export const loadState = () => {
     }
     return JSON.parse(serializedState)
   } catch (err) {
+    console.log('Unable to load data from Local Storage')
     return initialState
   }
 }
@@ -20,6 +21,6 @@ export const saveState = state => {
     const serializedState = JSON.stringify(state)
     localStorage.setItem(STATE_STORAGE, serializedState)
   } catch (err) {
-    // fill
+    console.log('Unable to save data to Local Storage')
   }
 }

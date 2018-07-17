@@ -1,5 +1,6 @@
 const initialState = {
-  candidates: ['abc']
+  candidates: ['abc'],
+  matchID: null
 }
 
 export default initialState
