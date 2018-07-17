@@ -1,13 +1,27 @@
 // @flow
 import React, { Component } from 'react'
+import withRedux from 'next-redux-wrapper'
+import configureStore from '../store/appStore'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { getCandidateById } from '../utils/api'
 import Head from './head'
 import { Container, Button, Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusenum } from '../utils/enums'
+import { setStatus } from '../actions/actionCreators'
 
 type Props = {
   candidate: {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setStatus
+    },
+    dispatch
+  )
 }
 
 class CandidateBox extends Component {
@@ -19,6 +33,7 @@ class CandidateBox extends Component {
   }
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
+    this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
   render() {
@@ -113,4 +128,9 @@ class CandidateBox extends Component {
   }
 }
 
-export default CandidateBox
+const connectedCandidateBox = connect(
+  null,
+  mapDispatchToProps
+)(CandidateBox)
+
+export default withRedux(configureStore)(connectedCandidateBox)
