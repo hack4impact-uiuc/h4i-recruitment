@@ -35,7 +35,7 @@ class CandidateListComponent extends Component<Props> {
       <div>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="search">Search</Label>
+            <Label for="search" />
             <Input
               type="search"
               id="search"

@@ -64,7 +64,9 @@ class HomePage extends Component<Props> {
   }
 
   componentDidMount() {
-    this.props.fetchCandidates()
+    if (this.props.candidates.length == 0) {
+      this.props.fetchCandidates()
+    }
   }
 
   render() {

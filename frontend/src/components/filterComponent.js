@@ -2,15 +2,17 @@ import React, { Component } from 'react'
 import withRedux from 'next-redux-wrapper'
 import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
-import { addFilter, removeFilter } from '../actions'
+import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
 import { yearsenum, statusenum, rolesenum, gradenum, enumToArray } from '../utils/enums'
+import { Button } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       addFilter,
-      removeFilter
+      removeFilter,
+      resetFilters
     },
     dispatch
   )
@@ -36,10 +38,9 @@ class FilterComponent extends Component<props> {
       this.props.removeFilter(event.target.name, event.target.value)
     }
   }
-  capitalizeFirstLetter = str => {
-    return str.replace(/\w\S*/g, function(txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    })
+
+  handleClick = event => {
+    this.props.resetFilters()
   }
   render() {
     const years = enumToArray(yearsenum)
@@ -55,6 +56,7 @@ class FilterComponent extends Component<props> {
         <p>
           <h1>Filter By:</h1>
         </p>
+        <Button onClick={this.handleClick}>Reset Filters</Button>
         <p>
           <h2>Status</h2>
         </p>
@@ -70,7 +72,7 @@ class FilterComponent extends Component<props> {
                   checked={statusFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+                <label for={el}>{el}</label>
               </p>
             )
           })}
@@ -90,7 +92,7 @@ class FilterComponent extends Component<props> {
                   checked={yearFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+                <label for={el}>{el}</label>
               </p>
             )
           })}
@@ -110,7 +112,7 @@ class FilterComponent extends Component<props> {
                   checked={roleFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+                <label for={el}>{el}</label>
               </p>
             )
           })}
@@ -130,7 +132,7 @@ class FilterComponent extends Component<props> {
                   checked={gradFilter.includes(el)}
                   onChange={this.handleChange}
                 />
-                <label for={el}>{this.capitalizeFirstLetter(el)}</label>
+                <label for={el}>{el}</label>
               </p>
             )
           })}

@@ -5,7 +5,8 @@ import {
   fetchCandidatesFailure,
   fetchCandidates,
   addFilter,
-  removeFilter
+  removeFilter,
+  resetFilters
 } from './actionCreators.js'
 
 export {
@@ -15,5 +16,6 @@ export {
   fetchCandidatesFailure,
   fetchCandidates,
   addFilter,
-  removeFilter
+  removeFilter,
+  resetFilters
 }

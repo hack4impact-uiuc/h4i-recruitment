@@ -27,7 +27,7 @@ const yearsenum = {
     SWE: 'Software Engineer',
     PM: 'Product Manager',
     TL: 'Tech Lead',
-    CD: 'Community Director'
+    UI: 'UI/UX Designer'
   }
   
    const enumToArray = e => {

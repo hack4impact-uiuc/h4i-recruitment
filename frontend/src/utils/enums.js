@@ -27,7 +27,7 @@ export const rolesenum = {
   SWE: 'Software Engineer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
-  CD: 'Community Director'
+  UI: 'UI/UX Designer'
 }
 
 export const enumToArray = e => {

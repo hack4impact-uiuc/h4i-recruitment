@@ -6,7 +6,8 @@ import {
   FETCH_CANDIDATES_SUCCESS,
   ADD_FILTER,
   REMOVE_FILTER,
-  SET_STATUS
+  SET_STATUS,
+  RESET_FILTERS
 } from '../actions/actionTypes'
 import { yearsenum, statusenum, rolesenum } from '../utils/enums'
 
@@ -88,6 +89,14 @@ export default function recruitmentApp(state = initialState, action) {
         candidateListPage: {
           ...state.candidateListPage,
           candidates: newCandidates
+        }
+      }
+    case RESET_FILTERS:
+      return {
+        ...state,
+        candidateListPage: {
+          ...state.candidateListPage,
+          filters: initialState.candidateListPage.filters
         }
       }
     default:

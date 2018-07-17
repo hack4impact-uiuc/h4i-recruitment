@@ -5,7 +5,8 @@ import {
   FETCH_CANDIDATES_SUCCESS,
   ADD_FILTER,
   REMOVE_FILTER,
-  SET_STATUS
+  SET_STATUS,
+  RESET_FILTERS
 } from './actionTypes.js'
 import { getAllCandidates } from '../utils/api'
 // Action Creators
@@ -30,6 +31,11 @@ export const addFilter = (category, filter) => ({
     filter: filter
   }
 })
+
+export const resetFilters = () => ({
+  type: RESET_FILTERS
+})
+
 export const removeFilter = (category, filter) => ({
   type: REMOVE_FILTER,
   payload: {
