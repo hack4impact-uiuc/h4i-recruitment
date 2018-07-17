@@ -1,5 +1,5 @@
 import { getAllCandidates } from '../utils/api'
-import { yearsenum, rolesenum, statusenum } from '../utils/enums'
+import { yearsenum, rolesenum, statusenum, gradenum, enumToArray } from '../utils/enums'
 
 const initialState = {
   facemash: {
@@ -10,14 +10,10 @@ const initialState = {
     candidatesLoading: false,
     candidatesError: null,
     filters: {
-      years: [yearsenum.FRESHMAN, yearsenum.SOPHOMORE, yearsenum.JUNIOR, yearsenum.SENIOR],
-      statuses: [
-        statusenum.ACCEPTED,
-        statusenum.DENIED,
-        statusenum.INTERVIEWING,
-        statusenum.PENDING
-      ],
-      roles: [rolesenum.CD, rolesenum.TL, rolesenum.SWE, rolesenum.PM]
+      years: enumToArray(yearsenum),
+      statuses: enumToArray(statusenum),
+      roles: enumToArray(rolesenum),
+      gradDates: enumToArray(gradenum)
     },
     sort: {
       age: false,

@@ -4,6 +4,7 @@ import { getCandidateById } from '../utils/api'
 import Head from './head'
 import { Container, Button, Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
+import { statusenum } from '../utils/enums'
 
 type Props = {
   candidate: {}
@@ -41,10 +42,10 @@ class CandidateBox extends Component {
                 <option value="" selected disabled hidden>
                   Choose here
                 </option>
-                <option value="pending">Pending</option>
-                <option value="accepted">Accepted</option>
-                <option value="rejected">Rejected</option>
-                <option value="interviewing">Interviewing</option>
+                <option value={statusenum.PENDING}>Pending</option>
+                <option value={statusenum.ACCEPTED}>Accepted</option>
+                <option value={statusenum.DENIED}>Rejected</option>
+                <option value={statusenum.INTERVIEWING}>Interviewing</option>
               </select>
             </p>
           </a>

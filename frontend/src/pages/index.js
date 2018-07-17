@@ -72,11 +72,13 @@ class HomePage extends Component<Props> {
     const statusFilter = this.props.filters.statuses
     const roleFilter = this.props.filters.roles
     const yearFilter = this.props.filters.years
+    const gradFilter = this.props.filters.gradDates
     candidates = candidates.filter(candidate => {
       return (
         statusFilter.includes(candidate.status) &&
         roleFilter.includes(candidate.role) &&
-        yearFilter.includes(candidate.year)
+        yearFilter.includes(candidate.year) &&
+        gradFilter.includes(candidate.graduationDate)
       )
     })
     if (error) {
@@ -88,8 +90,10 @@ class HomePage extends Component<Props> {
         <Nav />
         <h1>Hack4Impact Recruitment Portal</h1>
         <Row>
-          <div>
+          <div className="sidebar">
             <FilterComponent />
+          </div>
+          <div className="candidates">
             {loading ? <div>Loading</div> : <CandidateListComponent candidates={candidates} />}
           </div>
         </Row>

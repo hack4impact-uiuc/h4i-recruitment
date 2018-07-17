@@ -38,3 +38,21 @@ p {
 .highlight {
   color: #db5858;
 }
+
+.sidebar {
+  height: 100%;
+  width: 170px;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 1%;
+  background-color: white;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+.candidates{
+  float: left;
+}
+.clearfix{
+  clear: both;
+}
