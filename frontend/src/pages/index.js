@@ -92,6 +92,10 @@ class HomePage extends Component<Props> {
         <Nav />
         <h1>Hack4Impact Recruitment Portal</h1>
         <Row>
+          <div>
+            <h2>Sort By:</h2> <Button>Graduation Year</Button> <Button>Interview Score</Button>{' '}
+            <Button>Facesmash Score</Button>{' '}
+          </div>
           <div className="sidebar">
             <FilterComponent />
           </div>
