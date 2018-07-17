@@ -8,6 +8,7 @@ const Candidate = new mongoose.Schema({
   minor: { type: String },
   resumeID: { type: String, require: true, unique: true },
   github: { type: String },
+  githubContributions: { type: String },
   linkedIn: { type: String },
   website: { type: String },
   role: { type: String, require: true },

@@ -87,6 +87,9 @@ class CandidateBox extends Component {
           <b>Applied Role:</b> {candidate.role}
         </p>
         <p>
+          <b>Github Contributions:</b> {candidate.githubContributions}
+        </p>
+        <p>
           <b>Role Reason:</b> {candidate.roleReason}
         </p>
         <p>
