@@ -20,7 +20,7 @@ import {
 import { connect } from 'react-redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsenum, statusenum, rolesenum } from '../utils/enums'
+import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
 type Props = {
   candidates: Array<any>,
@@ -67,6 +67,13 @@ class HomePage extends Component<Props> {
     }
   }
 
+  arrayIntersection(array1, array2) {
+    const intersection = array1.filter(value => -1 !== array2.indexOf(value))
+    if (intersection.length != 0) {
+      return true
+    }
+    return false
+  }
   render() {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
@@ -79,7 +86,7 @@ class HomePage extends Component<Props> {
     candidates = candidates.filter(candidate => {
       return (
         statusFilter.includes(candidate.status) &&
-        roleFilter.includes(candidate.role) &&
+        this.arrayIntersection(roleFilter, candidate.role) &&
         yearFilter.includes(candidate.year) &&
         gradFilter.includes(candidate.graduationDate)
       )

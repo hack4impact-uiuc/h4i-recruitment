@@ -1,11 +1,11 @@
-export const yearsenum = {
+export const yearsEnum = {
   FRESHMAN: 'Freshman',
   SOPHOMORE: 'Sophomore',
   JUNIOR: 'Junior',
   SENIOR: 'Senior'
 }
 
-export const gradenum = {
+export const gradEnum = {
   FA19: 'Fall 2019',
   SP20: 'Spring 2020',
   FA20: 'Fall 2020',
@@ -16,14 +16,14 @@ export const gradenum = {
   SP23: 'Spring 2023'
 }
 
-export const statusenum = {
+export const statusEnum = {
   ACCEPTED: 'Accepted',
   DENIED: 'Rejected',
   INTERVIEWING: 'Interviewing',
   PENDING: 'Pending'
 }
 
-export const rolesenum = {
+export const rolesEnum = {
   SWE: 'Software Engineer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
