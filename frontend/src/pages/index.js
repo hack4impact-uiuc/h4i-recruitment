@@ -41,15 +41,13 @@ const mapDispatchToProps = dispatch => {
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    candidates: state.candidateListPage.candidates,
-    loading: state.candidateListPage.candidatesLoading,
-    error: state.candidateListPage.candidatesError,
-    filters: state.candidateListPage.filters,
-    sort: state.candidateListPage.sort
-  }
-}
+const mapStateToProps = state => ({
+  candidates: state.candidateListPage.candidates,
+  loading: state.candidateListPage.candidatesLoading,
+  error: state.candidateListPage.candidatesError,
+  filters: state.candidateListPage.filters,
+  sort: state.candidateListPage.sort
+})
 
 class HomePage extends Component<Props> {
   constructor(props) {
@@ -71,10 +69,13 @@ class HomePage extends Component<Props> {
 
   render() {
     let { candidates, error, loading, filters, sort } = this.props
-    const statusFilter = this.props.filters.statuses
-    const roleFilter = this.props.filters.roles
-    const yearFilter = this.props.filters.years
-    const gradFilter = this.props.filters.gradDates
+    if (error) {
+      return <div>Bad Fetch. Try again</div>
+    }
+    const statusFilter = filters.statuses
+    const roleFilter = filters.roles
+    const yearFilter = filters.years
+    const gradFilter = filters.gradDates
     candidates = candidates.filter(candidate => {
       return (
         statusFilter.includes(candidate.status) &&
@@ -83,16 +84,13 @@ class HomePage extends Component<Props> {
         gradFilter.includes(candidate.graduationDate)
       )
     })
-    if (error) {
-      return <div>Bad Fetch. Try again</div>
-    }
     return (
       <Container style={{ padding: '0 30px 0 30px' }}>
         <Head title="Home" />
         <Nav />
-        <h1>Hack4Impact Recruitment Portal</h1>
+        <h1 className="title">Hack4Impact Recruitment Portal</h1>
         <Row>
-          <div>
+          <div className="sort">
             <h2>Sort By:</h2> <Button>Graduation Year</Button> <Button>Interview Score</Button>{' '}
             <Button>Facesmash Score</Button>{' '}
           </div>
@@ -100,7 +98,7 @@ class HomePage extends Component<Props> {
             <FilterComponent />
           </div>
           <div className="candidates">
-            {loading ? <div>Loading</div> : <CandidateListComponent candidates={candidates} />}
+            <CandidateListComponent candidates={candidates} />
           </div>
         </Row>
       </Container>
