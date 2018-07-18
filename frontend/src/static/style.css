@@ -38,3 +38,32 @@ p {
 .highlight {
   color: #db5858;
 }
+
+.sidebar {
+  width: 170px;
+  z-index: 1;
+  position: absolute;
+  top: 101px;
+  left: 1%;
+  padding-top: 20px;
+}
+.candidates{
+  left: 200px;
+  top: 200px;
+  position: absolute;
+}
+.clearfix{
+  clear: both;
+}
+
+.sort{
+  top: 120px;
+  left: 200px;
+  position: absolute
+}
+
+.title{
+  left: 200px;
+  top: 50px;
+  position: absolute
+}

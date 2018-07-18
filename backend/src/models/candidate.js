@@ -1,9 +1,11 @@
 const mongoose = require('mongoose')
+const { statusEnum } = require('../utils/enums')
 
 const Candidate = new mongoose.Schema({
   name: { type: String, require: true },
   email: { type: String, require: true, unique: true },
   graduationDate: { type: String },
+  year: { type: String },
   major: { type: String, require: true },
   minor: { type: String },
   resumeID: { type: String, require: true, unique: true },
@@ -11,7 +13,7 @@ const Candidate = new mongoose.Schema({
   githubContributions: { type: String },
   linkedIn: { type: String },
   website: { type: String },
-  role: { type: String, require: true },
+  role: [{ type: String, require: true }],
   roleReason: { type: String },
   joinReason: { type: String },
   timeCommitment: { type: String },
@@ -31,7 +33,7 @@ const Candidate = new mongoose.Schema({
   facemashRankings: {
     total: { type: Number, default: 0 }
   },
-  status: { type: String, default: 'pending' }
+  status: { type: String, default: statusEnum.PENDING }
 })
 
 Candidate.methods.enoughTimeCommitment = candidate => candidate.timeCanDevote >= 8
