@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const {statusEnum} = require('../utils/enums')
+const { statusEnum } = require('../utils/enums')
 
 const Candidate = new mongoose.Schema({
   name: { type: String, require: true },
