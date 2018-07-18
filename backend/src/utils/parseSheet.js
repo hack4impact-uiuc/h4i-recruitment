@@ -1,8 +1,8 @@
 var XLSX = require('xlsx')
 var mongoose = require('mongoose')
 var Candidate = require('./models/candidate')
-
-mongoose.connect(process.env.MONGO_URL)
+var { statusEnum } = require('./enums')
+var { getGithubContributions } = mongoose.connect(process.env.MONGO_URL)
 mongoose.Promise = global.Promise
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
@@ -12,18 +12,24 @@ const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
 const ws = wb.Sheets[wb.SheetNames[0]]
 
 const jsonSheet = XLSX.utils.sheet_to_json(ws)
-jsonSheet.map(candidate => {
+jsonSheet.map(async candidate => {
+  let githubContributions = 'N/A'
+  if (candidate.Github) {
+    githubContributions = await getGithubContributions(candidate.Github)
+  }
   const newCandidate = new Candidate({
     name: candidate.Name,
     email: candidate.Email,
     graduationDate: candidate['Graduation Date'],
+    status: statusEnum.PENDING,
     major: candidate.Major,
     minor: candidate.Minor,
     resumeID: candidate.Resume,
     github: candidate.Github,
     linkedIn: candidate.LinkedIn,
     website: candidate.Website,
-    role: candidate['Which role(s) are you applying for? '],
+    role: candidate['Which role(s) are you applying for? '].split(', '),
+    githubContributions: githubContributions,
     roleReason:
       candidate[
         'For each role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
