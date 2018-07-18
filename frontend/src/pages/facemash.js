@@ -60,6 +60,10 @@ class FaceMash extends Component<Props> {
     const winner = e.target.name
     try {
       const { candidates, matchID } = this.props
+      if (!candidates || candidates.length != 2 || !matchID) {
+        console.error('Missing match information.')
+        return
+      }
       const res = await setMatchWinner(
         candidates[0]._id,
         candidates[1]._id,
@@ -70,6 +74,8 @@ class FaceMash extends Component<Props> {
         this.setState({
           success: 'Successfully Submitted'
         })
+      } else {
+        console.error('Match not successfully submitted')
       }
       this.getNewMatch()
     } catch (err) {
