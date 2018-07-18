@@ -62,7 +62,7 @@ router.get(
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
     candidates.map(async candidate => {
-      await Candidate.findByIdAndUpdate(candidate._id, { status: statusEnum.PENDING})
+      await Candidate.findByIdAndUpdate(candidate._id, { status: statusEnum.PENDING })
     })
     res.send('Set all status to Pending')
   })
@@ -104,8 +104,7 @@ router.get(
       let idx2 = Math.floor(Math.random() * roles.length)
       if (idx == 3) {
         await Candidate.findByIdAndUpdate(candidate._id, { role: [roles[idx], roles[idx2]] })
-      }
-      else {
+      } else {
         await Candidate.findByIdAndUpdate(candidate._id, { role: [roles[idx]] })
       }
     })
