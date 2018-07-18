@@ -9,7 +9,7 @@ import { Card, CardBody, CardTitle, Button } from 'reactstrap'
 import FileIcon from '../static/icons/file.svg'
 import Router from 'next/router'
 import { setCandidateStatus } from '../utils/api'
-import { statusenum } from '../utils/enums'
+import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
 const handler = (_id: string) =>
   Router.push({
@@ -78,7 +78,7 @@ class CandidateCardComponent extends Component {
               <span className="highlight">{candidate.graduationDate}</span>
             </p>
             <p>
-              <span className="highlight">{candidate.role}</span>
+              <span className="highlight">{candidate.role.join(', ')}</span>
             </p>
             <p>
               Hours: <span className="highlight">{candidate.timeCanDevote}</span>
@@ -96,10 +96,10 @@ class CandidateCardComponent extends Component {
               <option value="" selected disabled hidden>
                 Choose here
               </option>
-              <option value={statusenum.PENDING}>Pending</option>
-              <option value={statusenum.ACCEPTED}>Accepted</option>
-              <option value={statusenum.DENIED}>Rejected</option>
-              <option value={statusenum.INTERVIEWING}>Interviewing</option>
+              <option value={statusEnum.PENDING}>Pending</option>
+              <option value={statusEnum.ACCEPTED}>Accepted</option>
+              <option value={statusEnum.DENIED}>Rejected</option>
+              <option value={statusEnum.INTERVIEWING}>Interviewing</option>
             </select>
           </p>
         </CardBody>

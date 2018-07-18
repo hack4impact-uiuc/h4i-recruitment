@@ -1,11 +1,11 @@
-const yearsenum = {
+const yearsEnum = {
   FRESHMAN: 'Freshman',
   SOPHOMORE: 'Sophomore',
   JUNIOR: 'Junior',
   SENIOR: 'Senior'
 }
 
-const gradenum = {
+const gradEnum = {
   FA19: 'Fall 2019',
   SP20: 'Spring 2020',
   FA20: 'Fall 2020',
@@ -16,14 +16,14 @@ const gradenum = {
   SP23: 'Spring 2023'
 }
 
-const statusenum = {
+const statusEnum = {
   ACCEPTED: 'Accepted',
   DENIED: 'Rejected',
   INTERVIEWING: 'Interviewing',
   PENDING: 'Pending'
 }
 
-const rolesenum = {
+const rolesEnum = {
   SWE: 'Software Engineer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
@@ -37,9 +37,9 @@ const enumToArray = e => {
 }
 
 module.exports = {
-  yearsenum,
-  gradenum,
-  statusenum,
-  rolesenum,
+  yearsEnum,
+  gradEnum,
+  statusEnum,
+  rolesEnum,
   enumToArray
 }

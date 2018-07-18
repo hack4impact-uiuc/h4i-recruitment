@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Candidate } = require('../models')
-const { statusenum, yearsenum, rolesenum, gradenum, enumToArray } = require('../enums')
+const { statusEnum, yearsEnum, rolesEnum, gradEnum, enumToArray } = require('../utils/enums')
 const { getGithubContributions } = require('../utils/gitScraper')
 
 router.get(
@@ -60,10 +60,9 @@ router.get(
 router.get(
   '/initialize-status',
   errorWrap(async (req, res) => {
-    await Candidate.update({}, { status: statusenum.PENDING }, { multi: true }, err => {
-      if (err) {
-        console.log(err.message)
-      }
+    const candidates = await Candidate.find()
+    candidates.map(async candidate => {
+      await Candidate.findByIdAndUpdate(candidate._id, { status: statusEnum.PENDING})
     })
     res.send('Set all status to Pending')
   })
@@ -73,7 +72,7 @@ router.get(
   '/initialize-year',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-    const years = enumToArray(yearsenum)
+    const years = enumToArray(yearsEnum)
     candidates.map(async candidate => {
       let idx = Math.floor(Math.random() * years.length)
       await Candidate.findByIdAndUpdate(candidate._id, { year: years[idx] })
@@ -86,7 +85,7 @@ router.get(
   '/initialize-gradyear',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-    const gradyears = enumToArray(gradenum)
+    const gradyears = enumToArray(gradEnum)
     candidates.map(async candidate => {
       let idx = Math.floor(Math.random() * gradyears.length)
       await Candidate.findByIdAndUpdate(candidate._id, { graduationDate: gradyears[idx] })
@@ -99,10 +98,16 @@ router.get(
   '/initialize-role',
   errorWrap(async (req, res) => {
     const candidates = await Candidate.find()
-    const roles = enumToArray(rolesenum)
+    const roles = enumToArray(rolesEnum)
     candidates.map(async candidate => {
       let idx = Math.floor(Math.random() * roles.length)
-      await Candidate.findByIdAndUpdate(candidate._id, { role: roles[idx] })
+      let idx2 = Math.floor(Math.random() * roles.length)
+      if (idx == 3) {
+        await Candidate.findByIdAndUpdate(candidate._id, { role: [roles[idx], roles[idx2]] })
+      }
+      else {
+        await Candidate.findByIdAndUpdate(candidate._id, { role: [roles[idx]] })
+      }
     })
     res.send('Initialized Roles')
   })
@@ -114,17 +119,17 @@ router.post(
     data = req.body
     let response = 'Status set Sucessfully'
     switch (data.status) {
-      case statusenum.PENDING:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.PENDING })
+      case statusEnum.PENDING:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.PENDING })
         break
-      case statusenum.ACCEPTED:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.ACCEPTED })
+      case statusEnum.ACCEPTED:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.ACCEPTED })
         break
-      case statusenum.INTERVIEWING:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.INTERVIEWING })
+      case statusEnum.INTERVIEWING:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.INTERVIEWING })
         break
-      case statusenum.DENIED:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusenum.DENIED })
+      case statusEnum.DENIED:
+        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.DENIED })
         break
       default:
         response = 'Invalid status, please try again'

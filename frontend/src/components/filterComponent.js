@@ -4,7 +4,7 @@ import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsenum, statusenum, rolesenum, gradenum, enumToArray } from '../utils/enums'
+import { yearsEnum, statusEnum, rolesEnum, gradEnum, enumToArray } from '../utils/enums'
 import { Button } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {
@@ -43,14 +43,20 @@ class FilterComponent extends Component<props> {
     this.props.resetFilters()
   }
   render() {
-    const years = enumToArray(yearsenum)
-    const roles = enumToArray(rolesenum)
-    const statuses = enumToArray(statusenum)
-    const gradDates = enumToArray(gradenum)
-    const statusFilter = this.props.filters.statuses
-    const roleFilter = this.props.filters.roles
-    const yearFilter = this.props.filters.years
-    const gradFilter = this.props.filters.gradDates
+    const years = enumToArray(yearsEnum)
+    const roles = enumToArray(rolesEnum)
+    const statuses = enumToArray(statusEnum)
+    const gradDates = enumToArray(gradEnum)
+    let statusFilter = [],
+      roleFilter = [],
+      yearFilter = [],
+      gradFilter = []
+    if (this.props.filters) {
+      statusFilter = this.props.filters.statuses
+      roleFilter = this.props.filters.roles
+      yearFilter = this.props.filters.years
+      gradFilter = this.props.filters.gradDates
+    }
     return (
       <div>
         <div>
