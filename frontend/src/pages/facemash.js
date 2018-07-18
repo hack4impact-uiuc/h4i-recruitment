@@ -9,7 +9,11 @@ import Nav from '../components/nav'
 import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
-type Props = {}
+type Props = {
+  candidates: Array<any>,
+  matchID: string,
+  error: boolean
+}
 
 const mapStateToProps = state => ({
   candidates: state.candidates,
@@ -36,12 +40,13 @@ class FaceMash extends Component<Props> {
 
   async getNewMatch() {
     const { result } = await getCandidateMatch()
+    const { generateMatchData } = this.props
     if (result === undefined) {
       console.log('Could not get new FaceMash match')
+      generateMatchData(null, null, null)
+    } else {
+      generateMatchData(result.candidate1, result.candidate2, result.matchID)
     }
-    console.log('Got new match')
-    const { generateMatchData } = this.props
-    generateMatchData(result.candidate1, result.candidate2, result.matchID)
   }
 
   componentDidMount() {
@@ -61,7 +66,6 @@ class FaceMash extends Component<Props> {
         winner === '0' ? candidates[0]._id : candidates[1]._id,
         matchID
       )
-      console.log('madeuit')
       if (res.success) {
         this.setState({
           success: 'Successfully Submitted'
@@ -100,7 +104,9 @@ class FaceMash extends Component<Props> {
           </div>
         </Container>
       </div>
-    ) : null
+    ) : (
+      <h4>Error: Couldn&#39;t get new FaceMash match. Please refresh page.</h4>
+    )
   }
 }
 

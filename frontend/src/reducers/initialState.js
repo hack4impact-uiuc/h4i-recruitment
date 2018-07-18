@@ -1,5 +1,5 @@
 const initialState = {
-  candidates: ['abc'],
+  candidates: null,
   matchID: null
 }
 
