@@ -76,6 +76,7 @@ class FaceMash extends Component<Props> {
         })
       } else {
         console.error('Match not successfully submitted')
+        window.alert('Match not successfully submitted')
       }
       this.getNewMatch()
     } catch (err) {
