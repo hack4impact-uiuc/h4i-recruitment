@@ -131,9 +131,4 @@ class CandidateBox extends Component {
   }
 }
 
-const connectedCandidateBox = connect(
-  null,
-  mapDispatchToProps
-)(CandidateBox)
-
-export default withRedux(configureStore)(connectedCandidateBox)
+export default connect(null, mapDispatchToProps)(CandidateBox)

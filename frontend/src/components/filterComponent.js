@@ -156,9 +156,4 @@ class FilterComponent extends Component<props> {
   }
 }
 
-const connectedFilterComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FilterComponent)
-
-export default withRedux(configureStore)(connectedFilterComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(FilterComponent)

@@ -20,9 +20,7 @@ import {
   Row,
   Badge
 } from 'reactstrap'
-import { connect } from 'react-redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
-import { bindActionCreators } from 'redux'
 import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
 type Props = {

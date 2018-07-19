@@ -7,8 +7,10 @@ const persistedState = loadState()
 
 const savePersistedState = store => () => {
   saveState({
-    candidates: store.getState().candidates,
-    matchID: store.getState().matchID
+    facemash: {
+      candidates: store.getState().facemash.candidates,
+      matchID: store.getState().facemash.matchID
+    }
   })
 }
 

@@ -44,6 +44,7 @@ class CandidateCardComponent extends Component {
   }
   render() {
     const { candidate } = this.props
+    console.log(candidate.role)
     return (
       <Card className="candidate-card">
         <CardBody>
@@ -108,9 +109,4 @@ class CandidateCardComponent extends Component {
   }
 }
 
-const connectedCandidateCardComponent = connect(
-  null,
-  mapDispatchToProps
-)(CandidateCardComponent)
-
-export default withRedux(configureStore)(connectedCandidateCardComponent)
+export default connect(null, mapDispatchToProps)(CandidateCardComponent)

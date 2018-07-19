@@ -16,8 +16,8 @@ type Props = {
 }
 
 const mapStateToProps = state => ({
-  candidates: state.candidates,
-  matchID: state.matchID
+  candidates: state.facemash.candidates,
+  matchID: state.facemash.matchID
 })
 
 function mapDispatchToProps(dispatch) {
@@ -52,6 +52,7 @@ class FaceMash extends Component<Props> {
   componentDidMount() {
     const { candidates } = this.props
     if (candidates == null || candidates.length != 2) {
+      console.log(candidates)
       this.getNewMatch()
     }
   }
