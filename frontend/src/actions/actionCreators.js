@@ -44,15 +44,16 @@ export const removeFilter = (category, filter) => ({
   }
 })
 // Function to create action that stores data about new match
-function newMatch(id_1, id_2) {
+function newMatch(candidate1, candidate2, match_id) {
   return {
     type: NEW_MATCH,
-    candidates: [id_1, id_2]
+    candidates: [candidate1, candidate2],
+    matchID: match_id
   }
 }
 
-export function generateMatchData(id_1, id_2) {
-  return dispatch => dispatch(newMatch(id_1, id_2))
+export function generateMatchData(candidate1, candidate2, match_id) {
+  return dispatch => dispatch(newMatch(candidate1, candidate2, match_id))
 }
 
 export const fetchCandidates = () => {

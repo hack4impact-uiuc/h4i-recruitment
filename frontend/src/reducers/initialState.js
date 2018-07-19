@@ -3,7 +3,8 @@ import { yearsEnum, rolesEnum, statusEnum, gradEnum, enumToArray } from '../util
 
 const initialState = {
   facemash: {
-    candidates: ['abc']
+    candidates: null,
+    matchID: null
   },
   candidateListPage: {
     candidates: [],

@@ -4,9 +4,12 @@ import withRedux from 'next-redux-wrapper'
 import configureStore from './../store/appStore'
 import Link from 'next/link'
 import Head from '../components/head'
+import { bindActionCreators } from 'redux'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
+import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
 import FilterComponent from '../components/filterComponent'
+
 import {
   Container,
   Button,
@@ -17,9 +20,7 @@ import {
   Row,
   Badge
 } from 'reactstrap'
-import { connect } from 'react-redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
-import { bindActionCreators } from 'redux'
 import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
 type Props = {
@@ -50,7 +51,7 @@ const mapStateToProps = state => ({
 })
 
 class HomePage extends Component<Props> {
-  constructor(props) {
+  constructor(props, context) {
     super(props)
     this.state = {
       candidates: this.props.candidates,
@@ -113,9 +114,4 @@ class HomePage extends Component<Props> {
   }
 }
 
-const connectedHomePage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomePage)
-
-export default withRedux(configureStore)(connectedHomePage)
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(HomePage)

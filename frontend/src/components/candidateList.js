@@ -73,6 +73,4 @@ class CandidateListComponent extends Component<Props> {
   }
 }
 
-const connectedCandidateListComponent = connect(mapStateToProps)(CandidateListComponent)
-
-export default withRedux(configureStore)(connectedCandidateListComponent)
+export default connect(mapStateToProps)(CandidateListComponent)

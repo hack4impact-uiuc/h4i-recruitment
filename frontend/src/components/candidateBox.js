@@ -38,7 +38,7 @@ class CandidateBox extends Component {
   }
   render() {
     if (!this.props.candidate) {
-      return <div>User doesn't exist</div>
+      return <div>User doesn&#39;t exist</div>
     }
     const { candidate } = this.props
     return (
@@ -131,9 +131,7 @@ class CandidateBox extends Component {
   }
 }
 
-const connectedCandidateBox = connect(
+export default connect(
   null,
   mapDispatchToProps
 )(CandidateBox)
-
-export default withRedux(configureStore)(connectedCandidateBox)

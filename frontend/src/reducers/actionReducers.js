@@ -16,7 +16,11 @@ export default function recruitmentApp(state = initialState, action) {
     case NEW_MATCH:
       return {
         ...state,
-        ['candidates']: action.candidates
+        facemash: {
+          ...state.facemash,
+          candidates: action.candidates,
+          matchID: action.matchID
+        }
       }
     case FETCH_CANDIDATES_BEGIN:
       return {
