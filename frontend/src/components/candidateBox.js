@@ -131,4 +131,7 @@ class CandidateBox extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(CandidateBox)
+export default connect(
+  null,
+  mapDispatchToProps
+)(CandidateBox)

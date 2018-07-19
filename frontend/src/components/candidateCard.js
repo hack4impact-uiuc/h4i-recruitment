@@ -109,4 +109,7 @@ class CandidateCardComponent extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(CandidateCardComponent)
+export default connect(
+  null,
+  mapDispatchToProps
+)(CandidateCardComponent)

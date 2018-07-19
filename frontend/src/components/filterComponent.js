@@ -156,4 +156,7 @@ class FilterComponent extends Component<props> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterComponent)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FilterComponent)
