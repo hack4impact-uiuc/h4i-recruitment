@@ -57,6 +57,8 @@ const Nav = () => (
         padding: 6px 8px;
       }
       a {
+        margin-left: 6px;
+        margin-right: 6px;
         color: #067df7;
         text-decoration: none;
         font-size: 13px;
