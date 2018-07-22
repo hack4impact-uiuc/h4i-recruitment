@@ -20,10 +20,7 @@ const Nav = () => (
           <a>Facemash</a>
         </Link>
         <Link prefetch href="/login">
-          <a>Login</a>
-        </Link>
-        <Link prefetch href="/interview">
-          <a>Interview</a>
+          <a>Interview Portal</a>
         </Link>
       </li>
       <ul>
