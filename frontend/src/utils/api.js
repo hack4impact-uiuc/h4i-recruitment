@@ -34,7 +34,7 @@ function getCandidatesByStatus(status: string) {
 }
 
 function setMatchWinner(candidate1: string, candidate2: string, winnerID: string, matchID: string) {
-  console.log('setMatachWinener')
+  console.log('setMatchWinner')
   return fetch(`${API_URL}/matchCandidates`, {
     body: JSON.stringify({
       candidate1,

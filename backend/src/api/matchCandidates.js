@@ -37,7 +37,12 @@ router.post(
     let match = await Match.findById(data.matchID)
     match.winnerID = data.winnerID // update the winner
     match.save()
-    res.json({ success: 'true' })
+    res.json({
+      code: 200,
+      message: '',
+      result: {},
+      success: 'true'
+    })
   })
 )
 

@@ -25,147 +25,147 @@ class Interview extends Component<Props> {
           <FormGroup>
             <legend>Time</legend>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="checkbox" name="time" />{' '}
                 Exec member for another org
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="checkbox" name="time" />{' '}
                 Consulting club such as IBC, OTCR
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="checkbox" name="time"/>{' '}
                 Some other club that requires time (ex: Enactus, Fraternity Pledge during the same semester)
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="checkbox" name="time"/>{' '}
                 Hard/Time-consuming classes
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="checkbox" name="time"/>{' '}
                 Hard course-load (still take one point off for each hard class they have as described above)
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="checkbox" name="time"/>{' '}
                 Too many org obligations
-              </span>
+              </Label>
             </FormGroup>
           </FormGroup>
           <FormGroup>
             <legend>Initiative and Passion</legend>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="passion" />{' '}
                 0 - Definitely using this as a resume booster
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="passion" />{' '}
                 1 - Had a general idea of what hack4impact was. They probably only read a couple sentences about Hack4Impact and applied and that's it.
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="radio" name="passion" />{' '}
                 2 - Really into it, thinking about ways they could contribute to the org
-              </span>
+              </Label>
             </FormGroup>
           </FormGroup>
           <FormGroup>
             <legend>Community</legend>
-            <span>Will they contribute to community or are they just using this as a resume booster? </span>
+            <Label>Will they contribute to community or are they just using this as a resume booster? </Label>
             <Input type="text" placeholder="Your Answer" />
           </FormGroup>
           <FormGroup>
             <legend>Resume and Tech Knowledge</legend>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="techknowledge" />{' '}
                 0 - No Experience
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="techknowledge" />{' '}
                 1 - 1 to 2 projects
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="radio" name="techknowledge" />{' '}
                 2 - Has internship or a couple substantial projects
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="radio" name="techknowledge"/>{' '}
                 3 - Multiple
-              </span>
+              </Label>
             </FormGroup>
           </FormGroup>
           <FormGroup>
             <legend>Knowledge of Web Dev</legend>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="webdev" />{' '}
                 0 - No experience
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="webdev" />{' '}
                 1 - Some experience with it
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="radio" name="webdev"/>{' '}
                 2 - Has done a couple projects, knows what flask is. etc. 
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="radio" name="webdev" disabled />{' '}
                 3 - Knows more than you - if they are a you think they could be a tech lead
-              </span>
+              </Label>
             </FormGroup>
           </FormGroup>
           <FormGroup>
             <legend>Technical Challenge</legend>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="techchallenge" />{' '}
                 0 - No experience
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span>
+              <Label>
                 <Input type="radio" name="techchallenge" />{' '}
                 1 - Completed but with a lot of help/slow
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="radio" name="techchallenge" disabled />{' '}
                 2 - Completed in a reasonable amount of time
-              </span>
+              </Label>
             </FormGroup>
             <FormGroup check>
-              <span >
+              <Label >
                 <Input type="radio" name="techchallenge" disabled />{' '}
                 3 - Damn they are good
-              </span>
+              </Label>
             </FormGroup>
           </FormGroup>
           <FormGroup>

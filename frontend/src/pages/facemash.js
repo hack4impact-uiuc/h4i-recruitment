@@ -1,59 +1,96 @@
 // @flow
 import { Component } from 'react'
+import { generateMatchData } from './../actions'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
+import { bindActionCreators } from 'redux'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
-type Props = {}
+type Props = {
+  candidates: Array<any>,
+  matchID: string,
+  error: boolean
+}
+
+const mapStateToProps = state => ({
+  candidates: state.facemash.candidates,
+  matchID: state.facemash.matchID
+})
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      generateMatchData
+    },
+    dispatch
+  )
+}
+
 class FaceMash extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      results: this.props.result,
       error: false,
       message: ''
     }
   }
-  static async getInitialProps({ query }) {
-    // check whether query.id is real candidate
-    // TODO: do not fetch again, if user hasn't responded to previous match
-    try {
-      const { result } = await getCandidateMatch()
-      if (result === undefined) {
-        return { error: 'Bad Request' }
-      }
-      return { result }
-    } catch (err) {
-      console.log('Candidate Page error: ', err.message)
-      return { error: 'Bad Request' }
+
+  async getNewMatch() {
+    const { result } = await getCandidateMatch()
+    const { generateMatchData } = this.props
+    if (result === undefined) {
+      console.log('Could not get new FaceMash match')
+      generateMatchData(null, null, null)
+    } else {
+      generateMatchData(result.candidate1, result.candidate2, result.matchID)
     }
   }
+
+  componentDidMount() {
+    const { candidates } = this.props
+    if (candidates == null || candidates.length != 2) {
+      console.log(candidates)
+      this.getNewMatch()
+    }
+  }
+
   handleClick = async e => {
     const winner = e.target.name
     try {
-      const { candidate1, candidate2, matchID } = this.state.results
+      const { candidates, matchID } = this.props
+      if (!candidates || candidates.length != 2 || !matchID) {
+        console.error('Missing match information.')
+        return
+      }
       const res = await setMatchWinner(
-        candidate1._id,
-        candidate2._id,
-        winner === '0' ? candidate1._id : candidate2._id,
+        candidates[0]._id,
+        candidates[1]._id,
+        winner === '0' ? candidates[0]._id : candidates[1]._id,
         matchID
       )
       if (res.success) {
         this.setState({
           success: 'Successfully Submitted'
         })
+      } else {
+        console.error('Match not successfully submitted')
+        window.alert('Match not successfully submitted')
       }
-      // TODO: fetch for new match
+      this.getNewMatch()
     } catch (err) {
-      console.err(('Error': err.message))
+      console.error(('Error': err))
     }
   }
+
   render() {
     if (this.props.error) {
       return <div>Bad Fetch. Try again</div>
     }
-    return (
+    const { candidates } = this.props
+    return candidates && candidates.length == 2 ? (
       <div>
         <Head title="FaceMash" />
         <Nav />
@@ -61,13 +98,13 @@ class FaceMash extends Component<Props> {
           <p>{this.state.message}</p>
           <div className="row">
             <div className="col-md-6">
-              <Candidate candidate={this.state.results.candidate1} />
+              <Candidate candidate={candidates[0]} />
               <button name="0" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
             </div>
             <div className="col-md-6">
-              <Candidate candidate={this.state.results.candidate2} />
+              <Candidate candidate={candidates[1]} />
               <button name="1" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
@@ -75,8 +112,10 @@ class FaceMash extends Component<Props> {
           </div>
         </Container>
       </div>
+    ) : (
+      <h4>Error: Couldn&#39;t get new FaceMash match. Please refresh page.</h4>
     )
   }
 }
 
-export default FaceMash
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(FaceMash)

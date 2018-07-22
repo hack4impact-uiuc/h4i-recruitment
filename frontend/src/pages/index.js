@@ -1,10 +1,15 @@
 // @flow
-import { Component } from 'react'
+import React, { Component } from 'react'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
 import Link from 'next/link'
 import Head from '../components/head'
+import { bindActionCreators } from 'redux'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
+import FilterComponent from '../components/filterComponent'
+
 import {
   Container,
   Button,
@@ -15,97 +20,98 @@ import {
   Row,
   Badge
 } from 'reactstrap'
+import { fetchCandidates, addFilter, removeFilter } from '../actions'
+import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
 type Props = {
-  result: {}
+  candidates: Array<any>,
+  loading: boolean,
+  error: boolean,
+  filters: Object,
+  sort: Object
 }
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      fetchCandidates,
+      addFilter,
+      removeFilter
+    },
+    dispatch
+  )
+}
+
+const mapStateToProps = state => ({
+  candidates: state.candidateListPage.candidates,
+  loading: state.candidateListPage.candidatesLoading,
+  error: state.candidateListPage.candidatesError,
+  filters: state.candidateListPage.filters,
+  sort: state.candidateListPage.sort
+})
+
 class HomePage extends Component<Props> {
-  constructor(props) {
+  constructor(props, context) {
     super(props)
     this.state = {
-      candidates: this.props.result,
-      sortDropdownOpen: false,
-      showDropdownOpen: false,
-      showing: 'everyone'
+      candidates: this.props.candidates,
+      error: this.props.error,
+      loading: this.props.loading,
+      filters: this.props.filters,
+      sort: this.props.sort
     }
   }
-  toggleSort = () => {
-    this.setState(prevState => ({
-      sortDropdownOpen: !prevState.sortDropdownOpen
-    }))
-  }
-  toggleShow = () => {
-    this.setState(prevState => ({
-      showDropdownOpen: !prevState.showDropdownOpen
-    }))
-  }
-  handleClickShow = async e => {
-    const status = e.target.value
-    const response = await getCandidatesByStatus(status)
-    this.setState({
-      candidates: response.result,
-      showing: status
-    })
-  }
-  static async getInitialProps({ query }) {
-    // check whether query.id is real candidate
-    try {
-      const { result } = await getCandidatesByStatus('everyone')
-      if (result === undefined) {
-        return { error: 'Bad Request' }
-      }
-      return { result }
-    } catch (err) {
-      console.error('Candidate Page error: ', err.message)
-      return { error: 'Bad Request' }
+
+  componentDidMount() {
+    if (this.props.candidates.length == 0) {
+      this.props.fetchCandidates()
     }
+  }
+
+  arrayIntersection(array1, array2) {
+    const intersection = array1.filter(value => -1 !== array2.indexOf(value))
+    if (intersection.length != 0) {
+      return true
+    }
+    return false
   }
   render() {
-    if (this.props.error) {
+    let { candidates, error, loading, filters, sort } = this.props
+    if (error) {
       return <div>Bad Fetch. Try again</div>
     }
+    const statusFilter = filters.statuses
+    const roleFilter = filters.roles
+    const yearFilter = filters.years
+    const gradFilter = filters.gradDates
+    candidates = candidates.filter(candidate => {
+      return (
+        statusFilter.includes(candidate.status) &&
+        this.arrayIntersection(roleFilter, candidate.role) &&
+        yearFilter.includes(candidate.year) &&
+        gradFilter.includes(candidate.graduationDate)
+      )
+    })
     return (
       <Container style={{ padding: '0 30px 0 30px' }}>
         <Head title="Home" />
         <Nav />
-        <h1>Hack4Impact Recruitment Portal</h1>
+        <h1 className="title">Hack4Impact Recruitment Portal</h1>
         <Row>
-          <Dropdown isOpen={this.state.sortDropdownOpen} toggle={this.toggleSort}>
-            <DropdownToggle caret>Sort</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>Year</DropdownItem>
-              <DropdownItem>Major</DropdownItem>
-              <DropdownItem>Application Role</DropdownItem>
-              <DropdownItem>Interviewed</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <Dropdown isOpen={this.state.showDropdownOpen} toggle={this.toggleShow}>
-            <DropdownToggle caret>Show</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem onClick={this.handleClickShow} value="accepted">
-                Accepted
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="rejected">
-                Rejected
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="interviewing">
-                Interviewing
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="pending">
-                Pending
-              </DropdownItem>
-              <DropdownItem onClick={this.handleClickShow} value="everyone">
-                Everyone
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <div>Showing: {this.state.showing}</div>
-          <CandidateListComponent candidates={this.state.candidates} />
+          <div className="sort">
+            <h2>Sort By:</h2> <Button>Graduation Year</Button> <Button>Interview Score</Button>{' '}
+            <Button>Facesmash Score</Button>{' '}
+          </div>
+          <div className="sidebar">
+            <FilterComponent />
+          </div>
+          <div className="candidates">
+            <CandidateListComponent candidates={candidates} />
+          </div>
         </Row>
       </Container>
     )
   }
 }
 
-export default HomePage
+export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(HomePage)
