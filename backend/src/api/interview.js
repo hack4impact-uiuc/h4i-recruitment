@@ -26,13 +26,12 @@ router.post(
     errorWrap(async (req, res) => {
       data = req.body
       let response = 'Interview Added Sucessfully'
-      let interviewerIds = data.interviewers;
       let interviewerKey = data.interviewerKey;
       let reqSections = data.sections;
       let candidateId = data.candidateId;
       let score = data.overallScore;
 
-      if (interviewerIds == undefined | candidateId == undefined | reqSections == undefined) {
+      if (interviewerKey == undefined | candidateId == undefined | reqSections == undefined | score == undefined) {
         response = 'Invalid Add Interview request'
       }
       else {
@@ -41,10 +40,10 @@ router.post(
             interviewerKey: interviewerKey,
             sections: reqSections,
             overallScore: score,
-            interviewers: interviewerIds,
             candidateId: candidateId
         })
         await interview.save()
+        await Candidate.findByIdAndUpdate(candidateId, { interview: interview})
       }
       res.json({ result: response })
     })
@@ -78,7 +77,7 @@ router.put(
         response = 'Invalid Edit Interview request'
       }
       else {
-        Interview.findByIdAndUpdate({ sections: reqSections })
+        Interview.findByIdAndUpdate( interviewId, { sections: reqSections })
       }
       res.json({ result: response })
     })
