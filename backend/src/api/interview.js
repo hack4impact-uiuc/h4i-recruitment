@@ -14,7 +14,16 @@ router.get(
 )
 
 router.get(
-    '/interview',
+    '/',
+    errorWrap(async (req, res) => {
+        let interviews
+        interviews = await Interview.find()
+        res.json({ result: interviews })
+    })
+)
+
+router.get(
+    '/:interview',
     errorWrap(async (req, res) => {
         const retInterview = await Interview.findById(req.params.interviewerKey);
         res.json({ interview: retInterview })
@@ -43,7 +52,7 @@ router.post(
             candidateId: candidateId
         })
         await interview.save()
-        await Candidate.findByIdAndUpdate(candidateId, { interview: interview})
+        //await Candidate.findByIdAndUpdate(candidateId, { interview: interview})
       }
       res.json({ result: response })
     })
@@ -60,7 +69,7 @@ router.post(
         response = 'Invalid Delete Interview request'
       }
       else {
-        Interview.remove({ id: interviewId })
+        Interview.remove(interviewI, { id: interviewId })
       }
       res.json({ result: response })
     })
