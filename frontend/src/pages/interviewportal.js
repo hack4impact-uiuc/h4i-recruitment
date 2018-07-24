@@ -1,4 +1,4 @@
-import { Button, Container} from 'reactstrap'
+import { Button, Container } from 'reactstrap'
 import { Component } from 'react'
 import Link from 'next/link'
 import Head from '../components/head'
@@ -13,15 +13,14 @@ class Login extends Component<Props> {
   }
   render() {
     return (
-        <Container>
-            <Head title="Interview Portal" />
-            <Nav />
-            <Link prefetch href="/interview">
-                <Button color="primary">New Interview</Button>
-            </Link>
-            {' '}
-            <Button color="primary">Edit Interview</Button>
-        </Container>
+      <Container>
+        <Head title="Interview Portal" />
+        <Nav />
+        <Link prefetch href="/interview">
+          <Button color="primary">New Interview</Button>
+        </Link>{' '}
+        <Button color="primary">Edit Interview</Button>
+      </Container>
     )
   }
 }
