@@ -30,6 +30,11 @@ export const rolesEnum = {
   UI: 'UI/UX Designer'
 }
 
+export const sortByEnum = {
+  GRADYR: 'GraudationYear',
+  YR: 'Year'
+}
+
 export const enumToArray = e => {
   return Object.keys(e).map(key => {
     return e[key]

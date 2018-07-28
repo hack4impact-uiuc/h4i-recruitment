@@ -9,7 +9,6 @@ import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
 import FilterComponent from '../components/filterComponent'
-import SortComponent from '../components/sortComponent'
 
 import {
   Container,
@@ -99,14 +98,8 @@ class HomePage extends Component<Props> {
         <Nav />
         <h1 className="title">Hack4Impact Recruitment Portal</h1>
         <Row>
-          <div className="sort">
-            <h2>Sort By:</h2> <Button>Graduation Year</Button> <Button>Interview Score</Button>{' '}
-            <Button>Facesmash Score</Button>{' '}
-          </div>
           <div className="sidebar">
             <FilterComponent />
-            <br> </br>
-            <SortComponent />
           </div>
           <div className="candidates">
             <CandidateListComponent candidates={candidates} />
