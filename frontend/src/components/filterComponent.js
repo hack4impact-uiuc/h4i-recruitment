@@ -155,11 +155,7 @@ class FilterComponent extends Component<props> {
           })}
         </div>
         <div>
-          <h2>Sort By:</h2>
-        </div>
-        <Button onClick={this.handleClick}>Reset Filters</Button>
-        <div>
-          <h2>Status</h2>
+          <h2>Sort By</h2>
         </div>
         <div>
           {sortBy.map((el, idx) => {
@@ -168,7 +164,7 @@ class FilterComponent extends Component<props> {
                 <input
                   type="checkbox"
                   id={el}
-                  name="statuses"
+                  name="sortBy"
                   value={el}
                   checked={sortBy.includes(el)}
                   onChange={this.handleChange}
