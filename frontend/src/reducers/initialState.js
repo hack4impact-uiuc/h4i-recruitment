@@ -1,4 +1,4 @@
-import { getAllCandidates } from '../utils/api'
+// import { getAllCandidates } from '../utils/api'
 import { yearsEnum, rolesEnum, statusEnum, gradEnum, enumToArray } from '../utils/enums'
 
 const initialState = {

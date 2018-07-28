@@ -9,7 +9,7 @@ import {
   SET_STATUS,
   RESET_FILTERS
 } from '../actions/actionTypes'
-import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
+// import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
 export default function recruitmentApp(state = initialState, action) {
   switch (action.type) {
