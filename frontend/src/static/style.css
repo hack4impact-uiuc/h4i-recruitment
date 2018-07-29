@@ -44,11 +44,11 @@ p {
   z-index: 1;
   position: absolute;
   top: 101px;
-  left: 1%;
+  left: 2%;
   padding-top: 20px;
 }
 .candidates {
-  left: 200px;
+  left: 250px;
   top: 200px;
   position: absolute;
 }

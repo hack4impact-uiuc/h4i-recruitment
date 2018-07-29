@@ -50,7 +50,7 @@ export default function recruitmentApp(state = initialState, action) {
     case ADD_FILTER:
       let addCategory = action.payload.category
       let addFilter = action.payload.filter
-      console.log(action.payload)
+      // console.log(action.payload)
       return {
         ...state,
         candidateListPage: {

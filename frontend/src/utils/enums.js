@@ -31,7 +31,7 @@ export const rolesEnum = {
 }
 
 export const sortByEnum = {
-  GRADYR: 'GraudationYear',
+  GRADYR: 'Graudation Year',
   YR: 'Year'
 }
 
