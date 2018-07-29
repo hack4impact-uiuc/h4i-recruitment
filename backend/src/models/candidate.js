@@ -31,7 +31,8 @@ const Candidate = new mongoose.Schema({
     }
   ],
   facemashRankings: {
-    total: { type: Number, default: 0 }
+    elo: { type: Number, default: 1000 }
+    numOfMatches: { type: Number, default: 0 }
   },
   status: { type: String, default: statusEnum.PENDING }
 })
