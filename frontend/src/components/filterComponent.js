@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'

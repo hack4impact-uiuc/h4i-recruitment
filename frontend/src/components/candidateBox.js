@@ -1,11 +1,7 @@
 // @flow
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getCandidateById } from '../utils/api'
-import Head from './head'
 import { Container, Button, Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'

@@ -51,6 +51,8 @@ const mapStateToProps = state => ({
   sort: state.candidateListPage.sort
 })
 
+
+
 class HomePage extends Component<Props> {
   constructor(props, context) {
     super(props)
@@ -76,6 +78,7 @@ class HomePage extends Component<Props> {
     }
     return false
   }
+
   render() {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {

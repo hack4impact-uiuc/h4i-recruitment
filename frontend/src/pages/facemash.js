@@ -52,7 +52,6 @@ class FaceMash extends Component<Props> {
   componentDidMount() {
     const { candidates } = this.props
     if (candidates == null || candidates.length != 2) {
-      console.log(candidates)
       this.getNewMatch()
     }
   }

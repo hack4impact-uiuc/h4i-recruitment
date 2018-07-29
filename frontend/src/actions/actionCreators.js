@@ -61,7 +61,6 @@ export const fetchCandidates = () => {
     dispatch(fetchCandidatesBegin())
     return getAllCandidates()
       .then(json => {
-        console.log(json)
         dispatch(fetchCandidatesSuccess(json.result))
       })
       .catch(error => dispatch(fetchCandidatesFailure(error)))

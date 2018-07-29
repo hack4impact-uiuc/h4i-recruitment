@@ -31,15 +31,10 @@ type Props = {
 class SortComponent extends Component<props> {
   handleChange = event => {
     if (event.target.checked) {
-      console.log("HI");
       this.props.addFilter(event.target.name, event.target.value)
     } else {
-      console.log("HI2");
-      // console.log(event.target.name);
-      // console.log(event.target.value);
       this.props.removeFilter(event.target.name, event.target.value)
     }
-    console.log(this.props.filters.sortBy)
   }
 
   handleClick = event => {

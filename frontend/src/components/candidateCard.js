@@ -44,7 +44,6 @@ class CandidateCardComponent extends Component {
   }
   render() {
     const { candidate } = this.props
-    console.log(candidate.role)
     return (
       <Card className="candidate-card">
         <CardBody>
