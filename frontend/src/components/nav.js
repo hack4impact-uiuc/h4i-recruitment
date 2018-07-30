@@ -19,6 +19,9 @@ const Nav = () => (
         <Link prefetch href="/facemash">
           <a>Facemash</a>
         </Link>
+        <Link prefetch href="/login">
+          <a>Interview Portal</a>
+        </Link>
       </li>
       <ul>
         {links.map(({ key, href, label }) => (
@@ -51,6 +54,8 @@ const Nav = () => (
         padding: 6px 8px;
       }
       a {
+        margin-left: 6px;
+        margin-right: 6px;
         color: #067df7;
         text-decoration: none;
         font-size: 13px;
