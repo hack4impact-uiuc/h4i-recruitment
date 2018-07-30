@@ -1,0 +1,10 @@
+{
+    "type": "docker",
+    "alias": "h4i-recruitment-backend.now.sh",
+    "env": {
+        "MONGO_URL": "@h4i-mongo-uri"
+    },
+    "features": {
+        "cloud": "v2"
+    }
+}
