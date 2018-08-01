@@ -55,15 +55,17 @@ class CandidateListComponent extends Component<Props> {
         </Form>
         <div className="candidate-list-box row">
           {!this.props.loading ? (
-            candidates.map(candidate => {
-              return candidate.name.toLowerCase().includes(this.state.search.toLowerCase()) ? (
-                <CardCol key={candidate._id}>
-                  <CandidateCardComponent candidate={candidate} />
-                </CardCol>
-              ) : (
-                <div>No Candidates</div>
+            candidates
+              .filter(candidate =>
+                candidate.name.toLowerCase().includes(this.state.search.toLowerCase())
               )
-            })
+              .map(candidate => {
+                return (
+                  <CardCol key={candidate._id}>
+                    <CandidateCardComponent candidate={candidate} />
+                  </CardCol>
+                )
+              })
           ) : (
             <div>Loading</div>
           )}
