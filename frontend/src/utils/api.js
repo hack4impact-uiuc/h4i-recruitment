@@ -7,23 +7,18 @@ const API_URL =
     : 'http://localhost:8080'
 
 function getCandidateById(id: string) {
-
-  console.log(process.env.NODE_ENV)
   return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
 function getAllCandidates() {
-  console.log(process.env.NODE_ENV)
   return fetch(`${API_URL}/candidates`).then(res => res.json())
 }
 
 function getCandidateMatch() {
-  console.log(process.env.NODE_ENV)
   return fetch(`${API_URL}/matchCandidates`).then(res => res.json())
 }
 
 function setCandidateStatus(id: string, status: string) {
-  console.log(process.env.NODE_ENV)
   return fetch(`${API_URL}/candidates/set-status`, {
     body: JSON.stringify({
       id: id,
