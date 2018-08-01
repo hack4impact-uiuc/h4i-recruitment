@@ -1,0 +1,7 @@
+{
+    "type": "npm",
+    "alias": "h4i-recruitment-frontend.now.sh",
+    "features": {
+        "cloud": "v2"
+    }
+}
