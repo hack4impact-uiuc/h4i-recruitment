@@ -1,17 +1,18 @@
 const mongoose = require('mongoose')
 
 const Question = new mongoose.Schema({ 
-    questionText: String,
-    answer: Number
+    questionText: {type: String},
+    answer: {type: Number}
 });
 const Section = new mongoose.Schema({ 
-    questions: [Question],
-    sectionNotes: String
+    questions: {type: [Question]}, 
+    sectionNotes: {type: String}
 });
 const Interview = new mongoose.Schema({
-  interviewerKey: String,
-  sections: [Section],
-  overallScore: Number
-})
+  interviewerKey: {type: String},
+  sections: {type: [Section]},
+  overallScore: {type: Number}
+});
 
-module.exports =  Interview;
+//module.exports =  Interview;
+module.exports = mongoose.model('Interview', Interview)

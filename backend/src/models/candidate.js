@@ -19,7 +19,7 @@ const Candidate = new mongoose.Schema({
   techExperience: { type: String },
   howTheyKnowUs: { type: String },
   additionalComments: { type: String },
-  interviews: [Interview],
+  //interviews: [Interview],
   overallScore: Number,
   facemashRankings: {
     total: { type: Number, default: 0 }
