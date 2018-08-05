@@ -8,10 +8,10 @@ const mongoose = require('mongoose')
 const mockgoose = new Mockgoose(mongoose)
 
 before(done => {
-  // Tests might not run on some computers without this line
-  mockgoose.helper.setDbVersion('3.2.1')
+  // Tests might not run on some computers without the following line
+  // mockgoose.helper.setDbVersion('3.2.1')
   mockgoose.prepareStorage().then(() => {
-    mongoose.connect('mongodb://example.com/TestingDB', function(err) {
+    mongoose.connect('', function(err) {
         done(err)
     })
   })
