@@ -28,7 +28,7 @@ router.get(
 
     const prev_ids = [id1]
     for (let i = 0; i < prev_matches.length; i++) {
-      if (prev_matches[i].candidate1 === id1) {
+      if (prev_matches[i].candidate1.equals(id1)) {
         prev_ids.push(prev_matches[i].candidate2)
       } else {
         prev_ids.push(prev_matches[i].candidate1)
