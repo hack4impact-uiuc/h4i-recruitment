@@ -8,8 +8,10 @@ const mongoose = require('mongoose')
 const mockgoose = new Mockgoose(mongoose)
 
 before(done => {
+  // Tests might not run on some computers without this line
+  mockgoose.helper.setDbVersion('3.2.1')
   mockgoose.prepareStorage().then(() => {
-    mongoose.connect('', function(err) {
+    mongoose.connect('mongodb://example.com/TestingDB', function(err) {
         done(err)
     })
   })
@@ -110,6 +112,66 @@ describe ('GET /matchCandidates', () => {
     expect(res.body.result.candidate2._id).to.eq('5abf3dcf1d567955609d2bd3')
     const match = await Match.find({ _id: res.body.result.matchID })
     expect(match).to.have.lengthOf(1)
+  })
+})
+
+describe ('POST /matchCandidates', () => {
+  beforeEach(() => {
+    mockgoose.helper.reset()
+  })
+
+  it ('should raise candidate1 elo and lower candidate2 elo', async () => {
+    await Candidate.insertMany([
+      { _id: '5abf3dcf1d567955609d2bd1', name: '', email: 'a', major: '', role: '',
+        resumeID: 'a', facemashRankings:{ elo: 1200 }
+      },
+      { _id: '5abf3dcf1d567955609d2bd2', name: '', email: 'b', major: '', role: '',
+        resumeID: 'b', facemashRankings:{ elo: 1000 }
+      }
+    ])
+    await Match.insertMany([
+      {
+        _id: '5abf3dcf1d567955609d2bd3',
+        candidate1: '5abf3dcf1d567955609d2bd1',
+        candidate2: '5abf3dcf1d567955609d2bd2'
+      }
+    ])
+    const frontend_payload = { candidate1: '5abf3dcf1d567955609d2bd1',
+                               candidate2: '5abf3dcf1d567955609d2bd2',
+                               winnerID: '5abf3dcf1d567955609d2bd1',
+                               matchID: '5abf3dcf1d567955609d2bd3'}
+    await request(app).post('/matchCandidates').send(frontend_payload).expect(200)
+    const cand1 = await Candidate.findById('5abf3dcf1d567955609d2bd1')
+    const cand2 = await Candidate.findById('5abf3dcf1d567955609d2bd2')
+    expect(cand1.facemashRankings.elo).to.eq(1207.2)
+    expect(cand2.facemashRankings.elo).to.eq(992.8)
+  })
+
+  it ('should raise candidate2 elo and lower candidate1 elo', async () => {
+    await Candidate.insertMany([
+      { _id: '5abf3dcf1d567955609d2bd1', name: '', email: 'a', major: '', role: '',
+        resumeID: 'a', facemashRankings:{ elo: 1200 }
+      },
+      { _id: '5abf3dcf1d567955609d2bd2', name: '', email: 'b', major: '', role: '',
+        resumeID: 'b', facemashRankings:{ elo: 1000 }
+      }
+    ])
+    await Match.insertMany([
+      {
+        _id: '5abf3dcf1d567955609d2bd3',
+        candidate1: '5abf3dcf1d567955609d2bd1',
+        candidate2: '5abf3dcf1d567955609d2bd2'
+      }
+    ])
+    const frontend_payload = { candidate1: '5abf3dcf1d567955609d2bd1',
+                               candidate2: '5abf3dcf1d567955609d2bd2',
+                               winnerID: '5abf3dcf1d567955609d2bd2',
+                               matchID: '5abf3dcf1d567955609d2bd3'}
+    await request(app).post('/matchCandidates').send(frontend_payload).expect(200)
+    const cand1 = await Candidate.findById('5abf3dcf1d567955609d2bd1')
+    const cand2 = await Candidate.findById('5abf3dcf1d567955609d2bd2')
+    expect(cand2.facemashRankings.elo).to.eq(1022.8)
+    expect(cand1.facemashRankings.elo).to.eq(1177.2)
   })
 })
 // TODO: test utility functions

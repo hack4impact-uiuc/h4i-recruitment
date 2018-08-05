@@ -111,15 +111,15 @@ router.post(
     prob_id1 = 1.0 / (1.0 + Math.pow(10, (cand2_elo - cand1_elo) / 400))
     prob_id2 = 1.0 / (1.0 + Math.pow(10, (cand1_elo - cand2_elo) / 400))
 
-    // Update elo of winning candidate
-    if (match.winnerID == candidate1._id) {
-      candidate1.facemashRankings.elo = cand1_elo + rating_constant * (1 - prob_id1)
-      candidate2.facemashRankings.elo = cand2_elo + rating_constant * (0 - prob_id2)
+    // Update elo of winning candidate, rounded to 1 decimal place
+    if (match.winnerID.equals(candidate1._id)) {
+      candidate1.facemashRankings.elo = Math.round((cand1_elo + rating_constant * (1 - prob_id1)) * 10) / 10
+      candidate2.facemashRankings.elo = Math.round((cand2_elo + rating_constant * (0 - prob_id2)) * 10) / 10
       candidate1.save()
       candidate2.save()
     } else {
-      candidate1.facemashRankings.elo = cand1_elo + rating_constant * (0 - prob_id1)
-      candidate2.facemashRankings.elo = cand2_elo + rating_constant * (1 - prob_id2)
+      candidate1.facemashRankings.elo = Math.round((cand1_elo + rating_constant * (0 - prob_id1)) * 10) / 10
+      candidate2.facemashRankings.elo = Math.round((cand2_elo + rating_constant * (1 - prob_id2)) * 10) / 10
       candidate1.save()
       candidate2.save()
     }
