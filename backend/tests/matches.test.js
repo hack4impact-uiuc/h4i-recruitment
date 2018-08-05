@@ -156,13 +156,12 @@ describe ('POST /matchCandidates', () => {
         resumeID: 'b', facemashRankings:{ elo: 1000 }
       }
     ])
-    await Match.insertMany([
-      {
-        _id: '5abf3dcf1d567955609d2bd3',
-        candidate1: '5abf3dcf1d567955609d2bd1',
-        candidate2: '5abf3dcf1d567955609d2bd2'
-      }
-    ])
+    const prev_match = new Match({
+      _id: '5abf3dcf1d567955609d2bd3',
+      candidate1: '5abf3dcf1d567955609d2bd1',
+      candidate2: '5abf3dcf1d567955609d2bd2'
+    })
+    await prev_match.save()
     const frontend_payload = { candidate1: '5abf3dcf1d567955609d2bd1',
                                candidate2: '5abf3dcf1d567955609d2bd2',
                                winnerID: '5abf3dcf1d567955609d2bd2',
