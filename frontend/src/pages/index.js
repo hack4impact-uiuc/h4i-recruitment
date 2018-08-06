@@ -88,6 +88,8 @@ class HomePage extends Component<Props> {
     const roleFilter = filters.roles
     const yearFilter = filters.years
     const gradFilter = filters.gradDates
+    console.log(roleFilter)
+    console.log(gradFilter)
     candidates = candidates.filter(candidate => {
       return (
         statusFilter.includes(candidate.status) &&
@@ -96,6 +98,7 @@ class HomePage extends Component<Props> {
         gradFilter.includes(candidate.graduationDate)
       )
     })
+
     return (
       <Container style={{ padding: '0 30px 0 30px' }}>
         <Head title="Home" />
