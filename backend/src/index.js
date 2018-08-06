@@ -2,7 +2,6 @@ const app = require('./app')
 const mongoose = require('mongoose')
 
 // connect to mongoose
-console.log(process.env)
 mongoose.connect(process.env.MONGO_URL)
 mongoose.Promise = global.Promise
 mongoose.connection

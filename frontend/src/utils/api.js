@@ -3,7 +3,7 @@ import fetch from 'isomorphic-unfetch'
 
 const API_URL =
   process.env.NODE_ENV === 'production'
-    ? 'https://h4i-recruitment-backend.now.sh'
+    ? 'https://hack4impact-recruitment-backend.now.sh'
     : 'http://localhost:8080'
 
 function getCandidateById(id: string) {
