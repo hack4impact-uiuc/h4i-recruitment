@@ -7,8 +7,26 @@ function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
-function getAllCandidates() {
-  return fetch(`${API_URL}/candidates`).then(res => res.json())
+// functions getAllCandidates() {
+//   return fetch(`${API_URL}/candidates`).then(res => res.json())
+// }
+
+function getAllCandidates(statuses, years) {
+  return fetch(`${API_URL}/candidates/query`, {
+    body: JSON.stringify({
+      filters: {
+        status: statuses,
+        year: years, 
+        role:["Software Engineer", "Product Manager", "Tech Lead", "UI/UX Designer"],
+        graduationDate:["Fall 2019", "Spring 2020", "Fall 2020", "Spring 2021", "Fall 2021", "Spring 2022", "Fall 2022", "Spring 2023"]
+      }
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
 }
 
 function getCandidateMatch() {

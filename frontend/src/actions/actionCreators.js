@@ -56,10 +56,10 @@ export function generateMatchData(candidate1, candidate2, match_id) {
   return dispatch => dispatch(newMatch(candidate1, candidate2, match_id))
 }
 
-export const fetchCandidates = () => {
+export const fetchCandidates = (statuses, years) => {
   return dispatch => {
     dispatch(fetchCandidatesBegin())
-    return getAllCandidates()
+    return getAllCandidates(statuses, years)
       .then(json => {
         dispatch(fetchCandidatesSuccess(json.result))
       })

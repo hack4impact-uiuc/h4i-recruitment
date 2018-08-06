@@ -51,8 +51,6 @@ const mapStateToProps = state => ({
   sort: state.candidateListPage.sort
 })
 
-
-
 class HomePage extends Component<Props> {
   constructor(props, context) {
     super(props)
@@ -67,7 +65,7 @@ class HomePage extends Component<Props> {
 
   componentDidMount() {
     if (this.props.candidates.length == 0) {
-      this.props.fetchCandidates()
+      this.props.fetchCandidates(this.state.filters.statuses, this.state.filters.years)
     }
   }
 
@@ -84,20 +82,18 @@ class HomePage extends Component<Props> {
     if (error) {
       return <div>Bad Fetch. Try again</div>
     }
-    const statusFilter = filters.statuses
-    const roleFilter = filters.roles
-    const yearFilter = filters.years
-    const gradFilter = filters.gradDates
-    console.log(roleFilter)
-    console.log(gradFilter)
-    candidates = candidates.filter(candidate => {
-      return (
-        statusFilter.includes(candidate.status) &&
-        this.arrayIntersection(roleFilter, candidate.role) &&
-        yearFilter.includes(candidate.year) &&
-        gradFilter.includes(candidate.graduationDate)
-      )
-    })
+    // const statusFilter = filters.statuses
+    // const roleFilter = filters.roles
+    // const yearFilter = filters.years
+    // const gradFilter = filters.gradDates
+    // candidates = candidates.filter(candidate => {
+    //   return (
+    //     statusFilter.includes(candidate.status) &&
+    //     this.arrayIntersection(roleFilter, candidate.role) &&
+    //     yearFilter.includes(candidate.year) &&
+    //     gradFilter.includes(candidate.graduationDate)
+    //   )
+    // })
 
     return (
       <Container style={{ padding: '0 30px 0 30px' }}>
