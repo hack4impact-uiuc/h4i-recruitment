@@ -28,9 +28,9 @@ router.post(
     let canidates = await Candidate.find()
     .find({status: filter.status})
     .find({year: filter.year})
-    // // .find({role: { $elemMatch: { id: id1 }  }})
-    // .find({graduationDate: filter.graduationDate})
-    // .select(["name", "status", "year"]);
+    .find({graduationDate: filter.graduationDate})
+    .select(req.body.select)
+    .sort({ "year": 1, "name": 1 })
     res.json({result: canidates})
   })
 )
