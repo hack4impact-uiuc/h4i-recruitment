@@ -6,6 +6,7 @@ const { Candidate, Match } = require('../models')
 router.get(
   '/',
   errorWrap(async (req, res) => {
+    // Get minimum number of times a candidate has been matched
     const min = await Candidate.aggregate([
       {
         $group: {
@@ -15,6 +16,7 @@ router.get(
       }
     ])
 
+    // Select a random candidate out of those with the minimum number of matches
     const cand1 = await Candidate.aggregate([
       { $match: { 'facemashRankings.numOfMatches': min[0].min } },
       { $sample: { size: 1 } }
@@ -22,6 +24,7 @@ router.get(
 
     const id1 = cand1[0]._id
 
+    // Get all previous matches this candidate has participated in
     const prev_matches = await Match.find({
       $or: [{ candidate1: id1 }, { candidate2: id1 }]
     })
@@ -35,6 +38,8 @@ router.get(
       }
     }
 
+    // Calculate minimum number of matches that any candidate besides the first
+    // chosen candidate and the other candidates they have matched against
     const secondMin = await Candidate.aggregate([
       {
         $match: {
@@ -49,6 +54,8 @@ router.get(
       }
     ])
 
+    // Choose random second candidate out of those who have both not matched
+    // with the first candidate and who have the secondMin number of matches
     const cand2 = await Candidate.aggregate([
       {
         $match: {
@@ -82,7 +89,7 @@ router.get(
         candidate2: candidate2,
         matchID: match._id
       },
-      success: 'true'
+      success: true
     })
   })
 )
@@ -105,6 +112,11 @@ router.post(
     const candidate2 = await Candidate.findById(data.candidate2)
 
     // Determine probabilities of winning prior to match
+    // Since rating_constant stays static in out case, this constant could
+    // technically be anything since the ranking is relative and the actual elo
+    // score itself means nothing. We chose 30 as it is large enough to avoid
+    // rounding error skewing our results. 30 is also small enough to avoid
+    // negative elo in our situation.
     const rating_constant = 30
     const cand1_elo = candidate1.facemashRankings.elo
     const cand2_elo = candidate2.facemashRankings.elo
@@ -133,7 +145,7 @@ router.post(
       code: 200,
       message: '',
       result: {},
-      success: 'true'
+      success: true
     })
   })
 )
