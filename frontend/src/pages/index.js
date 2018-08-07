@@ -76,6 +76,9 @@ class HomePage extends Component<Props> {
     }
     return false
   }
+  query = () => {
+    this.props.fetchCandidates(this.props.filters.statuses, this.props.filters.years)
+  }
 
   render() {
     let { candidates, error, loading, filters, sort } = this.props
@@ -103,7 +106,7 @@ class HomePage extends Component<Props> {
         <Row>
           <div className="sidebar">
             <FilterComponent />
-            <SortComponent />
+            <Button onClick={this.query}> submit </Button>
           </div>
           <div className="candidates">
             <CandidateListComponent candidates={candidates} />
