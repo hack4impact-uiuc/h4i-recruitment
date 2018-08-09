@@ -19,7 +19,8 @@ function getAllCandidates(statuses, years) {
         year: years, 
         role:["Software Engineer", "Product Manager", "Tech Lead", "UI/UX Designer"],
         graduationDate:["Fall 2019", "Spring 2020", "Fall 2020", "Spring 2021", "Fall 2021", "Spring 2022", "Fall 2022", "Spring 2023"]
-      }
+      }, 
+      sorts: ["year", "graduationDate"]
     }),
     headers: {
       'content-type': 'application/json'

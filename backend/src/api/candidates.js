@@ -24,13 +24,15 @@ router.get(
 router.post(
   '/query/',
   errorWrap(async (req, res) => {
-    let filter = req.body.filters;
+    let filter = req.body.filters
+    let sortFilters = {}
+    Array.from(req.body.sorts).forEach(x =>  sortFilters[x] = 1)
     let canidates = await Candidate.find()
     .find({status: filter.status})
     .find({year: filter.year})
     .find({graduationDate: filter.graduationDate})
     .select(req.body.select)
-    .sort({ "year": 1, "name": 1 })
+    .sort(sortFilters)
     res.json({result: canidates})
   })
 )
