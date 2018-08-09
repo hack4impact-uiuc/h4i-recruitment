@@ -9,7 +9,6 @@ import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
 import FilterComponent from '../components/filterComponent'
-import SortComponent from '../components/sortComponent'
 
 import {
   Container,

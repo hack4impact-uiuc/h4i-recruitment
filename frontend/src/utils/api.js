@@ -20,9 +20,10 @@ function getAllCandidates(statuses, years, gradDates, sorts) {
       filters: {
         status: statuses,
         year: years,
+        role:["Software Engineer", "Product Manager", "Tech Lead", "UI/UX Designer"],
         graduationDate: gradDates
       }, 
-      sorts: sorts,
+      sorts: ["Year", "Graduation Year", "Status"], 
       selects: []
     }),
     headers: {
