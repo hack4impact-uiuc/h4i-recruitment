@@ -46,21 +46,23 @@ class FilterComponent extends Component<props> {
     const statuses = enumToArray(statusEnum)
     const gradDates = enumToArray(gradEnum)
     const sortBy = enumToArray(sortByEnum)
-    const selects = enumToArray(selectByEnum)
+    const selectBy = enumToArray(selectByEnum)
     let statusFilter = [],
       roleFilter = [],
       yearFilter = [],
       gradFilter = [],
       sortByFilter = [],
-      selectFilter = []
+      selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
       sortByFilter = this.props.filters.sortBy
-      selectFilter = this.props.filters.sortBy
+      selectByFilter = this.props.filters.selectBy
     }
+    {console.log(selectByFilter)}
+    {console.log(this.props.filters)}
     return (
       <div>
         <div>
@@ -70,15 +72,15 @@ class FilterComponent extends Component<props> {
           <h3>Selects</h3>
         </div>
         <div>
-          {selects.map((el, idx) => {
+          {selectBy.map((el, idx) => {
             return (
               <div className="pretty p-default" key={idx}>
                 <input
                   type="checkbox"
                   id={el}
-                  name="selects"
+                  name="selectBy"
                   value={el}
-                  checked={selectFilter.includes(el)}
+                  checked={selectByFilter.includes(el)}
                   onChange={this.handleChange}
                 />
                 <div className="state">
@@ -135,7 +137,7 @@ class FilterComponent extends Component<props> {
             )
           })}
         </div>
-        <div>
+        {/* <div>
           <h4>Role</h4>
         </div>
         <div>
@@ -156,7 +158,7 @@ class FilterComponent extends Component<props> {
               </div>
             )
           })}
-        </div>
+        </div> */}
         <div>
           <h4>Graduation Date:</h4>
         </div>

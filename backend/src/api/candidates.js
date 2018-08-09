@@ -28,12 +28,10 @@ router.post(
     let sortFilters = {}
     let renamedSorts = Array.from(req.body.sorts).map(x => x.replace("Graduation Year", "graduationDate")).map(x => x.replace("Year", "year")).map(x => x.replace("Status", "status"))
     Array.from(renamedSorts).forEach(x =>  sortFilters[x] = 1)
-    console.log(renamedSorts)
     let canidates = await Candidate.find()
     .find({status: filter.status})
     .find({year: filter.year})
     .find({graduationDate: filter.graduationDate})
-    .select(req.body.select)
     .sort(sortFilters)
     res.json({result: canidates})
   })

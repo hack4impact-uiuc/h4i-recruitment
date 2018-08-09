@@ -37,11 +37,11 @@ export const sortByEnum = {
 }
 
 export const selectByEnum = {
-  NAME: 'name',
-  MAJOR: 'major',
-  HOURS: 'hours',
-  ROLES: 'roles',
-  YEAR: 'year',
+  NAME: 'Name',
+  MAJOR: 'Major',
+  HOURS: 'Hours',
+  ROLES: 'Roles',
+  YEAR: 'Year',
   GRDYEAR: 'Graduation Year',
   STATUS: 'Status'
 }

@@ -85,9 +85,7 @@ class CandidateBox extends Component {
             Github
           </a>
         </div>
-        <p>
-          <b>Major:</b> {candidate.major}
-        </p>
+        {candidate.major ? <p> <b>Major:</b> {candidate.major} </p> : <p> </p>}
         <p>
           <b>Graduation Date:</b> {candidate.graduationDate}
         </p>

@@ -64,23 +64,23 @@ class HomePage extends Component<Props> {
 
   componentDidMount() {
     if (this.props.candidates.length == 0) {
-      this.props.fetchCandidates(this.state.filters.statuses, this.state.filters.years)
+      this.props.fetchCandidates(
+        this.props.filters.statuses,
+        this.props.filters.years,
+        this.props.filters.gradDates,
+        this.props.filters.sortBy,
+        this.props.filters.selectBy
+      )
     }
   }
 
-  arrayIntersection(array1, array2) {
-    const intersection = array1.filter(value => -1 !== array2.indexOf(value))
-    if (intersection.length != 0) {
-      return true
-    }
-    return false
-  }
   query = () => {
     this.props.fetchCandidates(
       this.props.filters.statuses,
       this.props.filters.years,
       this.props.filters.gradDates,
-      this.props.filters.sortBy
+      this.props.filters.sortBy,
+      this.props.filters.selectBy
     )
   }
 
@@ -89,18 +89,6 @@ class HomePage extends Component<Props> {
     if (error) {
       return <div>Bad Fetch. Try again</div>
     }
-    // const statusFilter = filters.statuses
-    // const roleFilter = filters.roles
-    // const yearFilter = filters.years
-    // const gradFilter = filters.gradDates
-    // candidates = candidates.filter(candidate => {
-    //   return (
-    //     statusFilter.includes(candidate.status) &&
-    //     this.arrayIntersection(roleFilter, candidate.role) &&
-    //     yearFilter.includes(candidate.year) &&
-    //     gradFilter.includes(candidate.graduationDate)
-    //   )
-    // })
 
     return (
       <Container style={{ padding: '0 30px 0 30px' }}>

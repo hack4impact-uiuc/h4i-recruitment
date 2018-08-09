@@ -11,7 +11,7 @@ function getCandidateById(id: string) {
 //   return fetch(`${API_URL}/candidates`).then(res => res.json())
 // }
 
-function getAllCandidates(statuses, years, gradDates, sorts) {
+function getAllCandidates(statuses, years, gradDates, sorts, selects) {
   console.log(sorts)
   // let renamedSorts = Array.from(sorts).map(x => x.replace("Graudation Year", "graduationDate")).map(x => x.replace("Year", "year")).map(x => x.replace("Status", "status"))
   // console.log(renamedSorts === ["year", "graduationDate"])
@@ -24,7 +24,7 @@ function getAllCandidates(statuses, years, gradDates, sorts) {
         graduationDate: gradDates
       }, 
       sorts: ["Year", "Graduation Year", "Status"], 
-      selects: []
+      selects: selects
     }),
     headers: {
       'content-type': 'application/json'
