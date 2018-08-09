@@ -11,16 +11,19 @@ function getCandidateById(id: string) {
 //   return fetch(`${API_URL}/candidates`).then(res => res.json())
 // }
 
-function getAllCandidates(statuses, years) {
+function getAllCandidates(statuses, years, gradDates, sorts) {
+  console.log(sorts)
+  // let renamedSorts = Array.from(sorts).map(x => x.replace("Graudation Year", "graduationDate")).map(x => x.replace("Year", "year")).map(x => x.replace("Status", "status"))
+  // console.log(renamedSorts === ["year", "graduationDate"])
   return fetch(`${API_URL}/candidates/query`, {
     body: JSON.stringify({
       filters: {
         status: statuses,
-        year: years, 
-        role:["Software Engineer", "Product Manager", "Tech Lead", "UI/UX Designer"],
-        graduationDate:["Fall 2019", "Spring 2020", "Fall 2020", "Spring 2021", "Fall 2021", "Spring 2022", "Fall 2022", "Spring 2023"]
+        year: years,
+        graduationDate: gradDates
       }, 
-      sorts: ["year", "graduationDate"]
+      sorts: sorts,
+      selects: []
     }),
     headers: {
       'content-type': 'application/json'

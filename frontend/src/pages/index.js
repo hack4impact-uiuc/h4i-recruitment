@@ -77,7 +77,12 @@ class HomePage extends Component<Props> {
     return false
   }
   query = () => {
-    this.props.fetchCandidates(this.props.filters.statuses, this.props.filters.years)
+    this.props.fetchCandidates(
+      this.props.filters.statuses,
+      this.props.filters.years,
+      this.props.filters.gradDates,
+      this.props.filters.sortBy
+    )
   }
 
   render() {

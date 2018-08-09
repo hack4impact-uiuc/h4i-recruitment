@@ -32,7 +32,8 @@ export const rolesEnum = {
 
 export const sortByEnum = {
   GRADYR: 'Graudation Year',
-  YR: 'Year'
+  YR: 'Year',
+  STS: 'Status'
 }
 
 export const enumToArray = e => {
