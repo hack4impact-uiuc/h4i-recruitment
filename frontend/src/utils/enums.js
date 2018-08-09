@@ -36,6 +36,16 @@ export const sortByEnum = {
   STS: 'Status'
 }
 
+export const selectByEnum = {
+  NAME: 'name',
+  MAJOR: 'major',
+  HOURS: 'hours',
+  ROLES: 'roles',
+  YEAR: 'year',
+  GRDYEAR: 'Graduation Year',
+  STATUS: 'Status'
+}
+
 export const enumToArray = e => {
   return Object.keys(e).map(key => {
     return e[key]

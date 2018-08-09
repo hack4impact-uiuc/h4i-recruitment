@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, enumToArray } from '../utils/enums'
+import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, selectByEnum,  enumToArray } from '../utils/enums'
 import { Button } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {
@@ -46,26 +46,53 @@ class FilterComponent extends Component<props> {
     const statuses = enumToArray(statusEnum)
     const gradDates = enumToArray(gradEnum)
     const sortBy = enumToArray(sortByEnum)
+    const selects = enumToArray(selectByEnum)
     let statusFilter = [],
       roleFilter = [],
       yearFilter = [],
       gradFilter = [],
-      sortByFilter = []
+      sortByFilter = [],
+      selectFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
       sortByFilter = this.props.filters.sortBy
+      selectFilter = this.props.filters.sortBy
     }
     return (
       <div>
         <div>
-          <h2>Filter By:</h2>
+          <h1>Query Canidates</h1>
         </div>
-        <Button onClick={this.handleClick}>Reset Filters</Button>
         <div>
-          <h2>Status</h2>
+          <h3>Selects</h3>
+        </div>
+        <div>
+          {selects.map((el, idx) => {
+            return (
+              <div className="pretty p-default" key={idx}>
+                <input
+                  type="checkbox"
+                  id={el}
+                  name="selects"
+                  value={el}
+                  checked={selectFilter.includes(el)}
+                  onChange={this.handleChange}
+                />
+                <div className="state">
+                  <label htmlFor={el}>{el}</label>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          <h3>Filters</h3>
+        </div>
+        <div>
+          <h4>Status</h4>
         </div>
         <div>
           {statuses.map((el, idx) => {
@@ -87,7 +114,7 @@ class FilterComponent extends Component<props> {
           })}
         </div>
         <div>
-          <h2>Year</h2>
+          <h4>Year</h4>
         </div>
         <div>
           {years.map((el, idx) => {
@@ -109,7 +136,7 @@ class FilterComponent extends Component<props> {
           })}
         </div>
         <div>
-          <h2>Role</h2>
+          <h4>Role</h4>
         </div>
         <div>
           {roles.map((el, idx) => {
@@ -131,7 +158,7 @@ class FilterComponent extends Component<props> {
           })}
         </div>
         <div>
-          <h2>Graduation Date:</h2>
+          <h4>Graduation Date:</h4>
         </div>
         <div>
           {gradDates.map((el, idx) => {
@@ -153,7 +180,7 @@ class FilterComponent extends Component<props> {
           })}
         </div>
         <div>
-          <h2>Sort By:</h2>
+          <h3>Sorts</h3>
         </div>
         <div>
           {sortBy.map((el, idx) => {
@@ -174,7 +201,9 @@ class FilterComponent extends Component<props> {
             )
           })}
         </div>
+        <Button onClick={this.handleClick}>Reset Filters</Button>
       </div>
+
     )
   }
 }
