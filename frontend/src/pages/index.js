@@ -1,25 +1,13 @@
 // @flow
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import configureStore from './../store/appStore'
-import Link from 'next/link'
-import Head from '../components/head'
 import { bindActionCreators } from 'redux'
+import withRedux from 'next-redux-wrapper'
+import { Container, Button, Row, Col } from 'reactstrap'
+import Head from '../components/head'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
-import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
 import FilterComponent from '../components/filterComponent'
-
-import {
-  Container,
-  Button,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Row,
-  Badge
-} from 'reactstrap'
+import configureStore from './../store/appStore'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
@@ -93,23 +81,27 @@ class HomePage extends Component<Props> {
       )
     })
     return (
-      <Container style={{ padding: '0 30px 0 30px' }}>
+      <React.Fragment>
         <Head title="Home" />
         <Nav />
-        <h1 className="title">Hack4Impact Recruitment Portal</h1>
-        <Row>
-          <div className="sort">
-            <h2>Sort By:</h2> <Button>Graduation Year</Button> <Button>Interview Score</Button>{' '}
-            <Button>Facesmash Score</Button>{' '}
+        <Container fluid>
+          <div style={{ paddingBottom: '60px' }}>
+            <h1 className="ml-5">Hack4Impact Recruitment Portal</h1>
+            <div className="sort">
+              <h2>Sort By:</h2> <Button>Graduation Year</Button> <Button>Interview Score</Button>{' '}
+              <Button>FaceSmash Score</Button>{' '}
+            </div>
           </div>
-          <div className="sidebar">
-            <FilterComponent />
-          </div>
-          <div className="candidates">
-            <CandidateListComponent candidates={candidates} />
-          </div>
-        </Row>
-      </Container>
+          <Row>
+            <Col md="1">
+              <FilterComponent />
+            </Col>
+            <Col md="11">
+              <CandidateListComponent candidates={candidates} />
+            </Col>
+          </Row>
+        </Container>
+      </React.Fragment>
     )
   }
 }
