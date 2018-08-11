@@ -12,7 +12,8 @@ import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
 
 type Props = {
-  candidate: {}
+  candidate: {},
+  hideStatus?: boolean
 }
 
 const mapDispatchToProps = dispatch => {
@@ -28,7 +29,7 @@ class CandidateBox extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate.status
+      status: this.props.candidate.status,
     }
   }
   handleChange = e => {
@@ -46,24 +47,28 @@ class CandidateBox extends Component {
         <div>
           <h2>
             {candidate.name}
-            <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
-              {this.state.status}
-            </Badge>
+            {!this.props.hideStatus &&
+              <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
+                {this.state.status}
+              </Badge>
+            }
           </h2>
-          <a>
-            <p>
-              Change Status:
-              <select onChange={this.handleChange}>
-                <option value="" selected disabled hidden>
-                  Choose here
-                </option>
-                <option value={statusEnum.PENDING}>Pending</option>
-                <option value={statusEnum.ACCEPTED}>Accepted</option>
-                <option value={statusEnum.DENIED}>Rejected</option>
-                <option value={statusEnum.INTERVIEWING}>Interviewing</option>
-              </select>
-            </p>
-          </a>
+          {!this.props.hideStatus &&
+            <a>
+              <p>
+                Change Status:
+                <select onChange={this.handleChange}>
+                  <option value="" selected disabled hidden>
+                    Choose here
+                  </option>
+                  <option value={statusEnum.PENDING}>Pending</option>
+                  <option value={statusEnum.ACCEPTED}>Accepted</option>
+                  <option value={statusEnum.DENIED}>Rejected</option>
+                  <option value={statusEnum.INTERVIEWING}>Interviewing</option>
+                </select>
+              </p>
+            </a>
+          }
           <a
             style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
             href={
