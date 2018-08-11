@@ -98,13 +98,13 @@ class FaceMash extends Component<Props> {
           <p>{this.state.message}</p>
           <div className="row">
             <div className="col-md-6">
-              <Candidate candidate={candidates[0]} hideStatus={true}/>
+              <Candidate candidate={candidates[0]} hideStatus={true} />
               <button name="0" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
             </div>
             <div className="col-md-6">
-              <Candidate candidate={candidates[1]} hideStatus={true}/>
+              <Candidate candidate={candidates[1]} hideStatus={true} />
               <button name="1" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>

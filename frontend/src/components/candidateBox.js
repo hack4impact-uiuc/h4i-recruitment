@@ -29,7 +29,7 @@ class CandidateBox extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate.status,
+      status: this.props.candidate.status
     }
   }
   handleChange = e => {
@@ -47,13 +47,13 @@ class CandidateBox extends Component {
         <div>
           <h2>
             {candidate.name}
-            {!this.props.hideStatus &&
+            {!this.props.hideStatus && (
               <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
                 {this.state.status}
               </Badge>
-            }
+            )}
           </h2>
-          {!this.props.hideStatus &&
+          {!this.props.hideStatus && (
             <a>
               <p>
                 Change Status:
@@ -68,7 +68,7 @@ class CandidateBox extends Component {
                 </select>
               </p>
             </a>
-          }
+          )}
           <a
             style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
             href={
