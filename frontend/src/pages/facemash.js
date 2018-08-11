@@ -6,7 +6,7 @@ import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
+import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
 type Props = {

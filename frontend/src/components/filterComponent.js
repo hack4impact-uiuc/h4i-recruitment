@@ -30,7 +30,7 @@ type Props = {
   sort: Object
 }
 
-class FilterComponent extends Component<props> {
+class FilterComponent extends Component<Props> {
   handleChange = event => {
     if (event.target.checked) {
       this.props.addFilter(event.target.name, event.target.value)

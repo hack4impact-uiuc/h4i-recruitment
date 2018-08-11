@@ -1,15 +1,11 @@
 // @flow
 import { Component } from 'react'
 import CandidateCardComponent from './candidateCard'
-import { Col, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
 import withRedux from 'next-redux-wrapper'
 import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-type Props = {
-  candidates: Array<mixed> // TODO: make this more specific
-}
 
 const CardCol = ({ children, ...rest }) => (
   <Col xs={{ size: 12 }} md={{ size: 6 }} lg={{ size: 4 }} className="mb-3" {...rest}>
@@ -53,7 +49,7 @@ class CandidateListComponent extends Component<Props> {
             />
           </FormGroup>
         </Form>
-        <div className="candidate-list-box row">
+        <Row className="candidate-list-box">
           {!this.props.loading ? (
             candidates
               .filter(candidate =>
@@ -69,7 +65,7 @@ class CandidateListComponent extends Component<Props> {
           ) : (
             <div>Loading</div>
           )}
-        </div>
+        </Row>
       </div>
     )
   }
