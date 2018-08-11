@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { getCandidateById } from '../utils/api'
-import withRedux from 'next-redux-wrapper'
+import { connect } from 'react-redux'
 import configureStore from './../store/appStore'
 import Head from '../components/head'
 import Nav from '../components/nav'
@@ -49,4 +49,4 @@ class CandidatePage extends Component {
   }
 }
 
-export default withRedux(configureStore)(CandidatePage)
+export default CandidatePage
