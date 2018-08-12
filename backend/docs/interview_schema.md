@@ -84,7 +84,7 @@ Get one interview by Id
 
 **Example:**
 
-    http://localhost:8080/interview/5b66815645ce0d8ac2bcb64f
+    http://localhost:8080/interview/5b70a58b2f4682b07d385306
 
 **Response**
     
