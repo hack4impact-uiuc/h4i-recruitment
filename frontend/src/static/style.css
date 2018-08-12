@@ -9,6 +9,14 @@ a:hover {
 p {
   font-size: 15px;
 }
+
+.nav-bar-link {
+  color: #dddddde7;
+}
+.nav-bar-link:hover {
+  color: #ffffff;
+}
+
 .card-title {
   font-size: 25px;
   color: #4b4b4b;
@@ -59,11 +67,5 @@ p {
 .sort {
   top: 120px;
   left: 200px;
-  position: absolute;
-}
-
-.title {
-  left: 200px;
-  top: 50px;
   position: absolute;
 }
