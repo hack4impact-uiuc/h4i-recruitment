@@ -40,11 +40,20 @@ router.post(
       let candidateId = data.candidateId;
       let score = data.overallScore;
 
-      if (interviewerKey == undefined | candidateId == undefined | reqSections == undefined | score == undefined) {
-        response = 'Invalid Add Interview request'
+      if (interviewerKey == undefined) {
+        response = 'Invalid interviewerKey'
+      }
+      else if(candidateId == undefined) {
+        response = 'Invalid candidateId'
+      }
+      else if(reqSections == undefined) {
+        response = 'Invalid sections'
+      }
+      else if(score == undefined) {
+        response = "Invalid score"
       }
       else {
-        await Candidate.findByIdAndUpdate(candidateId, { status: 'interviewing' })
+        //await Candidate.findByIdAndUpdate(candidateId, { status: 'interviewing' })
         const interview = new Interview({
             interviewerKey: interviewerKey,
             sections: reqSections,
