@@ -23,7 +23,6 @@ const Candidate = new mongoose.Schema({
   howTheyKnowUs: { type: String },
   additionalComments: { type: String },
   //interviews: [Interview],
-  overallScore: Number,
   facemashRankings: {
     elo: { type: Number, default: 1000 },
     numOfMatches: { type: Number, default: 0 }
