@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import Link from 'next/link'
 import { bindActionCreators } from 'redux'
-import withRedux from 'next-redux-wrapper'
 import { Container, Button, Row, Col } from 'reactstrap'
 import Head from '../components/head'
 import Nav from '../components/nav'
@@ -106,4 +107,7 @@ class HomePage extends Component<Props> {
   }
 }
 
-export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(HomePage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePage)

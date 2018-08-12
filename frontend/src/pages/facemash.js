@@ -1,7 +1,7 @@
 // @flow
 import { Component } from 'react'
 import { generateMatchData } from './../actions'
-import withRedux from 'next-redux-wrapper'
+import { connect } from 'react-redux'
 import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import Head from '../components/head'
@@ -118,4 +118,7 @@ class FaceMash extends Component<Props> {
   }
 }
 
-export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(FaceMash)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FaceMash)
