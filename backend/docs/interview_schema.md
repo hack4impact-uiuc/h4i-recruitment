@@ -28,14 +28,15 @@ GET SPECIFIC INTERVIEW:
 CREATE INTERVIEW:
 * POST /add-interview | done
 
+DELETE INTERVIEW:
+* DELETE /delete-interview | done
+
 VERIFY INTERVIEWER:
 * GET /verify-interview| true/false
 
 EDIT INTERVIEW: 
 * PUT /edit-interview | done
 
-DELETE INTERVIEW:
-* DELETE /delete-interview | done
 
 ### Endpoint
 
@@ -49,21 +50,21 @@ Get all interviews
 **Response**
 
     {
-    "result": [
-        {
-            "_id": "5b66815645ce0d8ac2bcb64f",
-            "interviewerKey": "1234",
-            "sections": [
-                {
-                    "questions": [],
-                    "_id": "5b66815645ce0d8ac2bcb650"
-                }
-            ],
-            "overallScore": 5,
-            "__v": 0
-        },
-        ...
-    ]
+      "result": [
+          {
+              "_id": "5b66815645ce0d8ac2bcb64f",
+              "interviewerKey": "1234",
+              "sections": [
+                  {
+                      "questions": [],
+                      "_id": "5b66815645ce0d8ac2bcb650"
+                  }
+              ],
+              "overallScore": 5,
+              "__v": 0
+          },
+          ...
+      ]
     }
 
 ### Endpoint
@@ -80,7 +81,7 @@ Get one interview by Id
 |:---------:|:------:|:-----------------------------:|:-------------------------:|
 | interview_id  | string | **Required** | interview id
 
-Example:
+**Example:**
 
     http://localhost:8080/interview/5b66815645ce0d8ac2bcb64f
 
@@ -119,7 +120,7 @@ Create Interview
 | candidateId  | string | **Required** | candidate's id
 | overallScore  | number | **Required** | overall score from 1-5
 
-Example:
+**Example:**
 
     http://localhost:8080/interview/add-interview
 
@@ -139,4 +140,28 @@ Example:
 
     {
         "result": "Interview Added Sucessfully"
+    }
+
+### Endpoint
+
+    DELETE /:interview
+    
+**Description**
+
+Delete Interview
+
+**Body**
+
+|   Name    |  Type  | Required                      | Description               |
+|:---------:|:------:|:-----------------------------:|:-------------------------:|
+| interview_id | string | **Required** | id of interview to delete
+
+**Example:**
+
+    http://localhost:8080/interview/5b708005b98769abef6bc0d5
+
+**Response**
+
+    {
+      "result": "Interview Deleted Sucessfully"
     }
