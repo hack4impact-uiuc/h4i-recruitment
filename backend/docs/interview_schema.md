@@ -64,13 +64,11 @@ Get all interviews
         },
         ...
     ]
-}
+    }
 
 ### Endpoint
 
     GET /interview_id:
-    Example: http://localhost:8080/interview/5b66815645ce0d8ac2bcb64f
-
     
 **Description**
 
@@ -81,6 +79,10 @@ Get one interview by Id
 |   Name    |  Type  | Required                      | Description               |
 |:---------:|:------:|:-----------------------------:|:-------------------------:|
 | interview_id  | string | **Required** | interview id
+
+Example:
+
+  http://localhost:8080/interview/5b66815645ce0d8ac2bcb64f
 
 **Response**
     
@@ -102,8 +104,6 @@ Get one interview by Id
 ### Endpoint
 
     POST /add-interview
-    Example: http://localhost:8080/interview/add-interview
-
     
 **Description**
 
@@ -119,22 +119,24 @@ Create Interview
 | candidateId  | string | **Required** | candidate's id
 | overallScore  | number | **Required** | overall score from 1-5
 
-Example: 
+Example:
 
-{
-	"interviewerKey":"SGghdfj",
-	"sections": [{
-			"questions": [{
-				"questionText":"How much Time commitment?",
-				"answer":"5"
-			}]
-	}],
-	"candidateId": "5678",
-	"overallScore":3
-}
+  http://localhost:8080/interview/add-interview
+
+  {
+    "interviewerKey":"SGghdfj",
+    "sections": [{
+        "questions": [{
+          "questionText":"How much Time commitment?",
+          "answer":"5"
+        }]
+    }],
+    "candidateId": "5678",
+    "overallScore":3
+  }
 
 **Response**
 
-{
-    "result": "Interview Added Sucessfully"
-}
+  {
+      "result": "Interview Added Sucessfully"
+  }
