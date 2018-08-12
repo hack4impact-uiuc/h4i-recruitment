@@ -82,24 +82,24 @@ Get one interview by Id
 
 Example:
 
-  http://localhost:8080/interview/5b66815645ce0d8ac2bcb64f
+    http://localhost:8080/interview/5b66815645ce0d8ac2bcb64f
 
 **Response**
     
     {
-    "interview": {
-        "_id": "5b66815645ce0d8ac2bcb64f",
-        "interviewerKey": "1234",
-        "sections": [
-            {
-                "questions": [],
-                "_id": "5b66815645ce0d8ac2bcb650"
-            }
-        ],
-        "overallScore": 5,
-        "__v": 0
+      "interview": {
+          "_id": "5b66815645ce0d8ac2bcb64f",
+          "interviewerKey": "1234",
+          "sections": [
+              {
+                  "questions": [],
+                  "_id": "5b66815645ce0d8ac2bcb650"
+              }
+          ],
+          "overallScore": 5,
+          "__v": 0
+      }
     }
-}
  
 ### Endpoint
 
@@ -121,22 +121,22 @@ Create Interview
 
 Example:
 
-  http://localhost:8080/interview/add-interview
+    http://localhost:8080/interview/add-interview
 
-  {
-    "interviewerKey":"SGghdfj",
-    "sections": [{
-        "questions": [{
-          "questionText":"How much Time commitment?",
-          "answer":"5"
-        }]
-    }],
-    "candidateId": "5678",
-    "overallScore":3
-  }
+    {
+      "interviewerKey":"SGghdfj",
+      "sections": [{
+          "questions": [{
+            "questionText":"How much Time commitment?",
+            "answer":"5"
+          }]
+      }],
+      "candidateId": "5678",
+      "overallScore":3
+    }
 
 **Response**
 
-  {
-      "result": "Interview Added Sucessfully"
-  }
+    {
+        "result": "Interview Added Sucessfully"
+    }
