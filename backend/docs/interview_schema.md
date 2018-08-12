@@ -7,8 +7,8 @@
 
 **SECTION**
 
-|   id  |  description | questions  | section_notes |
-|:------:|:-------:|:-------:|
+|   id  |  description | questions | section_notes |
+|:------:|:-------:|:-------:|:-------:|
 
 **QUESTION**
 
