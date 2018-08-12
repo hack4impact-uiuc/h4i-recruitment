@@ -1,11 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const querystring = require('querystring')
-const { Candidate, Stats, Match } = require('./models')
-const { getStats } = require('./utils')
-const { errorWrap, errorHandler } = require('./middleware')
+const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
+const fs = require('fs')
+const { errorHandler } = require('./middleware')
 const routes = require('./routes')
 
 const app = express()
@@ -13,6 +12,20 @@ const app = express()
 // must be before routes
 app.use(cors())
 app.use(bodyParser.json())
+
+// Setup logging
+const logDirectory = path.join(__dirname, 'logs')
+// ensure log directory exists
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(path.join(logDirectory, 'h4i-recruitment.log'), {
+  flags: 'a'
+})
+
+// rotating file log
+app.use(morgan('combined', { stream: accessLogStream }))
+// STDOUT log
+app.use(morgan('dev'))
 
 app.use('/', routes)
 

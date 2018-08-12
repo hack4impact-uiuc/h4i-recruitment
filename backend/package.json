@@ -1,5 +1,5 @@
 {
-  "name": "h4i-recruitment-backend",
+  "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Timothy Ko",
@@ -10,22 +10,27 @@
     "parse": "node src/parseSheet.js",
     "format": "prettier --write '{src,test}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
-    "test": "mocha tests"
+    "test": "mocha tests --opts ./tests/mocha.opts"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "mongoose": "^5.0.12",
-    "xlsx": "^0.12.7"
+    "body-parser": "1.18.2",
+    "cheerio": "1.0.0-rc.2",
+    "cors": "2.8.4",
+    "express": "4.16.3",
+    "mongoose": "5.0.12",
+    "morgan": "^1.9.0",
+    "request": "2.87.0",
+    "request-promise": "4.2.2",
+    "xlsx": "0.12.7"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "lint-staged": "^7.2.0",
-    "mocha": "^5.2.0",
-    "pre-commit": "^1.2.2",
-    "prettier": "^1.13.5",
-    "sinon": "^6.0.1",
-    "supertest": "^3.1.0"
+    "chai": "4.1.2",
+    "lint-staged": "7.2.0",
+    "mocha": "5.2.0",
+    "mockgoose-fix": "^7.3.6",
+    "pre-commit": "1.2.2",
+    "prettier": "1.13.5",
+    "sinon": "6.0.1",
+    "supertest": "3.1.0"
   }
 }

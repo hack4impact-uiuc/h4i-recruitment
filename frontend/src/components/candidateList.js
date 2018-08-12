@@ -1,11 +1,11 @@
 // @flow
 import { Component } from 'react'
 import CandidateCardComponent from './candidateCard'
-import { Col, Form, FormGroup, Label, Input } from 'reactstrap'
-
-type Props = {
-  candidates: Array<mixed> // TODO: make this more specific
-}
+import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 const CardCol = ({ children, ...rest }) => (
   <Col xs={{ size: 12 }} md={{ size: 6 }} lg={{ size: 4 }} className="mb-3" {...rest}>
@@ -16,6 +16,10 @@ const CardCol = ({ children, ...rest }) => (
 type Props = {
   candidates: Array<mixed>
 }
+
+const mapStateToProps = state => ({
+  loading: state.candidateListPage.candidatesLoading
+})
 // component that destructs Props - Props would look like this { candidates: {} }
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
 class CandidateListComponent extends Component<Props> {
@@ -32,10 +36,10 @@ class CandidateListComponent extends Component<Props> {
     const { search } = this.state
     const { candidates } = this.props
     return (
-      <div className="candidate-list-box row">
+      <div>
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="search">Search</Label>
+            <Label htmlFor="search" />
             <Input
               type="search"
               id="search"
@@ -45,18 +49,26 @@ class CandidateListComponent extends Component<Props> {
             />
           </FormGroup>
         </Form>
-        {candidates !== undefined
-          ? candidates.map(candidate => {
-              return candidate.name.toLowerCase().includes(this.state.search.toLowerCase()) ? (
-                <CardCol key={candidate._id}>
-                  <CandidateCardComponent candidate={candidate} />
-                </CardCol>
-              ) : null
-            })
-          : 'No candidates'}
+        <Row className="candidate-list-box">
+          {!this.props.loading ? (
+            candidates
+              .filter(candidate =>
+                candidate.name.toLowerCase().includes(this.state.search.toLowerCase())
+              )
+              .map(candidate => {
+                return (
+                  <CardCol key={candidate._id}>
+                    <CandidateCardComponent candidate={candidate} />
+                  </CardCol>
+                )
+              })
+          ) : (
+            <div>Loading</div>
+          )}
+        </Row>
       </div>
     )
   }
 }
 
-export default CandidateListComponent
+export default connect(mapStateToProps)(CandidateListComponent)

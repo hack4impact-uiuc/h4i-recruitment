@@ -1,12 +1,28 @@
 // @flow
 import React, { Component } from 'react'
+import withRedux from 'next-redux-wrapper'
+import configureStore from '../store/appStore'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { getCandidateById } from '../utils/api'
 import Head from './head'
 import { Container, Button, Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
+import { statusEnum } from '../utils/enums'
+import { setStatus } from '../actions/actionCreators'
 
 type Props = {
-  candidate: {}
+  candidate: {},
+  hideStatus?: boolean
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setStatus
+    },
+    dispatch
+  )
 }
 
 class CandidateBox extends Component {
@@ -18,11 +34,12 @@ class CandidateBox extends Component {
   }
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
+    this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
   render() {
     if (!this.props.candidate) {
-      return <div>User doesn't exist</div>
+      return <div>User doesn&#39;t exist</div>
     }
     const { candidate } = this.props
     return (
@@ -30,27 +47,35 @@ class CandidateBox extends Component {
         <div>
           <h2>
             {candidate.name}
-            <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
-              {this.state.status}
-            </Badge>
+            {!this.props.hideStatus && (
+              <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
+                {this.state.status}
+              </Badge>
+            )}
           </h2>
-          <a>
-            <p>
-              Change Status:
-              <select onChange={this.handleChange}>
-                <option value="" selected disabled hidden>
-                  Choose here
-                </option>
-                <option value="pending">Pending</option>
-                <option value="accepted">Accepted</option>
-                <option value="rejected">Rejected</option>
-                <option value="interviewing">Interviewing</option>
-              </select>
-            </p>
-          </a>
+          {!this.props.hideStatus && (
+            <a>
+              <p>
+                Change Status:
+                <select onChange={this.handleChange}>
+                  <option value="" selected disabled hidden>
+                    Choose here
+                  </option>
+                  <option value={statusEnum.PENDING}>Pending</option>
+                  <option value={statusEnum.ACCEPTED}>Accepted</option>
+                  <option value={statusEnum.DENIED}>Rejected</option>
+                  <option value={statusEnum.INTERVIEWING}>Interviewing</option>
+                </select>
+              </p>
+            </a>
+          )}
           <a
             style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
-            href={`http://localhost:8080/files/${candidate.resumeID}`}
+            href={
+              (process.env.NODE_ENV === 'production'
+                ? 'https://hack4imapct-recruitment-backend.now.sh'
+                : 'http://localhost:8080') + '/files/${candidate.resumeID}'
+            }
           >
             Resume
           </a>
@@ -84,7 +109,10 @@ class CandidateBox extends Component {
         </p>
 
         <p>
-          <b>Applied Role:</b> {candidate.role}
+          <b>Applied Role:</b> {candidate.role.join(', ')}
+        </p>
+        <p>
+          <b>Github Contributions:</b> {candidate.githubContributions}
         </p>
         <p>
           <b>Role Reason:</b> {candidate.roleReason}
@@ -112,4 +140,7 @@ class CandidateBox extends Component {
   }
 }
 
-export default CandidateBox
+export default connect(
+  null,
+  mapDispatchToProps
+)(CandidateBox)

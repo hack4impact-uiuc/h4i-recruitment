@@ -4,3 +4,4 @@ package-lock.json
 test_req
 candidates.xlsx
 !yarn.lock
+logs

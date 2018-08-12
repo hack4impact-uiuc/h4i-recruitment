@@ -1,10 +1,16 @@
 // @flow
 import React, { Component } from 'react'
+import withRedux from 'next-redux-wrapper'
+import configureStore from '../store/appStore'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import Link from 'next/link'
 import { Card, CardBody, CardTitle, Button } from 'reactstrap'
 import FileIcon from '../static/icons/file.svg'
 import Router from 'next/router'
 import { setCandidateStatus } from '../utils/api'
+import { statusEnum } from '../utils/enums'
+import { setStatus } from '../actions/actionCreators'
 
 const handler = (_id: string) =>
   Router.push({
@@ -16,6 +22,15 @@ type Props = {
   candidate: Array<mixed> // TODO: make this more specific
 }
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setStatus
+    },
+    dispatch
+  )
+}
+
 class CandidateCardComponent extends Component {
   constructor(props) {
     super(props)
@@ -25,10 +40,12 @@ class CandidateCardComponent extends Component {
   }
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
+    this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
   render() {
     const { candidate } = this.props
+    console.log(candidate.role)
     return (
       <Card className="candidate-card">
         <CardBody>
@@ -63,13 +80,16 @@ class CandidateCardComponent extends Component {
               <span className="highlight">{candidate.graduationDate}</span>
             </p>
             <p>
-              <span className="highlight">{candidate.role}</span>
+              <span className="highlight">{candidate.role.join(', ')}</span>
             </p>
             <p>
               Hours: <span className="highlight">{candidate.timeCanDevote}</span>
             </p>
             <p>
               Status: <span className="highlight">{this.state.status}</span>
+            </p>
+            <p>
+              Year: <span className="highlight">{candidate.year}</span>
             </p>
           </div>
           <p>
@@ -78,10 +98,10 @@ class CandidateCardComponent extends Component {
               <option value="" selected disabled hidden>
                 Choose here
               </option>
-              <option value="pending">Pending</option>
-              <option value="accepted">Accepted</option>
-              <option value="rejected">Rejected</option>
-              <option value="interviewing">Interviewing</option>
+              <option value={statusEnum.PENDING}>Pending</option>
+              <option value={statusEnum.ACCEPTED}>Accepted</option>
+              <option value={statusEnum.DENIED}>Rejected</option>
+              <option value={statusEnum.INTERVIEWING}>Interviewing</option>
             </select>
           </p>
         </CardBody>
@@ -90,4 +110,7 @@ class CandidateCardComponent extends Component {
   }
 }
 
-export default CandidateCardComponent
+export default connect(
+  null,
+  mapDispatchToProps
+)(CandidateCardComponent)
