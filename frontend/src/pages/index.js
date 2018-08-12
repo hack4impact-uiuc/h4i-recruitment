@@ -94,10 +94,10 @@ class HomePage extends Component<Props> {
             </div>
           </div>
           <Row>
-            <Col md="1">
+            <Col lg="1" md="2">
               <FilterComponent />
             </Col>
-            <Col md="11">
+            <Col lg="11" md="10">
               <CandidateListComponent candidates={candidates} />
             </Col>
           </Row>
