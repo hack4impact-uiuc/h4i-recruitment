@@ -46,27 +46,108 @@ Get all interviews
 
 **Response**
 
-    {
-        "result": [
-            {
-                "_id": "5b66885c45ce0d8ac2bcb651",
-                "interviewerKey": "1234",
-                "sections": [
+        {
+            "code": 200,
+            "message": "",
+            "result": {
+                "interviews": [
                     {
-                        "questions": [
+                        "sections": [
                             {
-                                "_id": "5b66885c45ce0d8ac2bcb653",
-                                "questionText": "How many time commitments?",
-                                "answer": 5
+                                "questions": [
+                                    {
+                                        "_id": "5b70a4422227c1b0535f77e5",
+                                        "question_text": "How many commitments does this person have?",
+                                        "score": 3
+                                    },
+                                    {
+                                        "_id": "5b70a4422227c1b0535f77e4",
+                                        "question_text": "Will this person dedicate time to H4i?",
+                                        "score": 2
+                                    }
+                                ],
+                                "_id": "5b70a4422227c1b0535f77e3"
+                            },
+                            {
+                                "questions": [
+                                    {
+                                        "_id": "5b70a4422227c1b0535f77e2",
+                                        "question_text": "Web Dev Experience?",
+                                        "score": 2
+                                    }
+                                ],
+                                "_id": "5b70a4422227c1b0535f77e1"
                             }
                         ],
-                        "_id": "5b66885c45ce0d8ac2bcb652"
+                        "_id": "5b70a4422227c1b0535f77e0",
+                        "interviewer_key": "CaptainTim",
+                        "overall_score": 3,
+                        "general_notes": "Candidate is average",
+                        "__v": 0
+                    },
+                    {
+                        "sections": [
+                            {
+                                "questions": [
+                                    {
+                                        "_id": "5b70b21482a047b13f5c38b1",
+                                        "question_text": "Web Dev Experience?",
+                                        "score": 5
+                                    }
+                                ],
+                                "_id": "5b70b21482a047b13f5c38b0",
+                                "description": "Abilities",
+                                "section_notes": "experience is impressive"
+                            }
+                        ],
+                        "_id": "5b70a53b0fc430b062ea9ba8",
+                        "interviewer_key": "CaptainDave",
+                        "overall_score": 5,
+                        "general_notes": "Candidate is above average but has time commitments",
+                        "__v": 0
+                    },
+                    {
+                        "sections": [
+                            {
+                                "questions": [
+                                    {
+                                        "_id": "5b70a58b2f4682b07d38530b",
+                                        "question_text": "How many commitments does this person have?",
+                                        "score": 3
+                                    },
+                                    {
+                                        "_id": "5b70a58b2f4682b07d38530a",
+                                        "question_text": "Will this person dedicate time to H4i?",
+                                        "score": 2
+                                    }
+                                ],
+                                "_id": "5b70a58b2f4682b07d385309",
+                                "description": "Time commitment",
+                                "section_notes": "time commitment is so-so"
+                            },
+                            {
+                                "questions": [
+                                    {
+                                        "_id": "5b70a58b2f4682b07d385308",
+                                        "question_text": "Web Dev Experience?",
+                                        "score": 2
+                                    }
+                                ],
+                                "_id": "5b70a58b2f4682b07d385307",
+                                "description": "Abilities",
+                                "section_notes": "experience is limited"
+                            }
+                        ],
+                        "_id": "5b70a58b2f4682b07d385306",
+                        "interviewer_key": "CaptainMeg",
+                        "overall_score": 3,
+                        "general_notes": "Candidate is average",
+                        "__v": 0
                     }
-                ],
-                "overallScore": 5,
-                "__v": 0
+                ]
             },
-            ...
+            "success": true
+        }
 
 ### Endpoint
 
@@ -89,10 +170,10 @@ Get one interview by Id
 **Response**
     
     {
-            "_id": "5b70a58b2f4682b07d385306",
-            "interviewer_key": "CaptainMeg",
-            "overall_score": 3,
-            "general_notes": "Candidate is average",
+    "code": 200,
+    "message": "",
+    "result": {
+        "retInterview": {
             "sections": [
                 {
                     "questions": [
@@ -124,8 +205,15 @@ Get one interview by Id
                     "section_notes": "experience is limited"
                 }
             ],
+            "_id": "5b70a58b2f4682b07d385306",
+            "interviewer_key": "CaptainMeg",
+            "overall_score": 3,
+            "general_notes": "Candidate is average",
             "__v": 0
-    }
+        }
+    },
+    "success": true
+}
  
 ### Endpoint
 
@@ -182,9 +270,12 @@ Create Interview
 
 **Response**
 
-    {
-        "result": "Interview Added Sucessfully"
-    }
+        {
+            "code": 200,
+            "message": "Interview Added Sucessfully",
+            "result": {},
+            "success": true
+        }
 
 ### Endpoint
 
@@ -207,7 +298,10 @@ Delete Interview
 **Response**
 
     {
-      "result": "Interview Deleted Sucessfully"
+            "code": 200,
+            "message": "Interview Deleted Sucessfully",
+            "result": {},
+            "success": true
     }
 
 ### Endpoint
@@ -244,5 +338,8 @@ Edit an Interview, either the sections, overall_score, general_notes, or alls
 **Response**
 
     {
-      "result": "Interview Edited Successfully"
+            "code": 200,
+            "message": "Interview Edited Sucessfully",
+            "result": {},
+            "success": true
     }
