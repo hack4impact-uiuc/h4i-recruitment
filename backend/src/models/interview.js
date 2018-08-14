@@ -19,5 +19,4 @@ const Interview = new mongoose.Schema({
 let interview_model = mongoose.model('Interview', Interview)
 let section_model = mongoose.model('Section', Section)
 let question_model = mongoose.model('Question', Question)
-
 ;(module.exports = interview_model), section_model, question_model
