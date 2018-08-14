@@ -20,13 +20,13 @@
 
 
 GET ALL INTERVIEWS: 
-* GET /interviews | interview
+* GET / | interview
 
 GET SPECIFIC INTERVIEW: 
 * GET /:interview | interview
 
 CREATE INTERVIEW:
-* POST /add-interview | done
+* POST / | done
 
 DELETE INTERVIEW:
 * DELETE /:interview | done
