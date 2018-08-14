@@ -19,10 +19,10 @@ router.get(
     let interviews
     interviews = await Interview.find()
     res.json({
-      "code": 200, 
-      "message": "", 
-      "result": {interviews}, 
-      "success": true
+      code: 200,
+      message: '',
+      result: { interviews },
+      success: true
     })
   })
 )
@@ -32,10 +32,10 @@ router.get(
   errorWrap(async (req, res) => {
     const retInterview = await Interview.findById(req.params.interview_id)
     res.json({
-      "code": 200, 
-      "message": "", 
-      "result": {retInterview}, 
-      "success": true
+      code: 200,
+      message: '',
+      result: { retInterview },
+      success: true
     })
   })
 )
@@ -74,10 +74,10 @@ router.post(
       //await Candidate.findByIdAndUpdate(candidateId, { interview: interview})
     }
     res.json({
-      "code": 200, 
-      "message": response, 
-      "result": {}, 
-      "success": true
+      code: 200,
+      message: response,
+      result: {},
+      success: true
     })
   })
 )
@@ -94,10 +94,10 @@ router.delete(
       Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, function(err, results) {})
     }
     res.json({
-      "code": 200, 
-      "message": response, 
-      "result": {}, 
-      "success": true
+      code: 200,
+      message: response,
+      result: {},
+      success: true
     })
 
     // Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, (err, result) => {
@@ -143,10 +143,10 @@ router.put(
       )
     }
     res.json({
-      "code": 200, 
-      "message": response, 
-      "result": {}, 
-      "success": true
+      code: 200,
+      message: response,
+      result: {},
+      success: true
     })
   })
 )
