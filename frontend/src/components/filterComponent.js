@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
 import { yearsEnum, statusEnum, rolesEnum, gradEnum, enumToArray } from '../utils/enums'
-import { Button } from 'reactstrap'
+import { Button, Row } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -58,98 +58,104 @@ class FilterComponent extends Component<Props> {
       gradFilter = this.props.filters.gradDates
     }
     return (
-      <div>
+      <div className="filter-box">
         <div>
-          <h2>Filter By:</h2>
+          <h4>Filter By:</h4>
         </div>
         <Button onClick={this.handleClick}>Reset Filters</Button>
-        <div>
-          <h2>Status</h2>
-        </div>
-        <div>
-          {statuses.map((el, idx) => {
-            return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="statuses"
-                  value={el}
-                  checked={statusFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
+        <div className="filter-type-box">
+          <h5>Status</h5>
+          <div>
+            {statuses.map((el, idx) => {
+              return (
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="statuses"
+                    value={el}
+                    checked={statusFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
-        <div>
-          <h2>Year</h2>
-        </div>
-        <div>
-          {years.map((el, idx) => {
-            return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="years"
-                  value={el}
-                  checked={yearFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
+        <div className="filter-type-box">
+          <div>
+            <h5>Year</h5>
+          </div>
+          <div>
+            {years.map((el, idx) => {
+              return (
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="years"
+                    value={el}
+                    checked={yearFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
-        <div>
-          <h2>Role</h2>
-        </div>
-        <div>
-          {roles.map((el, idx) => {
-            return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="roles"
-                  value={el}
-                  checked={roleFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
+        <div className="filter-type-box">
+          <div>
+            <h5>Role</h5>
+          </div>
+          <div>
+            {roles.map((el, idx) => {
+              return (
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="roles"
+                    value={el}
+                    checked={roleFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
-        <div>
-          <h2>Graduation Date:</h2>
-        </div>
-        <div>
-          {gradDates.map((el, idx) => {
-            return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="gradDates"
-                  value={el}
-                  checked={gradFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
+        <div className="filter-type-box">
+          <div>
+            <h5>Graduation Date:</h5>
+          </div>
+          <div>
+            {gradDates.map((el, idx) => {
+              return (
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="gradDates"
+                    value={el}
+                    checked={gradFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </div>
     )

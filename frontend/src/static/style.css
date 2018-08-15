@@ -1,3 +1,8 @@
+html {
+  line-height: 1.3;
+  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+}
 a {
   color: #067df7;
   text-decoration: none;
@@ -64,8 +69,19 @@ p {
   clear: both;
 }
 
-.sort {
-  top: 120px;
-  left: 200px;
-  position: absolute;
+.page-content-wrapper {
+  margin-top: 40px;
+}
+
+.filter-box {
+  display: block;
+  padding: 10px 7px 20px 15px;
+  transform: translateY(-1px);
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.01), 0 3px 24px rgba(48, 51, 51, 0.09);
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-type-box {
+  margin-top: 10px;
 }
