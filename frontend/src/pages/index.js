@@ -68,8 +68,7 @@ class HomePage extends Component<Props> {
         this.props.filters.statuses,
         this.props.filters.years,
         this.props.filters.gradDates,
-        this.props.filters.sortBy,
-        this.props.filters.selectBy
+        this.props.filters.sortBy
       )
     }
   }
@@ -80,7 +79,7 @@ class HomePage extends Component<Props> {
       this.props.filters.years,
       this.props.filters.gradDates,
       this.props.filters.sortBy,
-      this.props.filters.selectBy
+      this.props.filters.roles
     )
   }
 
