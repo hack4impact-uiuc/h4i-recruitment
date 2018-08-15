@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum,  enumToArray } from '../utils/enums'
+import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, enumToArray } from '../utils/enums'
 import { Button } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {
@@ -18,13 +18,13 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    filters: state.candidateListPage.filters,
+    filters: state.candidateListPage.filters
     // sort: state.candidateListPage.sort
   }
 }
 
 type Props = {
-  filters: Object,
+  filters: Object
   // sort: Object
 }
 
@@ -178,7 +178,6 @@ class FilterComponent extends Component<props> {
         </div>
         <Button onClick={this.handleClick}>Reset Filters</Button>
       </div>
-
     )
   }
 }

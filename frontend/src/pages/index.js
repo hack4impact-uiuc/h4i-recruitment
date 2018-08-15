@@ -2,24 +2,13 @@
 import React, { Component } from 'react'
 import withRedux from 'next-redux-wrapper'
 import configureStore from './../store/appStore'
-import Link from 'next/link'
 import Head from '../components/head'
 import { bindActionCreators } from 'redux'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
-import { getAllCandidates, getCandidatesByStatus } from '../utils/api'
 import FilterComponent from '../components/filterComponent'
 
-import {
-  Container,
-  Button,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Row,
-  Badge
-} from 'reactstrap'
+import { Container, Button, Row } from 'reactstrap'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
