@@ -19,13 +19,11 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     filters: state.candidateListPage.filters
-    // sort: state.candidateListPage.sort
   }
 }
 
 type Props = {
   filters: Object
-  // sort: Object
 }
 
 class FilterComponent extends Component<props> {
