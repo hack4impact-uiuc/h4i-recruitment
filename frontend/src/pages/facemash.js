@@ -92,8 +92,6 @@ class FaceMash extends Component<Props> {
     const { candidates } = this.props
     return candidates && candidates.length == 2 ? (
       <div>
-        <Head title="FaceMash" />
-        <Nav />
         <Container>
           <p>{this.state.message}</p>
           <div className="row">

@@ -83,8 +83,6 @@ class HomePage extends Component<Props> {
     })
     return (
       <>
-        <Head title="Home" />
-        <Nav />
         <div className="page-content-wrapper">
           <Row className="mb-3">
             <h2 className="ml-5">Hack4Impact Recruitment Portal</h2>

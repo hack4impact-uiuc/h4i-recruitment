@@ -12,8 +12,6 @@ class StatsPage extends Component<Props> {
   render() {
     return (
       <>
-        <Head />
-        <Nav />
         <Container>
           <h1>Statistics</h1>
           <p>This is a place for a bunch of unorganized stats</p>
