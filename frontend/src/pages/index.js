@@ -5,18 +5,18 @@ import withRedux from 'next-redux-wrapper'
 import configureStore from './../store/appStore'
 import Head from '../components/head'
 // =======
-// import { connect } from 'react-redux'
-// import Link from 'next/link'
+import { connect } from 'react-redux'
+import Link from 'next/link'
 // >>>>>>> master
 import { bindActionCreators } from 'redux'
 import { Container, Button, Row, Col } from 'reactstrap'
-import Head from '../components/head'
+// import Head from '../components/head'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import FilterComponent from '../components/filterComponent'
 // <<<<<<< sort-by-filters
 
-import { Container, Button, Row } from 'reactstrap'
+// import { Container, Button, Row } from 'reactstrap'
 // =======
 // import configureStore from './../store/appStore'
 // >>>>>>> master
@@ -68,7 +68,8 @@ class HomePage extends Component<Props> {
         this.props.filters.statuses,
         this.props.filters.years,
         this.props.filters.gradDates,
-        this.props.filters.sortBy
+        this.props.filters.sortBy,
+        this.props.filters.roles
       )
     }
   }
@@ -90,44 +91,52 @@ class HomePage extends Component<Props> {
     }
 
     return (
-// <<<<<<< sort-by-filters
-      <Container style={{ padding: '0 30px 0 30px' }}>
-        <Head title="Home" />
-        <Nav />
-        <h1 className="title">Hack4Impact Recruitment Portal</h1>
-        <Row>
-          <div className="sidebar">
-            <FilterComponent />
-            <Button onClick={this.query}> submit </Button>
-          </div>
-          <div className="candidates">
-            <CandidateListComponent candidates={candidates} />
-          </div>
-        </Row>
-      </Container>
-// =======
-//       <>
-//         <div className="page-content-wrapper">
-//           <Row className="mb-3">
-//             <h2 className="ml-5">Hack4Impact Recruitment Portal</h2>
-//           </Row>
-//           <Container fluid>
-//             <Row>
-//               <Col lg="2" md="3">
-//                 <FilterComponent />
-//               </Col>
-//               <Col lg="10" md="9">
-//                 <Row>
-//                   <h3>Sort By:</h3> <Button>Graduation Year</Button>{' '}
-//                   <Button>Interview Score</Button> <Button>FaceSmash Score</Button>{' '}
-//                 </Row>
-//                 <CandidateListComponent candidates={candidates} />
-//               </Col>
-//             </Row>
-//           </Container>
-//         </div>
-//       </>
-// >>>>>>> master
+      // // <<<<<<< sort-by-filters
+      //       <Container style={{ padding: '0 30px 0 30px' }}>
+      //         <Head title="Home" />
+      //         <Nav />
+      //         <h1 className="title">Hack4Impact Recruitment Portal</h1>
+      //         <Row>
+      //           <div className="sidebar">
+      //             <FilterComponent />
+      //             <Button onClick={this.query}> submit </Button>
+      //           </div>
+      //           <div className="candidates">
+      //             <CandidateListComponent candidates={candidates} />
+      //           </div>
+      //         </Row>
+      //       </Container>
+      // =======
+      <>
+        <div className="page-content-wrapper">
+          <Row className="mb-3">
+            <h2 className="ml-5">Hack4Impact Recruitment Portal</h2>
+          </Row>
+          <Container fluid>
+            <Row>
+              <Col xs="2" lg="2" md="2">
+                <FilterComponent />
+                <Col>
+                  <div>
+                    <Button onClick={this.query}> Query Candidates </Button>
+                  </div>
+                </Col>
+                {console.log(candidates)}
+              </Col>
+              {/* <Col xs="1 " lg="1" md="1"> */}
+              {/* <Col> */}
+              <Col xs="10" lg="10" md="10">
+                {/* <div className="candidates"> */}
+                <CandidateListComponent candidates={candidates} />
+                {/* </div>s */}
+              </Col>
+              {/* </Col> */}
+              {/* </Col> */}
+            </Row>
+          </Container>
+        </div>
+      </>
+      // >>>>>>> master
     )
   }
 }

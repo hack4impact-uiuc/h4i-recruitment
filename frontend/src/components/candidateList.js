@@ -2,12 +2,12 @@
 import { Component } from 'react'
 import CandidateCardComponent from './candidateCard'
 // <<<<<<< sort-by-filters
-import { Col, Form, FormGroup, Label, Input } from 'reactstrap'
+// import { Col, Form, FormGroup, Label, Input } from 'reactstrap'
 // =======
-// import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
-// import withRedux from 'next-redux-wrapper'
-// import configureStore from './../store/appStore'
-// import { bindActionCreators } from 'redux'
+import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
+import withRedux from 'next-redux-wrapper'
+import configureStore from './../store/appStore'
+import { bindActionCreators } from 'redux'
 // >>>>>>> master
 import { connect } from 'react-redux'
 

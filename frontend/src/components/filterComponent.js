@@ -64,8 +64,7 @@ class FilterComponent extends Component<Props> {
     return (
       <div className="filter-box">
         <div>
-// <<<<<<< sort-by-filters
-          <h1>Query Canidates</h1>
+          <h1>Query Panel</h1>
         </div>
         <div>
           <h3>Filters</h3>
@@ -73,202 +72,129 @@ class FilterComponent extends Component<Props> {
         <div>
           <h4>Status</h4>
         </div>
+
         <div>
           {statuses.map((el, idx) => {
             return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="statuses"
-                  value={el}
-                  checked={statusFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
-// =======
-//           <h4>Filter By:</h4>
-//         </div>
-//         <Button onClick={this.handleClick}>Reset Filters</Button>
-//         <div className="filter-type-box">
-//           <h5>Status</h5>
-//           <div>
-//             {statuses.map((el, idx) => {
-//               return (
-//                 <div className="pretty p-default" key={idx}>
-//                   <input
-//                     type="checkbox"
-//                     id={el}
-//                     name="statuses"
-//                     value={el}
-//                     checked={statusFilter.includes(el)}
-//                     onChange={this.handleChange}
-//                   />
-//                   <div className="state">
-//                     <label htmlFor={el}>{el}</label>
-//                   </div>
-// >>>>>>> master
+              <div>
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="statuses"
+                    value={el}
+                    checked={statusFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
-// <<<<<<< sort-by-filters
         <div>
           <h4>Year</h4>
         </div>
         <div>
           {years.map((el, idx) => {
             return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="years"
-                  value={el}
-                  checked={yearFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
-// =======
-//         <div className="filter-type-box">
-//           <div>
-//             <h5>Year</h5>
-//           </div>
-//           <div>
-//             {years.map((el, idx) => {
-//               return (
-//                 <div className="pretty p-default" key={idx}>
-//                   <input
-//                     type="checkbox"
-//                     id={el}
-//                     name="years"
-//                     value={el}
-//                     checked={yearFilter.includes(el)}
-//                     onChange={this.handleChange}
-//                   />
-//                   <div className="state">
-//                     <label htmlFor={el}>{el}</label>
-//                   </div>
-// >>>>>>> master
+              <div>
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="years"
+                    value={el}
+                    checked={yearFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
-// <<<<<<< sort-by-filters
         <div>
           <h4>Role</h4>
         </div>
         <div>
           {roles.map((el, idx) => {
             return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="roles"
-                  value={el}
-                  checked={roleFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
-// =======
-//         <div className="filter-type-box">
-//           <div>
-//             <h5>Role</h5>
-//           </div>
-//           <div>
-//             {roles.map((el, idx) => {
-//               return (
-//                 <div className="pretty p-default" key={idx}>
-//                   <input
-//                     type="checkbox"
-//                     id={el}
-//                     name="roles"
-//                     value={el}
-//                     checked={roleFilter.includes(el)}
-//                     onChange={this.handleChange}
-//                   />
-//                   <div className="state">
-//                     <label htmlFor={el}>{el}</label>
-//                   </div>
-// >>>>>>> master
+              <div>
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="roles"
+                    value={el}
+                    checked={roleFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
-// <<<<<<< sort-by-filters
         <div>
           <h4>Graduation Date:</h4>
         </div>
         <div>
           {gradDates.map((el, idx) => {
             return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="gradDates"
-                  value={el}
-                  checked={gradFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
-// =======
-//         <div className="filter-type-box">
-//           <div>
-//             <h5>Graduation Date:</h5>
-//           </div>
-//           <div>
-//             {gradDates.map((el, idx) => {
-//               return (
-//                 <div className="pretty p-default" key={idx}>
-//                   <input
-//                     type="checkbox"
-//                     id={el}
-//                     name="gradDates"
-//                     value={el}
-//                     checked={gradFilter.includes(el)}
-//                     onChange={this.handleChange}
-//                   />
-//                   <div className="state">
-//                     <label htmlFor={el}>{el}</label>
-//                   </div>
-// >>>>>>> master
+              <div>
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="gradDates"
+                    value={el}
+                    checked={gradFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
+
         <div>
           <h3>Sorts</h3>
         </div>
         <div>
           {sortBy.map((el, idx) => {
             return (
-              <div className="pretty p-default" key={idx}>
-                <input
-                  type="checkbox"
-                  id={el}
-                  name="sortBy"
-                  value={el}
-                  checked={sortByFilter.includes(el)}
-                  onChange={this.handleChange}
-                />
-                <div className="state">
-                  <label htmlFor={el}>{el}</label>
+              <div>
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="sortBy"
+                    value={el}
+                    checked={sortByFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
                 </div>
               </div>
             )
           })}
         </div>
-        <Button onClick={this.handleClick}>Reset Filters</Button>
+        <div>
+          <p> </p>
+          <Button onClick={this.handleClick}>Reset Filters</Button>
+        </div>
       </div>
     )
   }

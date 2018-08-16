@@ -35,7 +35,7 @@ router.post(
       .find({ status: filter.status })
       .find({ year: filter.year })
       .find({ graduationDate: filter.graduationDate })
-      .find({ role: { $in: filter.roles } })
+      // .find({ role: { $in: filter.roles } })
       .sort(sortFilters)
     res.json({ result: canidates })
   })
