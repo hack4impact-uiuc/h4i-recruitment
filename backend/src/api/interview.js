@@ -8,11 +8,8 @@ var mongodb = require('mongodb')
 router.get(
   '/verify_interviewer/:key',
   errorWrap(async (req, res) => {
-    console.log(req.params);
-    console.log(req.params.key);
     let keyVerified = false;
     if(req.params.key && req.params.key.length === 11){
-      console.log(keyData.keys.filter(currKey => currKey.key === req.params.key));
       keyVerified = keyData.keys.filter(currKey => currKey.key === req.params.key) !== undefined;
     }
     
