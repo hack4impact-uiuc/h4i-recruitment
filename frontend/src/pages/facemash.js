@@ -1,12 +1,12 @@
 // @flow
 import { Component } from 'react'
 import { generateMatchData } from './../actions'
-import withRedux from 'next-redux-wrapper'
+import { connect } from 'react-redux'
 import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import { getAllCandidates, getCandidateMatch, setMatchWinner } from '../utils/api'
+import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
 import { Container } from 'reactstrap'
 type Props = {
@@ -91,19 +91,17 @@ class FaceMash extends Component<Props> {
     const { candidates } = this.props
     return candidates && candidates.length == 2 ? (
       <div>
-        <Head title="FaceMash" />
-        <Nav />
         <Container>
           <p>{this.state.message}</p>
           <div className="row">
             <div className="col-md-6">
-              <Candidate candidate={candidates[0]} />
+              <Candidate candidate={candidates[0]} hideStatus={true} />
               <button name="0" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
             </div>
             <div className="col-md-6">
-              <Candidate candidate={candidates[1]} />
+              <Candidate candidate={candidates[1]} hideStatus={true} />
               <button name="1" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
@@ -117,4 +115,7 @@ class FaceMash extends Component<Props> {
   }
 }
 
-export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(FaceMash)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FaceMash)

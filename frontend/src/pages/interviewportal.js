@@ -14,8 +14,6 @@ class Login extends Component<Props> {
   render() {
     return (
       <Container>
-        <Head title="Interview Portal" />
-        <Nav />
         <Link prefetch href="/interview">
           <Button color="primary">New Interview</Button>
         </Link>{' '}

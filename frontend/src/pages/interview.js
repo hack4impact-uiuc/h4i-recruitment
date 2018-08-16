@@ -1,16 +1,14 @@
 import { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
+import Link from 'next/link'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import Link from 'next/link'
 
 type Props = {}
 class Interview extends Component<Props> {
   render() {
     return (
       <Container>
-        <Head title="Interview" />
-        <Nav />
         <Form>
           <FormGroup>
             <legend>Time</legend>

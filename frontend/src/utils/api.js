@@ -1,7 +1,10 @@
 //@flow
 import fetch from 'isomorphic-unfetch'
 
-const API_URL = 'http://localhost:8080'
+const API_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://hack4impact-recruitment-backend.now.sh'
+    : 'http://localhost:8080'
 
 function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())

@@ -11,6 +11,7 @@ import Router from 'next/router'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
+
 const handler = (_id: string) =>
   Router.push({
     pathname: '/candidate',

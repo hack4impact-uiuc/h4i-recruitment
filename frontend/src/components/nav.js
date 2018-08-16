@@ -1,67 +1,51 @@
 // @flow
-import Head from './head'
+import { Component, Fragment } from 'react'
 import Link from 'next/link'
+import { Navbar, Nav, NavbarBrand, NavItem, NavbarToggler, NavLink, Collapse } from 'reactstrap'
 
-const links = [{ href: 'https://github.com/segmentio/create-next-app', label: 'Github' }].map(
-  link => {
-    link.key = `nav-link-${link.href}-${link.label}`
-    return link
+class NavigationBar extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isOpen: false
+    }
   }
-)
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
-        <Link prefetch href="/">
-          <a>Home</a>
-        </Link>
-        <Link prefetch href="/facemash">
-          <a>Facemash</a>
-        </Link>
-        <Link prefetch href="/login">
-          <a>Interview Portal</a>
-        </Link>
-      </li>
-      <ul>
-        {links.map(({ key, href, label }) => (
-          <li key={key}>
-            <Link href={href}>
-              <a>{label}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </ul>
+  toggle = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
 
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir, Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        margin-left: 6px;
-        margin-right: 6px;
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
-  </nav>
-)
+  render() {
+    return (
+      <div>
+        <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
+          <Link route="index" passHref>
+            <NavbarBrand className="ml-3">
+              <Link prefetch href="/">
+                <a>
+                  <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
+                </a>
+              </Link>
+            </NavbarBrand>
+          </Link>
+          <NavbarToggler onClick={() => this.toggle()} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav navbar className="ml-auto">
+              <Link href="/facemash">
+                <a className="nav-bar-link">Facemash</a>
+              </Link>
+              <Link href="/login">
+                <a className="nav-bar-link pl-3">Interview Portal</a>
+              </Link>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    )
+  }
+}
 
-export default Nav
+export default NavigationBar

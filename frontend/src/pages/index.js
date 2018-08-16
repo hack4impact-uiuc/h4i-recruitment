@@ -1,14 +1,25 @@
 // @flow
 import React, { Component } from 'react'
+// <<<<<<< sort-by-filters
 import withRedux from 'next-redux-wrapper'
 import configureStore from './../store/appStore'
 import Head from '../components/head'
+// =======
+// import { connect } from 'react-redux'
+// import Link from 'next/link'
+// >>>>>>> master
 import { bindActionCreators } from 'redux'
+import { Container, Button, Row, Col } from 'reactstrap'
+import Head from '../components/head'
 import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import FilterComponent from '../components/filterComponent'
+// <<<<<<< sort-by-filters
 
 import { Container, Button, Row } from 'reactstrap'
+// =======
+// import configureStore from './../store/appStore'
+// >>>>>>> master
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
@@ -79,6 +90,7 @@ class HomePage extends Component<Props> {
     }
 
     return (
+// <<<<<<< sort-by-filters
       <Container style={{ padding: '0 30px 0 30px' }}>
         <Head title="Home" />
         <Nav />
@@ -93,8 +105,34 @@ class HomePage extends Component<Props> {
           </div>
         </Row>
       </Container>
+// =======
+//       <>
+//         <div className="page-content-wrapper">
+//           <Row className="mb-3">
+//             <h2 className="ml-5">Hack4Impact Recruitment Portal</h2>
+//           </Row>
+//           <Container fluid>
+//             <Row>
+//               <Col lg="2" md="3">
+//                 <FilterComponent />
+//               </Col>
+//               <Col lg="10" md="9">
+//                 <Row>
+//                   <h3>Sort By:</h3> <Button>Graduation Year</Button>{' '}
+//                   <Button>Interview Score</Button> <Button>FaceSmash Score</Button>{' '}
+//                 </Row>
+//                 <CandidateListComponent candidates={candidates} />
+//               </Col>
+//             </Row>
+//           </Container>
+//         </div>
+//       </>
+// >>>>>>> master
     )
   }
 }
 
-export default withRedux(configureStore, mapStateToProps, mapDispatchToProps)(HomePage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePage)

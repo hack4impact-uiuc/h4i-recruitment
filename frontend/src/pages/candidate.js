@@ -1,12 +1,12 @@
-import { Component } from 'react'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
+import { Container, Button } from 'reactstrap'
+import Router from 'next/router'
 import { getCandidateById } from '../utils/api'
-import withRedux from 'next-redux-wrapper'
 import configureStore from './../store/appStore'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import Candidate from '../components/candidateBox'
-import { Container, Button } from 'reactstrap'
-import Router from 'next/router'
 
 class CandidatePage extends Component {
   constructor(props) {
@@ -34,19 +34,19 @@ class CandidatePage extends Component {
     }
     const candidate = this.props.result
     return (
-      <Container>
-        <Head title="Candidate" />
-        <Nav />
-        <Button color="primary" onClick={this.goBack}>
-          Back
-        </Button>
-        <Candidate candidate={candidate} />
-        <Button outline color="primary">
-          Add Interview
-        </Button>
-      </Container>
+      <>
+        <Container className="mt-5">
+          <Button color="primary" onClick={this.goBack}>
+            Back
+          </Button>
+          <Candidate candidate={candidate} />
+          <Button outline color="primary">
+            Add Interview
+          </Button>
+        </Container>
+      </>
     )
   }
 }
 
-export default withRedux(configureStore)(CandidatePage)
+export default CandidatePage
