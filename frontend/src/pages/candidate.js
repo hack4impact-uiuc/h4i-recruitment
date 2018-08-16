@@ -34,9 +34,7 @@ class CandidatePage extends Component {
     }
     const candidate = this.props.result
     return (
-      <React.Fragment>
-        <Head title="Candidate" />
-        <Nav />
+      <>
         <Container className="mt-5">
           <Button color="primary" onClick={this.goBack}>
             Back
@@ -46,7 +44,7 @@ class CandidatePage extends Component {
             Add Interview
           </Button>
         </Container>
-      </React.Fragment>
+      </>
     )
   }
 }
