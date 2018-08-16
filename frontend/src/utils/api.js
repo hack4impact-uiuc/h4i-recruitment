@@ -34,6 +34,10 @@ function getCandidateMatch() {
   return fetch(`${API_URL}/matchCandidates`).then(res => res.json())
 }
 
+function getCandidateById(id: string) {
+  return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
+}
+
 function setCandidateStatus(id: string, status: string) {
   return fetch(`${API_URL}/candidates/set-status`, {
     body: JSON.stringify({
@@ -83,7 +87,41 @@ function addCommentToCandidate(candidateID: string, comment: string) {
   }).then(res => res.json())
 }
 
+function addInterview(interviewerKey: string, candidateId:string, overallScore:number, generalNotes:string, sections:Array) {
+  return fetch(`${API_URL}/interview/add-interview`, {
+    body: JSON.stringify({
+      interviewerKey,
+      candidateId,
+      overallScore,
+      generalNotes,
+      sections
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function editInterview(interviewId:string, sections:Array, overallScore:number, generalNotes:string) {
+  return fetch(`${API_URL}/interview/${interviewId}`, {
+    body: JSON.stringify({
+      sections,
+      overallScore,
+      generalNotes,
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
+  addInterview,
+  editInterview,
   getCandidateById,
   getAllCandidates,
   getCandidateMatch,
