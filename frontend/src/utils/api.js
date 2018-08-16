@@ -10,10 +10,6 @@ function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
-// functions getAllCandidates() {
-//   return fetch(`${API_URL}/candidates`).then(res => res.json())
-// }
-
 function getAllCandidates(statuses, years, gradDates, sorts, roles) {
   return fetch(`${API_URL}/candidates/query`, {
     body: JSON.stringify({
