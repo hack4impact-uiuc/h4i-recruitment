@@ -1,15 +1,27 @@
 const express = require('express')
+const keyData = require('../keys.json')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Interview } = require('../models')
 var mongodb = require('mongodb')
 
 router.get(
-  '/verified-interviewer',
+  '/verify_interviewer/:key',
   errorWrap(async (req, res) => {
-    // const foundKey = await Interview.findById(req.params.interviewerKey);
-    // res.json({ result: foundKey })
-    /*** NOT IMPLEMENTED */
+    console.log(req.params);
+    console.log(req.params.key);
+    let keyVerified = false;
+    if(req.params.key && req.params.key.length === 11){
+      console.log(keyData.keys.filter(currKey => currKey.key === req.params.key));
+      keyVerified = keyData.keys.filter(currKey => currKey.key === req.params.key) !== undefined;
+    }
+    
+    res.json({
+      code: 200,
+      message: '',
+      result: {keyVerified},
+      success: true
+    })
   })
 )
 
