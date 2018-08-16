@@ -8,7 +8,7 @@ const defaultOGImage = ''
 const Head = props => (
   <NextHead>
     <meta charSet="UTF-8" />
-    <title>{props.title || ''}</title>
+    <title>{props.title || 'Recruitment Portal'}</title>
     <meta name="description" content={props.description || defaultDescription} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" sizes="192x192" href="/static/touch-icon.png" />
@@ -36,6 +36,14 @@ const Head = props => (
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+    <style jsx global>{`
+      body {
+        line-height: 1.3;
+        font-weight: 400;
+        font-family: 'Lato', sans-serif;
+      }
+    `}</style>
   </NextHead>
 )
 

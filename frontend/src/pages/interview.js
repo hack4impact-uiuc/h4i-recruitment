@@ -120,8 +120,6 @@ class Interview extends Component<Props> {
   render() {
     return (
       <Container>
-        <Head title="Interview" />
-        <Nav />
         <Form>
           <FormGroup>
             <legend>Time</legend>

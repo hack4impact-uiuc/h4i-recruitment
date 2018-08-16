@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Interview = require('./interview')
 const { statusEnum } = require('../utils/enums')
 
 const Candidate = new mongoose.Schema({
@@ -21,15 +22,7 @@ const Candidate = new mongoose.Schema({
   techExperience: { type: String },
   howTheyKnowUs: { type: String },
   additionalComments: { type: String },
-  interviews: [
-    {
-      timeCommitmentNotes: { type: String },
-      dedicationToCommunityNotes: { type: String },
-      techCompetenceNotes: { type: String },
-      otherNotes: { type: String },
-      interviewer: { type: String }
-    }
-  ],
+  //interviews: [Interview],
   facemashRankings: {
     elo: { type: Number, default: 1000 },
     numOfMatches: { type: Number, default: 0 }

@@ -37,18 +37,22 @@ class CandidateListComponent extends Component<Props> {
     const { candidates } = this.props
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Label htmlFor="search" />
-            <Input
-              type="search"
-              id="search"
-              value={search}
-              placeholder="Search Candidates"
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-        </Form>
+        <Row>
+          <Col sm="12">
+            <Form onSubmit={this.handleSubmit}>
+              <FormGroup>
+                <Label htmlFor="search" />
+                <Input
+                  type="search"
+                  id="search"
+                  value={search}
+                  placeholder="Search Candidates"
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+            </Form>
+          </Col>
+        </Row>
         <Row className="candidate-list-box">
           {!this.props.loading ? (
             candidates

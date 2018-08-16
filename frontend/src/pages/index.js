@@ -82,27 +82,27 @@ class HomePage extends Component<Props> {
       )
     })
     return (
-      <React.Fragment>
-        <Head title="Home" />
-        <Nav />
-        <Container fluid>
-          <div style={{ paddingBottom: '60px' }}>
-            <h1 className="ml-5">Hack4Impact Recruitment Portal</h1>
-            <div className="sort">
-              <h2>Sort By:</h2> <Button>Graduation Year</Button> <Button>Interview Score</Button>{' '}
-              <Button>FaceSmash Score</Button>{' '}
-            </div>
-          </div>
-          <Row>
-            <Col md="1">
-              <FilterComponent />
-            </Col>
-            <Col md="11">
-              <CandidateListComponent candidates={candidates} />
-            </Col>
+      <>
+        <div className="page-content-wrapper">
+          <Row className="mb-3">
+            <h2 className="ml-5">Hack4Impact Recruitment Portal</h2>
           </Row>
-        </Container>
-      </React.Fragment>
+          <Container fluid>
+            <Row>
+              <Col lg="2" md="3">
+                <FilterComponent />
+              </Col>
+              <Col lg="10" md="9">
+                <Row>
+                  <h3>Sort By:</h3> <Button>Graduation Year</Button>{' '}
+                  <Button>Interview Score</Button> <Button>FaceSmash Score</Button>{' '}
+                </Row>
+                <CandidateListComponent candidates={candidates} />
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </>
     )
   }
 }

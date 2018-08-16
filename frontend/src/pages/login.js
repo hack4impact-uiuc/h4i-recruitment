@@ -14,8 +14,6 @@ class Login extends Component<Props> {
   render() {
     return (
       <Container>
-        <Head title="Login" />
-        <Nav />
         <Modal isOpen={true}>
           <ModalHeader>Login to Your Interview Portal</ModalHeader>
           <ModalBody>
