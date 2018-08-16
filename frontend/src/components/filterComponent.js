@@ -2,13 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
-// <<<<<<< sort-by-filters
 import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, enumToArray } from '../utils/enums'
 import { Button } from 'reactstrap'
-// =======
-// import { yearsEnum, statusEnum, rolesEnum, gradEnum, enumToArray } from '../utils/enums'
-// import { Button, Row } from 'reactstrap'
-// >>>>>>> master
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -72,7 +67,6 @@ class FilterComponent extends Component<Props> {
         <div>
           <h4>Status</h4>
         </div>
-
         <div>
           {statuses.map((el, idx) => {
             return (

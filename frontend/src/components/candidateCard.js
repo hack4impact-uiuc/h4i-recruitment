@@ -1,12 +1,9 @@
 // @flow
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Link from 'next/link'
 import { Card, CardBody, CardTitle, Button } from 'reactstrap'
-import FileIcon from '../static/icons/file.svg'
 import Router from 'next/router'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'

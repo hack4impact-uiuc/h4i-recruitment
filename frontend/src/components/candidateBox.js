@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Container, Button, Badge } from 'reactstrap'
+import { Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'

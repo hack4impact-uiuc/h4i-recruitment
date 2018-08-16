@@ -1,27 +1,11 @@
 // @flow
 import React, { Component } from 'react'
-// <<<<<<< sort-by-filters
-import withRedux from 'next-redux-wrapper'
-import configureStore from './../store/appStore'
-import Head from '../components/head'
-// =======
 import { connect } from 'react-redux'
-import Link from 'next/link'
-// >>>>>>> master
 import { bindActionCreators } from 'redux'
 import { Container, Button, Row, Col } from 'reactstrap'
-// import Head from '../components/head'
-import Nav from '../components/nav'
 import CandidateListComponent from '../components/candidateList'
 import FilterComponent from '../components/filterComponent'
-// <<<<<<< sort-by-filters
-
-// import { Container, Button, Row } from 'reactstrap'
-// =======
-// import configureStore from './../store/appStore'
-// >>>>>>> master
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
-import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
 type Props = {
   candidates: Array<any>,
@@ -91,22 +75,6 @@ class HomePage extends Component<Props> {
     }
 
     return (
-      // // <<<<<<< sort-by-filters
-      //       <Container style={{ padding: '0 30px 0 30px' }}>
-      //         <Head title="Home" />
-      //         <Nav />
-      //         <h1 className="title">Hack4Impact Recruitment Portal</h1>
-      //         <Row>
-      //           <div className="sidebar">
-      //             <FilterComponent />
-      //             <Button onClick={this.query}> submit </Button>
-      //           </div>
-      //           <div className="candidates">
-      //             <CandidateListComponent candidates={candidates} />
-      //           </div>
-      //         </Row>
-      //       </Container>
-      // =======
       <>
         <div className="page-content-wrapper">
           <Row className="mb-3">
@@ -123,20 +91,13 @@ class HomePage extends Component<Props> {
                 </Col>
                 {console.log(candidates)}
               </Col>
-              {/* <Col xs="1 " lg="1" md="1"> */}
-              {/* <Col> */}
               <Col xs="10" lg="10" md="10">
-                {/* <div className="candidates"> */}
                 <CandidateListComponent candidates={candidates} />
-                {/* </div>s */}
               </Col>
-              {/* </Col> */}
-              {/* </Col> */}
             </Row>
           </Container>
         </div>
       </>
-      // >>>>>>> master
     )
   }
 }
