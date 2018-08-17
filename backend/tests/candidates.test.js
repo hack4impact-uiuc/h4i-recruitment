@@ -3,13 +3,14 @@ const app = require('../src/app')
 const sinon = require('sinon')
 const { Candidate } = require('../src/models')
 const { expect } = require('chai')
+const { KEY } = require('./utils')
 
 // for expects/assertions, look at chai
 // for different ways to stub/mock/spy on functions, look into sinon
 describe('App can run', done => {
   it('returns status 200', async () => {
     const res = await request(app)
-      .get('/')
+      .get(`/?key=${KEY}`)
       .expect(200)
   })
 })
@@ -23,7 +24,7 @@ describe('GET /candidates', done => {
     sinon.stub(Candidate, 'find').resolves([{ name: 'Tim' }, { name: 'Tim2' }])
 
     const res = await request(app)
-      .get('/candidates')
+      .get(`/candidates?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.have.lengthOf(2)
     expect(res.body.result[0].name).equal('Tim')
@@ -33,7 +34,7 @@ describe('GET /candidates', done => {
     sinon.stub(Candidate, 'find').resolves([])
 
     const res = await request(app)
-      .get('/candidates')
+      .get(`/candidates?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.have.lengthOf(0)
   })
@@ -44,7 +45,7 @@ describe('GET /candidates', done => {
       .resolves([{ name: 'Tim', status: 'pending' }])
 
     const res = await request(app)
-      .get('/candidates?status=pending')
+      .get(`/candidates?status=pending&&key=${KEY}`)
       .expect(200)
     // checks whether Candidate.find() was called with arguments {status: 'pending}
     expect(candidateFindStub.getCall(0).args).to.deep.include({ status: 'pending' })
@@ -58,7 +59,7 @@ describe('GET /candidates/:candidateId', async () => {
 
   it('should call findById with the correct Parameters', async () => {
     const candidateFindStub = sinon.stub(Candidate, 'findById').resolves(expected)
-    const res = await request(app).get('/candidates/5abf3dcf1d567955609d2bd4')
+    const res = await request(app).get(`/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
     expect(candidateFindStub.getCall(0).args)
       .to.be.an('array')
       .that.does.include('5abf3dcf1d567955609d2bd4')
@@ -68,7 +69,7 @@ describe('GET /candidates/:candidateId', async () => {
   it('should return a Candidate', async () => {
     const candidateFindStub = sinon.stub(Candidate, 'findById').resolves(expected)
     const res = await request(app)
-      .get('/candidates/5abf3dcf1d567955609d2bd4')
+      .get(`/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
       .expect(200)
     expect(res.body).to.be.an('object')
     candidateFindStub.restore()
@@ -82,7 +83,7 @@ describe('POST /candidates', async () => {
     // Needs to stub Candidate.prototype's save, not Candidate's save
     // because `save` belongs to the instance of a Candidate
     const candidateSaveStub = sinon.stub(Candidate.prototype, 'save').resolves('True')
-    const res = await request(app).post('/candidates')
+    const res = await request(app).post(`/candidates?key=${KEY}`)
     expect(candidateSaveStub.calledOnce).equal(true)
 
     // reset stub

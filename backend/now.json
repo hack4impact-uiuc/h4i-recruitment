@@ -1,10 +1,12 @@
 {
-    "type": "docker",
-    "alias": "hack4impact-recruitment-backend.now.sh",
-    "env": {
-        "MONGO_URL": "@h4i-recruitment-mongo-uri"
-    },
-    "features": {
-        "cloud": "v2"
-    }
+  "type": "docker",
+  "alias": "hack4impact-recruitment-backend.now.sh",
+  "env": {
+    "MONGO_URL": "@h4i-recruitment-mongo-uri",
+    "KEY_JSON": "../../keys.json",
+    "LEAD_SUFFIX": "@h4i-recruitment-lead-suffix"
+  },
+  "features": {
+    "cloud": "v2"
+  }
 }
