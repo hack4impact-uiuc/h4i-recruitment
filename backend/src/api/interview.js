@@ -1,5 +1,6 @@
 const express = require('express')
-const keyData = require('../keys.json')
+console.log(process.env.CURR_KEY_JSON);
+const keyData = require(process.env.CURR_KEY_JSON)
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Interview } = require('../models')
@@ -10,14 +11,14 @@ router.get(
   errorWrap(async (req, res) => {
     let keyVerified = false;
     if(req.params.key && req.params.key.length === 11){
-      keyVerified = keyData.keys.filter(currKey => currKey.key === req.params.key) !== undefined;
+      keyVerified = keyData.keys.filter(currKey => currKey.key === req.params.key).length !== 0;
     }
-    
+    let statusCode = keyVerified ? 200  : 400;
+    let message = keyVerified ? "key is verified"  : "key did not pass verification";
     res.json({
-      code: 200,
-      message: '',
-      result: {keyVerified},
-      success: true
+      code: statusCode,
+      message: message,
+      success: keyVerified
     })
   })
 )
