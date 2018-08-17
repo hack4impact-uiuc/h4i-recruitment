@@ -26,9 +26,11 @@ class CandidateListComponent extends Component<Props> {
       search: ''
     }
   }
+
   handleChange = event => {
     this.setState({ [event.target.id]: event.target.value })
   }
+  
   render() {
     const { search } = this.state
     const { candidates } = this.props
