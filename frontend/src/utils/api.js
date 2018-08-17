@@ -58,7 +58,7 @@ function setMatchWinner(candidate1: string, candidate2: string, winnerID: string
 }
 
 function addInterview(interviewerKey: string, candidateId:string, overallScore:number, generalNotes:string, sections:Array) {
-  return fetch(`${API_URL}/interview/add-interview`, {
+  return fetch(`${API_URL}/interview/`, {
     body: JSON.stringify({
       interviewerKey,
       candidateId,
