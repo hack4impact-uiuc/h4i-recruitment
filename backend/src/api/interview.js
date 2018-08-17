@@ -1,5 +1,6 @@
 const express = require('express')
-const keyPath = process.env.NODE_ENV === "test" ? '../../tests/artifacts/test-keys.json': process.env.KEY_JSON
+const keyPath =
+  process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
 const router = express.Router()
 const { errorWrap } = require('../middleware')
@@ -9,12 +10,12 @@ var mongodb = require('mongodb')
 router.get(
   '/verify_interviewer/:key',
   errorWrap(async (req, res) => {
-    let keyVerified = false;
-    if(req.params.key && req.params.key.length === 11){
-      keyVerified = keyData.keys.filter(currKey => currKey.key === req.params.key).length !== 0;
+    let keyVerified = false
+    if (req.params.key && req.params.key.length === 11) {
+      keyVerified = keyData.keys.filter(currKey => currKey.key === req.params.key).length !== 0
     }
-    let statusCode = keyVerified ? 200  : 400;
-    let message = keyVerified ? "key is verified"  : "key did not pass verification";
+    let statusCode = keyVerified ? 200 : 400
+    let message = keyVerified ? 'key is verified' : 'key did not pass verification'
     res.json({
       code: statusCode,
       message: message,
