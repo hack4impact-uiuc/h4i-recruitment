@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
-import { bindActionCreators } from 'redux's
+import { bindActionCreators } from 'redux'
 import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, enumToArray } from '../utils/enums'
 import { Button } from 'reactstrap'
 
@@ -38,7 +38,7 @@ class FilterComponent extends Component<Props> {
   handleClick = event => {
     this.props.resetFilters()
   }
-  
+
   render() {
     const years = enumToArray(yearsEnum)
     const roles = enumToArray(rolesEnum)
