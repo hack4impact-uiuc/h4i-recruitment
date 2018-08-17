@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsEnum, statusEnum, rolesEnum, gradEnum, enumToArray } from '../utils/enums'
-import { Button, Row } from 'reactstrap'
+import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, enumToArray } from '../utils/enums'
+import { Button } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -20,14 +18,12 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    filters: state.candidateListPage.filters,
-    sort: state.candidateListPage.sort
+    filters: state.candidateListPage.filters
   }
 }
 
 type Props = {
-  filters: Object,
-  sort: Object
+  filters: Object
 }
 
 class FilterComponent extends Component<Props> {
@@ -42,32 +38,40 @@ class FilterComponent extends Component<Props> {
   handleClick = event => {
     this.props.resetFilters()
   }
+
   render() {
     const years = enumToArray(yearsEnum)
     const roles = enumToArray(rolesEnum)
     const statuses = enumToArray(statusEnum)
     const gradDates = enumToArray(gradEnum)
+    const sortBy = enumToArray(sortByEnum)
     let statusFilter = [],
       roleFilter = [],
       yearFilter = [],
-      gradFilter = []
+      gradFilter = [],
+      sortByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
+      sortByFilter = this.props.filters.sortBy
     }
     return (
       <div className="filter-box">
         <div>
-          <h4>Filter By:</h4>
+          <h1>Query Panel</h1>
         </div>
-        <Button onClick={this.handleClick}>Reset Filters</Button>
-        <div className="filter-type-box">
-          <h5>Status</h5>
-          <div>
-            {statuses.map((el, idx) => {
-              return (
+        <div>
+          <h3>Filters</h3>
+        </div>
+        <div>
+          <h4>Status</h4>
+        </div>
+        <div>
+          {statuses.map((el, idx) => {
+            return (
+              <div>
                 <div className="pretty p-default" key={idx}>
                   <input
                     type="checkbox"
@@ -81,17 +85,17 @@ class FilterComponent extends Component<Props> {
                     <label htmlFor={el}>{el}</label>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
-        <div className="filter-type-box">
-          <div>
-            <h5>Year</h5>
-          </div>
-          <div>
-            {years.map((el, idx) => {
-              return (
+        <div>
+          <h4>Year</h4>
+        </div>
+        <div>
+          {years.map((el, idx) => {
+            return (
+              <div>
                 <div className="pretty p-default" key={idx}>
                   <input
                     type="checkbox"
@@ -105,17 +109,17 @@ class FilterComponent extends Component<Props> {
                     <label htmlFor={el}>{el}</label>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
-        <div className="filter-type-box">
-          <div>
-            <h5>Role</h5>
-          </div>
-          <div>
-            {roles.map((el, idx) => {
-              return (
+        <div>
+          <h4>Role</h4>
+        </div>
+        <div>
+          {roles.map((el, idx) => {
+            return (
+              <div>
                 <div className="pretty p-default" key={idx}>
                   <input
                     type="checkbox"
@@ -129,17 +133,17 @@ class FilterComponent extends Component<Props> {
                     <label htmlFor={el}>{el}</label>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
-        <div className="filter-type-box">
-          <div>
-            <h5>Graduation Date:</h5>
-          </div>
-          <div>
-            {gradDates.map((el, idx) => {
-              return (
+        <div>
+          <h4>Graduation Date:</h4>
+        </div>
+        <div>
+          {gradDates.map((el, idx) => {
+            return (
+              <div>
                 <div className="pretty p-default" key={idx}>
                   <input
                     type="checkbox"
@@ -153,9 +157,38 @@ class FilterComponent extends Component<Props> {
                     <label htmlFor={el}>{el}</label>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
+        </div>
+
+        <div>
+          <h3>Sorts</h3>
+        </div>
+        <div>
+          {sortBy.map((el, idx) => {
+            return (
+              <div>
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="sortBy"
+                    value={el}
+                    checked={sortByFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          <p> </p>
+          <Button onClick={this.handleClick}>Reset Filters</Button>
         </div>
       </div>
     )

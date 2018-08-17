@@ -1,5 +1,12 @@
-import { getAllCandidates } from '../utils/api'
-import { yearsEnum, rolesEnum, statusEnum, gradEnum, enumToArray } from '../utils/enums'
+import {
+  yearsEnum,
+  rolesEnum,
+  statusEnum,
+  gradEnum,
+  sortByEnum,
+  enumToArray,
+  selectByEnum
+} from '../utils/enums'
 
 const initialState = {
   facemash: {
@@ -14,7 +21,9 @@ const initialState = {
       years: enumToArray(yearsEnum),
       statuses: enumToArray(statusEnum),
       roles: enumToArray(rolesEnum),
-      gradDates: enumToArray(gradEnum)
+      gradDates: enumToArray(gradEnum),
+      sortBy: enumToArray(sortByEnum),
+      selectBy: enumToArray(selectByEnum)
     },
     sort: {
       age: false,
