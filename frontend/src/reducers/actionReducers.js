@@ -9,7 +9,6 @@ import {
   SET_STATUS,
   RESET_FILTERS
 } from '../actions/actionTypes'
-import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 
 export default function recruitmentApp(state = initialState, action) {
   switch (action.type) {
@@ -51,7 +50,6 @@ export default function recruitmentApp(state = initialState, action) {
     case ADD_FILTER:
       let addCategory = action.payload.category
       let addFilter = action.payload.filter
-      console.log(action.payload)
       return {
         ...state,
         candidateListPage: {
