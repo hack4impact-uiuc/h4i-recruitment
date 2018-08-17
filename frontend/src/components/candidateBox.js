@@ -1,12 +1,8 @@
 // @flow
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import configureStore from '../store/appStore'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getCandidateById } from '../utils/api'
-import Head from './head'
-import { Container, Button, Badge } from 'reactstrap'
+import { Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
@@ -98,9 +94,14 @@ class CandidateBox extends Component {
             Github
           </a>
         </div>
-        <p>
-          <b>Major:</b> {candidate.major}
-        </p>
+        {candidate.major ? (
+          <p>
+            {' '}
+            <b>Major:</b> {candidate.major}{' '}
+          </p>
+        ) : (
+          <p> </p>
+        )}
         <p>
           <b>Graduation Date:</b> {candidate.graduationDate}
         </p>

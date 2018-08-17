@@ -21,3 +21,6 @@ yarn-error.log*
 package-lock.json
 !yarn.lock
 src/.next/
+
+#logs
+src/logs/h4i-recruitment.log

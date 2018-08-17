@@ -16,8 +16,27 @@ router.get(
         candidates = await Candidate.find({ status: req.query.status })
       }
     } else {
-      candidates = await Candidate.find()
+      candidates = await Candidate.find({ status: 'Pending' })
     }
+    res.json({ result: candidates })
+  })
+)
+router.post(
+  '/query/',
+  errorWrap(async (req, res) => {
+    let filter = req.body.filters
+    let sortFilters = {}
+    let renamedSorts = Array.from(req.body.sorts)
+      .map(x => x.replace('Graduation Year', 'graduationDate'))
+      .map(x => x.replace('Year', 'year'))
+      .map(x => x.replace('Status', 'status'))
+    Array.from(renamedSorts).forEach(x => (sortFilters[x] = 1))
+    let candidates = await Candidate.find()
+      .find({ status: filter.status })
+      .find({ year: filter.year })
+      .find({ graduationDate: filter.graduationDate })
+      .find({ role: { $in: filter.roles } })
+      .sort(sortFilters)
     res.json({ result: candidates })
   })
 )

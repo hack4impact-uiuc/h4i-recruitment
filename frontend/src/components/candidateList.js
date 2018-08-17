@@ -2,9 +2,6 @@
 import { Component } from 'react'
 import CandidateCardComponent from './candidateCard'
 import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
-import withRedux from 'next-redux-wrapper'
-import configureStore from './../store/appStore'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 const CardCol = ({ children, ...rest }) => (
