@@ -16,7 +16,7 @@ router.get(
     }
     let statusCode = keyVerified ? 200 : 400
     let message = keyVerified ? 'key is verified' : 'key did not pass verification'
-    res.json({
+    res.status(statusCode).json({
       code: statusCode,
       message: message,
       success: keyVerified
