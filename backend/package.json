@@ -10,7 +10,7 @@
     "parse": "node src/parseSheet.js",
     "format": "prettier --write '{src,test}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
-    "test": "mocha tests --opts ./tests/mocha.opts"
+    "test": "NODE_ENV=test mocha tests --opts ./tests/mocha.opts"
   },
   "dependencies": {
     "body-parser": "1.18.2",

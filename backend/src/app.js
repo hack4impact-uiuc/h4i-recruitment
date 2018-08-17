@@ -9,11 +9,6 @@ const routes = require('./routes')
 
 const app = express()
 
-console.log("HERE IS TEST KEY",process.env.TEST_KEY_JSON);
-console.log("HERE IS KEY",process.env.KEY_JSON);
-process.env['CURR_KEY_JSON'] = process.env.NODE_ENV === 'test'? process.env.TEST_KEY_JSON: process.env.KEY_JSON
-console.log("HERE IS CURR KEY",process.env.CURR_KEY_JSON);
-
 // must be before routes
 app.use(cors())
 app.use(bodyParser.json())

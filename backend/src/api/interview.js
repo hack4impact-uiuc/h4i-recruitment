@@ -1,6 +1,6 @@
 const express = require('express')
-console.log(process.env.CURR_KEY_JSON);
-const keyData = require(process.env.CURR_KEY_JSON)
+const keyPath = process.env.NODE_ENV === "test" ? '../../tests/artifacts/test-keys.json': process.env.KEY_JSON
+const keyData = require(keyPath)
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Interview } = require('../models')
