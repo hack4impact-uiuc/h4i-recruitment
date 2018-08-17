@@ -34,6 +34,30 @@ after(async () => {
     })
   })
 
+  describe ('GET verify_interviewer/:key', () => {
+    it('should return false when the key is a substring of the real key', async () => {
+        const expected = JSON.stringify({"code":400,"message":"key did not pass verification","success":false});
+        const res = await request(app).get('/interview/verify_interviewer/hjsdhfy79');
+        expect(expected).to.eq(res.text);
+    })
+    it('should return false when the key contains a substring that is the real key', async () => {
+        const expected = JSON.stringify({"code":400,"message":"key did not pass verification","success":false});
+        const res = await request(app).get('/interview/verify_interviewer/hjsdhfy79uutt');
+        expect(expected).to.eq(res.text);
+    })
+    it('should return true when the key matches a key in the db', async () => {
+        const expected = JSON.stringify({"code":200,"message":"key is verified","success":true});
+        const res = await request(app).get('/interview/verify_interviewer/hjsdhfy79uu');
+        expect(expected).to.eq(res.text);
+    })
+    it('should return false when the key is the same length as keys in db but is not in the db', async () => {
+        const expected = JSON.stringify({"code":400,"message":"key did not pass verification","success":false});
+        const res = await request(app).get('/interview/verify_interviewer/hjsdhfy79ud');
+        expect(expected).to.eq(res.text);
+    })
+    
+  })
+
   describe ('POST /interview', () => {
     it ('creates one interview', async () => {
         let interview = {

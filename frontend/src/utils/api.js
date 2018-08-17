@@ -10,8 +10,23 @@ function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
-function getAllCandidates() {
-  return fetch(`${API_URL}/candidates`).then(res => res.json())
+function getAllCandidates(statuses, years, gradDates, sorts, roles) {
+  return fetch(`${API_URL}/candidates/query`, {
+    body: JSON.stringify({
+      filters: {
+        status: statuses,
+        year: years,
+        roles: roles,
+        graduationDate: gradDates
+      },
+      sorts: sorts
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
 }
 
 function getCandidateMatch() {

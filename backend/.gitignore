@@ -5,3 +5,4 @@ test_req
 candidates.xlsx
 !yarn.lock
 logs
+keys.json
