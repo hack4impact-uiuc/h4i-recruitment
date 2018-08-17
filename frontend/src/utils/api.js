@@ -88,7 +88,7 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 }
 
 function addInterview(interviewerKey: string, candidateId:string, overallScore:number, generalNotes:string, sections:Array) {
-  return fetch(`${API_URL}/interview/add-interview`, {
+  return fetch(`${API_URL}/interview/`, {
     body: JSON.stringify({
       interviewerKey,
       candidateId,
