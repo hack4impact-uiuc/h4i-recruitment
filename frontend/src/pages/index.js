@@ -30,7 +30,7 @@ const mapStateToProps = state => ({
   candidates: state.candidateListPage.candidates,
   loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
-  filters: state.candidateListPage.filters,
+  filters: state.candidateListPage.filters
   // sort: state.candidateListPage.sort
 })
 
@@ -41,7 +41,7 @@ class HomePage extends Component<Props> {
       candidates: this.props.candidates,
       error: this.props.error,
       loading: this.props.loading,
-      filters: this.props.filters,
+      filters: this.props.filters
       // sort: this.props.sort
     }
   }

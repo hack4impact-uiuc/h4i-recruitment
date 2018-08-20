@@ -46,47 +46,81 @@ class CandidateCardComponent extends Component {
       <Card className="candidate-card">
         <CardBody>
           <CardTitle>
-            <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
-              <a className="card-title">{candidate.name}</a>
-            </Link>
-            <a
-              className="card-links"
-              style={{
-                textDecoration: candidate.resumeID ? null : 'line-through'
-              }}
-              href={`${candidate.resumeID}`}
-            >
-              Resume
-            </a>
-            <a
-              className="card-links"
-              style={{
-                textDecoration: candidate.website ? null : 'line-through'
-              }}
-              href={`${candidate.website}`}
-            >
-              Website
-            </a>
+            {candidate.name ? (
+              <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                <a className="card-title">{candidate.name}</a>
+              </Link>
+            ) : (
+              <></>
+            )}
+            {candidate.resumeID ? (
+              <a className="card-links" href={`${candidate.resumeID}`}>
+                <span class="badge badge-pill badge-primary">Resume</span>
+              </a>
+            ) : (
+              <a className="card-links" href={`${candidate.resumeID}`}>
+                <span class="badge badge-pill badge-danger">Resume</span>
+              </a>
+            )}
+
+            {candidate.website ? (
+              <a className="card-links" href={`${candidate.website}`}>
+                <span class="badge badge-pill badge-primary">Website</span>
+              </a>
+            ) : (
+              <a className="card-links" href={`${candidate.website}`}>
+                <span class="badge badge-pill badge-danger">Website</span>
+              </a>
+            )}
           </CardTitle>
           <div onClick={e => handler(candidate._id)}>
-            <p>
-              Major: <span className="highlight">{candidate.major}</span>
-            </p>
-            <p>
-              <span className="highlight">{candidate.graduationDate}</span>
-            </p>
-            <p>
-              <span className="highlight">{candidate.role.join(', ')}</span>
-            </p>
-            <p>
-              Hours: <span className="highlight">{candidate.timeCanDevote}</span>
-            </p>
-            <p>
-              Status: <span className="highlight">{this.state.status}</span>
-            </p>
-            <p>
-              Year: <span className="highlight">{candidate.year}</span>
-            </p>
+            {candidate.major ? (
+              <p>
+                Major: <span className="highlight">{candidate.major}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.graduationDate ? (
+              <p>
+                <span className="highlight">{candidate.graduationDate}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.role ? (
+              <p>
+                <span className="highlight">{candidate.role.join(', ')}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.timeCanDevote ? (
+              <p>
+                Hours: <span className="highlight">{candidate.timeCanDevote}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.status ? (
+              <p>
+                Status: <span className="highlight">{this.state.status}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.year ? (
+              <p>
+                Year: <span className="highlight">{candidate.year}</span>
+              </p>
+            ) : (
+              <></>
+            )}
           </div>
           <p>
             Change Status:

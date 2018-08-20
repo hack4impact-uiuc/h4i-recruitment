@@ -30,7 +30,7 @@ class CandidateListComponent extends Component<Props> {
   handleChange = event => {
     this.setState({ [event.target.id]: event.target.value })
   }
-  
+
   render() {
     const { search } = this.state
     const { candidates } = this.props
@@ -55,8 +55,10 @@ class CandidateListComponent extends Component<Props> {
         <Row className="candidate-list-box">
           {!this.props.loading ? (
             candidates
-              .filter(candidate =>
-                candidate.name.toLowerCase().includes(this.state.search.toLowerCase())
+              .filter(
+                candidate =>
+                  candidate.name &&
+                  candidate.name.toLowerCase().includes(this.state.search.toLowerCase())
               )
               .map(candidate => {
                 return (
