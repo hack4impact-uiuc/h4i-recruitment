@@ -24,11 +24,6 @@ const initialState = {
       gradDates: enumToArray(gradEnum),
       sortBy: enumToArray(sortByEnum),
       selectBy: enumToArray(selectByEnum)
-    },
-    sort: {
-      age: false,
-      facesmashScore: false,
-      interviewScore: false
     }
   }
 }

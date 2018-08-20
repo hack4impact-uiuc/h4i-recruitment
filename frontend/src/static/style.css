@@ -31,12 +31,16 @@ p {
   float: right;
 }
 .candidate-list-box {
+  /* background-color:green; */
+  /* color:green; */
   margin-top: 20px;
 }
 .candidate-list-box p {
+  
   padding-right: 20px;
 }
 .candidate-list-box a {
+  /* background-color:green; */
   padding-right: 30px;
 }
 .candidate-card {
