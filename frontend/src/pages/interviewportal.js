@@ -17,7 +17,7 @@ class Login extends Component<Props> {
         <Link prefetch href="/interview">
           <Button color="primary">New Interview</Button>
         </Link>{' '}
-        <Button color="primary">Edit Interview</Button>
+        <Button color="primary">Past Interviews</Button>
       </Container>
     )
   }

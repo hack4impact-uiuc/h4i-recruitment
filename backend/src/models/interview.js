@@ -10,6 +10,7 @@ const Section = new mongoose.Schema({
   section_notes: { type: String }
 })
 const Interview = new mongoose.Schema({
+  candidate_id: {type: String},
   interviewer_key: { type: String },
   overall_score: { type: Number },
   general_notes: { type: String },
