@@ -1,8 +1,6 @@
 import { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
 import Link from 'next/link'
-import Head from '../components/head'
-import Nav from '../components/nav'
 import { addInterview } from '../utils/api'
 
 type Props = {}
