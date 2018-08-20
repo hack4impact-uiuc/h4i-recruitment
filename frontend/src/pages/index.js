@@ -77,9 +77,6 @@ class HomePage extends Component<Props> {
     return (
       <>
         <div className="page-content-wrapper">
-          {/* <Row className="mb-3">
-            <h2 className="ml-5">Hack4Impact Recruitment Portal</h2>
-          </Row> */}
           <Container fluid>
             <Row>
               <Col lg="2" sm="3" className="ml-2">
