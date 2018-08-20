@@ -87,6 +87,10 @@ function addCommentToCandidate(candidateID: string, comment: string) {
   }).then(res => res.json())
 }
 
+function validateKey(key: string) {
+  return fetch(`${API_URL}/interview/verify_interviewer/${key}`).then(res => res.json())
+}
+
 function addInterview(interviewerKey: string, candidateId:string, overallScore:number, generalNotes:string, sections:Array) {
   return fetch(`${API_URL}/interview/`, {
     body: JSON.stringify({
@@ -120,6 +124,7 @@ function editInterview(interviewId:string, sections:Array, overallScore:number, 
 }
 
 export {
+  validateKey,
   addInterview,
   editInterview,
   getCandidateById,
