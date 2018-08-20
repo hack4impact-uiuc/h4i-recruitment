@@ -17,7 +17,8 @@ class Login extends Component<Props> {
   async handleSubmit(){
     const {success} = await validateKey(this.state.currentKey);
     if (success){
-      Router.push('/interviewportal')
+      localStorage.setItem('interviewerKey', this.state.currentKey); 
+      Router.push('/interviewportal');
     }
   }
   onTextChange = (e) =>{
