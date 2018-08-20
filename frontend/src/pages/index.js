@@ -86,7 +86,6 @@ class HomePage extends Component<Props> {
                     <Button onClick={this.query}> Query Candidates </Button>
                   </div>
                 </Col>
-                {console.log(candidates)}
               </Col>
               <Col lg="9" sm="8">
                 <CandidateListComponent candidates={candidates} />
