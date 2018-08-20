@@ -32,20 +32,22 @@ router.post(
       .map(x => x.replace('Status', 'status'))
     Array.from(renamedSorts).forEach(x => (sortFilters[x] = 1))
 
-
     // console.log(req.body.selectBy)
 
     let selectFilters = {}
     let renamedSelects = Array.from(req.body.filters.selectBy)
-    .map(x => x.replace('Graduation Year', 'graduationDate'))
-    .map(x => x.replace('Year', 'year'))
-    .map(x => x.replace('Status', 'status'))
-    .map(x => x.replace('Major', 'major'))
-    .map(x => x.replace('Hours', 'hours'))
-    .map(x => x.replace('Roles', 'role'))
-    .map(x => x.replace('Name', 'name'))
+      .map(x => x.replace('Graduation Year', 'graduationDate'))
+      .map(x => x.replace('Year', 'year'))
+      .map(x => x.replace('Status', 'status'))
+      .map(x => x.replace('Major', 'major'))
+      .map(x => x.replace('Hours', 'hours'))
+      .map(x => x.replace('Roles', 'role'))
+      .map(x => x.replace('Name', 'name'))
+      .map(x => x.replace('Resume', 'resume'))
+      .map(x => x.replace('Website', 'website'))
+      .map(x => x.replace('LinkedIn', 'linkedIn'))
 
-    Array.from(renamedSelects).forEach(x => selectFilters[x] = 1)
+    Array.from(renamedSelects).forEach(x => (selectFilters[x] = 1))
     console.log(selectFilters)
 
     let candidates = await Candidate.find()
