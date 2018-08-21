@@ -15,13 +15,14 @@ const auth = (req, res, next) => {
 
         // check if there is a corresponding name for the key
         if (req._key_name == undefined) {
-          msg = `The key '${key}'given doesn't have a corresponding name. Check the json file holding the keys.`
+          msg = `The key '${key}' given doesn't have a corresponding name. Check the json file holding the keys.`
           console.error(msg)
           res.status(500).json({
             code: 500,
-            message: 'Bad Key',
+            message: msg,
             success: false
           })
+          return
         }
 
         // check whether key is a lead's key or a member's key
