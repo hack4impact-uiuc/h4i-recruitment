@@ -42,9 +42,9 @@ export const selectByEnum = {
   HOURS: 'Hours',
   ROLES: 'Roles',
   YEAR: 'Year',
-  GRDYEAR: 'Graduation Year',
+  GRADYR: 'Graduation Year',
   STATUS: 'Status',
-  REUSME: 'Resume',
+  RESUME: 'Resume',
   WEBSITE: 'Website',
   LINKEDIN: 'LinkedIn'
 }
