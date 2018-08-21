@@ -85,3 +85,7 @@ p {
 .filter-type-box {
   margin-top: 10px;
 }
+
+#candidate-status-select {
+  width: 200px;
+}
