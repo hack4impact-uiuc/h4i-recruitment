@@ -10,16 +10,16 @@ function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
-function getAllCandidates(statuses, years, gradDates, sorts, roles) {
+function getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy) {
   return fetch(`${API_URL}/candidates/query`, {
     body: JSON.stringify({
       filters: {
         status: statuses,
         year: years,
         roles: roles,
-        graduationDate: gradDates
-      },
-      sorts: sorts
+        graduationDate: gradDates,
+        selectBy: selectBy
+      }
     }),
     headers: {
       'content-type': 'application/json'

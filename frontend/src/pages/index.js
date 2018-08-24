@@ -11,8 +11,7 @@ type Props = {
   candidates: Array<any>,
   loading: boolean,
   error: boolean,
-  filters: Object,
-  sort: Object
+  filters: Object
 }
 
 const mapDispatchToProps = dispatch => {
@@ -30,8 +29,7 @@ const mapStateToProps = state => ({
   candidates: state.candidateListPage.candidates,
   loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
-  filters: state.candidateListPage.filters,
-  sort: state.candidateListPage.sort
+  filters: state.candidateListPage.filters
 })
 
 class HomePage extends Component<Props> {
@@ -41,8 +39,7 @@ class HomePage extends Component<Props> {
       candidates: this.props.candidates,
       error: this.props.error,
       loading: this.props.loading,
-      filters: this.props.filters,
-      sort: this.props.sort
+      filters: this.props.filters
     }
   }
 
@@ -59,17 +56,19 @@ class HomePage extends Component<Props> {
   }
 
   query = () => {
-    this.props.fetchCandidates(
-      this.props.filters.statuses,
-      this.props.filters.years,
-      this.props.filters.gradDates,
-      this.props.filters.sortBy,
-      this.props.filters.roles
-    )
+    if (this.props.candidates.length == 0) {
+      this.props.fetchCandidates(
+        this.props.filters.statuses,
+        this.props.filters.years,
+        this.props.filters.gradDates,
+        this.props.filters.sortBy,
+        this.props.filters.roles
+      )
+    }
   }
 
   render() {
-    let { candidates, error, loading, filters, sort } = this.props
+    let { candidates, error, loading, filters } = this.props
     if (error) {
       return <div>Bad Fetch. Try again</div>
     }
