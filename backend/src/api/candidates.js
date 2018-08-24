@@ -25,7 +25,6 @@ router.post(
   '/query/',
   errorWrap(async (req, res) => {
     let filter = req.body.filters
-    console.log(filter)
     let sortFilters = {}
     let renamedSorts = Array.from(req.body.filters.sorts)
       .map(x => x.replace('Graduation Year', 'graduationDate'))
