@@ -42,8 +42,11 @@ export const selectByEnum = {
   HOURS: 'Hours',
   ROLES: 'Roles',
   YEAR: 'Year',
-  GRDYEAR: 'Graduation Year',
-  STATUS: 'Status'
+  GRADYR: 'Graduation Year',
+  STATUS: 'Status',
+  RESUME: 'Resume',
+  WEBSITE: 'Website',
+  LINKEDIN: 'LinkedIn'
 }
 
 export const enumToArray = e => {

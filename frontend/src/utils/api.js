@@ -18,6 +18,7 @@ function getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy) {
         year: years,
         roles: roles,
         graduationDate: gradDates,
+        sorts: sorts,
         selectBy: selectBy
       }
     }),
