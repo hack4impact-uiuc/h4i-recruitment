@@ -67,11 +67,7 @@ class CandidateBox extends Component {
           )}
           <a
             style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
-            href={
-              (process.env.NODE_ENV === 'production'
-                ? 'https://hack4imapct-recruitment-backend.now.sh'
-                : 'http://localhost:8080') + '/files/${candidate.resumeID}'
-            }
+            href={`${candidate.resumeID}`}
           >
             Resume
           </a>
