@@ -53,19 +53,23 @@ class HomePage extends Component<Props> {
         this.props.filters.years,
         this.props.filters.gradDates,
         this.props.filters.sortBy,
-        this.props.filters.roles
+        this.props.filters.roles,
+        this.props.filters.selectBy
       )
     }
   }
 
   query = () => {
-    this.props.fetchCandidates(
-      this.props.filters.statuses,
-      this.props.filters.years,
-      this.props.filters.gradDates,
-      this.props.filters.sortBy,
-      this.props.filters.roles
-    )
+    if (this.props.candidates.length == 0) {
+      this.props.fetchCandidates(
+        this.props.filters.statuses,
+        this.props.filters.years,
+        this.props.filters.gradDates,
+        this.props.filters.sortBy,
+        this.props.filters.roles,
+        this.props.filters.selectBy
+      )
+    }
   }
 
   render() {
