@@ -1,14 +1,12 @@
 // @flow
 import { Component } from 'react'
-import { generateMatchData } from './../actions'
 import { connect } from 'react-redux'
-import configureStore from './../store/appStore'
+import { Container, Row, Col } from 'reactstrap'
 import { bindActionCreators } from 'redux'
-import Head from '../components/head'
-import Nav from '../components/nav'
+import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
-import { Container } from 'reactstrap'
+
 type Props = {
   candidates: Array<any>,
   matchID: string,
@@ -51,7 +49,7 @@ class FaceMash extends Component<Props> {
 
   componentDidMount() {
     const { candidates } = this.props
-    if (candidates == null || candidates.length != 2) {
+    if (candidates == undefined || candidates.length != 2) {
       this.getNewMatch()
     }
   }
@@ -80,33 +78,41 @@ class FaceMash extends Component<Props> {
       }
       this.getNewMatch()
     } catch (err) {
-      console.error(('Error': err))
+      console.error('Error', err)
     }
   }
 
   render() {
     if (this.props.error) {
-      return <div>Bad Fetch. Try again</div>
+      return <Error>Bad Fetch. Try again</Error>
     }
     const { candidates } = this.props
     return candidates && candidates.length == 2 ? (
       <div>
         <Container>
+          <div className="mt-5" style={{ color: '#7f8e9e' }}>
+            <h4>Decide impartially on who you think would be more successful at Hack4Impact.</h4>
+            <p>
+              Although we need as many matches made as possible, please still take the time to look
+              think critically when making your choice. Each decision you make will affect each
+              candidate's ability to move on to the interview rounds.
+            </p>
+          </div>
           <p>{this.state.message}</p>
-          <div className="row">
-            <div className="col-md-6">
+          <Row>
+            <Col md="6">
               <Candidate candidate={candidates[0]} hideStatus={true} />
               <button name="0" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
-            </div>
-            <div className="col-md-6">
+            </Col>
+            <Col md="6">
               <Candidate candidate={candidates[1]} hideStatus={true} />
               <button name="1" className="btn btn-info" onClick={this.handleClick}>
                 Pick
               </button>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </Container>
       </div>
     ) : (
