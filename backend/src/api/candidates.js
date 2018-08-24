@@ -48,8 +48,6 @@ router.post(
 
     Array.from(renamedSelects).forEach(x => (selectFilters[x] = 1))
 
-    console.log(selectFilters)
-
     let candidates = await Candidate.find()
       .select(selectFilters)
       .find({ status: filter.status })

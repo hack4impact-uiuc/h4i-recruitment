@@ -2,7 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, enumToArray, selectByEnum } from '../utils/enums'
+import {
+  yearsEnum,
+  statusEnum,
+  rolesEnum,
+  gradEnum,
+  sortByEnum,
+  enumToArray,
+  selectByEnum
+} from '../utils/enums'
 import { Button } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {

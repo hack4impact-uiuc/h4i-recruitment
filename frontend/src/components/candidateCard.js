@@ -46,7 +46,7 @@ class CandidateCardComponent extends Component {
       <Card className="candidate-card">
         <CardBody>
           <CardTitle>
-          {candidate.name ? (
+            {candidate.name ? (
               <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
                 <a className="card-title">{candidate.name}</a>
               </Link>
