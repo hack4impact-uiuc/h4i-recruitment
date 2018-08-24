@@ -26,12 +26,29 @@ router.post(
   errorWrap(async (req, res) => {
     let filter = req.body.filters
     let sortFilters = {}
-    let renamedSorts = Array.from(req.body.sorts)
+    let renamedSorts = Array.from(req.body.filters.sorts)
       .map(x => x.replace('Graduation Year', 'graduationDate'))
       .map(x => x.replace('Year', 'year'))
       .map(x => x.replace('Status', 'status'))
     Array.from(renamedSorts).forEach(x => (sortFilters[x] = 1))
+
+    let selectFilters = {}
+    let renamedSelects = Array.from(req.body.filters.selectBy)
+      .map(x => x.replace('Graduation Year', 'graduationDate'))
+      .map(x => x.replace('Year', 'year'))
+      .map(x => x.replace('Status', 'status'))
+      .map(x => x.replace('Major', 'major'))
+      .map(x => x.replace('Hours', 'hours'))
+      .map(x => x.replace('Roles', 'role'))
+      .map(x => x.replace('Name', 'name'))
+      .map(x => x.replace('Resume', 'resume'))
+      .map(x => x.replace('Website', 'website'))
+      .map(x => x.replace('LinkedIn', 'linkedIn'))
+
+    Array.from(renamedSelects).forEach(x => (selectFilters[x] = 1))
+
     let candidates = await Candidate.find()
+      .select(selectFilters)
       .find({ status: filter.status })
       .find({ year: filter.year })
       .find({ graduationDate: filter.graduationDate })

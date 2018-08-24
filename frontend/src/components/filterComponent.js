@@ -2,7 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addFilter, removeFilter, resetFilters } from '../actions'
 import { bindActionCreators } from 'redux'
-import { yearsEnum, statusEnum, rolesEnum, gradEnum, sortByEnum, enumToArray } from '../utils/enums'
+import {
+  yearsEnum,
+  statusEnum,
+  rolesEnum,
+  gradEnum,
+  sortByEnum,
+  enumToArray,
+  selectByEnum
+} from '../utils/enums'
 import { Button } from 'reactstrap'
 
 const mapDispatchToProps = dispatch => {
@@ -45,22 +53,49 @@ class FilterComponent extends Component<Props> {
     const statuses = enumToArray(statusEnum)
     const gradDates = enumToArray(gradEnum)
     const sortBy = enumToArray(sortByEnum)
+    const selectBy = enumToArray(selectByEnum)
     let statusFilter = [],
       roleFilter = [],
       yearFilter = [],
       gradFilter = [],
-      sortByFilter = []
+      sortByFilter = [],
+      selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
       sortByFilter = this.props.filters.sortBy
+      selectByFilter = this.props.filters.selectBy
     }
     return (
       <div className="filter-box">
         <div>
           <h1>Query Panel</h1>
+        </div>
+        <div>
+          <h3>Selects</h3>
+        </div>
+        <div>
+          {selectBy.map((el, idx) => {
+            return (
+              <div>
+                <div className="pretty p-default" key={idx}>
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="selectBy"
+                    value={el}
+                    checked={selectByFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
         <div>
           <h3>Filters</h3>
