@@ -30,7 +30,11 @@ router.post(
       .map(x => x.replace('Graduation Year', 'graduationDate'))
       .map(x => x.replace('Year', 'year'))
       .map(x => x.replace('Status', 'status'))
+      .map(x => x.replace('Facemash Score', 'facemashRankings.elo'))
     Array.from(renamedSorts).forEach(x => (sortFilters[x] = 1))
+    if (sortFilters['facemashRankings.elo']) {
+      sortFilters['facemashRankings.elo'] = -1
+    }
 
     let selectFilters = {}
     let renamedSelects = Array.from(req.body.filters.selectBy)
@@ -44,6 +48,8 @@ router.post(
       .map(x => x.replace('Resume', 'resume'))
       .map(x => x.replace('Website', 'website'))
       .map(x => x.replace('LinkedIn', 'linkedIn'))
+      .map(x => x.replace('Facemash Score', 'facemashRankings.elo'))
+      .map(x => x.replace('Number of Matches', 'facemashRankings.numOfMatches'))
 
     Array.from(renamedSelects).forEach(x => (selectFilters[x] = 1))
 
