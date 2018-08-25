@@ -94,7 +94,7 @@ class FaceMash extends Component<Props> {
             <h4>Decide impartially on who you think would be more successful at Hack4Impact.</h4>
             <p>
               Although we need as many matches made as possible, please still take the time to look
-              think critically when making your choice. Each decision you make will affect each
+              and think critically when making your choice. Each decision you make will affect each
               candidate&#39;s ability to move on to the interview rounds.
             </p>
           </div>
