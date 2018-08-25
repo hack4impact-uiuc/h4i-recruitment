@@ -34,10 +34,10 @@ class NavigationBar extends Component {
           <NavbarToggler onClick={() => this.toggle()} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar className="ml-auto">
-              <Link href="/facemash">
+              <Link prefetch href="/facemash">
                 <a className="nav-bar-link">Facemash</a>
               </Link>
-              <Link href="/login">
+              <Link prefetch href="/login">
                 <a className="nav-bar-link pl-3">Interview Portal</a>
               </Link>
             </Nav>

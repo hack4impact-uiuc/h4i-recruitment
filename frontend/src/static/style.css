@@ -90,3 +90,20 @@ p {
 #candidate-status-select {
   width: 200px;
 }
+.comment-header {
+  background-color: #d6ebf0;
+  padding: 15px 20px;
+  color: #616870;
+}
+.comment-header p {
+  margin: 0px !important;
+}
+.comment-box {
+  border: 1px solid #e2e3e5;
+  border-radius: 5px;
+  width: 100%;
+  margin: 10px 0px;
+}
+.comment-body {
+  padding: 15px 20px;
+}

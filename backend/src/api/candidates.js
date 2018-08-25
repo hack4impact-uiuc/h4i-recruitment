@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
-const { Candidate } = require('../models')
+const { Candidate, Comment } = require('../models')
 const { statusEnum, yearsEnum, rolesEnum, gradEnum, enumToArray } = require('../utils/enums')
 const { getGithubContributions } = require('../utils/gitScraper')
 
@@ -178,6 +178,35 @@ router.get(
   errorWrap(async (req, res) => {
     const candidate = await Candidate.findById(req.params.candidateId)
     res.json({ result: candidate })
+  })
+)
+
+router.post(
+  '/:candidateId/comments',
+  errorWrap(async (req, res) => {
+    data = req.body
+    if (data.comment == undefined) {
+      res.status(400).json({
+        message: 'Comment Empty. Provide comment in Request body',
+        status: 400,
+        success: false
+      })
+    } else {
+      const newComment = new Comment({
+        writerId: req._key,
+        writerName: req._key_name,
+        text: data.comment
+      })
+      const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+        $push: { comments: newComment }
+      })
+
+      res.json({
+        message: `Successfully added comment to user ${candidate._id}`,
+        status: 200,
+        success: true
+      })
+    }
   })
 )
 
