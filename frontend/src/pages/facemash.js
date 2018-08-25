@@ -95,7 +95,7 @@ class FaceMash extends Component<Props> {
             <p>
               Although we need as many matches made as possible, please still take the time to look
               think critically when making your choice. Each decision you make will affect each
-              candidate's ability to move on to the interview rounds.
+              candidate&#39;s ability to move on to the interview rounds.
             </p>
           </div>
           <p>{this.state.message}</p>
