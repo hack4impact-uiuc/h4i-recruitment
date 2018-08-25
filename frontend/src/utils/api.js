@@ -69,11 +69,26 @@ function setMatchWinner(candidate1: string, candidate2: string, winnerID: string
   }).then(res => res.json())
 }
 
+function addCommentToCandidate(candidateID: string, comment: string) {
+  console.log(`Adding Comment to ${candidateID}: ${comment}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/comments`, {
+    body: JSON.stringify({
+      comment
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   getCandidateById,
   getAllCandidates,
   getCandidateMatch,
   setMatchWinner,
   setCandidateStatus,
-  getCandidatesByStatus
+  getCandidatesByStatus,
+  addCommentToCandidate
 }
