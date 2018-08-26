@@ -15,89 +15,89 @@ class Interview extends Component<Props> {
       generalNotes:"",
       sections: [
         {
-          sectionName: "Time",
+          section_name: "Time",
           questions:[
             {
-              questionName:"Exec member for another org",
-              number: 0
+              question_text:"Exec member for another org",
+              score: 0
             },
             {
-              questionName:"Consulting club such as IBC, OTCR",
-              number: 0
+              question_text:"Consulting club such as IBC, OTCR",
+              score: 0
             },
             {
-              questionName:"Some other club that requires time (ex: Enactus, Fraternity Pledge during the same semester)",
-              number: 0
+              question_text:"Some other club that requires time (ex: Enactus, Fraternity Pledge during the same semester)",
+              score: 0
             },
             {
-              questionName:"Hard/Time-consuming classes",
-              number: 0
+              question_text:"Hard/Time-consuming classes",
+              score: 0
             },
             {
-              questionName:"Hard course-load (still take one point off for each hard class they have as described above)",
-              number: 0
+              question_text:"Hard course-load (still take one point off for each hard class they have as described above)",
+              score: 0
             },
             {
-              questionName:"Too many org obligations",
-              number: 0
+              question_text:"Too many org obligations",
+              score: 0
             }
           ],
-          sectionNotes: ""
+          section_notes: ""
 
         },
         {
-          sectionName: "Initiative and Passion",
+          section_name: "Initiative and Passion",
           questions:[
             {
-              questionName:"Initiative and Passion",
-              number: 0
+              question_text:"Initiative and Passion",
+              score: 0
             }
           ],
-          sectionNotes: ""
+          section_notes: ""
 
         },
         {
-          sectionName: "Community",
+          section_name: "Community",
           questions:[
             {
-              questionName:"Will they contribute to community or are they just using this as a resume booster?",
-              number: 0
+              question_text:"Will they contribute to community or are they just using this as a resume booster?",
+              score: 0
             }
           ],
-          sectionNotes: ""
+          section_notes: ""
 
         },
         {
-          sectionName: "Resume And Tech Knowledge",
+          section_name: "Resume And Tech Knowledge",
           questions:[
             {
-              questionName:"Resume And Tech Knowledge",
-              number: 0
+              question_text:"Resume And Tech Knowledge",
+              score: 0
             }
           ],
-          sectionNotes: ""
+          section_notes: ""
 
         },
         {
-          sectionName: "Knowledge of Web Dev",
+          section_name: "Knowledge of Web Dev",
           questions:[
             {
-              questionName:"Knowledge of Web Dev",
-              number: 0
+              question_text:"Knowledge of Web Dev",
+              score: 0
             }
           ],
-          sectionNotes: ""
+          section_notes: ""
 
         },
         {
-          sectionName: "Technical Challenge",
+          section_name: "Technical Challenge",
           questions:[
             {
-              questionName:"Technical Challenge",
-              number: 0
+              question_text:"Technical Challenge",
+              score: 0
             }
           ],
-          sectionNotes: ""
+          section_notes: ""
 
         }
         
@@ -109,9 +109,9 @@ class Interview extends Component<Props> {
   }
 
   onSelect = (e) => {
-    const currSection = this.state.sections.filter(section => section.sectionName === e.target.name)[0];
-    const currQuestion = currSection.questions.filter(question => question.questionName === e.target.name)[0];
-    currQuestion.number = parseInt(e.target.value);
+    const currSection = this.state.sections.filter(section => section.section_name === e.target.name)[0];
+    const currQuestion = currSection.questions.filter(question => question.question_text === e.target.name)[0];
+    currQuestion.score = parseInt(e.target.value);
     this.forceUpdate(); 
   }
 

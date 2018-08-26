@@ -30,18 +30,17 @@ class PastInterviews extends Component<Props> {
   }
 
   async componentDidMount(){
-    const {result} = await getPastInterviews('CaptainMeg')
+    const {result} = await getPastInterviews(localStorage.getItem("interviewerKey"))
     if(result){
       this.setState({interviews: result})
     }
   }
   
-  handleEditInterview = (interview) => {
-    // console.log("INTERVIEW", interview)
+  async handleEditInterview(interview){
     if(interview){
-      // console.log("im in")
       const { editInterview } = this.props
-      editInterview(interview)
+      await editInterview(interview)
+      Router.push('/interview')
     }
   }
   
@@ -66,7 +65,7 @@ class PastInterviews extends Component<Props> {
                     <td>{i}</td>
                     <td>{interview.candidate_name}</td>
                     <td>{interview.overall_score}</td>
-                    <td><Button onClick ={ this.handleEditInterview(interview)}>Edit Interview</Button></td>
+                    <td><Button onClick ={() => this.handleEditInterview(interview)}>Edit Interview</Button></td>
                   </tr>,
                 ];
               }) : <tr>No Interviews</tr>}
