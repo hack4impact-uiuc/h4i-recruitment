@@ -53,19 +53,23 @@ class HomePage extends Component<Props> {
         this.props.filters.years,
         this.props.filters.gradDates,
         this.props.filters.sortBy,
-        this.props.filters.roles
+        this.props.filters.roles,
+        this.props.filters.selectBy
       )
     }
   }
 
   query = () => {
-    this.props.fetchCandidates(
-      this.props.filters.statuses,
-      this.props.filters.years,
-      this.props.filters.gradDates,
-      this.props.filters.sortBy,
-      this.props.filters.roles
-    )
+    if (this.props.candidates.length == 0) {
+      this.props.fetchCandidates(
+        this.props.filters.statuses,
+        this.props.filters.years,
+        this.props.filters.gradDates,
+        this.props.filters.sortBy,
+        this.props.filters.roles,
+        this.props.filters.selectBy
+      )
+    }
   }
 
   render() {
@@ -77,21 +81,17 @@ class HomePage extends Component<Props> {
     return (
       <>
         <div className="page-content-wrapper">
-          <Row className="mb-3">
-            <h2 className="ml-5">Hack4Impact Recruitment Portal</h2>
-          </Row>
           <Container fluid>
             <Row>
-              <Col xs="2" lg="2" md="2">
+              <Col lg="2" sm="3" className="ml-2">
                 <FilterComponent />
                 <Col>
                   <div>
                     <Button onClick={this.query}> Query Candidates </Button>
                   </div>
                 </Col>
-                {console.log(candidates)}
               </Col>
-              <Col xs="10" lg="10" md="10">
+              <Col lg="9" sm="8">
                 <CandidateListComponent candidates={candidates} />
               </Col>
             </Row>

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
-const { Candidate } = require('../models')
+const { Candidate, Comment } = require('../models')
 const { statusEnum, yearsEnum, rolesEnum, gradEnum, enumToArray } = require('../utils/enums')
 const { getGithubContributions } = require('../utils/gitScraper')
 
@@ -26,12 +26,29 @@ router.post(
   errorWrap(async (req, res) => {
     let filter = req.body.filters
     let sortFilters = {}
-    let renamedSorts = Array.from(req.body.sorts)
+    let renamedSorts = Array.from(req.body.filters.sorts)
       .map(x => x.replace('Graduation Year', 'graduationDate'))
       .map(x => x.replace('Year', 'year'))
       .map(x => x.replace('Status', 'status'))
     Array.from(renamedSorts).forEach(x => (sortFilters[x] = 1))
+
+    let selectFilters = {}
+    let renamedSelects = Array.from(req.body.filters.selectBy)
+      .map(x => x.replace('Graduation Year', 'graduationDate'))
+      .map(x => x.replace('Year', 'year'))
+      .map(x => x.replace('Status', 'status'))
+      .map(x => x.replace('Major', 'major'))
+      .map(x => x.replace('Hours', 'hours'))
+      .map(x => x.replace('Roles', 'role'))
+      .map(x => x.replace('Name', 'name'))
+      .map(x => x.replace('Resume', 'resume'))
+      .map(x => x.replace('Website', 'website'))
+      .map(x => x.replace('LinkedIn', 'linkedIn'))
+
+    Array.from(renamedSelects).forEach(x => (selectFilters[x] = 1))
+
     let candidates = await Candidate.find()
+      .select(selectFilters)
       .find({ status: filter.status })
       .find({ year: filter.year })
       .find({ graduationDate: filter.graduationDate })
@@ -161,6 +178,35 @@ router.get(
   errorWrap(async (req, res) => {
     const candidate = await Candidate.findById(req.params.candidateId)
     res.json({ result: candidate })
+  })
+)
+
+router.post(
+  '/:candidateId/comments',
+  errorWrap(async (req, res) => {
+    data = req.body
+    if (data.comment == undefined) {
+      res.status(400).json({
+        message: 'Comment Empty. Provide comment in Request body',
+        status: 400,
+        success: false
+      })
+    } else {
+      const newComment = new Comment({
+        writerId: req._key,
+        writerName: req._key_name,
+        text: data.comment
+      })
+      const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+        $push: { comments: newComment }
+      })
+
+      res.json({
+        message: `Successfully added comment to user ${candidate._id}`,
+        status: 200,
+        success: true
+      })
+    }
   })
 )
 

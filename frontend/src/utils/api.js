@@ -10,16 +10,17 @@ function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
-function getAllCandidates(statuses, years, gradDates, sorts, roles) {
+function getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy) {
   return fetch(`${API_URL}/candidates/query`, {
     body: JSON.stringify({
       filters: {
         status: statuses,
         year: years,
         roles: roles,
-        graduationDate: gradDates
-      },
-      sorts: sorts
+        graduationDate: gradDates,
+        sorts: sorts,
+        selectBy: selectBy
+      }
     }),
     headers: {
       'content-type': 'application/json'
@@ -63,6 +64,20 @@ function setMatchWinner(candidate1: string, candidate2: string, winnerID: string
       candidate2,
       winnerID,
       matchID
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function addCommentToCandidate(candidateID: string, comment: string) {
+  console.log(`Adding Comment to ${candidateID}: ${comment}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/comments`, {
+    body: JSON.stringify({
+      comment
     }),
     headers: {
       'content-type': 'application/json'
@@ -123,5 +138,6 @@ export {
   getCandidateMatch,
   setMatchWinner,
   setCandidateStatus,
-  getCandidatesByStatus
+  getCandidatesByStatus,
+  addCommentToCandidate
 }

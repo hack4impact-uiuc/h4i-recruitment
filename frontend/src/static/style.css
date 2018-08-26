@@ -44,6 +44,7 @@ p {
   cursor: pointer;
 }
 .candidate-card:hover {
+  background-color: lightskyblue;
   transform: translateY(-1px);
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
     0px 3px 1px -2px rgba(0, 0, 0, 0.12);
@@ -84,4 +85,25 @@ p {
 
 .filter-type-box {
   margin-top: 10px;
+}
+
+#candidate-status-select {
+  width: 200px;
+}
+.comment-header {
+  background-color: #d6ebf0;
+  padding: 15px 20px;
+  color: #616870;
+}
+.comment-header p {
+  margin: 0px !important;
+}
+.comment-box {
+  border: 1px solid #e2e3e5;
+  border-radius: 5px;
+  width: 100%;
+  margin: 10px 0px;
+}
+.comment-body {
+  padding: 15px 20px;
 }
