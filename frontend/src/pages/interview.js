@@ -10,6 +10,7 @@ class Interview extends Component<Props> {
     super(props);
     this.state = {
       candidateId:"",
+      candidateName:"",
       overallScore:0,
       generalNotes:"",
       sections: [
@@ -104,7 +105,7 @@ class Interview extends Component<Props> {
     }
   }
   handleSubmit = (e) => {
-    addInterview(localStorage.getItem(interviewerKey), this.state.candidateId, this.state.overallScore, this.state.generalNotes, this.state.sections);
+    addInterview(localStorage.getItem("interviewerKey"), this.state.candidateId, this.state.candidateName, this.state.overallScore, this.state.generalNotes, this.state.sections);
   }
 
   onSelect = (e) => {

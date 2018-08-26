@@ -1,7 +1,23 @@
 import { Container, Button, Table } from 'reactstrap'
 import { Component } from 'react'
-import { getPastInterviews, editInterview } from '../utils/api'
+import Router from 'next/router'
+import { editInterview } from './../actions'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { getPastInterviews} from '../utils/api'
 type Props = {}
+
+const mapStateToProps = state => ({
+})
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      editInterview
+    },
+    dispatch
+  )
+}
 
 // Main app
 class PastInterviews extends Component<Props> {
@@ -14,17 +30,20 @@ class PastInterviews extends Component<Props> {
   }
 
   async componentDidMount(){
-  console.log(getPastInterviews('CaptainMeg'))
-  const {result} = await getPastInterviews('CaptainMeg')
-  console.log(result)
+    const {result} = await getPastInterviews('CaptainMeg')
     if(result){
       this.setState({interviews: result})
     }
   }
-  editInterview = (e) =>{
-    
-  }
   
+  handleEditInterview = (interview) => {
+    // console.log("INTERVIEW", interview)
+    if(interview){
+      // console.log("im in")
+      const { editInterview } = this.props
+      editInterview(interview)
+    }
+  }
   
   render() {
     let interviews = this.state.interviews;
@@ -45,9 +64,9 @@ class PastInterviews extends Component<Props> {
               return [
                   <tr key={i}>
                     <td>{i}</td>
-                    <td>{interview.interviewer_key}</td>
+                    <td>{interview.candidate_name}</td>
                     <td>{interview.overall_score}</td>
-                    <td><Button onClick={this.editInterview()}>Edit Interview</Button></td>
+                    <td><Button onClick ={ this.handleEditInterview(interview)}>Edit Interview</Button></td>
                   </tr>,
                 ];
               }) : <tr>No Interviews</tr>}
@@ -57,4 +76,7 @@ class PastInterviews extends Component<Props> {
     )
   }
 }
-export default PastInterviews
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PastInterviews)
