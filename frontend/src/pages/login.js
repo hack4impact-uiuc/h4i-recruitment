@@ -11,18 +11,18 @@ class Login extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      currentKey: ""
+      currentKey: ''
     }
   }
-  async handleSubmit(){
-    const {success} = await validateKey(this.state.currentKey);
-    if (success){
-      localStorage.setItem('interviewerKey', this.state.currentKey); 
-      Router.push('/interviewportal');
+  async handleSubmit() {
+    const { success } = await validateKey(this.state.currentKey)
+    if (success) {
+      localStorage.setItem('interviewerKey', this.state.currentKey)
+      Router.push('/interviewportal')
     }
   }
-  onTextChange = (e) =>{
-    this.setState({currentKey: e.target.value})
+  onTextChange = e => {
+    this.setState({ currentKey: e.target.value })
   }
 
   render() {
@@ -31,13 +31,25 @@ class Login extends Component<Props> {
         <Modal isOpen={true}>
           <ModalHeader>Login to Your Interview Portal</ModalHeader>
           <ModalBody>
-            <Input type="text" onChange={this.onTextChange} name="Input Key" placeholder="Input Your Key" />
+            <Input
+              type="text"
+              onChange={this.onTextChange}
+              name="Input Key"
+              placeholder="Input Your Key"
+            />
           </ModalBody>
           <ModalFooter>
             <Link prefetch href="/">
               <Button color="secondary">Cancel</Button>
             </Link>{' '}
-              <Button onClick = { (e) => { this.handleSubmit();}} color="primary">Submit</Button>
+            <Button
+              onClick={e => {
+                this.handleSubmit()
+              }}
+              color="primary"
+            >
+              Submit
+            </Button>
           </ModalFooter>
         </Modal>
       </Container>

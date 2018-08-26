@@ -55,13 +55,15 @@ router.get(
   errorWrap(async (req, res) => {
     const interviews = await Interview.find()
     console.log(interviews)
-    const retInterviews = interviews.filter(interview => interview.interviewer_key === req.params.interviewer_key)
-    let statusCode = retInterviews ? 200 : 400;
+    const retInterviews = interviews.filter(
+      interview => interview.interviewer_key === req.params.interviewer_key
+    )
+    let statusCode = retInterviews ? 200 : 400
 
     res.status(statusCode).json({
       code: statusCode,
       message: '',
-      result: retInterviews ,
+      result: retInterviews,
       success: true
     })
   })
@@ -83,7 +85,7 @@ router.post(
       response = 'Invalid interviewerKey'
     } else if (candidateId == undefined) {
       response = 'Invalid candidateId'
-    }  else if (candidateName == undefined) {
+    } else if (candidateName == undefined) {
       response = 'Invalid candidateName'
     } else if (reqSections == undefined) {
       response = 'Invalid sections'

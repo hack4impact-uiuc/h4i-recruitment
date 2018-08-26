@@ -15,7 +15,7 @@ import {
 export default function recruitmentApp(state = initialState, action) {
   switch (action.type) {
     case EDIT_INTERVIEW:
-    console.log("ACTION INTERVIEW", action.payload.interview);
+      console.log('ACTION INTERVIEW', action.payload.interview)
       return {
         ...state,
         interview: {

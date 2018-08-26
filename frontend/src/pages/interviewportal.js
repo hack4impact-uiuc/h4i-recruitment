@@ -8,8 +8,7 @@ import { bindActionCreators } from 'redux'
 
 type Props = {}
 
-const mapStateToProps = state => ({
-})
+const mapStateToProps = state => ({})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
@@ -22,22 +21,22 @@ function mapDispatchToProps(dispatch) {
 
 // Main app
 class InterviewPortal extends Component<Props> {
-  
   constructor(props) {
     super(props)
   }
 
-  handleNewInterview = (e) => {
+  handleNewInterview = e => {
     const { newInterview } = this.props
     newInterview()
-    Router.push('/interview');
+    Router.push('/interview')
   }
 
   render() {
     return (
       <Container>
-        <Button onClick={this.handleNewInterview} color="primary">New Interview</Button>
-        {' '}
+        <Button onClick={this.handleNewInterview} color="primary">
+          New Interview
+        </Button>{' '}
         <Link prefetch href="/past-interviews">
           <Button color="primary">Past Interviews</Button>
         </Link>

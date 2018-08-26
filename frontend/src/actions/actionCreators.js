@@ -27,10 +27,10 @@ export const fetchCandidatesSuccess = candidates => ({
   payload: candidates
 })
 
-export const editInterview = (interview) => ({
+export const editInterview = interview => ({
   type: EDIT_INTERVIEW,
   payload: {
-    interview:interview
+    interview: interview
   }
 })
 

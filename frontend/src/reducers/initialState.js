@@ -13,9 +13,9 @@ const initialState = {
     candidates: null,
     matchID: null
   },
-  interview:{
-    editInterview:false,
-    interviewObj: null,
+  interview: {
+    editInterview: false,
+    interviewObj: null
   },
   candidateListPage: {
     candidates: [],
