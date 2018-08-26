@@ -52,7 +52,7 @@ function setCandidateStatus(id: string, status: string) {
 }
 
 function getCandidatesByStatus(status: string) {
-  return fetch(`${API_URL}/candidates?status=${status}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates?status=${status}&&key=${localStorage.getItem("interviewerKey")}`).then(res => res.json())
 }
 
 function setMatchWinner(candidate1: string, candidate2: string, winnerID: string, matchID: string) {
@@ -80,11 +80,12 @@ function getPastInterviews(interviewerKey: string){
   return fetch(`${API_URL}/interview/past-interviews/${interviewerKey}`).then(res => res.json())
 }
 
-function addInterview(interviewerKey: string, candidateId:string, overallScore:number, generalNotes:string, sections:Array) {
+function addInterview(interviewerKey: string, candidateId:string, candidateName:string, overallScore:number, generalNotes:string, sections:Array) {
   return fetch(`${API_URL}/interview/`, {
     body: JSON.stringify({
       interviewerKey,
       candidateId,
+      candidateName,
       overallScore,
       generalNotes,
       sections
