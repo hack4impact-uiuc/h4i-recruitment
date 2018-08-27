@@ -4,11 +4,14 @@ const Question = new mongoose.Schema({
   question_text: { type: String },
   score: { type: Number }
 })
+
 const Section = new mongoose.Schema({
+  section_name: { type: String },
   description: { type: String },
   questions: { type: [Question] },
   section_notes: { type: String }
 })
+
 const Interview = new mongoose.Schema({
   candidate_id: { type: String },
   candidate_name: { type: String },

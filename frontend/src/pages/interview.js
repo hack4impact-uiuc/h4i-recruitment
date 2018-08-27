@@ -15,32 +15,10 @@ class Interview extends Component<Props> {
       generalNotes: '',
       sections: [
         {
-          section_name: 'Time',
+          section_name: 'Time Commitment',
           questions: [
             {
-              question_text: 'Exec member for another org',
-              score: 0
-            },
-            {
-              question_text: 'Consulting club such as IBC, OTCR',
-              score: 0
-            },
-            {
-              question_text:
-                'Some other club that requires time (ex: Enactus, Fraternity Pledge during the same semester)',
-              score: 0
-            },
-            {
-              question_text: 'Hard/Time-consuming classes',
-              score: 0
-            },
-            {
-              question_text:
-                'Hard course-load (still take one point off for each hard class they have as described above)',
-              score: 0
-            },
-            {
-              question_text: 'Too many org obligations',
+              question_text: 'Time Commitment',
               score: 0
             }
           ],
@@ -60,8 +38,7 @@ class Interview extends Component<Props> {
           section_name: 'Community',
           questions: [
             {
-              question_text:
-                'Will they contribute to community or are they just using this as a resume booster?',
+              question_text: 'Community',
               score: 0
             }
           ],
@@ -100,7 +77,16 @@ class Interview extends Component<Props> {
       ]
     }
   }
+
+  handleTextChange = e => {
+    let newSections = this.state.sections
+    const currSection = newSections.filter(section => section.section_name === e.target.name)[0]
+    currSection.section_notes = e.target.value
+    this.setState({ sections: newSections })
+  }
+
   handleSubmit = e => {
+    console.log('Adding Interview....')
     addInterview(
       localStorage.getItem('interviewerKey'),
       this.state.candidateId,
@@ -109,17 +95,19 @@ class Interview extends Component<Props> {
       this.state.generalNotes,
       this.state.sections
     )
+    alert('Added interview')
   }
 
   onSelect = e => {
-    const currSection = this.state.sections.filter(
-      section => section.section_name === e.target.name
-    )[0]
+    let newSections = this.state.sections
+    const currSection = newSections.filter(section => section.section_name === e.target.name)[0]
     const currQuestion = currSection.questions.filter(
       question => question.question_text === e.target.name
     )[0]
     currQuestion.score = parseInt(e.target.value)
-    this.forceUpdate()
+    this.setState({
+      sections: newSections
+    })
   }
 
   render() {
@@ -127,53 +115,62 @@ class Interview extends Component<Props> {
       <Container>
         <Form>
           <FormGroup>
-            <legend>Time</legend>
-            <FormGroup check>
-              <Label>
-                <Input
-                  type="checkbox"
-                  value="-1"
-                  question="0"
-                  onClick={this.onSelect}
-                  name="Time"
-                />{' '}
-                Exec member for another org
-              </Label>
-            </FormGroup>
-            <FormGroup check>
-              <Label>
-                <Input type="checkbox" value="-1" onClick={this.onSelect} name="Time" /> Consulting
-                club such as IBC, OTCR
-              </Label>
-            </FormGroup>
-            <FormGroup check>
-              <Label>
-                <Input type="checkbox" value="-1" onClick={this.onSelect} name="Time" /> Some other
-                club that requires time (ex: Enactus, Fraternity Pledge during the same semester)
-              </Label>
-            </FormGroup>
-            <FormGroup check>
-              <Label>
-                <Input type="checkbox" value="-1" onClick={this.onSelect} name="Time" />{' '}
-                Hard/Time-consuming classes
-              </Label>
-            </FormGroup>
-            <FormGroup check>
-              <Label>
-                <Input type="checkbox" value="-1" onClick={this.onSelect} name="Time" /> Hard
-                course-load (still take one point off for each hard class they have as described
-                above)
-              </Label>
-            </FormGroup>
-            <FormGroup check>
-              <Label>
-                <Input type="checkbox" value="-1" onClick={this.onSelect} name="Time" /> Too many
-                org obligations
-              </Label>
-            </FormGroup>
+            <legend>Time Commitment (7 points)</legend>
+            -1 for each:
+            <ul>
+              <li>Exec member for another org Consulting Club such as IBC</li>
+              <li>
+                OTCR Some other club that requires time that I can’t think of (ex: Enactus
+                Fraternity Pledge during the same semester)
+              </li>
+              <li>Hard/Time-consuming classes</li>
+            </ul>
+            -2 for each:
+            <ul>
+              <li>
+                Hard course-load (still take one point off for each hard class they have as
+                described above){' '}
+              </li>
+              <li>Too many org obligations</li>
+            </ul>
+            <Label>Give them a score out of 7:</Label>
+            <Input
+              value={
+                this.state.sections.filter(section => section.section_name === 'Time Commitment')[0]
+                  .score
+              }
+              onChange={this.onSelect}
+              type="select"
+              name="Time Commitment"
+              id="time-commitment-input"
+            >
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+            </Input>
+            <Label>Explain Why you gave them those points:</Label>
+            {console.log(
+              'Time',
+              this.state.sections.filter(section => section.section_name === 'Community')[0]
+            )}
+            <Input
+              value={
+                this.state.sections.filter(section => section.section_name === 'Time Commitment')[0]
+                  .section_notes
+              }
+              onChange={this.handleTextChange}
+              type="textarea"
+              name="Time Commitment"
+              id="time-commitment-explanation"
+            />
           </FormGroup>
           <FormGroup>
-            <legend>Initiative and Passion</legend>
+            <legend>Initiative and Passion (5 points)</legend>
             <FormGroup check>
               <Label>
                 <Input
@@ -210,14 +207,41 @@ class Interview extends Component<Props> {
             </FormGroup>
           </FormGroup>
           <FormGroup>
-            <legend>Community</legend>
+            <legend>Community (5 points)</legend>
+            <Label>Give them score out of 5:</Label>
+            <Input
+              value={
+                this.state.sections.filter(section => section.section_name === 'Community')[0].score
+              }
+              onChange={this.onSelect}
+              type="select"
+              name="Community"
+              id="community-input"
+            >
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </Input>
             <Label>
-              Will they contribute to community or are they just using this as a resume booster?{' '}
+              Will they contribute to community or are they just using this as a resume booster?
+              Explain your reasoning for your score.{' '}
             </Label>
-            <Input type="text" placeholder="Your Answer" />
+            <Input
+              type="text"
+              name="Community"
+              value={
+                this.state.sections.filter(section => section.section_name === 'Community')[0]
+                  .section_notes
+              }
+              onChange={this.handleTextChange}
+              placeholder="Your Answer"
+            />
           </FormGroup>
           <FormGroup>
-            <legend>Resume and Tech Knowledge</legend>
+            <legend>Resume and Tech Knowledge (3 Points)</legend>
             <FormGroup check>
               <Label>
                 <Input
@@ -264,7 +288,7 @@ class Interview extends Component<Props> {
             </FormGroup>
           </FormGroup>
           <FormGroup>
-            <legend>Knowledge of Web Dev</legend>
+            <legend>Knowledge of Web Dev or Data (2 points)</legend>
             <FormGroup check>
               <Label>
                 <Input type="radio" value="0" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
@@ -291,7 +315,7 @@ class Interview extends Component<Props> {
             </FormGroup>
           </FormGroup>
           <FormGroup>
-            <legend>Technical Challenge</legend>
+            <legend>Technical Challenge (5 points)</legend>
             <FormGroup check>
               <Label>
                 <Input type="radio" value="0" onClick={this.onSelect} name="Technical Challenge" />{' '}
