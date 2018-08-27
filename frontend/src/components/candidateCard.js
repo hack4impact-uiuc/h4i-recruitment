@@ -53,12 +53,37 @@ class CandidateCardComponent extends Component {
             ) : (
               <></>
             )}
+
+            {candidate.status && candidate.status === 'Accepted' ? (
+              <span class="badge badge-pill badge-success">Acecpted</span>
+            ) : (
+              <></>
+            )}
+
+            {candidate.status && candidate.status === 'Pending' ? (
+              <span class="badge badge-pill badge-warning">Pending</span>
+            ) : (
+              <></>
+            )}
+
+            {candidate.status && candidate.status === 'Rejected' ? (
+              <span class="badge badge-pill badge-danger">Rejected</span>
+            ) : (
+              <></>
+            )}
+
+            {candidate.status && candidate.status === 'Interviewing' ? (
+              <span class="badge badge-pill badge-info">Interviewing</span>
+            ) : (
+              <></>
+            )}
+
             {candidate.resumeID ? (
               <a className="card-links" href={`${candidate.resumeID}`}>
                 <span class="badge badge-pill badge-primary">Resume</span>
               </a>
             ) : (
-              <></>
+              <p />
             )}
 
             {candidate.website ? (
@@ -66,7 +91,7 @@ class CandidateCardComponent extends Component {
                 <span class="badge badge-pill badge-primary">Website</span>
               </a>
             ) : (
-              <></>
+              <p />
             )}
 
             {candidate.linkedIn ? (
@@ -74,7 +99,7 @@ class CandidateCardComponent extends Component {
                 <span class="badge badge-pill badge-primary">LinkedIn</span>
               </a>
             ) : (
-              <></>
+              <p />
             )}
           </CardTitle>
           <div onClick={e => handler(candidate._id)}>
@@ -105,14 +130,6 @@ class CandidateCardComponent extends Component {
             {candidate.timeCanDevote ? (
               <p>
                 Hours: <span className="highlight">{candidate.timeCanDevote}</span>
-              </p>
-            ) : (
-              <></>
-            )}
-
-            {candidate.status ? (
-              <p>
-                Status: <span className="highlight">{this.state.status}</span>
               </p>
             ) : (
               <></>

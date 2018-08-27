@@ -40,6 +40,8 @@ p {
   padding-right: 30px;
 }
 .candidate-card {
+  width:70%;
+  /* height:200px; */
   transition: all 200ms;
   cursor: pointer;
 }
