@@ -103,12 +103,9 @@ router.post(
         general_notes: genNotes,
         sections: reqSections
       })
-      console.log(interview)
       await interview.save()
-      console.log(interview)
       //await Candidate.findByIdAndUpdate(candidateId, { interview: interview})
     }
-    console.log(response)
     res.json({
       code: 200,
       message: response,
