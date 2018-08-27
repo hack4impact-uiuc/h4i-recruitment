@@ -1,20 +1,23 @@
 const express = require('express')
+var mongodb = require('mongodb')
+const { errorWrap } = require('../middleware')
+const { Interview } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
+
 const router = express.Router()
-const { errorWrap } = require('../middleware')
-const { Interview } = require('../models')
-var mongodb = require('mongodb')
 
 router.get(
-  '/verify_interviewer/:key',
+  '/verify_interviewer',
   errorWrap(async (req, res) => {
     let keyVerified = false
-    if (req.params.key && req.params.key.length === 11) {
-      keyVerified = keyData.keys.filter(currKey => currKey.key === req.params.key).length !== 0
+    const key = req.query.key
+    if (key && key.length === 11) {
+      keyVerified = keyData.keys.filter(currKey => currKey.key === key).length !== 0
     }
-    let statusCode = keyVerified ? 200 : 400
+
+    let statusCode = keyVerified ? 200 : 403
     let message = keyVerified ? 'key is verified' : 'key did not pass verification'
     res.status(statusCode).json({
       code: statusCode,
@@ -27,8 +30,7 @@ router.get(
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    let interviews
-    interviews = await Interview.find()
+    let interviews = await Interview.find()
     res.json({
       code: 200,
       message: '',
@@ -51,21 +53,43 @@ router.get(
   })
 )
 
+router.get(
+  '/past-interviews/:interviewer_key',
+  errorWrap(async (req, res) => {
+    const interviews = await Interview.find()
+    console.log(interviews)
+    const retInterviews = interviews.filter(
+      interview => interview.interviewer_key === req.params.interviewer_key
+    )
+    let statusCode = retInterviews ? 200 : 400
+
+    res.status(statusCode).json({
+      code: statusCode,
+      message: '',
+      result: retInterviews,
+      success: true
+    })
+  })
+)
+
 router.post(
   '/',
   errorWrap(async (req, res) => {
     data = req.body
     let response = 'Interview Added Sucessfully'
-    let interviewerKey = data.interviewer_key
+    let interviewerKey = data.interviewerKey
     let reqSections = data.sections
-    let candidateId = data.candidate_id
-    let score = data.overall_score
-    let genNotes = data.general_notes
+    let candidateId = data.candidateId
+    let candidateName = data.candidateName
+    let score = data.overallScore
+    let genNotes = data.generalNotes
 
     if (interviewerKey == undefined) {
       response = 'Invalid interviewerKey'
     } else if (candidateId == undefined) {
       response = 'Invalid candidateId'
+    } else if (candidateName == undefined) {
+      response = 'Invalid candidateName'
     } else if (reqSections == undefined) {
       response = 'Invalid sections'
     } else if (score == undefined) {
@@ -78,6 +102,7 @@ router.post(
         interviewer_key: interviewerKey,
         overall_score: score,
         candidate_id: candidateId,
+        candidate_name: candidateName,
         general_notes: genNotes,
         sections: reqSections
       })

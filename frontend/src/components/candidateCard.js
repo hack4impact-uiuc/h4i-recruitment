@@ -80,7 +80,7 @@ class CandidateCardComponent extends Component {
 
             {candidate.resumeID ? (
               <a className="card-links" href={`${candidate.resumeID}`}>
-                <span class="badge badge-pill badge-primary">Resume</span>
+                <span className="badge badge-pill badge-primary">Resume</span>
               </a>
             ) : (
               <p />
@@ -88,7 +88,7 @@ class CandidateCardComponent extends Component {
 
             {candidate.website ? (
               <a className="card-links" href={`${candidate.website}`}>
-                <span class="badge badge-pill badge-primary">Website</span>
+                <span className="badge badge-pill badge-primary">Website</span>
               </a>
             ) : (
               <p />
@@ -96,7 +96,7 @@ class CandidateCardComponent extends Component {
 
             {candidate.linkedIn ? (
               <a className="card-links" href={`${candidate.linkedIn}`}>
-                <span class="badge badge-pill badge-primary">LinkedIn</span>
+                <span className="badge badge-pill badge-primary">LinkedIn</span>
               </a>
             ) : (
               <p />
