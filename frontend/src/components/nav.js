@@ -23,11 +23,11 @@ class NavigationBar extends Component {
       <div>
         <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
           <Link prefetch href="/">
-            <NavbarBrand className="ml-3">
-              <a>
+            <a>
+              <NavbarBrand className="ml-3">
                 <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
-              </a>
-            </NavbarBrand>
+              </NavbarBrand>
+            </a>
           </Link>
           <NavbarToggler onClick={() => this.toggle()} />
           <Collapse isOpen={this.state.isOpen} navbar>
