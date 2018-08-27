@@ -27,8 +27,7 @@ router.get(
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    let interviews
-    interviews = await Interview.find()
+    let interviews = await Interview.find()
     res.json({
       code: 200,
       message: '',
@@ -51,21 +50,43 @@ router.get(
   })
 )
 
+router.get(
+  '/past-interviews/:interviewer_key',
+  errorWrap(async (req, res) => {
+    const interviews = await Interview.find()
+    console.log(interviews)
+    const retInterviews = interviews.filter(
+      interview => interview.interviewer_key === req.params.interviewer_key
+    )
+    let statusCode = retInterviews ? 200 : 400
+
+    res.status(statusCode).json({
+      code: statusCode,
+      message: '',
+      result: retInterviews,
+      success: true
+    })
+  })
+)
+
 router.post(
   '/',
   errorWrap(async (req, res) => {
     data = req.body
     let response = 'Interview Added Sucessfully'
-    let interviewerKey = data.interviewer_key
+    let interviewerKey = data.interviewerKey
     let reqSections = data.sections
-    let candidateId = data.candidate_id
-    let score = data.overall_score
-    let genNotes = data.general_notes
+    let candidateId = data.candidateId
+    let candidateName = data.candidateName
+    let score = data.overallScore
+    let genNotes = data.generalNotes
 
     if (interviewerKey == undefined) {
       response = 'Invalid interviewerKey'
     } else if (candidateId == undefined) {
       response = 'Invalid candidateId'
+    } else if (candidateName == undefined) {
+      response = 'Invalid candidateName'
     } else if (reqSections == undefined) {
       response = 'Invalid sections'
     } else if (score == undefined) {
@@ -78,6 +99,7 @@ router.post(
         interviewer_key: interviewerKey,
         overall_score: score,
         candidate_id: candidateId,
+        candidate_name: candidateName,
         general_notes: genNotes,
         sections: reqSections
       })
