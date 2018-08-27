@@ -15,18 +15,16 @@ class CandidatePage extends Component<Props> {
     super(props)
     this.state = {
       form: {},
-      addNotesModal: false
+      addNotesModal: false,
+      candidate: null
     }
   }
-  static async getInitialProps({ query }) {
-    // check whether query.id is real candidate
-    try {
-      const { result } = await getCandidateById(query.id)
-      return { result }
-    } catch (err) {
-      console.log('Candidate Page error: ', err.message)
-      return { error: 'Bad Request' }
-    }
+  async componentDidMount() {
+    const { query } = Router
+    const { result } = await getCandidateById(query.id)
+    this.setState({
+      candidate: result
+    })
   }
   toggle = () => {
     this.setState({
@@ -35,22 +33,21 @@ class CandidatePage extends Component<Props> {
   }
   submitComment = comment => {
     // TODO: make request
-    const res = addCommentToCandidate(this.props.result._id, comment)
+
+    const res = addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
-    // workaround for now
-    window.location.reload()
+    Router.push(Router.route)
   }
   goBack = () => {
     Router.back()
   }
-
   render() {
-    if (!this.props.result) {
+    if (this.state.candidate == null) {
       return <div>User doesn&#39;t exist</div>
     }
-    const candidate = this.props.result
+    const candidate = this.state.candidate
     return (
       <>
         <Container className="mt-5">
@@ -76,4 +73,4 @@ class CandidatePage extends Component<Props> {
   }
 }
 
-export default withRouter(CandidatePage)
+export default CandidatePage

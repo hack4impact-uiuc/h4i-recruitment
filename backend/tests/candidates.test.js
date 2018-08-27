@@ -96,14 +96,14 @@ describe('POST /candidates/:id/comments', async () => {
   await candidate.save()
   it('should add a comment', async () => {
     const res = await request(app)
-      .post(`/candidates/${candidate._id}/comments`)
+      .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
       .send({ comment: 'test comment' })
       .expect(200)
   })
 
   it('should return 400 if comment was not provided', async () => {
     await request(app)
-      .post(`/candidates/${candidate._id}/comments`)
+      .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
       .expect(400)
   })
 })
