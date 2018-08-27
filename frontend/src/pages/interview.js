@@ -133,7 +133,7 @@ class Interview extends Component<Props> {
       this.state.generalNotes,
       this.state.sections
     )
-    alert('Added interview')
+    alert('Successfully added interview')
   }
   componentDidMount() {
     if (this.props.candidates.length == 0) {
@@ -174,9 +174,9 @@ class Interview extends Component<Props> {
   }
 
   render() {
-    console.log()
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
+      console.error(error)
       return <div>Bad Fetch. Try again</div>
     }
     const statusFilter = filters.statuses
@@ -230,10 +230,6 @@ class Interview extends Component<Props> {
               <option value="7">7</option>
             </Input>
             <Label>Explain Why you gave them those points:</Label>
-            {console.log(
-              'Time',
-              this.state.sections.filter(section => section.section_name === 'Community')[0]
-            )}
             <Input
               value={
                 this.state.sections.filter(section => section.section_name === 'Time Commitment')[0]

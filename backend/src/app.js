@@ -4,12 +4,14 @@ const morgan = require('morgan')
 const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
-const { errorHandler } = require('./middleware')
+const helmet = require('helmet')
+const { errorHandler, auth } = require('./middleware')
 const routes = require('./routes')
 
 const app = express()
 
 // must be before routes
+app.use(helmet())
 app.use(cors())
 app.use(bodyParser.json())
 
@@ -26,6 +28,8 @@ var accessLogStream = fs.createWriteStream(path.join(logDirectory, 'h4i-recruitm
 app.use(morgan('combined', { stream: accessLogStream }))
 // STDOUT log
 app.use(morgan('dev'))
+// verifies user
+app.use(auth)
 
 app.use('/', routes)
 

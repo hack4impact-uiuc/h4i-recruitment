@@ -12,24 +12,32 @@ function getCandidateById(id: string) {
   )
 }
 
-function getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy) {
-  return fetch(`${API_URL}/candidates/query?key=${localStorage.getItem('interviewerKey')}`, {
-    body: JSON.stringify({
-      filters: {
-        status: statuses,
-        year: years,
-        roles: roles,
-        graduationDate: gradDates,
-        sorts: sorts,
-        selectBy: selectBy
-      }
-    }),
-    headers: {
-      'content-type': 'application/json'
-    },
-    method: 'POST',
-    mode: 'cors'
-  }).then(res => res.json())
+async function getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy) {
+  const res = await fetch(
+    `${API_URL}/candidates/query?key=${localStorage.getItem('interviewerKey')}`,
+    {
+      body: JSON.stringify({
+        filters: {
+          status: statuses,
+          year: years,
+          roles: roles,
+          graduationDate: gradDates,
+          sorts: sorts,
+          selectBy: selectBy
+        }
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors'
+    }
+  )
+  const json_res = await res.json()
+  if (res.status >= 400) {
+    throw new Error(`Bad Response (${res.status}) From Server with message: ${json_res.message}`)
+  }
+  return json_res
 }
 
 function getCandidateMatch() {
@@ -39,7 +47,7 @@ function getCandidateMatch() {
 }
 
 function getCandidateById(id: string) {
-  return fetch(`${API_URL}/candidates/${id}?key${localStorage.getItem('interviewerKey')}`).then(
+  return fetch(`${API_URL}/candidates/${id}?key=${localStorage.getItem('interviewerKey')}`).then(
     res => res.json()
   )
 }
@@ -99,7 +107,7 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 }
 
 function validateKey(key: string) {
-  return fetch(`${API_URL}/interview/verify_interviewer/${key}`).then(res => res.json())
+  return fetch(`${API_URL}/interview?key=${key}`).then(res => res.json())
 }
 
 function getPastInterviews(interviewerKey: string) {

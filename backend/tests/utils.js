@@ -1,5 +1,6 @@
 const { Candidate, Match } = require('../src/models')
 
+const KEY = 'hjsdhfy79uu'
 // Build unique mongo ObjectId for candidate given index of candidate
 // The slice statement makes sure that the ObjectId is valid even if num is
 // greater than 10 (takes up more than 1 character)
@@ -9,7 +10,7 @@ const candidateIds = num => {
 
 // Build unique mongo ObjectId for match given index of match
 const matchIds = num => {
-  return ((num + 1) + '00000000000000000000000').slice(0,24)
+  return (num + 1 + '00000000000000000000000').slice(0, 24)
 }
 
 // Creates n candidates given 2 arrays of length n which contain the number of
@@ -24,7 +25,7 @@ const createCandidates = async (numOfMatches, elos) => {
       major: '',
       role: '',
       resumeID: candidateIds(i),
-      facemashRankings:{
+      facemashRankings: {
         numOfMatches: numOfMatches[i],
         elo: elos[i]
       }
@@ -48,9 +49,13 @@ const createMatches = async matches => {
   await Match.insertMany(query)
 }
 
+const getAuthMiddlewareRequestStub = key => ({ query: { key: key } })
+
 module.exports = {
   candidateIds,
   createCandidates,
   createMatches,
-  matchIds
+  matchIds,
+  KEY,
+  getAuthMiddlewareRequestStub
 }

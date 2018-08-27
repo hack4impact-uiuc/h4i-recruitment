@@ -22,14 +22,12 @@ class NavigationBar extends Component {
     return (
       <div>
         <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
-          <Link route="index" passHref>
-            <NavbarBrand className="ml-3">
-              <Link prefetch href="/">
-                <a>
-                  <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
-                </a>
-              </Link>
-            </NavbarBrand>
+          <Link prefetch href="/">
+            <a>
+              <NavbarBrand className="ml-3">
+                <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
+              </NavbarBrand>
+            </a>
           </Link>
           <NavbarToggler onClick={() => this.toggle()} />
           <Collapse isOpen={this.state.isOpen} navbar>
