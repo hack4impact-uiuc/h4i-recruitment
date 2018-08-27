@@ -38,7 +38,6 @@ class CandidateBox extends Component {
       return <div>User doesn&#39;t exist</div>
     }
     const { candidate } = this.props
-    console.log('CANDIDATE', candidate)
     return (
       <div>
         <div>
@@ -107,8 +106,7 @@ class CandidateBox extends Component {
         </p>
 
         <p>
-          <b>Applied Role:</b>{' '}
-          {candidate.role.join(', ') ? candidate.role != undefined : candidate.role}
+          <b>Applied Role:</b> {candidate.role.join(', ')}
         </p>
         <p>
           <b>Github Contributions:</b> {candidate.githubContributions}
