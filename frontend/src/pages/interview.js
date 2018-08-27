@@ -3,12 +3,50 @@ import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
 import Link from 'next/link'
 import { addInterview } from '../utils/api'
 
-type Props = {}
+import React from 'react'
+import configureStore from './../store/appStore'
+import { bindActionCreators } from 'redux'
+import { fetchCandidates, addFilter, removeFilter } from '../actions'
+import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
+import CandidateDropdown from '../components/candidateDropdown'
+import { connect } from 'react-redux'
+
+type Props = {
+  candidates: Array<any>,
+  loading: boolean,
+  error: boolean,
+  filters: Object,
+  sort: Object
+}
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      fetchCandidates,
+      addFilter,
+      removeFilter
+    },
+    dispatch
+  )
+}
+
+const mapStateToProps = state => ({
+  candidates: state.candidateListPage.candidates,
+  loading: state.candidateListPage.candidatesLoading,
+  error: state.candidateListPage.candidatesError,
+  filters: state.candidateListPage.filters,
+  sort: state.candidateListPage.sort
+})
 
 class Interview extends Component<Props> {
-  constructor(props) {
+  constructor(props, context) {
     super(props)
     this.state = {
+      candidates: this.props.candidates,
+      error: this.props.error,
+      loading: this.props.loading,
+      filters: this.props.filters,
+      sort: this.props.sort,
       candidateId: '',
       candidateName: '',
       overallScore: 0,
@@ -110,6 +148,31 @@ class Interview extends Component<Props> {
       this.state.sections
     )
   }
+  componentDidMount() {
+    if (this.props.candidates.length == 0) {
+      this.props.fetchCandidates(
+        this.props.filters.statuses,
+        this.props.filters.years,
+        this.props.filters.gradDates,
+        this.props.filters.sortBy,
+        this.props.filters.roles,
+        this.props.filters.selectBy
+      )
+    }
+  }
+
+  query = () => {
+    if (this.props.candidates.length == 0) {
+      this.props.fetchCandidates(
+        this.props.filters.statuses,
+        this.props.filters.years,
+        this.props.filters.gradDates,
+        this.props.filters.sortBy,
+        this.props.filters.roles,
+        this.props.filters.selectBy
+      )
+    }
+  }
 
   onSelect = e => {
     const currSection = this.state.sections.filter(
@@ -123,9 +186,22 @@ class Interview extends Component<Props> {
   }
 
   render() {
+    console.log()
+    let { candidates, error, loading, filters, sort } = this.props
+    if (error) {
+      return <div>Bad Fetch. Try again</div>
+    }
+    const statusFilter = filters.statuses
+    const roleFilter = filters.roles
+    const yearFilter = filters.years
+    const gradFilter = filters.gradDates
+    candidates = candidates.filter(candidate => {
+      return statusFilter.includes(candidate.status)
+    })
     return (
       <Container>
         <Form>
+          <CandidateDropdown candidates={candidates} />
           <FormGroup>
             <legend>Time</legend>
             <FormGroup check>
@@ -329,4 +405,8 @@ class Interview extends Component<Props> {
     )
   }
 }
-export default Interview
+// export default Interview
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Interview)
