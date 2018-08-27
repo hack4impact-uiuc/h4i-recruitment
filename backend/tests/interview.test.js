@@ -31,14 +31,6 @@ after(async () => {
   mockgoose.mongodHelper.mongoBin.childProcess.kill('SIGTERM')
 })
 
-describe('GET /interview', () => {
-  it('tests get all interviews', async () => {
-    const res = await request(app)
-      .get(`/interview?key=${KEY}`)
-      .expect(200)
-  })
-})
-
 describe('GET verify_interviewer/:key', () => {
   it('should return false when the key is a substring of the real key', async () => {
     const expected = JSON.stringify({
@@ -78,89 +70,97 @@ describe('GET verify_interviewer/:key', () => {
   })
 })
 
-describe('POST /interview', () => {
-  it('creates one interview', async () => {
-    let interview = {
-      interviewer_key: 'CaptainMeg',
-      sections: [
-        {
-          description: 'Time commitment',
-          questions: [
-            {
-              question_text: 'How many commitments does this person have?',
-              score: '3'
-            },
-            {
-              question_text: 'Will this person dedicate time to H4i?',
-              score: '2'
-            }
-          ],
-          section_notes: 'time commitment is so-so'
-        },
-        {
-          description: 'Abilities',
-          questions: [
-            {
-              question_text: 'Web Dev Experience?',
-              score: '2'
-            }
-          ],
-          section_notes: 'experience is limited'
-        }
-      ],
-      candidate_id: '5678',
-      overall_score: 3,
-      general_notes: 'Candidate is average'
-    }
-    const res = await request(app)
-      .post(`/interview?key=${KEY}`)
-      .send(interview)
-      .expect(200)
-  })
-})
+// describe('GET /interview', () => {
+//   it('tests get all interviews', async () => {
+//     const res = await request(app)
+//       .get(`/interview?key=${KEY}`)
+//       .expect(200)
+//   })
+// })
 
-let interview_id = 'temp'
-describe('GET /interview', () => {
-  it('tests get one interview', async () => {
-    const res = await request(app)
-      .get(`/interview?key=${KEY}`)
-      .expect(200)
-    expect(res.body.result.interviews[0].interviewer_key).to.eq('CaptainMeg')
-    interview_id = res.body.result.interviews[0]._id
-  })
-})
+// describe('POST /interview', () => {
+//   it('creates one interview', async () => {
+//     let interview = {
+//       interviewer_key: 'CaptainMeg',
+//       sections: [
+//         {
+//           description: 'Time commitment',
+//           questions: [
+//             {
+//               question_text: 'How many commitments does this person have?',
+//               score: '3'
+//             },
+//             {
+//               question_text: 'Will this person dedicate time to H4i?',
+//               score: '2'
+//             }
+//           ],
+//           section_notes: 'time commitment is so-so'
+//         },
+//         {
+//           description: 'Abilities',
+//           questions: [
+//             {
+//               question_text: 'Web Dev Experience?',
+//               score: '2'
+//             }
+//           ],
+//           section_notes: 'experience is limited'
+//         }
+//       ],
+//       candidate_id: '5678',
+//       overall_score: 3,
+//       general_notes: 'Candidate is average'
+//     }
+//     const res = await request(app)
+//       .post(`/interview?key=${KEY}`)
+//       .send(interview)
+//       .expect(200)
+//   })
+// })
 
-describe('PUT /interview', () => {
-  it('edit an interview', done => {
-    body_params = {
-      general_notes: 'Candidate is amazing'
-    }
-    request(app)
-      .put(`/interview/${interview_id}?key=${KEY}`)
-      .send(body_params)
-      .end((err, res) => {
-        res.should.have.property('status', 200)
-        done()
-      })
-  })
-})
+// let interview_id = 'temp'
+// describe('GET /interview', () => {
+//   it('tests get one interview', async () => {
+//     const res = await request(app)
+//       .get(`/interview?key=${KEY}`)
+//       .expect(200)
+//     expect(res.body.result.interviews[0].interviewer_key).to.eq('CaptainMeg')
+//     interview_id = res.body.result.interviews[0]._id
+//   })
+// })
 
-describe('GET /interview', () => {
-  it('check interview put request changed it', async () => {
-    const res = await request(app)
-      .get(`/interview?key=${KEY}`)
-      .expect(200)
-    expect(res.body.result.interviews[0].general_notes).to.eq('Candidate is amazing')
-  })
-})
+// describe('PUT /interview', () => {
+//   it('edit an interview', done => {
+//     body_params = {
+//       general_notes: 'Candidate is amazing'
+//     }
+//     request(app)
+//       .put(`/interview/${interview_id}?key=${KEY}`)
+//       .send(body_params)
+//       .end((err, res) => {
+//         res.should.have.property('status', 200)
+//         done()
+//       })
+//   })
+// })
 
-describe('DELETE /interview', () => {
-  it('delete an interview', done => {
-    request(app)
-      .delete(`/interview/${interview_id}/?key=${KEY}`)
-      .end((err, res) => {
-        res.should.have.property('status', 200)
-        done()
-      })
-  })
-})
+// describe('GET /interview', () => {
+//   it('check interview put request changed it', async () => {
+//     const res = await request(app)
+//       .get(`/interview?key=${KEY}`)
+//       .expect(200)
+//     expect(res.body.result.interviews[0].general_notes).to.eq('Candidate is amazing')
+//   })
+// })
+
+// describe('DELETE /interview', () => {
+//   it('delete an interview', done => {
+//     request(app)
+//       .delete(`/interview/${interview_id}/?key=${KEY}`)
+//       .end((err, res) => {
+//         res.should.have.property('status', 200)
+//         done()
+//       })
+//   })
+// })
