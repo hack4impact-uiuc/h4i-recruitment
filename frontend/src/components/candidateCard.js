@@ -142,6 +142,23 @@ class CandidateCardComponent extends Component {
             ) : (
               <></>
             )}
+
+            {candidate.facemashRankings.elo ? (
+              <p>
+                Facemash Score: <span className="highlight">{candidate.facemashRankings.elo}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.facemashRankings.numOfMatches ? (
+              <p>
+                Number of Matches:{' '}
+                <span className="highlight">{candidate.facemashRankings.numOfMatches}</span>
+              </p>
+            ) : (
+              <></>
+            )}
           </div>
           <p>
             Change Status:

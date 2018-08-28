@@ -60,7 +60,7 @@ class HomePage extends Component<Props> {
   }
 
   query = () => {
-    if (this.props.candidates.length == 0) {
+    if (this.props.candidates.length != 0) {
       this.props.fetchCandidates(
         this.props.filters.statuses,
         this.props.filters.years,
