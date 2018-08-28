@@ -35,6 +35,11 @@ p {
 .candidate-list-box a {
   padding-right: 30px;
 }
+
+.card-links {
+  margin: 1%;
+}
+
 .card-body a {
   /* This needs to override the candidate-list-box a above
    * since candidate-list-box encapsulates each card and thus
