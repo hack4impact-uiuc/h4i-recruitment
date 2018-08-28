@@ -54,6 +54,32 @@ class CandidateCardComponent extends Component {
               <></>
             )}
 
+          
+
+            {candidate.resumeID ? (
+              <a className="card-links" href={`${candidate.resumeID}`}>
+                <span className="badge badge-pill badge-primary">Resume</span>
+              </a>
+            ) : (
+              <></>
+            )}
+
+            {candidate.website ? (
+              <a className="card-links" href={`${candidate.website}`}>
+                <span className="badge badge-pill badge-primary">Website</span>
+              </a>
+            ) : (
+              <></>
+            )}
+
+            {candidate.linkedIn ? (
+              <a className="card-links" href={`${candidate.linkedIn}`}>
+                <span className="badge badge-pill badge-primary">LinkedIn</span>
+              </a>
+            ) : (
+              <></>
+            )}
+
             {candidate.status && candidate.status === 'Accepted' ? (
               <span class="badge badge-pill badge-success">Acecpted</span>
             ) : (
@@ -76,30 +102,6 @@ class CandidateCardComponent extends Component {
               <span class="badge badge-pill badge-info">Interviewing</span>
             ) : (
               <></>
-            )}
-
-            {candidate.resumeID ? (
-              <a className="card-links" href={`${candidate.resumeID}`}>
-                <span className="badge badge-pill badge-primary">Resume</span>
-              </a>
-            ) : (
-              <p />
-            )}
-
-            {candidate.website ? (
-              <a className="card-links" href={`${candidate.website}`}>
-                <span className="badge badge-pill badge-primary">Website</span>
-              </a>
-            ) : (
-              <p />
-            )}
-
-            {candidate.linkedIn ? (
-              <a className="card-links" href={`${candidate.linkedIn}`}>
-                <span className="badge badge-pill badge-primary">LinkedIn</span>
-              </a>
-            ) : (
-              <p />
             )}
           </CardTitle>
           <div onClick={e => handler(candidate._id)}>
