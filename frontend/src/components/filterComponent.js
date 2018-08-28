@@ -71,10 +71,10 @@ class FilterComponent extends Component<Props> {
     return (
       <div className="filter-box">
         <div>
-          <h1>Query Panel</h1>
+          <h3>Query Panel</h3>
         </div>
         <div>
-          <h3>Selects</h3>
+          <h5>Selects</h5>
         </div>
         <div>
           {selectBy.map((el, idx) => {
@@ -98,10 +98,10 @@ class FilterComponent extends Component<Props> {
           })}
         </div>
         <div>
-          <h3>Filters</h3>
+          <h4>Filters</h4>
         </div>
         <div>
-          <h4>Status</h4>
+          <h5>Status</h5>
         </div>
         <div>
           {statuses.map((el, idx) => {
@@ -125,7 +125,7 @@ class FilterComponent extends Component<Props> {
           })}
         </div>
         <div>
-          <h4>Year</h4>
+          <h5>Year</h5>
         </div>
         <div>
           {years.map((el, idx) => {
@@ -149,7 +149,7 @@ class FilterComponent extends Component<Props> {
           })}
         </div>
         <div>
-          <h4>Role</h4>
+          <h5>Role</h5>
         </div>
         <div>
           {roles.map((el, idx) => {
@@ -173,7 +173,7 @@ class FilterComponent extends Component<Props> {
           })}
         </div>
         <div>
-          <h4>Graduation Date:</h4>
+          <h5>Graduation Date:</h5>
         </div>
         <div>
           {gradDates.map((el, idx) => {
@@ -198,7 +198,7 @@ class FilterComponent extends Component<Props> {
         </div>
 
         <div>
-          <h3>Sorts</h3>
+          <h4>Sorts</h4>
         </div>
         <div>
           {sortBy.map((el, idx) => {

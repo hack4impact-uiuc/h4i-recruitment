@@ -21,6 +21,7 @@ p {
 }
 
 .nav-bar-link {
+  font-size: 10pt;
   color: #dddddde7;
 }
 .nav-bar-link:hover {
@@ -28,7 +29,7 @@ p {
 }
 
 .card-title {
-  font-size: 25px;
+  font-size: 22px;
   color: #4b4b4b;
 }
 .candidate-list-box {

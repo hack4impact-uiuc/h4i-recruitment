@@ -69,7 +69,9 @@ class CandidatePage extends Component<Props> {
       <>
         <Container className="mt-5">
           <Row>
-            <Candidate candidate={candidate} />
+            <Col md={12}>
+              <Candidate candidate={candidate} />
+            </Col>
           </Row>
 
           <Row>
@@ -91,13 +93,17 @@ class CandidatePage extends Component<Props> {
               </Button>
             </Col>
           </Row>
-          
-          <AddCommentsModal
-            submit={this.submitComment}
-            isOpen={this.state.addNotesModal}
-            toggle={this.toggle}
-          />
-          <CommentBox comments={candidate.comments} />
+
+          <Row>
+            <Col md={12}>
+              <AddCommentsModal
+                submit={this.submitComment}
+                isOpen={this.state.addNotesModal}
+                toggle={this.toggle}
+              />
+              <CommentBox comments={candidate.comments} />
+            </Col>
+          </Row>
         </Container>
       </>
     )
