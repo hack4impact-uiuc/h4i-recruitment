@@ -75,6 +75,7 @@ class HomePage extends Component<Props> {
   render() {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
+      console.error(error)
       return <div>Bad Fetch. Try again</div>
     }
 
