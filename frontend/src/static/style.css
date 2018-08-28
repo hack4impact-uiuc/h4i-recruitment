@@ -6,7 +6,7 @@ html {
 a {
   color: #067df7;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 12px;
 }
 a:hover {
   text-decoration: none !important;
@@ -26,10 +26,6 @@ p {
   font-size: 25px;
   color: #4b4b4b;
 }
-.card-links {
-  font-weight: 400;
-  float: right;
-}
 .candidate-list-box {
   margin-top: 20px;
 }
@@ -38,6 +34,19 @@ p {
 }
 .candidate-list-box a {
   padding-right: 30px;
+}
+
+.card-links {
+  margin: 1%;
+}
+
+.card-body a {
+  /* This needs to override the candidate-list-box a above
+   * since candidate-list-box encapsulates each card and thus
+   * the styling applies to all <a></a> in the card
+   */
+  font-weight: 400;
+  padding: 0;
 }
 .candidate-card {
   transition: all 200ms;
@@ -50,7 +59,10 @@ p {
     0px 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 .highlight {
-  color: #db5858;
+  color: darkblue;
+}
+.space-fix-placeholder {
+  display: none;
 }
 
 .sidebar {
@@ -62,8 +74,8 @@ p {
   padding-top: 20px;
 }
 .candidates {
-  left: 250px;
-  top: 200px;
+  left: 150px;
+  top: 100px;
   position: absolute;
 }
 .clearfix {

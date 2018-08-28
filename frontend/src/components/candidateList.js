@@ -5,7 +5,8 @@ import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
 import { connect } from 'react-redux'
 
 const CardCol = ({ children, ...rest }) => (
-  <Col xs={{ size: 12 }} md={{ size: 6 }} lg={{ size: 4 }} className="mb-3" {...rest}>
+  // This handles the size of each card - lg size 3 causes 4 cards/row
+  <Col xs={{ size: 12 }} md={{ size: 6 }} lg={{ size: 3 }} className="mb-3" {...rest}>
     {children}
   </Col>
 )
