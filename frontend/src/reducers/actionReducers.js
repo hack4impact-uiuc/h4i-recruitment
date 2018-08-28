@@ -3,6 +3,7 @@ import {
   NEW_MATCH,
   EDIT_INTERVIEW,
   NEW_INTERVIEW,
+  ADD_INTERVIEW_CANDIDATE,
   FETCH_CANDIDATES_BEGIN,
   FETCH_CANDIDATES_FAILURE,
   FETCH_CANDIDATES_SUCCESS,
@@ -22,6 +23,15 @@ export default function recruitmentApp(state = initialState, action) {
           ...state.interview,
           editInterview: true,
           interviewObj: action.payload.interview
+        }
+      }
+    case ADD_INTERVIEW_CANDIDATE:
+      return {
+        ...state,
+        interview: {
+          ...state.interview,
+          candidateId: action.payload.candidateId,
+          candidateName: action.payload.candidateName
         }
       }
     case NEW_INTERVIEW:

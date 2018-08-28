@@ -7,8 +7,20 @@ import configureStore from './../store/appStore'
 import Candidate from '../components/candidateBox'
 import AddCommentsModal from '../components/addCommentsModal'
 import CommentBox from '../components/commentBox'
+import { addInterviewCandidate } from './../actions'
+import { bindActionCreators } from 'redux'
 
 type Props = {}
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      addInterviewCandidate
+    },
+    dispatch
+  )
+}
+
+const mapStateToProps = state => ({})
 
 class CandidatePage extends Component<Props> {
   constructor(props) {
@@ -43,6 +55,11 @@ class CandidatePage extends Component<Props> {
   goBack = () => {
     Router.back()
   }
+  async handleAddInterview(candidateId, candidateName) {
+    const { addInterviewCandidate } = this.props
+    await addInterviewCandidate(candidateId, candidateName)
+    Router.push('/interview')
+  }
   render() {
     if (this.state.candidate == null) {
       return <div>User doesn&#39;t exist</div>
@@ -55,7 +72,11 @@ class CandidatePage extends Component<Props> {
             Back
           </Button>
           <Candidate candidate={candidate} />
-          <Button outline color="primary">
+          <Button
+            onClick={() => this.handleAddInterview(candidate._id, candidate.name)}
+            outline
+            color="primary"
+          >
             Add Interview
           </Button>
           <Button outline color="primary" onClick={this.toggle}>
@@ -73,4 +94,7 @@ class CandidatePage extends Component<Props> {
   }
 }
 
-export default CandidatePage
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CandidatePage)

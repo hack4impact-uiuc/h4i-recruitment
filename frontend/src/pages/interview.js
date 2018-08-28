@@ -15,7 +15,9 @@ type Props = {
   loading: boolean,
   error: boolean,
   filters: Object,
-  sort: Object
+  sort: Object,
+  candidateId: String,
+  candidateName: String
 }
 
 const mapDispatchToProps = dispatch => {
