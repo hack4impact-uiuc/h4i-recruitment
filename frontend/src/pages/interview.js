@@ -1,22 +1,23 @@
 import { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
 import Link from 'next/link'
-import { addInterview } from '../utils/api'
-
 import React from 'react'
+import { connect } from 'react-redux'
 import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 import CandidateDropdown from '../components/candidateDropdown'
-import { connect } from 'react-redux'
+import { getKey, addInterview } from '../utils/api'
 
 type Props = {
   candidates: Array<any>,
   loading: boolean,
   error: boolean,
   filters: Object,
-  sort: Object
+  sort: Object,
+  candidateId: String,
+  candidateName: String
 }
 
 const mapDispatchToProps = dispatch => {
@@ -132,7 +133,7 @@ class Interview extends Component<Props> {
   handleSubmit = e => {
     console.log('Adding Interview....')
     addInterview(
-      localStorage.getItem('interviewerKey'),
+      getKey(),
       this.state.candidateId,
       this.state.candidateName,
       this.state.overallScore,

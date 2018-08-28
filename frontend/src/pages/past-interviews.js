@@ -4,7 +4,7 @@ import Router from 'next/router'
 import { editInterview } from './../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getPastInterviews } from '../utils/api'
+import { getKey, getPastInterviews } from '../utils/api'
 type Props = {}
 
 const mapStateToProps = state => ({})
@@ -28,7 +28,7 @@ class PastInterviews extends Component<Props> {
   }
 
   async componentDidMount() {
-    const { result } = await getPastInterviews(localStorage.getItem('interviewerKey'))
+    const { result } = await getPastInterviews(getKey())
     if (result) {
       this.setState({ interviews: result })
     }
