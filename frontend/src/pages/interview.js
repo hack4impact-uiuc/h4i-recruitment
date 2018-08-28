@@ -123,6 +123,12 @@ class Interview extends Component<Props> {
     this.setState({ sections: newSections })
   }
 
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   handleSubmit = e => {
     console.log('Adding Interview....')
     addInterview(
@@ -231,6 +237,7 @@ class Interview extends Component<Props> {
             </Input>
             <Label>Explain Why you gave them those points:</Label>
             <Input
+              style={{ height: '130px' }}
               value={
                 this.state.sections.filter(section => section.section_name === 'Time Commitment')[0]
                   .section_notes
@@ -239,6 +246,7 @@ class Interview extends Component<Props> {
               type="textarea"
               name="Time Commitment"
               id="time-commitment-explanation"
+              placeholder="Explain as much as possible. It'll help during deliberations!"
             />
           </FormGroup>
           <FormGroup>
@@ -302,14 +310,15 @@ class Interview extends Component<Props> {
               Explain your reasoning for your score.{' '}
             </Label>
             <Input
-              type="text"
+              style={{ height: '130px' }}
+              type="textarea"
               name="Community"
               value={
                 this.state.sections.filter(section => section.section_name === 'Community')[0]
                   .section_notes
               }
               onChange={this.handleTextChange}
-              placeholder="Your Answer"
+              placeholder="Please explain in as much as possible. It'll help a lot during deliberations!"
             />
           </FormGroup>
           <FormGroup>
@@ -412,6 +421,19 @@ class Interview extends Component<Props> {
                 3 - Damn they are good
               </Label>
             </FormGroup>
+          </FormGroup>
+          <FormGroup>
+            <Label>
+              Any other notes that the rubrik didn't cover or emphasis you'd like to make?
+            </Label>
+            <Input
+              style={{ height: '150px' }}
+              type="textarea"
+              name="generalNotes"
+              value={this.state.generalNotes}
+              onChange={this.handleChange}
+              placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
+            />
           </FormGroup>
           <FormGroup>
             <Link prefetch href="/interviewportal">
