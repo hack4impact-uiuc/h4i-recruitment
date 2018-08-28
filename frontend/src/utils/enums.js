@@ -33,7 +33,8 @@ export const rolesEnum = {
 export const sortByEnum = {
   GRADYR: 'Graudation Year',
   YR: 'Year',
-  STS: 'Status'
+  STS: 'Status',
+  ELO: 'Facemash Score'
 }
 
 export const selectByEnum = {
@@ -46,7 +47,9 @@ export const selectByEnum = {
   STATUS: 'Status',
   RESUME: 'Resume',
   WEBSITE: 'Website',
-  LINKEDIN: 'LinkedIn'
+  LINKEDIN: 'LinkedIn',
+  ELO: 'Facemash Score',
+  MATCHES: 'Number of Matches'
 }
 
 export const enumToArray = e => {
