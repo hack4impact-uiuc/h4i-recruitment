@@ -16,7 +16,9 @@ type Props = {
   loading: boolean,
   error: boolean,
   filters: Object,
-  sort: Object
+  sort: Object,
+  candidateId: String,
+  candidateName: String
 }
 
 const mapDispatchToProps = dispatch => {
@@ -36,8 +38,6 @@ const mapStateToProps = state => ({
   error: state.candidateListPage.candidatesError,
   filters: state.candidateListPage.filters,
   sort: state.candidateListPage.sort,
-  candidateId: state.Interview.candidateId,
-  candidateName: state.Interview.candidateName
 })
 
 class Interview extends Component<Props> {
