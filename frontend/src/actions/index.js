@@ -1,6 +1,7 @@
 import {
   editInterview,
   newInterview,
+  addInterviewCandidate,
   generateMatchData,
   fetchCandidatesBegin,
   fetchCandidatesSuccess,
@@ -14,6 +15,7 @@ import {
 export {
   editInterview,
   newInterview,
+  addInterviewCandidate,
   generateMatchData,
   fetchCandidatesBegin,
   fetchCandidatesSuccess,

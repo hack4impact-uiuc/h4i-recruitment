@@ -8,11 +8,15 @@ import React, { Fragment, Component } from 'react'
 import Select from 'react-select'
 
 type Props = {
-  candidates: Array<mixed>
+  candidates: Array<mixed>,
+  candidateId: String,
+  candidateName: String
 }
 
 const mapStateToProps = state => ({
-  loading: state.candidateListPage.candidatesLoading
+  loading: state.candidateListPage.candidatesLoading,
+  candidateId: state.interview.candidateId,
+  candidateName: state.interview.candidateName
 })
 
 type State = {
@@ -31,10 +35,15 @@ class CandidateDropdown extends Component<Props, State> {
   }
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
-    console.log(`Option selected:`, selectedOption)
-    console.log(this.state.selectedOption)
   }
 
+  componentDidMount() {
+    const { candidateName } = this.props
+    if (candidateName != '') {
+      let newSelectedOption = { value: candidateName, label: candidateName }
+      this.setState({ selectedOption: newSelectedOption })
+    }
+  }
   render() {
     const { isClearable, isSearchable, selectedOption } = this.state
     const { candidates } = this.props
