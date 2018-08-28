@@ -37,10 +37,10 @@ class CandidateDropdown extends Component<Props, State> {
     this.setState({ selectedOption: selectedOption })
   }
 
-  componentDidMount(){
-    const {candidateName} = this.props
-    if(candidateName != ""){
-      let newSelectedOption = {value: candidateName, label: candidateName}
+  componentDidMount() {
+    const { candidateName } = this.props
+    if (candidateName != '') {
+      let newSelectedOption = { value: candidateName, label: candidateName }
       this.setState({ selectedOption: newSelectedOption })
     }
   }

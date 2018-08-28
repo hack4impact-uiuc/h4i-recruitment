@@ -26,7 +26,7 @@ export default function recruitmentApp(state = initialState, action) {
         }
       }
     case ADD_INTERVIEW_CANDIDATE:
-      return{
+      return {
         ...state,
         interview: {
           ...state.interview,

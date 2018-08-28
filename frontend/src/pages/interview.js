@@ -37,7 +37,7 @@ const mapStateToProps = state => ({
   loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
   filters: state.candidateListPage.filters,
-  sort: state.candidateListPage.sort,
+  sort: state.candidateListPage.sort
 })
 
 class Interview extends Component<Props> {

@@ -16,8 +16,8 @@ const initialState = {
   interview: {
     editInterview: false,
     interviewObj: null,
-    candidateId:"",
-    candidateName:""
+    candidateId: '',
+    candidateName: ''
   },
   candidateListPage: {
     candidates: [],
