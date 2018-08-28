@@ -373,25 +373,25 @@ class Interview extends Component<Props> {
             <legend>Knowledge of Web Dev or Data (2 points)</legend>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="0" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="0" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 0 - No experience
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="1" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="1" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 1 - Some experience with it
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="2" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="2" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 2 - Has done a couple projects, knows what flask is. etc.
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="3" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="3" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 3 - Knows more than you - if they are a you think they could be a tech lead
               </Label>
             </FormGroup>
@@ -400,25 +400,25 @@ class Interview extends Component<Props> {
             <legend>Technical Challenge (5 points)</legend>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="0" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="0" onClick={this.onSelect} name="Technical Challenge" />
                 0 - No experience
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="1" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="1" onClick={this.onSelect} name="Technical Challenge" />
                 1 - Completed but with a lot of help/slow
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="2" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="2" onClick={this.onSelect} name="Technical Challenge" />
                 2 - Completed in a reasonable amount of time
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="3" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="3" onClick={this.onSelect} name="Technical Challenge" />
                 3 - Damn they are good
               </Label>
             </FormGroup>
