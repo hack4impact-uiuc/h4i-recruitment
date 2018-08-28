@@ -1,7 +1,4 @@
 {
     "type": "npm",
-    "alias": "hack4impact-recruitment-frontend.now.sh",
-    "features": {
-        "cloud": "v2"
-    }
+    "alias": "hack4impact-recruitment-frontend.now.sh"
 }
