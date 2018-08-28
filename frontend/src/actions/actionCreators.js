@@ -5,6 +5,7 @@ import {
   FETCH_CANDIDATES_BEGIN,
   FETCH_CANDIDATES_FAILURE,
   FETCH_CANDIDATES_SUCCESS,
+  ADD_INTERVIEW_CANDIDATE,
   ADD_FILTER,
   REMOVE_FILTER,
   SET_STATUS,
@@ -26,7 +27,13 @@ export const fetchCandidatesSuccess = candidates => ({
   type: FETCH_CANDIDATES_SUCCESS,
   payload: candidates
 })
-
+export const addInterviewCandidate = (candidateId, candidateName) => ({
+  type: ADD_INTERVIEW_CANDIDATE,
+  payload: {
+    candidateId: candidateId,
+    candidateName: candidateName
+  }
+})
 export const editInterview = interview => ({
   type: EDIT_INTERVIEW,
   payload: {

@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const Mockgoose = require('mockgoose-fix').Mockgoose
 const app = require('../src/app')
 const { KEY } = require('./utils')
+const { Interview } = require('../src/models')
 
 const mockgoose = new Mockgoose(mongoose)
 
@@ -70,97 +71,104 @@ describe('GET verify_interviewer/:key', () => {
   })
 })
 
-// describe('GET /interview', () => {
-//   it('tests get all interviews', async () => {
-//     const res = await request(app)
-//       .get(`/interview?key=${KEY}`)
-//       .expect(200)
-//   })
-// })
+describe('POST /interview', () => {
+  it('creates one interview', async () => {
+    let interview = {
+      interviewer_key: 'CaptainMeg',
+      sections: [
+        {
+          description: 'Time commitment',
+          questions: [
+            {
+              question_text: 'How many commitments does this person have?',
+              score: '3'
+            },
+            {
+              question_text: 'Will this person dedicate time to H4i?',
+              score: '2'
+            }
+          ],
+          section_notes: 'time commitment is so-so'
+        },
+        {
+          description: 'Abilities',
+          questions: [
+            {
+              question_text: 'Web Dev Experience?',
+              score: '2'
+            }
+          ],
+          section_notes: 'experience is limited'
+        }
+      ],
+      candidate_id: '5678',
+      overall_score: 3,
+      general_notes: 'Candidate is average'
+    }
+    const res = await request(app)
+      .post(`/interview?key=${KEY}`)
+      .send(interview)
+      .expect(200)
+  })
+})
 
-// describe('POST /interview', () => {
-//   it('creates one interview', async () => {
-//     let interview = {
-//       interviewer_key: 'CaptainMeg',
-//       sections: [
-//         {
-//           description: 'Time commitment',
-//           questions: [
-//             {
-//               question_text: 'How many commitments does this person have?',
-//               score: '3'
-//             },
-//             {
-//               question_text: 'Will this person dedicate time to H4i?',
-//               score: '2'
-//             }
-//           ],
-//           section_notes: 'time commitment is so-so'
-//         },
-//         {
-//           description: 'Abilities',
-//           questions: [
-//             {
-//               question_text: 'Web Dev Experience?',
-//               score: '2'
-//             }
-//           ],
-//           section_notes: 'experience is limited'
-//         }
-//       ],
-//       candidate_id: '5678',
-//       overall_score: 3,
-//       general_notes: 'Candidate is average'
-//     }
-//     const res = await request(app)
-//       .post(`/interview?key=${KEY}`)
-//       .send(interview)
-//       .expect(200)
-//   })
-// })
+describe('GET /interview', () => {
+  it('should get all interviews', async () => {
+    const res = await request(app)
+      .get(`/interview?key=${KEY}`)
+      .expect(200)
+    expect(res.body.result.interviews).to.be.an('array')
+  })
 
-// let interview_id = 'temp'
-// describe('GET /interview', () => {
-//   it('tests get one interview', async () => {
-//     const res = await request(app)
-//       .get(`/interview?key=${KEY}`)
-//       .expect(200)
-//     expect(res.body.result.interviews[0].interviewer_key).to.eq('CaptainMeg')
-//     interview_id = res.body.result.interviews[0]._id
-//   })
-// })
+  // shouldnt be like this b/c tests should be idempotent
+  // it('should get one interview', async () => {
+  //   const res = await request(app)
+  //     .get(`/interview?key=${KEY}`)
+  //     .expect(200)
+  //   expect(res.body.result.interviews[0].interviewer_key).to.eq('CaptainMeg')
+  //   interview_id = res.body.result.interviews[0]._id
+  // })
+})
 
-// describe('PUT /interview', () => {
-//   it('edit an interview', done => {
-//     body_params = {
-//       general_notes: 'Candidate is amazing'
-//     }
-//     request(app)
-//       .put(`/interview/${interview_id}?key=${KEY}`)
-//       .send(body_params)
-//       .end((err, res) => {
-//         res.should.have.property('status', 200)
-//         done()
-//       })
-//   })
-// })
+describe('PUT /interview', () => {
+  it('should edit an interview', async () => {
+    let interview = new Interview({
+      interviewer_key: 'CaptainMeg',
+      sections: [],
+      candidate_id: '5769',
+      overall_score: 3,
+      general_notes: 'some notes here'
+    })
+    await interview.save()
 
-// describe('GET /interview', () => {
-//   it('check interview put request changed it', async () => {
-//     const res = await request(app)
-//       .get(`/interview?key=${KEY}`)
-//       .expect(200)
-//     expect(res.body.result.interviews[0].general_notes).to.eq('Candidate is amazing')
-//   })
-// })
+    body_params = {
+      general_notes: 'Candidate is amazing'
+    }
+    const res = await request(app)
+      .put(`/interview/${interview._id}?key=${KEY}`)
+      .send(body_params)
+      .expect(200)
 
-// describe('DELETE /interview', () => {
-//   it('delete an interview', done => {
-//     request(app)
-//       .delete(`/interview/${interview_id}/?key=${KEY}`)
-//       .end((err, res) => {
-//         res.should.have.property('status', 200)
-//         done()
-//       })
-//   })
-// })
+    const changed_interview = await Interview.findById(interview._id)
+    expect(changed_interview.general_notes).to.eq('Candidate is amazing')
+  })
+})
+
+describe('DELETE /interview', () => {
+  it('delete an interview', async () => {
+    let interview = new Interview({
+      interviewer_key: 'CaptainMeg',
+      sections: [],
+      candidate_id: '5555',
+      overall_score: 4,
+      general_notes: 'some notes here'
+    })
+    await interview.save()
+
+    await request(app)
+      .delete(`/interview/${interview._id}/?key=${KEY}`)
+      .expect(200)
+    const deleted_candidate = await Interview.findById(interview._id)
+    console.log(deleted_candidate)
+  })
+})
