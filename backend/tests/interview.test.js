@@ -154,19 +154,21 @@ describe('PUT /interview', () => {
   })
 })
 
-describe('DELETE /interview', async () => {
-  let interview = new Interview({
-    interviewer_key: 'CaptainMeg',
-    sections: [],
-    candidate_id: '5555',
-    overall_score: 4,
-    general_notes: 'some notes here'
-  })
-  await interview.save()
+describe('DELETE /interview', () => {
   it('delete an interview', async () => {
-    request(app)
+    let interview = new Interview({
+      interviewer_key: 'CaptainMeg',
+      sections: [],
+      candidate_id: '5555',
+      overall_score: 4,
+      general_notes: 'some notes here'
+    })
+    await interview.save()
+
+    await request(app)
       .delete(`/interview/${interview._id}/?key=${KEY}`)
       .expect(200)
+    const deleted_candidate = await Interview.findById(interview._id)
+    console.log(deleted_candidate)
   })
-  console.log(await Interview.findById(interview._id))
 })
