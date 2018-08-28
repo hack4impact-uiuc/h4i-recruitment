@@ -68,20 +68,30 @@ class CandidatePage extends Component<Props> {
     return (
       <>
         <Container className="mt-5">
-          <Button color="primary" onClick={this.goBack}>
-            Back
-          </Button>
-          <Candidate candidate={candidate} />
-          <Button
-            onClick={() => this.handleAddInterview(candidate._id, candidate.name)}
-            outline
-            color="primary"
-          >
-            Add Interview
-          </Button>
-          <Button outline color="primary" onClick={this.toggle}>
-            Add Comment
-          </Button>
+          <Row>
+            <Candidate candidate={candidate} />
+          </Row>
+
+          <Row>
+            <Col md={6}>
+              <Button
+                onClick={() => this.handleAddInterview(candidate._id, candidate.name)}
+                outline
+                color="primary"
+              >
+                Add Interview
+              </Button>
+              <Button outline color="primary" onClick={this.toggle}>
+                Add Comment
+              </Button>
+            </Col>
+            <Col md={6} className="text-right">
+              <Button color="primary" onClick={this.goBack}>
+                Back
+              </Button>
+            </Col>
+          </Row>
+          
           <AddCommentsModal
             submit={this.submitComment}
             isOpen={this.state.addNotesModal}
