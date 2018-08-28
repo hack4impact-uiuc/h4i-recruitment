@@ -423,6 +423,7 @@ class Interview extends Component<Props> {
             </FormGroup>
           </FormGroup>
           <FormGroup>
+            <legend>General Notes</legend>
             <Label>
               Any other notes that the rubrik didn't cover or emphasis you'd like to make?
             </Label>
