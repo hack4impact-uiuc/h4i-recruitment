@@ -169,7 +169,6 @@ class CandidateCardComponent extends Component {
                 // and take up no space
                 <p className="space-fix-placeholder"> </p>
               )}
-              <p className="space-fix-placeholder"> </p>
 
               {candidate.website ? (
                 <a className="card-links" href={`${candidate.website}`}>
@@ -178,7 +177,6 @@ class CandidateCardComponent extends Component {
               ) : (
                 <p className="space-fix-placeholder"> </p>
               )}
-              <p className="space-fix-placeholder"> </p>
 
               {candidate.linkedIn ? (
                 <a className="card-links" href={`${candidate.linkedIn}`}>
