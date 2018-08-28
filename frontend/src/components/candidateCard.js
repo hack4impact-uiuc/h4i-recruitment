@@ -53,9 +53,7 @@ class CandidateCardComponent extends Component {
             ) : (
               <></>
             )}
-
-          
-
+            
             {candidate.resumeID ? (
               <a className="card-links" href={`${candidate.resumeID}`}>
                 <span className="badge badge-pill badge-primary">Resume</span>
