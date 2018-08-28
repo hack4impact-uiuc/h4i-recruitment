@@ -55,7 +55,7 @@ class CandidateCardComponent extends Component {
             )}
             {candidate.resumeID ? (
               <a className="card-links" href={`${candidate.resumeID}`}>
-                <span class="badge badge-pill badge-primary">Resume</span>
+                <span className="badge badge-pill badge-primary">Resume</span>
               </a>
             ) : (
               <></>
@@ -63,7 +63,7 @@ class CandidateCardComponent extends Component {
 
             {candidate.website ? (
               <a className="card-links" href={`${candidate.website}`}>
-                <span class="badge badge-pill badge-primary">Website</span>
+                <span className="badge badge-pill badge-primary">Website</span>
               </a>
             ) : (
               <></>
@@ -71,7 +71,7 @@ class CandidateCardComponent extends Component {
 
             {candidate.linkedIn ? (
               <a className="card-links" href={`${candidate.linkedIn}`}>
-                <span class="badge badge-pill badge-primary">LinkedIn</span>
+                <span className="badge badge-pill badge-primary">LinkedIn</span>
               </a>
             ) : (
               <></>
@@ -121,6 +121,23 @@ class CandidateCardComponent extends Component {
             {candidate.year ? (
               <p>
                 Year: <span className="highlight">{candidate.year}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.facemashRankings.elo ? (
+              <p>
+                Facemash Score: <span className="highlight">{candidate.facemashRankings.elo}</span>
+              </p>
+            ) : (
+              <></>
+            )}
+
+            {candidate.facemashRankings.numOfMatches ? (
+              <p>
+                Number of Matches:{' '}
+                <span className="highlight">{candidate.facemashRankings.numOfMatches}</span>
               </p>
             ) : (
               <></>

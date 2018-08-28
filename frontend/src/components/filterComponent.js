@@ -79,8 +79,8 @@ class FilterComponent extends Component<Props> {
         <div>
           {selectBy.map((el, idx) => {
             return (
-              <div>
-                <div className="pretty p-default" key={idx}>
+              <div key={idx}>
+                <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}
@@ -106,8 +106,8 @@ class FilterComponent extends Component<Props> {
         <div>
           {statuses.map((el, idx) => {
             return (
-              <div>
-                <div className="pretty p-default" key={idx}>
+              <div key={idx}>
+                <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}
@@ -130,8 +130,8 @@ class FilterComponent extends Component<Props> {
         <div>
           {years.map((el, idx) => {
             return (
-              <div>
-                <div className="pretty p-default" key={idx}>
+              <div key={idx}>
+                <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}
@@ -154,8 +154,8 @@ class FilterComponent extends Component<Props> {
         <div>
           {roles.map((el, idx) => {
             return (
-              <div>
-                <div className="pretty p-default" key={idx}>
+              <div key={idx}>
+                <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}
@@ -178,8 +178,8 @@ class FilterComponent extends Component<Props> {
         <div>
           {gradDates.map((el, idx) => {
             return (
-              <div>
-                <div className="pretty p-default" key={idx}>
+              <div key={idx}>
+                <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}
@@ -203,8 +203,8 @@ class FilterComponent extends Component<Props> {
         <div>
           {sortBy.map((el, idx) => {
             return (
-              <div>
-                <div className="pretty p-default" key={idx}>
+              <div key={idx}>
+                <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}

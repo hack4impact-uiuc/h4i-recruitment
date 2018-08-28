@@ -1,4 +1,6 @@
 import {
+  editInterview,
+  newInterview,
   generateMatchData,
   fetchCandidatesBegin,
   fetchCandidatesSuccess,
@@ -10,6 +12,8 @@ import {
 } from './actionCreators.js'
 
 export {
+  editInterview,
+  newInterview,
   generateMatchData,
   fetchCandidatesBegin,
   fetchCandidatesSuccess,

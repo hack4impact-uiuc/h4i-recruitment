@@ -1,8 +1,8 @@
 import { Modal, Container, Button, Input, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { Component } from 'react'
+import Router from 'next/router'
 import Link from 'next/link'
-import Head from '../components/head'
-import Nav from '../components/nav'
+import { validateKey } from '../utils/api'
 
 type Props = {}
 
@@ -10,22 +10,46 @@ type Props = {}
 class Login extends Component<Props> {
   constructor(props) {
     super(props)
+    this.state = {
+      currentKey: ''
+    }
   }
+  async handleSubmit() {
+    const { success } = await validateKey(this.state.currentKey)
+    if (success) {
+      sessionStorage.setItem('interviewerKey', this.state.currentKey)
+      Router.push('/interviewportal')
+    }
+  }
+  onTextChange = e => {
+    this.setState({ currentKey: e.target.value })
+  }
+
   render() {
     return (
       <Container>
         <Modal isOpen={true}>
           <ModalHeader>Login to Your Interview Portal</ModalHeader>
           <ModalBody>
-            <Input type="text" name="Input Key" placeholder="Input Your Key" />
+            <Input
+              type="text"
+              onChange={this.onTextChange}
+              name="Input Key"
+              placeholder="Input Your Key"
+            />
           </ModalBody>
           <ModalFooter>
             <Link prefetch href="/">
               <Button color="secondary">Cancel</Button>
             </Link>{' '}
-            <Link prefetch href="/interviewportal">
-              <Button color="primary">Submit</Button>
-            </Link>
+            <Button
+              onClick={e => {
+                this.handleSubmit()
+              }}
+              color="primary"
+            >
+              Submit
+            </Button>
           </ModalFooter>
         </Modal>
       </Container>

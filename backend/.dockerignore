@@ -3,3 +3,4 @@
 !tests
 !yarn.lock
 !package.json
+!keys.json

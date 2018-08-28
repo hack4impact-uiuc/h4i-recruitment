@@ -1,5 +1,7 @@
 import {
   NEW_MATCH,
+  EDIT_INTERVIEW,
+  NEW_INTERVIEW,
   FETCH_CANDIDATES_BEGIN,
   FETCH_CANDIDATES_FAILURE,
   FETCH_CANDIDATES_SUCCESS,
@@ -24,6 +26,18 @@ export const fetchCandidatesSuccess = candidates => ({
   type: FETCH_CANDIDATES_SUCCESS,
   payload: candidates
 })
+
+export const editInterview = interview => ({
+  type: EDIT_INTERVIEW,
+  payload: {
+    interview: interview
+  }
+})
+
+export const newInterview = () => ({
+  type: NEW_INTERVIEW
+})
+
 export const addFilter = (category, filter) => ({
   type: ADD_FILTER,
   payload: {

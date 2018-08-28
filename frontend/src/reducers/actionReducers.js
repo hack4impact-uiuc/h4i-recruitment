@@ -1,6 +1,8 @@
 import initialState from './initialState.js'
 import {
   NEW_MATCH,
+  EDIT_INTERVIEW,
+  NEW_INTERVIEW,
   FETCH_CANDIDATES_BEGIN,
   FETCH_CANDIDATES_FAILURE,
   FETCH_CANDIDATES_SUCCESS,
@@ -12,6 +14,25 @@ import {
 
 export default function recruitmentApp(state = initialState, action) {
   switch (action.type) {
+    case EDIT_INTERVIEW:
+      console.log('ACTION INTERVIEW', action.payload.interview)
+      return {
+        ...state,
+        interview: {
+          ...state.interview,
+          editInterview: true,
+          interviewObj: action.payload.interview
+        }
+      }
+    case NEW_INTERVIEW:
+      return {
+        ...state,
+        interview: {
+          ...state.interview,
+          editInterview: false,
+          interviewObj: null
+        }
+      }
     case NEW_MATCH:
       return {
         ...state,

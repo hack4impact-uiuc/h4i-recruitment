@@ -6,8 +6,8 @@ const CommentBoxComponent = ({ comments }) => (
     <h5>Comments:</h5>
     {null
       ? comments == undefined
-      : comments.map(comment => (
-          <Row>
+      : comments.map((comment, idx) => (
+          <Row key={idx}>
             <div className="comment-box">
               <div>
                 <div className="comment-header">

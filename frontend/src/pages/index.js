@@ -60,7 +60,7 @@ class HomePage extends Component<Props> {
   }
 
   query = () => {
-    if (this.props.candidates.length == 0) {
+    if (this.props.candidates.length != 0) {
       this.props.fetchCandidates(
         this.props.filters.statuses,
         this.props.filters.years,
@@ -75,6 +75,7 @@ class HomePage extends Component<Props> {
   render() {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
+      console.error(error)
       return <div>Bad Fetch. Try again</div>
     }
 
