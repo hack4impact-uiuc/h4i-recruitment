@@ -42,9 +42,9 @@ class CandidateBox extends Component {
       <div>
         <Row>
           <Col md={6}>
-            <h2>
+            <h3>
               {candidate.name}
-            </h2>
+            </h3>
           </Col>
           <Col md={6} className="text-right">
             <a
@@ -132,7 +132,7 @@ class CandidateBox extends Component {
           <Col md={4}>
             <Row>
               <Col md={12}>
-                <h4>Additional Information</h4>
+                <h5>Additional Information</h5>
 
                 {candidate.major ? (
                   <p>
@@ -156,7 +156,7 @@ class CandidateBox extends Component {
 
             <Row>
               <Col md={12}>
-                <h4>Facemash Statistics</h4>
+                <h5>Facemash Statistics</h5>
                 <p>
                   <b>Facemash Score: </b> {candidate.facemashRankings.elo}
                 </p>
