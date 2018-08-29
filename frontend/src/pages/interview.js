@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import CandidateDropdown from '../components/candidateDropdown'
+import InterviewCategory from '../components/interviewCategory'
 import ErrorMessage from '../components/errorMessage'
 import { getKey, addInterview } from '../utils/api'
 
@@ -51,6 +52,7 @@ class Interview extends Component<Props> {
       candidateName: '',
       overallScore: 0,
       generalNotes: '',
+      categoryNotes: '',
       sections: [
         {
           section_name: 'Time Commitment',
@@ -137,6 +139,8 @@ class Interview extends Component<Props> {
       this.state.candidateName,
       this.state.overallScore,
       this.state.generalNotes,
+      this.state.categoryNotes,
+      this.state.category,
       this.state.sections
     )
     alert('Successfully added interview')
@@ -436,6 +440,18 @@ class Interview extends Component<Props> {
               value={this.state.generalNotes}
               onChange={this.handleChange}
               placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
+            />
+          </FormGroup>
+          <FormGroup>
+            <legend>Category</legend>
+            <InterviewCategory />
+            <Input
+              style={{ height: '100px' }}
+              type="textarea"
+              name="categoryNotes"
+              value={this.state.categoryNotes}
+              onChange={this.handleChange}
+              placeholder="Explain here why you've categorized the applicant like this."
             />
           </FormGroup>
           <FormGroup>

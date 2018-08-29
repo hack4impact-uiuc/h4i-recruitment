@@ -27,7 +27,7 @@ class InterviewCategory extends Component {
     let { category } = ''
     return (
       <p>
-        Change Status:
+        Change Category:
         <select onChange={this.handleChange}>
           <option value="" selected disabled hidden>
             Choose here
