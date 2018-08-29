@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Badge } from 'reactstrap'
+import { Badge, Row, Col } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
@@ -44,98 +44,153 @@ class CandidateBox extends Component {
     const { candidate } = this.props
     return (
       <div>
-        <div>
-          <h2>
-            {candidate.name}
-            {!this.props.hideStatus && (
-              <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
-                {this.state.status}
-              </Badge>
-            )}
-          </h2>
-          {!this.props.hideStatus && (
-            <a>
-              <p>
-                Change Status:
-                <select onChange={this.handleChange}>
-                  <option value="" selected disabled hidden>
-                    Choose here
-                  </option>
-                  <option value={statusEnum.PENDING}>Pending</option>
-                  <option value={statusEnum.ACCEPTED}>Accepted</option>
-                  <option value={statusEnum.DENIED}>Rejected</option>
-                  <option value={statusEnum.INTERVIEWING}>Interviewing</option>
-                </select>
-              </p>
+        <Row>
+          <Col md={6}>
+            <h3>{candidate.name}</h3>
+          </Col>
+          <Col md={6} className="text-right">
+            <a
+              style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
+              href={`${candidate.resumeID}`}
+            >
+              Resume
             </a>
-          )}
-          <a
-            style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
-            href={`${candidate.resumeID}`}
-          >
-            Resume
-          </a>
-          <a
-            style={{ textDecoration: candidate.website ? null : 'line-through' }}
-            href={candidate.website}
-          >
-            Website
-          </a>
-          <a
-            style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
-            href={candidate.linkedIn}
-          >
-            LinkedIn
-          </a>
-          <a
-            style={{ textDecoration: candidate.github ? null : 'line-through' }}
-            href={candidate.github}
-          >
-            Github
-          </a>
-        </div>
-        {candidate.major ? (
-          <p>
-            {' '}
-            <b>Major:</b> {candidate.major}{' '}
-          </p>
-        ) : (
-          <p> </p>
-        )}
-        <p>
-          <b>Graduation Date:</b> {candidate.graduationDate}
-        </p>
-        <p>
-          <b>Minor:</b> {candidate.minor}
-        </p>
+            <a
+              style={{ textDecoration: candidate.website ? null : 'line-through' }}
+              href={candidate.website}
+            >
+              Website
+            </a>
+            <a
+              style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
+              href={candidate.linkedIn}
+            >
+              LinkedIn
+            </a>
+            <a
+              style={{ textDecoration: candidate.github ? null : 'line-through' }}
+              href={candidate.github}
+            >
+              Github
+            </a>
+          </Col>
+        </Row>
 
-        <p>
-          <b>Applied Role:</b> {candidate.role.join(', ')}
-        </p>
-        <p>
-          <b>Github Contributions:</b> {candidate.githubContributions}
-        </p>
-        <p>
-          <b>Role Reason:</b> {candidate.roleReason}
-        </p>
-        <p>
-          <b>Reason for joining:</b> {candidate.joinReason}
-        </p>
-        <p>
-          <b>Time Commitment:</b> {candidate.timeCanDevote}
-        </p>
-        <p>
-          <b>Time Commitment List:</b> {candidate.timeCommitment}
-        </p>
-        <p>
-          <b>Tech Experience:</b> {candidate.techExperience}
-        </p>
-        <p>
-          <b>How They know us:</b> {candidate.howTheyKnowUs}
-        </p>
-        <p>
-          <b>Additional Comments:</b> {candidate.additionalComments}
-        </p>
+        <Row className="divider-bottom">
+          <Col md={6}>
+            <h3>
+              {candidate.status && candidate.status === 'Accepted' ? (
+                // Replaced the span with Badge for easier, more consistent styling
+                <Badge color="success">Accepted</Badge>
+              ) : (
+                <></>
+              )}
+
+              {candidate.status && candidate.status === 'Pending' ? (
+                <Badge color="warning">Pending</Badge>
+              ) : (
+                <></>
+              )}
+
+              {candidate.status && candidate.status === 'Rejected' ? (
+                <Badge color="danger">Rejected</Badge>
+              ) : (
+                <></>
+              )}
+
+              {candidate.status && candidate.status === 'Interviewing' ? (
+                <Badge color="info">Interviewing</Badge>
+              ) : (
+                <></>
+              )}
+            </h3>
+          </Col>
+          <Col md={6} className="text-right">
+            {!this.props.hideStatus && (
+              <a>
+                <p>
+                  Change Status:
+                  <select onChange={this.handleChange}>
+                    <option value="" selected disabled hidden>
+                      Choose here
+                    </option>
+                    <option value={statusEnum.PENDING}>Pending</option>
+                    <option value={statusEnum.ACCEPTED}>Accepted</option>
+                    <option value={statusEnum.DENIED}>Rejected</option>
+                    <option value={statusEnum.INTERVIEWING}>Interviewing</option>
+                  </select>
+                </p>
+              </a>
+            )}
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={8}>
+            <p>
+              <b>Applied Role:</b> {candidate.role.join(', ')}
+            </p>
+            <p>
+              <b>Role Reason:</b> {candidate.roleReason}
+            </p>
+            <p>
+              <b>Reason for joining:</b> {candidate.joinReason}
+            </p>
+            <p>
+              <b>Time Commitment:</b> {candidate.timeCanDevote}
+            </p>
+            <p>
+              <b>Time Commitment List:</b> {candidate.timeCommitment}
+            </p>
+            <p>
+              <b>Tech Experience:</b> {candidate.techExperience}
+            </p>
+            <p>
+              <b>How They know us:</b> {candidate.howTheyKnowUs}
+            </p>
+            <p>
+              <b>Additional Comments:</b> {candidate.additionalComments}
+            </p>
+          </Col>
+
+          <Col md={4}>
+            <Row>
+              <Col md={12}>
+                <h5>Additional Information</h5>
+
+                {candidate.major ? (
+                  <p>
+                    {' '}
+                    <b>Major:</b> {candidate.major}{' '}
+                  </p>
+                ) : (
+                  <p> </p>
+                )}
+                <p>
+                  <b>Minor:</b> {candidate.minor}
+                </p>
+                <p>
+                  <b>Graduation Date:</b> {candidate.graduationDate}
+                </p>
+                <p>
+                  <b>Github Contributions:</b> {candidate.githubContributions}
+                </p>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={12}>
+                <h5>Facemash Statistics</h5>
+                <p>
+                  <b>Facemash Score: </b> {candidate.facemashRankings.elo}
+                </p>
+                <p>
+                  <b>Number of Matches: </b> {candidate.facemashRankings.numOfMatches}
+                </p>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </div>
     )
   }

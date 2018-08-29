@@ -1,7 +1,7 @@
 // @flow
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, Button } from 'reactstrap'
 import { bindActionCreators } from 'redux'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
@@ -116,15 +116,27 @@ class FaceMash extends Component<Props> {
           <Row>
             <Col md="6">
               <Candidate candidate={candidates[0]} hideStatus={true} />
-              <button name="0" className="btn btn-info" onClick={this.handleClick}>
+              <Button
+                name="0"
+                size="lg"
+                className="btn btn-info margin-sm-top"
+                onClick={this.handleClick}
+                block
+              >
                 Pick
-              </button>
+              </Button>
             </Col>
             <Col md="6">
               <Candidate candidate={candidates[1]} hideStatus={true} />
-              <button name="1" className="btn btn-info" onClick={this.handleClick}>
+              <Button
+                name="1"
+                size="lg"
+                className="btn btn-info margin-sm-top"
+                onClick={this.handleClick}
+                block
+              >
                 Pick
-              </button>
+              </Button>
             </Col>
           </Row>
         </Container>

@@ -61,25 +61,33 @@ class CandidateCardComponent extends Component {
               <Col md={12}>
                 {candidate.status && candidate.status === 'Accepted' ? (
                   // Replaced the span with Badge for easier, more consistent styling
-                  <Badge color="success">Accepted</Badge>
+                  <h5>
+                    <Badge color="success">Accepted</Badge>
+                  </h5>
                 ) : (
                   <></>
                 )}
 
                 {candidate.status && candidate.status === 'Pending' ? (
-                  <Badge color="warning">Pending</Badge>
+                  <h5>
+                    <Badge color="warning">Pending</Badge>
+                  </h5>
                 ) : (
                   <></>
                 )}
 
                 {candidate.status && candidate.status === 'Rejected' ? (
-                  <Badge color="danger">Rejected</Badge>
+                  <h5>
+                    <Badge color="danger">Rejected</Badge>
+                  </h5>
                 ) : (
                   <></>
                 )}
 
                 {candidate.status && candidate.status === 'Interviewing' ? (
-                  <Badge color="info">Interviewing</Badge>
+                  <h5>
+                    <Badge color="info">Interviewing</Badge>
+                  </h5>
                 ) : (
                   <></>
                 )}
