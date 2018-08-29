@@ -42,9 +42,7 @@ class CandidateBox extends Component {
       <div>
         <Row>
           <Col md={6}>
-            <h3>
-              {candidate.name}
-            </h3>
+            <h3>{candidate.name}</h3>
           </Col>
           <Col md={6} className="text-right">
             <a
@@ -77,30 +75,30 @@ class CandidateBox extends Component {
         <Row className="divider-bottom">
           <Col md={6}>
             <h3>
-            {candidate.status && candidate.status === 'Accepted' ? (
-              // Replaced the span with Badge for easier, more consistent styling
-              <Badge color="success">Accepted</Badge>
-            ) : (
-              <></>
-            )}
+              {candidate.status && candidate.status === 'Accepted' ? (
+                // Replaced the span with Badge for easier, more consistent styling
+                <Badge color="success">Accepted</Badge>
+              ) : (
+                <></>
+              )}
 
-            {candidate.status && candidate.status === 'Pending' ? (
-              <Badge color="warning">Pending</Badge>
-            ) : (
-              <></>
-            )}
+              {candidate.status && candidate.status === 'Pending' ? (
+                <Badge color="warning">Pending</Badge>
+              ) : (
+                <></>
+              )}
 
-            {candidate.status && candidate.status === 'Rejected' ? (
-              <Badge color="danger">Rejected</Badge>
-            ) : (
-              <></>
-            )}
+              {candidate.status && candidate.status === 'Rejected' ? (
+                <Badge color="danger">Rejected</Badge>
+              ) : (
+                <></>
+              )}
 
-            {candidate.status && candidate.status === 'Interviewing' ? (
-              <Badge color="info">Interviewing</Badge>
-            ) : (
-              <></>
-            )}
+              {candidate.status && candidate.status === 'Interviewing' ? (
+                <Badge color="info">Interviewing</Badge>
+              ) : (
+                <></>
+              )}
             </h3>
           </Col>
           <Col md={6} className="text-right">

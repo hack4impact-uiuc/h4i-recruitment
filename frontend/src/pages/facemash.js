@@ -102,13 +102,25 @@ class FaceMash extends Component<Props> {
           <Row>
             <Col md="6">
               <Candidate candidate={candidates[0]} hideStatus={true} />
-              <Button name="0" size="lg" className="btn btn-info margin-sm-top" onClick={this.handleClick} block>
+              <Button
+                name="0"
+                size="lg"
+                className="btn btn-info margin-sm-top"
+                onClick={this.handleClick}
+                block
+              >
                 Pick
               </Button>
             </Col>
             <Col md="6">
               <Candidate candidate={candidates[1]} hideStatus={true} />
-              <Button name="1" size="lg" className="btn btn-info margin-sm-top" onClick={this.handleClick} block>
+              <Button
+                name="1"
+                size="lg"
+                className="btn btn-info margin-sm-top"
+                onClick={this.handleClick}
+                block
+              >
                 Pick
               </Button>
             </Col>
