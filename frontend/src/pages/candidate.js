@@ -50,7 +50,7 @@ class CandidatePage extends Component<Props> {
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
-    Router.push(Router.route)
+    Router.push(Router.asPath)
   }
   goBack = () => {
     Router.back()

@@ -146,3 +146,11 @@ p > b {
 .comment-body {
   padding: 15px 20px;
 }
+
+.page-error {
+  margin: 20%;
+  text-align: center;
+  height: 40px;
+  flex-direction: row;
+  font-size: 17px;
+}
