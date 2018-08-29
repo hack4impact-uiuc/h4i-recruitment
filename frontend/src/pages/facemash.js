@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/candidateBox'
+import ErrorMessage from '../components/errorMessage'
 
 type Props = {
   candidates: Array<any>,
@@ -39,6 +40,7 @@ class FaceMash extends Component<Props> {
   async getNewMatch() {
     const { result } = await getCandidateMatch()
     const { generateMatchData } = this.props
+    console.log('Getting new match')
     if (result === undefined) {
       console.log('Could not get new FaceMash match')
       generateMatchData(null, null, null)
@@ -74,7 +76,7 @@ class FaceMash extends Component<Props> {
         })
       } else {
         console.error('Match not successfully submitted')
-        window.alert('Match not successfully submitted')
+        window.alert('Match not successfully submitted. Are you logged in?')
       }
       this.getNewMatch()
     } catch (err) {
@@ -84,9 +86,21 @@ class FaceMash extends Component<Props> {
 
   render() {
     if (this.props.error) {
-      return <Error>Bad Fetch. Try again</Error>
+      return <ErrorMessage message={`Bad Fetch: ${this.props.error}. Try again`} />
     }
     const { candidates } = this.props
+    if (candidates == undefined || candidates[0] == undefined || candidates[1] == undefined) {
+      // if candidates are null, you need to manually change localStorage to get a new match
+      // because you can't submit a match with candidates as null. this does it for you
+      localStorage.removeItem('recruitment_tool_state')
+      return (
+        <ErrorMessage
+          code="404"
+          message="Match was not correctly retrieved. Check if you are logged in."
+        />
+      )
+    }
+
     return candidates && candidates.length == 2 ? (
       <div>
         <Container>

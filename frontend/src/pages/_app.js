@@ -5,9 +5,14 @@ import withRedux from 'next-redux-wrapper'
 import Head from '../components/head'
 import Nav from '../components/nav'
 import configureStore from '../store/appStore'
+import ErrorMessage from '../components/errorMessage'
 
 export default withRedux(configureStore, { debug: true })(
   class MyApp extends App {
+    constructor(props) {
+      super(props)
+      this.state = { hasError: false }
+    }
     static async getInitialProps({ Component, ctx }) {
       return {
         pageProps: {
@@ -31,7 +36,14 @@ export default withRedux(configureStore, { debug: true })(
             <div>
               <Head />
               <Nav />
-              <Component {...pageProps} />
+              {this.state.hasError ? (
+                <ErrorMessage
+                  code="404"
+                  message="Something went Wrong. Are you logged in? Check logs as well"
+                />
+              ) : (
+                <Component {...pageProps} />
+              )}
             </div>
           </Provider>
         </Container>

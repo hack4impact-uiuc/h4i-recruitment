@@ -3,11 +3,10 @@ import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
-import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
-import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 import CandidateDropdown from '../components/candidateDropdown'
+import ErrorMessage from '../components/errorMessage'
 import { getKey, addInterview } from '../utils/api'
 
 type Props = {
@@ -184,7 +183,7 @@ class Interview extends Component<Props> {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
       console.error(error)
-      return <div>Bad Fetch. Try again</div>
+      return <ErrorMessage code="404" message={`Bad Fetch with ${error}. Check if you are logged in.`} />
     }
     const statusFilter = filters.statuses
     const roleFilter = filters.roles

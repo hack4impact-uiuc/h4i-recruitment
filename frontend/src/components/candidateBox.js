@@ -6,6 +6,7 @@ import { Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
+import ErrorMessage from '../components/errorMessage'
 
 type Props = {
   candidate: {},
@@ -24,8 +25,9 @@ const mapDispatchToProps = dispatch => {
 class CandidateBox extends Component {
   constructor(props) {
     super(props)
+    console.log('HI', this.props.candidate == undefined ? 'ye' : 'no')
     this.state = {
-      status: this.props.candidate.status
+      status: this.props.candidate == undefined ? '' : this.props.candidate.status
     }
   }
   handleChange = e => {
@@ -34,8 +36,10 @@ class CandidateBox extends Component {
     this.setState({ status: e.target.value })
   }
   render() {
-    if (!this.props.candidate) {
-      return <div>User doesn&#39;t exist</div>
+    // includes null
+    console.log('candidate', this.props.candidate)
+    if (this.props.candidate == undefined) {
+      return <ErrorMessage message="User doesn&#39;t exist" />
     }
     const { candidate } = this.props
     return (
