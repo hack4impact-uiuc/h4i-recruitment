@@ -83,7 +83,7 @@ class CandidatePage extends Component<Props> {
               >
                 Add Interview
               </Button>
-              <Button outline color="primary" onClick={this.toggle}>
+              <Button outline color="primary" className="margin-sm-all" onClick={this.toggle}>
                 Add Comment
               </Button>
             </Col>

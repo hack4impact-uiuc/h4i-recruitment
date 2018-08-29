@@ -37,6 +37,9 @@ p > b {
 .margin-sm-top {
   margin-top: 3%;
 }
+.margin-sm-all {
+  margin: 2%;
+}
 
 .nav-bar-link {
   font-size: 10pt;
