@@ -77,11 +77,30 @@ class CandidateBox extends Component {
         <Row className="divider-bottom">
           <Col md={6}>
             <h3>
-              {!this.props.hideStatus && (
-                <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
-                  {this.state.status}
-                </Badge>
-              )}
+            {candidate.status && candidate.status === 'Accepted' ? (
+              // Replaced the span with Badge for easier, more consistent styling
+              <Badge color="success">Accepted</Badge>
+            ) : (
+              <></>
+            )}
+
+            {candidate.status && candidate.status === 'Pending' ? (
+              <Badge color="warning">Pending</Badge>
+            ) : (
+              <></>
+            )}
+
+            {candidate.status && candidate.status === 'Rejected' ? (
+              <Badge color="danger">Rejected</Badge>
+            ) : (
+              <></>
+            )}
+
+            {candidate.status && candidate.status === 'Interviewing' ? (
+              <Badge color="info">Interviewing</Badge>
+            ) : (
+              <></>
+            )}
             </h3>
           </Col>
           <Col md={6} className="text-right">
