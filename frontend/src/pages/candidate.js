@@ -95,7 +95,7 @@ class CandidatePage extends Component<Props> {
           </Row>
 
           <Row>
-            <Col md={12}>
+            <Col md={8}>
               <AddCommentsModal
                 submit={this.submitComment}
                 isOpen={this.state.addNotesModal}

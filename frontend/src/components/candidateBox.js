@@ -127,6 +127,9 @@ class CandidateBox extends Component {
             <p>
               <b>How They know us:</b> {candidate.howTheyKnowUs}
             </p>
+            <p>
+              <b>Additional Comments:</b> {candidate.additionalComments}
+            </p>
           </Col>
 
           <Col md={4}>
@@ -165,14 +168,6 @@ class CandidateBox extends Component {
                 </p>
               </Col>
             </Row>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={12}>
-            <p>
-              <b>Additional Comments:</b> {candidate.additionalComments}
-            </p>
           </Col>
         </Row>
       </div>
