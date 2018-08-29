@@ -39,8 +39,8 @@ class FacemashProfile extends Component {
     }
     const { candidate } = this.props
     return (
-      <div>
-        <div>
+      <div className="rounded-lightblue-border">
+        <div className="lightblue-section padded-all-sm">
           <h2>
             {candidate.name}
             {!this.props.hideStatus && (
@@ -90,48 +90,50 @@ class FacemashProfile extends Component {
             Github
           </a>
         </div>
-        {candidate.major ? (
+        <div className="padded-all-sm">
+          {candidate.major ? (
+            <p>
+              {' '}
+              <b>Major:</b> {candidate.major}{' '}
+            </p>
+          ) : (
+            <p> </p>
+          )}
           <p>
-            {' '}
-            <b>Major:</b> {candidate.major}{' '}
+            <b>Graduation Date:</b> {candidate.graduationDate}
           </p>
-        ) : (
-          <p> </p>
-        )}
-        <p>
-          <b>Graduation Date:</b> {candidate.graduationDate}
-        </p>
-        <p>
-          <b>Minor:</b> {candidate.minor}
-        </p>
+          <p>
+            <b>Minor:</b> {candidate.minor}
+          </p>
 
-        <p>
-          <b>Applied Role:</b> {candidate.role.join(', ')}
-        </p>
-        <p>
-          <b>Github Contributions:</b> {candidate.githubContributions}
-        </p>
-        <p>
-          <b>Role Reason:</b> {candidate.roleReason}
-        </p>
-        <p>
-          <b>Reason for joining:</b> {candidate.joinReason}
-        </p>
-        <p>
-          <b>Time Commitment:</b> {candidate.timeCanDevote}
-        </p>
-        <p>
-          <b>Time Commitment List:</b> {candidate.timeCommitment}
-        </p>
-        <p>
-          <b>Tech Experience:</b> {candidate.techExperience}
-        </p>
-        <p>
-          <b>How They know us:</b> {candidate.howTheyKnowUs}
-        </p>
-        <p>
-          <b>Additional Comments:</b> {candidate.additionalComments}
-        </p>
+          <p>
+            <b>Applied Role:</b> {candidate.role.join(', ')}
+          </p>
+          <p>
+            <b>Github Contributions:</b> {candidate.githubContributions}
+          </p>
+          <p>
+            <b>Role Reason:</b> {candidate.roleReason}
+          </p>
+          <p>
+            <b>Reason for joining:</b> {candidate.joinReason}
+          </p>
+          <p>
+            <b>Time Commitment:</b> {candidate.timeCanDevote}
+          </p>
+          <p>
+            <b>Time Commitment List:</b> {candidate.timeCommitment}
+          </p>
+          <p>
+            <b>Tech Experience:</b> {candidate.techExperience}
+          </p>
+          <p>
+            <b>How They know us:</b> {candidate.howTheyKnowUs}
+          </p>
+          <p>
+            <b>Additional Comments:</b> {candidate.additionalComments}
+          </p>
+        </div>
       </div>
     )
   }

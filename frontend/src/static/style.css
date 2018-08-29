@@ -19,6 +19,16 @@ p {
   margin-bottom: 2%;
   border-bottom: 1px solid #e6ebf1;
 }
+.lightblue-section {
+  background-color: #f1f5f9;
+}
+.rounded-lightblue-border {
+  border: 1px solid #e7ebef;
+  border-radius: 5px;
+}
+.padded-all-sm {
+  padding: 2%;
+}
 
 .nav-bar-link {
   font-size: 10pt;
