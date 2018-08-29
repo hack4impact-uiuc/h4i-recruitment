@@ -33,17 +33,6 @@ jobs:
             cd backend
             yarn
             yarn test
-  backend_build:
-    docker:
-      - image: node:8.4.0
-    working_directory: /home/h4i-recruitment
-    steps:
-      - checkout
-      - run:
-          command: |
-            cd backend
-            yarn
-            yarn build
   frontend_build:
     docker:
       - image: node:8.4.0
@@ -62,5 +51,4 @@ workflows:
       - frontend_lint
       - frontend_build
       - backend_lint
-      - backend_build
       - backend_test
