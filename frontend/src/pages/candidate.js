@@ -75,7 +75,7 @@ class CandidatePage extends Component<Props> {
           </Row>
 
           <Row>
-            <Col md={6}>
+            <Col md={8}>
               <Button
                 onClick={() => this.handleAddInterview(candidate._id, candidate.name)}
                 outline
@@ -87,7 +87,7 @@ class CandidatePage extends Component<Props> {
                 Add Comment
               </Button>
             </Col>
-            <Col md={6} className="text-right">
+            <Col md={4}>
               <Button color="primary" onClick={this.goBack}>
                 Back
               </Button>
