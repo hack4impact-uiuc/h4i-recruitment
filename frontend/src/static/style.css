@@ -13,6 +13,11 @@ a:hover {
 }
 p {
   font-size: 14px;
+  color: #4e4e4e;
+}
+p > b {
+  font-weight: 900;
+  color: black;
 }
 .divider-bottom {
   padding-bottom: 1%;
@@ -28,6 +33,9 @@ p {
 }
 .padded-all-sm {
   padding: 2%;
+}
+.margin-sm-top {
+  margin-top: 3%;
 }
 
 .nav-bar-link {
