@@ -59,6 +59,8 @@ workflows:
   version: 2
   build_test:
     jobs:
-      - frontend_build_lint
-      - backend_build_lint
+      - frontend_lint
+      - frontend_build
+      - backend_lint
+      - backend_build
       - backend_test
