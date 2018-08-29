@@ -79,26 +79,26 @@ class CandidateBox extends Component {
         <Row className="divider-bottom">
           <Col md={6}>
             <h3>
-              {candidate.status && candidate.status === 'Accepted' ? (
+              {this.state.status && this.state.status === 'Accepted' ? (
                 // Replaced the span with Badge for easier, more consistent styling
                 <Badge color="success">Accepted</Badge>
               ) : (
                 <></>
               )}
 
-              {candidate.status && candidate.status === 'Pending' ? (
+              {this.state.status && this.state.status === 'Pending' ? (
                 <Badge color="warning">Pending</Badge>
               ) : (
                 <></>
               )}
 
-              {candidate.status && candidate.status === 'Rejected' ? (
+              {this.state.status && this.state.status === 'Rejected' ? (
                 <Badge color="danger">Rejected</Badge>
               ) : (
                 <></>
               )}
 
-              {candidate.status && candidate.status === 'Interviewing' ? (
+              {this.state.status && this.state.status === 'Interviewing' ? (
                 <Badge color="info">Interviewing</Badge>
               ) : (
                 <></>
