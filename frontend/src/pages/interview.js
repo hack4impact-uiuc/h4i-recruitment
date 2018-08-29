@@ -183,7 +183,9 @@ class Interview extends Component<Props> {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
       console.error(error)
-      return <ErrorMessage code="404" message={`Bad Fetch with ${error}. Check if you are logged in.`} />
+      return (
+        <ErrorMessage code="404" message={`Bad Fetch with ${error}. Check if you are logged in.`} />
+      )
     }
     const statusFilter = filters.statuses
     const roleFilter = filters.roles
