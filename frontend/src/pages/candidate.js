@@ -5,10 +5,12 @@ import Router, { withRouter } from 'next/router'
 import { getCandidateById, addCommentToCandidate } from '../utils/api'
 import configureStore from './../store/appStore'
 import Candidate from '../components/candidateBox'
+import candidateInterviewsModal from '../components/candidateInterviewsModal'
 import AddCommentsModal from '../components/addCommentsModal'
 import CommentBox from '../components/commentBox'
 import { addInterviewCandidate } from './../actions'
 import { bindActionCreators } from 'redux'
+import CandidateInterviewsModal from '../components/candidateInterviewsModal'
 
 type Props = {}
 const mapDispatchToProps = dispatch => {
@@ -28,7 +30,8 @@ class CandidatePage extends Component<Props> {
     this.state = {
       form: {},
       addNotesModal: false,
-      candidate: null
+      candidate: null,
+      modalOpen: false
     }
   }
   async componentDidMount() {
@@ -54,6 +57,11 @@ class CandidatePage extends Component<Props> {
   }
   goBack = () => {
     Router.back()
+  }
+  handleShowAllInterviews = () => {
+    this.setState({
+      modalOpen: true
+    })
   }
   async handleAddInterview(candidateId, candidateName) {
     const { addInterviewCandidate } = this.props
@@ -82,6 +90,10 @@ class CandidatePage extends Component<Props> {
           <Button outline color="primary" onClick={this.toggle}>
             Add Comment
           </Button>
+          <Button outline color="primary" onClick={this.handleShowAllInterviews}>
+            Show Candidate Interviews
+          </Button>
+          <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} />
           <AddCommentsModal
             submit={this.submitComment}
             isOpen={this.state.addNotesModal}
