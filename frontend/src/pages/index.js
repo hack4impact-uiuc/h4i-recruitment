@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { Container, Button, Row, Col } from 'reactstrap'
 import CandidateListComponent from '../components/candidateList'
 import FilterComponent from '../components/filterComponent'
+import ErrorMessage from '../components/errorMessage'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 
 type Props = {
@@ -76,7 +77,7 @@ class HomePage extends Component<Props> {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
       console.error(error)
-      return <div>Bad Fetch. Try again</div>
+      return <ErrorMessage code="404" message={`Bad Fetch with ${error}`} />
     }
 
     return (

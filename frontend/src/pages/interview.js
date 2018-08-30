@@ -3,11 +3,10 @@ import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap'
 import Link from 'next/link'
 import React from 'react'
 import { connect } from 'react-redux'
-import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
-import { yearsEnum, statusEnum, rolesEnum } from '../utils/enums'
 import CandidateDropdown from '../components/candidateDropdown'
+import ErrorMessage from '../components/errorMessage'
 import { getKey, addInterview } from '../utils/api'
 
 type Props = {
@@ -124,6 +123,12 @@ class Interview extends Component<Props> {
     this.setState({ sections: newSections })
   }
 
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   handleSubmit = e => {
     console.log('Adding Interview....')
     addInterview(
@@ -178,7 +183,9 @@ class Interview extends Component<Props> {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
       console.error(error)
-      return <div>Bad Fetch. Try again</div>
+      return (
+        <ErrorMessage code="404" message={`Bad Fetch with ${error}. Check if you are logged in.`} />
+      )
     }
     const statusFilter = filters.statuses
     const roleFilter = filters.roles
@@ -232,6 +239,7 @@ class Interview extends Component<Props> {
             </Input>
             <Label>Explain Why you gave them those points:</Label>
             <Input
+              style={{ height: '130px' }}
               value={
                 this.state.sections.filter(section => section.section_name === 'Time Commitment')[0]
                   .section_notes
@@ -240,6 +248,7 @@ class Interview extends Component<Props> {
               type="textarea"
               name="Time Commitment"
               id="time-commitment-explanation"
+              placeholder="Explain as much as possible. It'll help during deliberations!"
             />
           </FormGroup>
           <FormGroup>
@@ -303,14 +312,15 @@ class Interview extends Component<Props> {
               Explain your reasoning for your score.{' '}
             </Label>
             <Input
-              type="text"
+              style={{ height: '130px' }}
+              type="textarea"
               name="Community"
               value={
                 this.state.sections.filter(section => section.section_name === 'Community')[0]
                   .section_notes
               }
               onChange={this.handleTextChange}
-              placeholder="Your Answer"
+              placeholder="Please explain in as much as possible. It'll help a lot during deliberations!"
             />
           </FormGroup>
           <FormGroup>
@@ -364,25 +374,25 @@ class Interview extends Component<Props> {
             <legend>Knowledge of Web Dev or Data (2 points)</legend>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="0" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="0" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 0 - No experience
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="1" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="1" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 1 - Some experience with it
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="2" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="2" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 2 - Has done a couple projects, knows what flask is. etc.
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="3" onClick={this.onSelect} name="Knowledge of Web Dev" />{' '}
+                <Input type="radio" value="3" onClick={this.onSelect} name="Knowledge of Web Dev" />
                 3 - Knows more than you - if they are a you think they could be a tech lead
               </Label>
             </FormGroup>
@@ -391,28 +401,42 @@ class Interview extends Component<Props> {
             <legend>Technical Challenge (5 points)</legend>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="0" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="0" onClick={this.onSelect} name="Technical Challenge" />
                 0 - No experience
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="1" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="1" onClick={this.onSelect} name="Technical Challenge" />
                 1 - Completed but with a lot of help/slow
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="2" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="2" onClick={this.onSelect} name="Technical Challenge" />
                 2 - Completed in a reasonable amount of time
               </Label>
             </FormGroup>
             <FormGroup check>
               <Label>
-                <Input type="radio" value="3" onClick={this.onSelect} name="Technical Challenge" />{' '}
+                <Input type="radio" value="3" onClick={this.onSelect} name="Technical Challenge" />
                 3 - Damn they are good
               </Label>
             </FormGroup>
+          </FormGroup>
+          <FormGroup>
+            <legend>General Notes</legend>
+            <Label>
+              Any other notes that the rubrik didn't cover or emphasis you'd like to make?
+            </Label>
+            <Input
+              style={{ height: '150px' }}
+              type="textarea"
+              name="generalNotes"
+              value={this.state.generalNotes}
+              onChange={this.handleChange}
+              placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
+            />
           </FormGroup>
           <FormGroup>
             <Link prefetch href="/interviewportal">

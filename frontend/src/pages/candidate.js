@@ -53,7 +53,7 @@ class CandidatePage extends Component<Props> {
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
-    Router.push(Router.route)
+    Router.push(Router.asPath)
   }
   goBack = () => {
     Router.back()
@@ -76,30 +76,46 @@ class CandidatePage extends Component<Props> {
     return (
       <>
         <Container className="mt-5">
-          <Button color="primary" onClick={this.goBack}>
-            Back
-          </Button>
-          <Candidate candidate={candidate} />
-          <Button
-            onClick={() => this.handleAddInterview(candidate._id, candidate.name)}
-            outline
-            color="primary"
-          >
-            Add Interview
-          </Button>
-          <Button outline color="primary" onClick={this.toggle}>
-            Add Comment
-          </Button>
-          <Button outline color="primary" onClick={this.handleShowAllInterviews}>
-            Show Candidate Interviews
-          </Button>
-          <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} />
-          <AddCommentsModal
-            submit={this.submitComment}
-            isOpen={this.state.addNotesModal}
-            toggle={this.toggle}
-          />
-          <CommentBox comments={candidate.comments} />
+          <Row>
+            <Col md={12}>
+              <Candidate candidate={candidate} />
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={8}>
+              <Button
+                onClick={() => this.handleAddInterview(candidate._id, candidate.name)}
+                outline
+                color="primary"
+              >
+                Add Interview
+              </Button>
+              <Button outline color="primary" className="margin-sm-all" onClick={this.toggle}>
+                Add Comment
+              </Button>
+              <Button outline color="primary" onClick={this.handleShowAllInterviews}>
+                Show Candidate Interviews
+              </Button>
+            </Col>
+            <Col md={4}>
+              <Button color="primary" onClick={this.goBack}>
+                Back
+              </Button>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={8}>
+              <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} />
+              <AddCommentsModal
+                submit={this.submitComment}
+                isOpen={this.state.addNotesModal}
+                toggle={this.toggle}
+              />
+              <CommentBox comments={candidate.comments} />
+            </Col>
+          </Row>
         </Container>
       </>
     )

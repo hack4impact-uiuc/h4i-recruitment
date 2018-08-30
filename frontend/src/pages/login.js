@@ -18,7 +18,7 @@ class Login extends Component<Props> {
     const { success } = await validateKey(this.state.currentKey)
     if (success) {
       sessionStorage.setItem('interviewerKey', this.state.currentKey)
-      Router.push('/interviewportal')
+      Router.push('/')
     }
   }
   onTextChange = e => {

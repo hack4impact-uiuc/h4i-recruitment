@@ -6,16 +6,43 @@ html {
 a {
   color: #067df7;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 12px;
 }
 a:hover {
   text-decoration: none !important;
 }
 p {
-  font-size: 15px;
+  font-size: 14px;
+  color: #4e4e4e;
+}
+p > b {
+  font-weight: 900;
+  color: black;
+}
+.divider-bottom {
+  padding-bottom: 1%;
+  margin-bottom: 2%;
+  border-bottom: 1px solid #e6ebf1;
+}
+.lightblue-section {
+  background-color: #f1f5f9;
+}
+.rounded-lightblue-border {
+  border: 1px solid #e7ebef;
+  border-radius: 5px;
+}
+.padded-all-sm {
+  padding: 2%;
+}
+.margin-sm-top {
+  margin-top: 3%;
+}
+.margin-sm-all {
+  margin: 2%;
 }
 
 .nav-bar-link {
+  font-size: 10pt;
   color: #dddddde7;
 }
 .nav-bar-link:hover {
@@ -23,12 +50,8 @@ p {
 }
 
 .card-title {
-  font-size: 25px;
+  font-size: 22px;
   color: #4b4b4b;
-}
-.card-links {
-  font-weight: 400;
-  float: right;
 }
 .candidate-list-box {
   margin-top: 20px;
@@ -38,6 +61,19 @@ p {
 }
 .candidate-list-box a {
   padding-right: 30px;
+}
+
+.card-links {
+  margin: 1%;
+}
+
+.card-body a {
+  /* This needs to override the candidate-list-box a above
+   * since candidate-list-box encapsulates each card and thus
+   * the styling applies to all <a></a> in the card
+   */
+  font-weight: 400;
+  padding: 0;
 }
 .candidate-card {
   transition: all 200ms;
@@ -50,7 +86,10 @@ p {
     0px 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 .highlight {
-  color: #db5858;
+  color: darkblue;
+}
+.space-fix-placeholder {
+  display: none;
 }
 
 .sidebar {
@@ -62,8 +101,8 @@ p {
   padding-top: 20px;
 }
 .candidates {
-  left: 250px;
-  top: 200px;
+  left: 150px;
+  top: 100px;
   position: absolute;
 }
 .clearfix {
@@ -106,4 +145,12 @@ p {
 }
 .comment-body {
   padding: 15px 20px;
+}
+
+.page-error {
+  margin: 20%;
+  text-align: center;
+  height: 40px;
+  flex-direction: row;
+  font-size: 17px;
 }
