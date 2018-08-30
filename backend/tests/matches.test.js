@@ -113,5 +113,23 @@ describe('POST /matchCandidates', () => {
     expect(cand2.facemashRankings.elo).to.eq(1022.8)
     expect(cand1.facemashRankings.elo).to.eq(1177.2)
   })
+
+  it('should save person who saved the match', async () => {
+    await createCandidates([1, 1], [1200, 1000])
+    await createMatches([[0, 1]])
+    const frontend_payload = {
+      candidate1: candidateIds(0),
+      candidate2: candidateIds(1),
+      winnerID: candidateIds(1),
+      matchID: matchIds(0)
+    }
+    await request(app)
+      .post(`/matchCandidates?key=${KEY}`)
+      .send(frontend_payload)
+      .expect(200)
+    const match = await Match.findById(matchIds(0))
+    expect(match.submittedBy).to.eq("Test Key")
+    expect(match.submittedByKey).to.eq(KEY)
+  })
 })
 // TODO: test utility functions
