@@ -47,7 +47,6 @@ class CandidatePage extends Component<Props> {
     })
   }
   submitComment = comment => {
-    // TODO: make request
     const res = addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
       addNotesModal: !this.state.addNotesModal
