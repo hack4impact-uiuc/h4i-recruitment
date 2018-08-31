@@ -53,6 +53,7 @@ class Interview extends Component<Props> {
       overallScore: 0,
       generalNotes: '',
       categoryNotes: '',
+      category: '',
       sections: [
         {
           section_name: 'Time Commitment',
@@ -442,7 +443,7 @@ class Interview extends Component<Props> {
               placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
             />
           </FormGroup>
-          <FormGroup>
+          <div>
             <legend>Category</legend>
             <InterviewCategory />
             <Input
@@ -453,7 +454,7 @@ class Interview extends Component<Props> {
               onChange={this.handleChange}
               placeholder="Explain here why you've categorized the applicant like this."
             />
-          </FormGroup>
+          </div>
           <FormGroup>
             <Link prefetch href="/interviewportal">
               <Button color="primary" onClick={this.handleSubmit}>
