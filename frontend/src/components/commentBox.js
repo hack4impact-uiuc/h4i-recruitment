@@ -12,7 +12,7 @@ const CommentBoxComponent = ({ comments }) => (
               <div>
                 <div className="comment-header">
                   <p>
-                    {comment.writerName != undefined ? comment.writerName : 'unrecorded user'} @{' '}
+                    {comment.writerName ? comment.writerName : 'unrecorded user'} @{' '}
                     {comment.created_at}
                   </p>
                 </div>
