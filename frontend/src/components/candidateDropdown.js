@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { Row } from 'reactstrap'
 import React, { Fragment, Component } from 'react'
 import Select from 'react-select'
+import { addInterviewCandidate } from '../actions'
 
 type Props = {
   candidates: Array<mixed>,
@@ -18,6 +19,15 @@ const mapStateToProps = state => ({
   candidateId: state.interview.candidateId,
   candidateName: state.interview.candidateName
 })
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      addInterviewCandidate
+    },
+    dispatch
+  )
+}
 
 type State = {
   isClearable: boolean,
@@ -37,6 +47,7 @@ class CandidateDropdown extends Component<Props, State> {
   }
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
+    // addInterviewCandidate()
   }
 
   componentDidMount() {
@@ -68,4 +79,7 @@ class CandidateDropdown extends Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps)(CandidateDropdown)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CandidateDropdown)
