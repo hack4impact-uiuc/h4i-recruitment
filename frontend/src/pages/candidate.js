@@ -7,6 +7,7 @@ import configureStore from './../store/appStore'
 import Candidate from '../components/candidateBox'
 import AddCommentsModal from '../components/addCommentsModal'
 import CommentBox from '../components/commentBox'
+import ErrorMessage from '../components/errorMessage'
 import { addInterviewCandidate } from './../actions'
 import { bindActionCreators } from 'redux'
 
@@ -28,14 +29,16 @@ class CandidatePage extends Component<Props> {
     this.state = {
       form: {},
       addNotesModal: false,
-      candidate: null
+      candidate: null,
+      comments: []
     }
   }
   async componentDidMount() {
     const { query } = Router
     const { result } = await getCandidateById(query.id)
     this.setState({
-      candidate: result
+      candidate: result,
+      comments: result != undefined ? result.comments : []
     })
   }
   toggle = () => {
@@ -44,13 +47,15 @@ class CandidatePage extends Component<Props> {
     })
   }
   submitComment = comment => {
-    // TODO: make request
-
     const res = addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
-    Router.push(Router.asPath)
+    let commentsState = this.state.comments
+    commentsState.push({ writerName: 'You', text: comment, created_at: 'Now' })
+    this.setState({
+      comments: commentsState
+    })
   }
   goBack = () => {
     Router.back()
@@ -62,7 +67,7 @@ class CandidatePage extends Component<Props> {
   }
   render() {
     if (this.state.candidate == null) {
-      return <div>User doesn&#39;t exist</div>
+      return <ErrorMessage>User doesn&#39;t exist</ErrorMessage>
     }
     const candidate = this.state.candidate
     return (

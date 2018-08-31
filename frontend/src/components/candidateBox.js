@@ -25,7 +25,6 @@ const mapDispatchToProps = dispatch => {
 class CandidateBox extends Component {
   constructor(props) {
     super(props)
-    console.log('HI', this.props.candidate == undefined ? 'ye' : 'no')
     this.state = {
       status: this.props.candidate == undefined ? '' : this.props.candidate.status
     }
@@ -51,24 +50,28 @@ class CandidateBox extends Component {
           <Col md={6} className="text-right">
             <a
               style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
+              className="pr-2"
               href={`${candidate.resumeID}`}
             >
               Resume
             </a>
             <a
               style={{ textDecoration: candidate.website ? null : 'line-through' }}
+              className="pr-2"
               href={candidate.website}
             >
               Website
             </a>
             <a
               style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
+              className="pr-2"
               href={candidate.linkedIn}
             >
               LinkedIn
             </a>
             <a
               style={{ textDecoration: candidate.github ? null : 'line-through' }}
+              className="pr-2"
               href={candidate.github}
             >
               Github

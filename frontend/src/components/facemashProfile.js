@@ -67,24 +67,28 @@ class FacemashProfile extends Component {
           )}
           <a
             style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
+            className="pr-2"
             href={`${candidate.resumeID}`}
           >
             Resume
           </a>
           <a
             style={{ textDecoration: candidate.website ? null : 'line-through' }}
+            className="pr-2"
             href={candidate.website}
           >
             Website
           </a>
           <a
             style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
+            className="pr-2"
             href={candidate.linkedIn}
           >
             LinkedIn
           </a>
           <a
             style={{ textDecoration: candidate.github ? null : 'line-through' }}
+            className="pr-2"
             href={candidate.github}
           >
             Github
