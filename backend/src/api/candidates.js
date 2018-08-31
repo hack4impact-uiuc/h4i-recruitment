@@ -198,6 +198,7 @@ router.post(
         success: false
       })
     } else {
+      console.log(req._key_name);
       const newComment = new Comment({
         writerId: req._key,
         writerName: req._key_name,

@@ -5,7 +5,7 @@ import { Container, Row, Col, Button } from 'reactstrap'
 import { bindActionCreators } from 'redux'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
-import Candidate from '../components/candidateBox'
+import Candidate from '../components/facemashProfile'
 import ErrorMessage from '../components/errorMessage'
 
 type Props = {
