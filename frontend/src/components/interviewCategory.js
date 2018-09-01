@@ -9,7 +9,7 @@ import { categoryEnum } from '../utils/enums'
 import { setCategory } from '../actions/actionCreators'
 
 type Props = {
-  pickerFunc: Function
+  chooseCategory: Function
 }
 
 class InterviewCategory extends Component {
@@ -21,7 +21,7 @@ class InterviewCategory extends Component {
   }
   handleChange = e => {
     this.setState({ category: e.target.value }, () => {
-      this.props.pickerFunc(this.state.category)
+      this.props.chooseCategory(this.state.category)
     })
   }
   render() {
