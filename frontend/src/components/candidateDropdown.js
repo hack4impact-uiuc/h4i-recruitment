@@ -9,9 +9,7 @@ import Select from 'react-select'
 import { addInterviewCandidate } from '../actions'
 
 type Props = {
-  candidates: Array<mixed>,
-  // candidateId: String,
-  // candidateName: String
+  candidates: Array<mixed>
 }
 
 const mapStateToProps = state => ({
@@ -43,9 +41,7 @@ class CandidateDropdown extends Component<Props, State> {
   state = {
     isClearable: false,
     isSearchable: true,
-    selectedOption: null,
-    candidateId: '',
-    candidateName: ''
+    selectedOption: null
   }
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
@@ -55,8 +51,6 @@ class CandidateDropdown extends Component<Props, State> {
         chosenCandidate = this.props.candidates[i]
       }
     }
-    this.setState({ candidateId: chosenCandidate._id })
-    this.setState({ candidateName: chosenCandidate.name })
     const { addInterviewCandidate } = this.props
     addInterviewCandidate(chosenCandidate._id, chosenCandidate.name)
   }
