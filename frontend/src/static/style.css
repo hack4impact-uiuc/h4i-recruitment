@@ -160,3 +160,6 @@ p > b {
   margin: auto;
   top: 50%;
 }
+.candidate-table {
+  font-size: 14px;
+}

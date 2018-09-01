@@ -30,7 +30,11 @@ const Candidate = new mongoose.Schema(
       numOfMatches: { type: Number, default: 0 }
     },
     status: { type: String, default: statusEnum.PENDING },
-    comments: [CommentSchema]
+    comments: [CommentSchema],
+    lastStatusChangeByUser: {
+      name: { type: String },
+      key: { type: String }
+    }
   },
   { timestamps: true }
 )
