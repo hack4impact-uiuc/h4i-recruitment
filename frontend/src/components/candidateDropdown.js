@@ -32,8 +32,7 @@ type State = {
   isSearchable: boolean
 }
 
-// this component is used in the interview page for the user to choose which
-// candidate they are interviewing
+// this component is used in the interview page for the user to choose candidate
 class CandidateDropdown extends Component<Props, State> {
   constructor(props) {
     super(props)
