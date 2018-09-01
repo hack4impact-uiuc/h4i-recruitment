@@ -38,10 +38,10 @@ class TablePage extends React.Component<Props> {
       return 0
     }
     if (candidate1.facemashRankings.elo > candidate2.facemashRankings.elo) {
-      return 1
+      return -1
     }
     if (candidate1.facemashRankings.elo < candidate2.facemashRankings.elo) {
-      return -1
+      return 1
     }
     return 0
   }
