@@ -128,6 +128,12 @@ class Interview extends Component<Props> {
     this.setState({ sections: newSections })
   }
 
+  pickerFunc = e => {
+    this.setState({
+      category: e
+    })
+  }
+
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -447,7 +453,7 @@ class Interview extends Component<Props> {
           </FormGroup>
           <div>
             <legend>Category</legend>
-            <InterviewCategory />
+            <InterviewCategory pickerFunc={this.pickerFunc} />
             <Input
               style={{ height: '100px' }}
               type="textarea"

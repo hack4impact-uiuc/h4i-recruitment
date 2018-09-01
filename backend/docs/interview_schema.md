@@ -2,8 +2,8 @@
 
 **INTERVIEW**
 
-|   id  |   candidate_id  |   interviewer_key    |   sections  |  overall_score  |  general_notes  |
-|:------:|:-------:|:------:|:-------:|:------:|:-------:|
+|   id  |   candidate_id  |   interviewer_key    |   sections  |  overall_score  |  general_notes  |  category  |  category_notes  |
+|:------:|:-------:|:------:|:-------:|:------:|:-------:|:------:|:-------:|
 
 **SECTION**
 
@@ -232,6 +232,8 @@ Create Interview
 | overall_score  | number | **Required** | overall score from 1-5
 | general_notes  | number | **Required** | general notes on the interview
 | sections  | array | **Required** | interview sections
+| category  | string | **Required** | candidate category
+| category_notes  | string | **Required** | reasoning for category placement
 
 **Example:**
 

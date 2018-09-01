@@ -84,7 +84,7 @@ router.post(
     let score = data.overallScore
     let genNotes = data.generalNotes
     let catNotes = data.categoryNotes
-    let givenCategory = data.givenCategory
+    let givenCategory = data.category
 
     if (interviewerKey == undefined) {
       response = 'Invalid interviewerKey'
