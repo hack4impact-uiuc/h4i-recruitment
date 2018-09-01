@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchCandidates, addFilter, removeFilter } from '../actions'
 import CandidateDropdown from '../components/candidateDropdown'
+import InterviewCategory from '../components/interviewCategory'
 import ErrorMessage from '../components/errorMessage'
 import { getKey, addInterview } from '../utils/api'
 
@@ -35,7 +36,9 @@ const mapStateToProps = state => ({
   loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
   filters: state.candidateListPage.filters,
-  sort: state.candidateListPage.sort
+  sort: state.candidateListPage.sort,
+  candidateId: state.interview.candidateId,
+  candidateName: state.interview.candidateName
 })
 
 class Interview extends Component<Props> {
@@ -51,6 +54,8 @@ class Interview extends Component<Props> {
       candidateName: '',
       overallScore: 0,
       generalNotes: '',
+      categoryNotes: '',
+      category: '',
       sections: [
         {
           section_name: 'Time Commitment',
@@ -123,6 +128,12 @@ class Interview extends Component<Props> {
     this.setState({ sections: newSections })
   }
 
+  chooseCategory = e => {
+    this.setState({
+      category: e
+    })
+  }
+
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -133,10 +144,12 @@ class Interview extends Component<Props> {
     console.log('Adding Interview....')
     addInterview(
       getKey(),
-      this.state.candidateId,
-      this.state.candidateName,
+      this.props.candidateId,
+      this.props.candidateName,
       this.state.overallScore,
       this.state.generalNotes,
+      this.state.categoryNotes,
+      this.state.category,
       this.state.sections
     )
     alert('Successfully added interview')
@@ -438,6 +451,18 @@ class Interview extends Component<Props> {
               placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
             />
           </FormGroup>
+          <div>
+            <legend>Category</legend>
+            <InterviewCategory chooseCategory={this.chooseCategory} />
+            <Input
+              style={{ height: '100px' }}
+              type="textarea"
+              name="categoryNotes"
+              value={this.state.categoryNotes}
+              onChange={this.handleChange}
+              placeholder="Explain here why you've categorized the applicant like this."
+            />
+          </div>
           <FormGroup>
             <Link prefetch href="/interviewportal">
               <Button color="primary" onClick={this.handleSubmit}>
