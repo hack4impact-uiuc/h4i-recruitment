@@ -38,7 +38,7 @@ const mapStateToProps = state => ({
   filters: state.candidateListPage.filters,
   sort: state.candidateListPage.sort,
   candidateId: state.interview.candidateId,
-  candidatename: state.interview.candidateName
+  candidateName: state.interview.candidateName
 })
 
 class Interview extends Component<Props> {
@@ -138,8 +138,8 @@ class Interview extends Component<Props> {
     console.log('Adding Interview....')
     addInterview(
       getKey(),
-      this.state.candidateId,
-      this.state.candidateName,
+      this.props.candidateId,
+      this.props.candidateName,
       this.state.overallScore,
       this.state.generalNotes,
       this.state.categoryNotes,

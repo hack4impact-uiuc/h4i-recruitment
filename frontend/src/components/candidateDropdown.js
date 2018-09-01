@@ -10,8 +10,8 @@ import { addInterviewCandidate } from '../actions'
 
 type Props = {
   candidates: Array<mixed>,
-  candidateId: String,
-  candidateName: String
+  // candidateId: String,
+  // candidateName: String
 }
 
 const mapStateToProps = state => ({
@@ -43,11 +43,22 @@ class CandidateDropdown extends Component<Props, State> {
   state = {
     isClearable: false,
     isSearchable: true,
-    selectedOption: null
+    selectedOption: null,
+    candidateId: '',
+    candidateName: ''
   }
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
-    // addInterviewCandidate()
+    let chosenCandidate = null
+    for (var i = 0; i < this.props.candidates.length; i++) {
+      if (this.props.candidates[i].name == selectedOption.value) {
+        chosenCandidate = this.props.candidates[i]
+      }
+    }
+    this.setState({ candidateId: chosenCandidate._id })
+    this.setState({ candidateName: chosenCandidate.name })
+    const { addInterviewCandidate } = this.props
+    addInterviewCandidate(chosenCandidate._id, chosenCandidate.name)
   }
 
   componentDidMount() {
