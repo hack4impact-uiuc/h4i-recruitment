@@ -37,6 +37,7 @@ class CandidateBox extends Component {
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
+  // {}
   async componentDidMount() {
     const res = await getCandidateInterviews(this.props.candidate._id)
     console.log(res.result)
