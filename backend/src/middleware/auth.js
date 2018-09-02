@@ -1,6 +1,7 @@
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
+const leadSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.LEAD_SUFFIX
 
 const auth = (req, res, next) => {
   const key = req.query.key
@@ -26,7 +27,7 @@ const auth = (req, res, next) => {
         }
 
         // check whether key is a lead's key or a member's key
-        if (key.endsWith(process.env.LEAD_SUFFIX)) {
+        if (key.endsWith(leadSuffix)) {
           req._is_lead = true
         } else {
           req._is_lead = false
