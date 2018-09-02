@@ -225,7 +225,7 @@ class CandidateBox extends Component {
                   <p>
                     {' '}
                     <b> General Notes: </b> {interview.general_notes}
-                    <br></br>
+                    <br />
                     <b> Category: </b> {interview.category}
                   </p>
                 ))}
