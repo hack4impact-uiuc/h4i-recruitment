@@ -232,8 +232,8 @@ class Interview extends Component<Props> {
         {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
           <Link href={{ pathname: '/candidate', query: { id: this.props.candidateId } }}>
             <a>
-              Candidate's Page (OPEN A NEW TAB. YOU WILL LOSE YOUR FILLED OUT FORMS IF YOU CLICK ON
-              IT.)
+              Candidate&#39;s Page (OPEN A NEW TAB. YOU WILL LOSE YOUR FILLED OUT FORMS IF YOU CLICK
+              ON IT.)
             </a>
           </Link>
         ) : null}
