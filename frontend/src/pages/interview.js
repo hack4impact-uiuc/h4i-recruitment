@@ -243,7 +243,7 @@ class Interview extends Component<Props> {
             <ul>
               <li>Exec member for another org Consulting Club such as IBC, OTCR</li>
               <li>
-                Some other club that requires time that I can’t think of (ex: Enactus Fraternity
+                Some other club that requires time that I can&#39;t think of (ex: Enactus Fraternity
                 Pledge during the same semester)
               </li>
               <li>Hard/Time-consuming classes</li>
@@ -315,7 +315,7 @@ class Interview extends Component<Props> {
                   name="Initiative and Passion"
                 />
                 1 - Had a general idea of what hack4impact was. They probably only read a couple
-                sentences about Hack4Impact and applied and that's it.
+                sentences about Hack4Impact and applied and that&#39;s it.
               </Label>
             </FormGroup>
             <FormGroup check>
@@ -490,7 +490,7 @@ class Interview extends Component<Props> {
                     onClick={this.onSelect}
                     name="Technical Challenge"
                   />
-                  0 - couldn’t complete
+                  0 - couldn&#39;t complete
                 </Label>
               </FormGroup>
               <FormGroup check>
@@ -545,7 +545,7 @@ class Interview extends Component<Props> {
                     onClick={this.onSelect}
                     name="Technical Challenge"
                   />
-                  5 - damn [enter pronoun]’s good
+                  5 - damn [enter pronoun]&#39;s good
                 </Label>
               </FormGroup>
             </FormGroup>
@@ -566,7 +566,9 @@ class Interview extends Component<Props> {
           </InterviewCard>
           <InterviewCard title="General Notes">
             <Label>
-              <b>Any other notes that the rubrik didn't cover or emphasis you'd like to make?</b>
+              <b>
+                Any other notes that the rubrik didn&#39;t cover or emphasis you&#39;d like to make?
+              </b>
             </Label>
             <Input
               style={{ height: '150px' }}
