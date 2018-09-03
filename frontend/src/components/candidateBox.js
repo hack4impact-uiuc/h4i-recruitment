@@ -41,16 +41,20 @@ class CandidateBox extends Component {
     const res = await getCandidateInterviews(this.props.candidate._id)
     this.setState({
       interviews: res.result,
-      avgInterviewScore: this.avgInterviewScore()
+      avgInterviewScore: this.avgInterviewScore(res.result)
     })
   }
-  avgInterviewScore = e => {
-    let avgs = 0
-    for (var i = 0; i < this.state.interviews.length; i++) {
-      avgs += this.state.interviews[0].overall_score
+  avgInterviewScore = interviews => {
+    if (interviews == undefined) {
+      return 0
     }
-    if (avgs != 0) {
-      return avgs / this.state.interviews.length
+
+    let avgs = 0
+    for (var i = 0; i < interviews.length; i++) {
+      avgs += interviews[i].overall_score
+    }
+    if (interviews.length != 0) {
+      avg = avg / interviews.length
     }
     return avgs
   }
