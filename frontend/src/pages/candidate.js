@@ -101,6 +101,9 @@ class CandidatePage extends Component<Props> {
               <Button outline color="primary" className="margin-sm-all" onClick={this.toggle}>
                 Add Comment
               </Button>
+              <Button outline color="primary" onClick={this.handleShowAllInterviews}>
+                Show Candidate Interviews
+              </Button>
             </Col>
             <Col md={4}>
               <Button color="primary" onClick={this.goBack}>
@@ -115,6 +118,7 @@ class CandidatePage extends Component<Props> {
 
           <Row>
             <Col md={8}>
+              <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} />
               <AddCommentsModal
                 submit={this.submitComment}
                 isOpen={this.state.addNotesModal}
