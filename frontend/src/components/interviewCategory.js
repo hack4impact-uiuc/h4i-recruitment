@@ -1,12 +1,7 @@
 // @flow
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import Link from 'next/link'
-import { Card, CardBody, CardTitle, Button } from 'reactstrap'
-import Router, { withRouter } from 'next/router'
+import { Input } from 'reactstrap'
 import { categoryEnum } from '../utils/enums'
-import { setCategory } from '../actions/actionCreators'
 
 type Props = {
   chooseCategory: Function
@@ -20,16 +15,15 @@ class InterviewCategory extends Component {
     }
   }
   handleChange = e => {
-    this.setState({ category: e.target.value }, () => {
-      this.props.chooseCategory(this.state.category)
-    })
+    this.setState({ category: e.target.value })
+    this.props.chooseCategory(e.target.value)
   }
   render() {
     let { category } = ''
     return (
-      <p>
-        Change Category:
-        <select onChange={this.handleChange}>
+      <>
+        <b>Place the candidate in a category:</b>
+        <Input value={this.state.category} type="select" onChange={this.handleChange}>
           <option value="" selected disabled hidden>
             Choose here
           </option>
@@ -51,8 +45,8 @@ class InterviewCategory extends Component {
           <option value={categoryEnum.UPPEREH}>
             Upperclassman with experience but eh with everything else
           </option>
-        </select>
-      </p>
+        </Input>
+      </>
     )
   }
 }

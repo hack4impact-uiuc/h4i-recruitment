@@ -222,8 +222,8 @@ class CandidateBox extends Component {
                 <p>
                   <b>Average Score: </b> {this.state.avgInterviewscore}
                 </p>
-                {this.state.interviews.map(interview => (
-                  <p>
+                {this.state.interviews.map((interview, idx) => (
+                  <p key={idx}>
                     <b> General Notes: </b> {interview.general_notes}
                     <br />
                     <b> Category: </b> {interview.category}

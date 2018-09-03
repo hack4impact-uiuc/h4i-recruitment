@@ -16,7 +16,6 @@ router.get(
     if (key && key.length === 11) {
       keyVerified = keyData.keys.filter(currKey => currKey.key === key).length !== 0
     }
-    console.log('HELLO')
     let statusCode = keyVerified ? 200 : 403
     let message = keyVerified ? 'key is verified' : 'key did not pass verification'
     res.status(statusCode).json({
@@ -152,7 +151,7 @@ router.delete(
     if (retInterview == undefined) {
       response = 'Invalid Delete Interview request'
     } else {
-      Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, function(err, results) {})
+      Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, function (err, results) {})
     }
     res.json({
       code: 200,
@@ -186,21 +185,21 @@ router.put(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { sections: reqSections } },
         { new: true },
-        function(err, doc) {}
+        function (err, doc) {}
       )
     } else if (overallScore != undefined) {
       Interview.findOneAndUpdate(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { overall_score: overallScore } },
         { new: true },
-        function(err, doc) {}
+        function (err, doc) {}
       )
     } else if (genNotes != undefined) {
       Interview.findOneAndUpdate(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { general_notes: genNotes } },
         { new: true },
-        function(err, doc) {}
+        function (err, doc) {}
       )
     }
     res.json({
