@@ -154,3 +154,9 @@ p > b {
   flex-direction: row;
   font-size: 17px;
 }
+
+.loader-box {
+  display: block;
+  margin: auto;
+  top: 50%;
+}
