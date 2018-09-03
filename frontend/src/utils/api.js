@@ -42,8 +42,8 @@ function getCandidateMatch() {
   return fetch(`${API_URL}/matchCandidates?key=${getKey()}`).then(res => res.json())
 }
 
-function getCandidateById(id: string) {
-  return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
+function getCandidates() {
+  return fetch(`${API_URL}/candidates?status=everyone&key=${getKey()}`).then(res => res.json())
 }
 
 function setCandidateStatus(id: string, status: string) {
@@ -171,5 +171,6 @@ export {
   getCandidatesByStatus,
   addCommentToCandidate,
   getKey,
-  getCandidateInterviews
+  getCandidateInterviews,
+  getCandidates
 }

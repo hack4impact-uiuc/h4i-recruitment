@@ -17,7 +17,7 @@ router.get(
         candidates = await Candidate.find({ status: req.query.status })
       }
     } else {
-      candidates = await Candidate.find({ status: 'Pending' })
+      candidates = await Candidate.find()
     }
     res.json({ result: candidates })
   })
@@ -167,16 +167,36 @@ router.post(
     const candidateId = req.params.candidateId
     switch (data.status) {
       case statusEnum.PENDING:
-        await Candidate.findByIdAndUpdate(candidateId, { status: statusEnum.PENDING })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.PENDING
+          }
+        })
         break
       case statusEnum.ACCEPTED:
-        await Candidate.findByIdAndUpdate(candidateId, { status: statusEnum.ACCEPTED })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.ACCEPTED
+          }
+        })
         break
       case statusEnum.INTERVIEWING:
-        await Candidate.findByIdAndUpdate(candidateId, { status: statusEnum.INTERVIEWING })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.INTERVIEWING
+          }
+        })
         break
       case statusEnum.DENIED:
-        await Candidate.findByIdAndUpdate(candidateId, { status: statusEnum.DENIED })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.DENIED
+          }
+        })
         break
       default:
         response = 'Invalid status, please try again'
