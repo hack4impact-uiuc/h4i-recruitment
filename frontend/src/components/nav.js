@@ -36,6 +36,11 @@ class NavigationBar extends Component {
               <Link prefetch href="/interviewportal">
                 <a className="nav-bar-link pl-3">Interview Portal</a>
               </Link>
+              <Nav navbar>
+                <Link prefetch href="/table">
+                  <a className="nav-bar-link pl-3">Table View</a>
+                </Link>
+              </Nav>
               <Link prefetch href="/login">
                 <a className="nav-bar-link pl-3">Login</a>
               </Link>

@@ -79,7 +79,6 @@ class HomePage extends Component<Props> {
       console.error(error)
       return <ErrorMessage code="404" message={`Bad Fetch with ${error}`} />
     }
-
     return (
       <>
         <div className="page-content-wrapper">

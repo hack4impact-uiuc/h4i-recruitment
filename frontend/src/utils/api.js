@@ -42,12 +42,12 @@ function getCandidateMatch() {
   return fetch(`${API_URL}/matchCandidates?key=${getKey()}`).then(res => res.json())
 }
 
-function getCandidateById(id: string) {
-  return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
+function getCandidates() {
+  return fetch(`${API_URL}/candidates?status=everyone&key=${getKey()}`).then(res => res.json())
 }
 
 function setCandidateStatus(id: string, status: string) {
-  return fetch(`${API_URL}/candidates/set-status?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${id}/status?key=${getKey()}`, {
     body: JSON.stringify({
       id: id,
       status: status
@@ -96,7 +96,7 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 }
 
 function validateKey(key: string) {
-  return fetch(`${API_URL}/interview?key=${key}`).then(res => res.json())
+  return fetch(`${API_URL}/interview/verify_interviewer?key=${key}`).then(res => res.json())
 }
 
 function getPastInterviews(interviewerKey: string) {
@@ -171,5 +171,6 @@ export {
   getCandidatesByStatus,
   addCommentToCandidate,
   getKey,
-  getCandidateInterviews
+  getCandidateInterviews,
+  getCandidates
 }

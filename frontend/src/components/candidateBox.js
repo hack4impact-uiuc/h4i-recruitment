@@ -223,9 +223,8 @@ class CandidateBox extends Component {
                 </p>
                 {this.state.interviews.map(interview => (
                   <p>
-                    {' '}
                     <b> General Notes: </b> {interview.general_notes}
-                    <br></br>
+                    <br />
                     <b> Category: </b> {interview.category}
                   </p>
                 ))}
