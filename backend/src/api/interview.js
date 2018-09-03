@@ -56,6 +56,24 @@ router.get(
 )
 
 router.get(
+  '/candidate-interviews/:candidate_id',
+  errorWrap(async (req, res) => {
+    const interviews = await Interview.find()
+    const retInterviews = interviews.filter(
+      interview => interview.candidate_id === req.params.candidate_id
+    )
+    let statusCode = retInterviews ? 200 : 400
+
+    res.status(statusCode).json({
+      code: statusCode,
+      message: '',
+      result: retInterviews,
+      success: true
+    })
+  })
+)
+
+router.get(
   '/past-interviews/:interviewer_key',
   errorWrap(async (req, res) => {
     const interviews = await Interview.find()

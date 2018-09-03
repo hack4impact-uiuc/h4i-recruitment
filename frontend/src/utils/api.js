@@ -104,7 +104,11 @@ function getPastInterviews(interviewerKey: string) {
     res.json()
   )
 }
-
+function getCandidateInterviews(candidateId: string) {
+  return fetch(`${API_URL}/interview/candidate-interviews/${candidateId}?key=${getKey()}`).then(
+    res => res.json()
+  )
+}
 function addInterview(
   interviewerKey: string,
   candidateId: string,
@@ -166,5 +170,6 @@ export {
   setCandidateStatus,
   getCandidatesByStatus,
   addCommentToCandidate,
-  getKey
+  getKey,
+  getCandidateInterviews
 }
