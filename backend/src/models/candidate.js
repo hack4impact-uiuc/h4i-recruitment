@@ -24,7 +24,7 @@ const Candidate = new mongoose.Schema(
     techExperience: { type: String },
     howTheyKnowUs: { type: String },
     additionalComments: { type: String },
-    //interviews: [Interview],
+    // interviews: [Interview],
     facemashRankings: {
       elo: { type: Number, default: 1000 },
       numOfMatches: { type: Number, default: 0 }

@@ -1,6 +1,7 @@
 const { Candidate, Match } = require('../src/models')
 
 const KEY = 'hjsdhfy79uu'
+const NONLEAD_KEY = 'hjsdhfy79uus'
 // Build unique mongo ObjectId for candidate given index of candidate
 // The slice statement makes sure that the ObjectId is valid even if num is
 // greater than 10 (takes up more than 1 character)
@@ -50,6 +51,7 @@ const createMatches = async matches => {
 }
 
 const getAuthMiddlewareRequestStub = key => ({ query: { key: key } })
+const getLeadsOnlyMiddlewareRequestStub = (key, isLead) => ({ _key: key, _is_lead: isLead })
 
 module.exports = {
   candidateIds,
@@ -57,5 +59,7 @@ module.exports = {
   createMatches,
   matchIds,
   KEY,
-  getAuthMiddlewareRequestStub
+  NONLEAD_KEY,
+  getAuthMiddlewareRequestStub,
+  getLeadsOnlyMiddlewareRequestStub
 }

@@ -66,10 +66,12 @@ class CandidatePage extends Component<Props> {
     Router.push('/interview')
   }
   render() {
-    if (this.state.candidate == null) {
-      return <ErrorMessage>User doesn&#39;t exist</ErrorMessage>
+    if (this.state.candidate == undefined) {
+      return (
+        <ErrorMessage message="User doesn&#39;t exist. Check if your key has the correct privileges." />
+      )
     }
-    const candidate = this.state.candidate
+    const { candidate } = this.state
     return (
       <>
         <Container className="mt-5">

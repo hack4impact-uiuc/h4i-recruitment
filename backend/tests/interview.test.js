@@ -169,6 +169,5 @@ describe('DELETE /interview', () => {
       .delete(`/interview/${interview._id}/?key=${KEY}`)
       .expect(200)
     const deleted_candidate = await Interview.findById(interview._id)
-    console.log(deleted_candidate)
   })
 })
