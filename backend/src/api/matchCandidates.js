@@ -106,6 +106,8 @@ router.post(
     let match = await Match.findById(data.matchID)
     match.winnerID = data.winnerID // update the winner
     match.submittedAt = new Date()
+    match.submittedBy = req._key_name
+    match.submittedByKey = req._key
 
     // Find candidates involved with match to begin updating elo
     const candidate1 = await Candidate.findById(data.candidate1)

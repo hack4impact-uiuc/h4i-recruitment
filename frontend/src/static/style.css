@@ -154,3 +154,12 @@ p > b {
   flex-direction: row;
   font-size: 17px;
 }
+
+.loader-box {
+  display: block;
+  margin: auto;
+  top: 50%;
+}
+.candidate-table {
+  font-size: 14px;
+}

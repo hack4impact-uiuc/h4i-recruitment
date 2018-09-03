@@ -5,8 +5,9 @@ import { Container, Row, Col, Button } from 'reactstrap'
 import { bindActionCreators } from 'redux'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
-import Candidate from '../components/candidateBox'
+import Candidate from '../components/facemashProfile'
 import ErrorMessage from '../components/errorMessage'
+import ReactLoading from 'react-loading'
 
 type Props = {
   candidates: Array<any>,
@@ -33,7 +34,8 @@ class FaceMash extends Component<Props> {
     super(props)
     this.state = {
       error: false,
-      message: ''
+      message: '',
+      loading: false
     }
   }
 
@@ -49,16 +51,29 @@ class FaceMash extends Component<Props> {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.candidates !== this.props.candidates) {
+      this.setState({ loading: false })
+    }
+  }
   componentDidMount() {
     const { candidates } = this.props
-    if (candidates == undefined || candidates.length != 2) {
+    if (
+      candidates == undefined ||
+      candidates.length != 2 ||
+      candidates[0] == undefined ||
+      candidates[1] == undefined
+    ) {
+      // if candidates are null, you need to manually change localStorage to get a new match
+      // because you can't submit a match with candidates as null. this does it for you
+      localStorage.removeItem('recruitment_tool_state')
       this.getNewMatch()
     }
   }
-
   handleClick = async e => {
     const winner = e.target.name
     try {
+      this.setState({ loading: true })
       const { candidates, matchID } = this.props
       if (!candidates || candidates.length != 2 || !matchID) {
         console.error('Missing match information.')
@@ -83,16 +98,12 @@ class FaceMash extends Component<Props> {
       console.error('Error', err)
     }
   }
-
   render() {
     if (this.props.error) {
       return <ErrorMessage message={`Bad Fetch: ${this.props.error}. Try again`} />
     }
     const { candidates } = this.props
     if (candidates == undefined || candidates[0] == undefined || candidates[1] == undefined) {
-      // if candidates are null, you need to manually change localStorage to get a new match
-      // because you can't submit a match with candidates as null. this does it for you
-      localStorage.removeItem('recruitment_tool_state')
       return (
         <ErrorMessage
           code="404"
@@ -113,36 +124,40 @@ class FaceMash extends Component<Props> {
             </p>
           </div>
           <p>{this.state.message}</p>
-          <Row>
-            <Col md="6">
-              <Candidate candidate={candidates[0]} hideStatus={true} />
-              <Button
-                name="0"
-                size="lg"
-                className="btn btn-info margin-sm-top"
-                onClick={this.handleClick}
-                block
-              >
-                Pick
-              </Button>
-            </Col>
-            <Col md="6">
-              <Candidate candidate={candidates[1]} hideStatus={true} />
-              <Button
-                name="1"
-                size="lg"
-                className="btn btn-info margin-sm-top"
-                onClick={this.handleClick}
-                block
-              >
-                Pick
-              </Button>
-            </Col>
-          </Row>
+          {!this.state.loading ? (
+            <Row>
+              <Col md="6">
+                <Candidate candidate={candidates[0]} hideStatus={true} />
+                <Button
+                  name="0"
+                  size="lg"
+                  className="btn btn-info margin-sm-top"
+                  onClick={this.handleClick}
+                  block
+                >
+                  Pick
+                </Button>
+              </Col>
+              <Col md="6">
+                <Candidate candidate={candidates[1]} hideStatus={true} />
+                <Button
+                  name="1"
+                  size="lg"
+                  className="btn btn-info margin-sm-top"
+                  onClick={this.handleClick}
+                  block
+                >
+                  Pick
+                </Button>
+              </Col>
+            </Row>
+          ) : (
+            <ReactLoading className="loader-box" type="spinningBubbles" color="#000" />
+          )}
         </Container>
       </div>
     ) : (
-      <h4>Error: Couldn&#39;t get new FaceMash match. Please refresh page.</h4>
+      <ErrorMessage>Error: Couldn&#39;t get new FaceMash match. Please refresh page.</ErrorMessage>
     )
   }
 }

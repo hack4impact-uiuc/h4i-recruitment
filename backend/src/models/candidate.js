@@ -24,13 +24,17 @@ const Candidate = new mongoose.Schema(
     techExperience: { type: String },
     howTheyKnowUs: { type: String },
     additionalComments: { type: String },
-    //interviews: [Interview],
+    // interviews: [Interview],
     facemashRankings: {
       elo: { type: Number, default: 1000 },
       numOfMatches: { type: Number, default: 0 }
     },
     status: { type: String, default: statusEnum.PENDING },
-    comments: [CommentSchema]
+    comments: [CommentSchema],
+    lastStatusChangeByUser: {
+      name: { type: String },
+      key: { type: String }
+    }
   },
   { timestamps: true }
 )

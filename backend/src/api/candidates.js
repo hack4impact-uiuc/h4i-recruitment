@@ -1,28 +1,30 @@
 const express = require('express')
 const router = express.Router()
-const { errorWrap } = require('../middleware')
+const { errorWrap, leadsOnly } = require('../middleware')
 const { Candidate, Comment } = require('../models')
 const { statusEnum, yearsEnum, rolesEnum, gradEnum, enumToArray } = require('../utils/enums')
 const { getGithubContributions } = require('../utils/gitScraper')
 
 router.get(
   '/',
+  [leadsOnly],
   errorWrap(async (req, res) => {
     let candidates
     if (req.query.status) {
-      if (req.query.status == 'everyone') {
+      if (req.query.status === 'everyone') {
         candidates = await Candidate.find()
       } else {
         candidates = await Candidate.find({ status: req.query.status })
       }
     } else {
-      candidates = await Candidate.find({ status: 'Pending' })
+      candidates = await Candidate.find()
     }
     res.json({ result: candidates })
   })
 )
 router.post(
   '/query/',
+  [leadsOnly],
   errorWrap(async (req, res) => {
     let filter = req.body.filters
     let sortFilters = {}
@@ -67,6 +69,7 @@ router.post(
 // TODO: Fix
 router.post(
   '/',
+  [leadsOnly],
   errorWrap(async (req, res) => {
     const c = new Candidate({
       name: 'Tim',
@@ -81,7 +84,7 @@ router.post(
   })
 )
 
-//Initialize endpoints generate dummy data for development purposes
+// Initialize endpoints generate dummy data for development purposes
 
 router.get(
   '/initialize-git',
@@ -155,42 +158,68 @@ router.get(
 )
 
 router.post(
-  '/set-status',
+  '/:candidateId/status',
+  [leadsOnly],
   errorWrap(async (req, res) => {
-    data = req.body
+    const data = req.body
     let response = 'Status set Sucessfully'
+    let code = 200
+    const candidateId = req.params.candidateId
     switch (data.status) {
       case statusEnum.PENDING:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.PENDING })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.PENDING
+          }
+        })
         break
       case statusEnum.ACCEPTED:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.ACCEPTED })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.ACCEPTED
+          }
+        })
         break
       case statusEnum.INTERVIEWING:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.INTERVIEWING })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.INTERVIEWING
+          }
+        })
         break
       case statusEnum.DENIED:
-        await Candidate.findByIdAndUpdate(data.id, { status: statusEnum.DENIED })
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.DENIED
+          }
+        })
         break
       default:
         response = 'Invalid status, please try again'
+        code = 400
     }
-    res.json({ result: response })
+    res.status(code).json({ message: response, code, success: code < 400 })
   })
 )
 
 router.get(
   '/:candidateId',
+  [leadsOnly],
   errorWrap(async (req, res) => {
     const candidate = await Candidate.findById(req.params.candidateId)
-    res.json({ result: candidate })
+    res.json({ result: candidate, success: true, code: 200 })
   })
 )
 
 router.post(
   '/:candidateId/comments',
+  [leadsOnly],
   errorWrap(async (req, res) => {
-    data = req.body
+    const data = req.body
     if (data.comment == undefined) {
       res.status(400).json({
         message: 'Comment Empty. Provide comment in Request body',

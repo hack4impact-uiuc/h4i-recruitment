@@ -6,11 +6,10 @@ import { connect } from 'react-redux'
 import { Row } from 'reactstrap'
 import React, { Fragment, Component } from 'react'
 import Select from 'react-select'
+import { addInterviewCandidate } from '../actions'
 
 type Props = {
-  candidates: Array<mixed>,
-  candidateId: String,
-  candidateName: String
+  candidates: Array<mixed>
 }
 
 const mapStateToProps = state => ({
@@ -19,13 +18,21 @@ const mapStateToProps = state => ({
   candidateName: state.interview.candidateName
 })
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      addInterviewCandidate
+    },
+    dispatch
+  )
+}
+
 type State = {
   isClearable: boolean,
   isSearchable: boolean
 }
 
-// this component is used in the interview page for the user to choose which
-// candidate they are interviewing
+// this component is used in the interview page for the user to choose candidate
 class CandidateDropdown extends Component<Props, State> {
   constructor(props) {
     super(props)
@@ -37,6 +44,14 @@ class CandidateDropdown extends Component<Props, State> {
   }
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
+    let chosenCandidate = null
+    for (var i = 0; i < this.props.candidates.length; i++) {
+      if (this.props.candidates[i].name == selectedOption.value) {
+        chosenCandidate = this.props.candidates[i]
+      }
+    }
+    const { addInterviewCandidate } = this.props
+    addInterviewCandidate(chosenCandidate._id, chosenCandidate.name)
   }
 
   componentDidMount() {
@@ -68,4 +83,7 @@ class CandidateDropdown extends Component<Props, State> {
   }
 }
 
-export default connect(mapStateToProps)(CandidateDropdown)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CandidateDropdown)

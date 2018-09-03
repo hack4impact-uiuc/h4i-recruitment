@@ -6,6 +6,7 @@ import { Badge, Row, Col } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
+import { getCandidateInterviews } from '../utils/api'
 import ErrorMessage from '../components/errorMessage'
 
 type Props = {
@@ -25,15 +26,36 @@ const mapDispatchToProps = dispatch => {
 class CandidateBox extends Component {
   constructor(props) {
     super(props)
-    console.log('HI', this.props.candidate == undefined ? 'ye' : 'no')
     this.state = {
-      status: this.props.candidate == undefined ? '' : this.props.candidate.status
+      status: this.props.candidate == undefined ? '' : this.props.candidate.status,
+      interviews: [],
+      avgInterviewscore: null
     }
   }
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
+  }
+  // {}
+  async componentDidMount() {
+    const res = await getCandidateInterviews(this.props.candidate._id)
+    console.log(res.result)
+    console.log('boi')
+    this.setState({
+      interviews: res.result,
+      avgInterviewscore: this.avgInterviewscore()
+    })
+  }
+  avgInterviewscore = e => {
+    let avgs = 0
+    for (var i = 0; i < this.state.interviews.length; i++) {
+      avgs += this.state.interviews[0].overall_score
+    }
+    if (avgs != 0) {
+      return avgs / this.state.interviews.length
+    }
+    return avgs
   }
   render() {
     // includes null
@@ -51,24 +73,28 @@ class CandidateBox extends Component {
           <Col md={6} className="text-right">
             <a
               style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
+              className="pr-2"
               href={`${candidate.resumeID}`}
             >
               Resume
             </a>
             <a
               style={{ textDecoration: candidate.website ? null : 'line-through' }}
+              className="pr-2"
               href={candidate.website}
             >
               Website
             </a>
             <a
               style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
+              className="pr-2"
               href={candidate.linkedIn}
             >
               LinkedIn
             </a>
             <a
               style={{ textDecoration: candidate.github ? null : 'line-through' }}
+              className="pr-2"
               href={candidate.github}
             >
               Github
@@ -187,6 +213,22 @@ class CandidateBox extends Component {
                 <p>
                   <b>Number of Matches: </b> {candidate.facemashRankings.numOfMatches}
                 </p>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={12}>
+                <h5>Interview Information</h5>
+                <p>
+                  <b>Average Score: </b> {this.state.avgInterviewscore}
+                </p>
+                {this.state.interviews.map(interview => (
+                  <p>
+                    <b> General Notes: </b> {interview.general_notes}
+                    <br />
+                    <b> Category: </b> {interview.category}
+                  </p>
+                ))}
               </Col>
             </Row>
           </Col>

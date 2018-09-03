@@ -1,7 +1,14 @@
 const { assert } = require('chai')
 const sinon = require('sinon')
-const authMiddleware = require('../src/middleware/auth')
-const { KEY, getAuthMiddlewareRequestStub } = require('./utils')
+const authMiddleware = require('../src/middleware/auth') // must be imported directly
+const leadsOnly = require('../src/middleware/leadsOnly')
+
+const {
+  NONLEAD_KEY,
+  KEY,
+  getAuthMiddlewareRequestStub,
+  getLeadsOnlyMiddlewareRequestStub
+} = require('./utils')
 
 const json = () => {
   return 'WOO'
@@ -25,7 +32,7 @@ describe('Auth middleware', () => {
     authMiddleware(req, res, nextSpy)
     assert(nextSpy.notCalled)
   })
-  it('sshould call next() when the key matches a key in the db', async () => {
+  it('should call next() when the key matches a key in the db', async () => {
     let req = getAuthMiddlewareRequestStub(KEY)
     let nextSpy = sinon.spy()
     authMiddleware(req, res, nextSpy)
@@ -35,6 +42,22 @@ describe('Auth middleware', () => {
     let req = getAuthMiddlewareRequestStub('hjsdhfy79ud')
     let nextSpy = sinon.spy()
     authMiddleware(req, res, nextSpy)
+    assert(nextSpy.notCalled)
+  })
+})
+
+describe('onlyLeads middleware', () => {
+  it('should call next() when key has lead suffix', async () => {
+    let req = getLeadsOnlyMiddlewareRequestStub(KEY, true)
+    let nextSpy = sinon.spy()
+    leadsOnly(req, res, nextSpy)
+    assert(nextSpy.calledOnce)
+  })
+
+  it('should not call next() when key does NOT have lead suffix', async () => {
+    let req = getLeadsOnlyMiddlewareRequestStub(NONLEAD_KEY, false)
+    let nextSpy = sinon.spy()
+    leadsOnly(req, res, nextSpy)
     assert(nextSpy.notCalled)
   })
 })

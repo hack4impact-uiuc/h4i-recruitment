@@ -8,6 +8,7 @@ import Candidate from '../components/candidateBox'
 import candidateInterviewsModal from '../components/candidateInterviewsModal'
 import AddCommentsModal from '../components/addCommentsModal'
 import CommentBox from '../components/commentBox'
+import ErrorMessage from '../components/errorMessage'
 import { addInterviewCandidate } from './../actions'
 import { bindActionCreators } from 'redux'
 import CandidateInterviewsModal from '../components/candidateInterviewsModal'
@@ -31,14 +32,16 @@ class CandidatePage extends Component<Props> {
       form: {},
       addNotesModal: false,
       candidate: null,
-      modalOpen: false
+      modalOpen: false,
+      comments: []
     }
   }
   async componentDidMount() {
     const { query } = Router
     const { result } = await getCandidateById(query.id)
     this.setState({
-      candidate: result
+      candidate: result,
+      comments: result != undefined ? result.comments : []
     })
   }
   toggle = () => {
@@ -47,13 +50,15 @@ class CandidatePage extends Component<Props> {
     })
   }
   submitComment = comment => {
-    // TODO: make request
-
     const res = addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
-    Router.push(Router.asPath)
+    let commentsState = this.state.comments
+    commentsState.push({ writerName: 'You', text: comment, created_at: 'Now' })
+    this.setState({
+      comments: commentsState
+    })
   }
   goBack = () => {
     Router.back()
@@ -69,10 +74,12 @@ class CandidatePage extends Component<Props> {
     Router.push('/interview')
   }
   render() {
-    if (this.state.candidate == null) {
-      return <div>User doesn&#39;t exist</div>
+    if (this.state.candidate == undefined) {
+      return (
+        <ErrorMessage message="User doesn&#39;t exist. Check if your key has the correct privileges." />
+      )
     }
-    const candidate = this.state.candidate
+    const { candidate } = this.state
     return (
       <>
         <Container className="mt-5">

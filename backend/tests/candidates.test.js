@@ -1,9 +1,10 @@
 const request = require('supertest')
-const app = require('../src/app')
 const sinon = require('sinon')
-const { Candidate } = require('../src/models')
 const { expect } = require('chai')
-const { KEY } = require('./utils')
+const app = require('../src/app')
+const { Candidate } = require('../src/models')
+const { KEY, NONLEAD_KEY } = require('./utils')
+const { statusEnums } = require('../src/utils/enums')
 
 // for expects/assertions, look at chai
 // for different ways to stub/mock/spy on functions, look into sinon
@@ -104,6 +105,35 @@ describe('POST /candidates/:id/comments', async () => {
   it('should return 400 if comment was not provided', async () => {
     await request(app)
       .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
+      .expect(400)
+  })
+})
+
+describe('POST /candidates/:id/status', async () => {
+  const candidateStatus = new Candidate({
+    name: 'TimChangeStatus',
+    email: 'someemail',
+    resumeID: 'some resume link'
+  })
+  await candidateStatus.save()
+  it('should change the status', async () => {
+    const res = await request(app)
+      .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)
+      .send({ status: 'Accepted' })
+      .expect(200)
+  })
+
+  it('should return 403 if key does not end in lead suffix', async () => {
+    const res = await request(app)
+      .post(`/candidates/${candidateStatus._id}/status?key=${NONLEAD_KEY}`)
+      .send({ status: 'Accepted' })
+      .expect(403)
+  })
+
+  it('should return 400 if status is not an accepted Status', async () => {
+    const res = await request(app)
+      .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)
+      .send({ status: 'Weird Status' })
       .expect(400)
   })
 })
