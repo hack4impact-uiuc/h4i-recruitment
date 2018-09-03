@@ -18,6 +18,8 @@ const Interview = new mongoose.Schema({
   interviewer_key: { type: String },
   overall_score: { type: Number },
   general_notes: { type: String },
+  category_notes: { type: String },
+  category: { type: String },
   sections: { type: [Section] }
 })
 

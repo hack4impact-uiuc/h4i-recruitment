@@ -54,6 +54,24 @@ router.get(
 )
 
 router.get(
+  '/candidate-interviews/:candidate_id',
+  errorWrap(async (req, res) => {
+    const interviews = await Interview.find()
+    const retInterviews = interviews.filter(
+      interview => interview.candidate_id === req.params.candidate_id
+    )
+    let statusCode = retInterviews ? 200 : 400
+
+    res.status(statusCode).json({
+      code: statusCode,
+      message: '',
+      result: retInterviews,
+      success: true
+    })
+  })
+)
+
+router.get(
   '/past-interviews/:interviewer_key',
   errorWrap(async (req, res) => {
     const interviews = await Interview.find()
@@ -83,6 +101,8 @@ router.post(
     let candidateName = data.candidateName
     let score = data.overallScore
     let genNotes = data.generalNotes
+    let catNotes = data.categoryNotes
+    let givenCategory = data.category
 
     if (interviewerKey == undefined) {
       response = 'Invalid interviewerKey'
@@ -104,7 +124,9 @@ router.post(
         candidate_id: candidateId,
         candidate_name: candidateName,
         general_notes: genNotes,
-        sections: reqSections
+        category_notes: catNotes,
+        sections: reqSections,
+        category: givenCategory
       })
       await interview.save()
       //await Candidate.findByIdAndUpdate(candidateId, { interview: interview})

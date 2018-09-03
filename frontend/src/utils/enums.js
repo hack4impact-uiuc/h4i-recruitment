@@ -23,6 +23,19 @@ export const statusEnum = {
   PENDING: 'Pending'
 }
 
+export const categoryEnum = {
+  FRESHMAYBE: 'freshman - maybe',
+  FRESHPOTENTIAL: 'freshman - with lack of experience but high potential and initiative',
+  FRESHYES: 'Freshman - yes',
+  DONTACCEPT: 'Don’t Accept',
+  EH: 'Weak maybe (eh)',
+  MAYBE: 'Maybe ( I wouldn’t necessarily accept this candidate, but I’m open to if others are)',
+  STRONGMAYBE:
+    'Strong Maybe (I wouldn’t fight to accept this candidate, but I think they would be a good addition to the team)',
+  VOUCH: 'Strongly Vouch for this candidate',
+  UPPEREH: 'Upperclassman with experience but eh with everything else'
+}
+
 export const rolesEnum = {
   SWE: 'Software Engineer',
   PM: 'Product Manager',

@@ -104,13 +104,19 @@ function getPastInterviews(interviewerKey: string) {
     res.json()
   )
 }
-
+function getCandidateInterviews(candidateId: string) {
+  return fetch(`${API_URL}/interview/candidate-interviews/${candidateId}?key=${getKey()}`).then(
+    res => res.json()
+  )
+}
 function addInterview(
   interviewerKey: string,
   candidateId: string,
   candidateName: string,
   overallScore: number,
   generalNotes: string,
+  categoryNotes: string,
+  category: string,
   sections: Array
 ) {
   return fetch(`${API_URL}/interview?key=${getKey()}`, {
@@ -120,6 +126,8 @@ function addInterview(
       candidateName,
       overallScore,
       generalNotes,
+      categoryNotes,
+      category,
       sections
     }),
     headers: {
@@ -162,5 +170,6 @@ export {
   setCandidateStatus,
   getCandidatesByStatus,
   addCommentToCandidate,
-  getKey
+  getKey,
+  getCandidateInterviews
 }
