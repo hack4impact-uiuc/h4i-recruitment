@@ -27,6 +27,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
   }
   async componentDidMount() {
     const interviews = await getCandidateInterviews(this.props.candidateId)
+    console.log(interviews)
     this.setState({
         interviews: interviews
     })
