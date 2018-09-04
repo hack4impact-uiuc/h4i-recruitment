@@ -29,7 +29,7 @@ class CandidateBox extends Component {
     this.state = {
       status: this.props.candidate == undefined ? '' : this.props.candidate.status,
       interviews: [],
-      avgInterviewscore: null
+      avgInterviewScore: null
     }
   }
   handleChange = e => {
@@ -37,17 +37,14 @@ class CandidateBox extends Component {
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
-  // {}
   async componentDidMount() {
     const res = await getCandidateInterviews(this.props.candidate._id)
-    console.log(res.result)
-    console.log('boi')
     this.setState({
       interviews: res.result,
-      avgInterviewscore: this.avgInterviewscore()
+      avgInterviewScore: this.avgInterviewScore()
     })
   }
-  avgInterviewscore = e => {
+  avgInterviewScore = e => {
     let avgs = 0
     for (var i = 0; i < this.state.interviews.length; i++) {
       avgs += this.state.interviews[0].overall_score
@@ -220,7 +217,7 @@ class CandidateBox extends Component {
               <Col md={12}>
                 <h5>Interview Information</h5>
                 <p>
-                  <b>Average Score: </b> {this.state.avgInterviewscore}
+                  <b>Average Score: </b> {this.state.avgInterviewScore}
                 </p>
                 {this.state.interviews.map((interview, idx) => (
                   <p key={idx}>
