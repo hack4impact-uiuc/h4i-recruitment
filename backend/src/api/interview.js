@@ -63,7 +63,6 @@ router.get(
       interview => interview.candidate_id === req.params.candidate_id
     )
     let statusCode = retInterviews ? 200 : 400
-    console.log('CANDIDATE INTERVIEW')
     res.status(statusCode).json({
       code: statusCode,
       message: '',
@@ -175,7 +174,7 @@ router.delete(
 router.put(
   '/:interview_id',
   errorWrap(async (req, res) => {
-    data = req.body
+    const data = req.body
     let response = 'Interview Edited Sucessfully'
     let interviewId = req.params.interview_id
     let reqSections = data.sections
