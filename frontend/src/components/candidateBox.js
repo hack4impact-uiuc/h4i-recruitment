@@ -54,7 +54,7 @@ class CandidateBox extends Component {
       avgs += interviews[i].overall_score
     }
     if (interviews.length != 0) {
-      avg = avg / interviews.length
+      avgs = avgs / interviews.length
     }
     return avgs
   }
