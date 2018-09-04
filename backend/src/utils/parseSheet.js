@@ -23,9 +23,9 @@ jsonSheet.map(async candidate => {
     graduationDate: candidate['Graduation Date'],
     status: statusEnum.PENDING,
     major: candidate.Major,
-    minor: candidate.Minor,
+    minor: candidate['Minor(s)'],
     resumeID: candidate.Resume,
-    github: candidate.Github,
+    github: candidate['Github Link'],
     linkedIn: candidate.LinkedIn,
     website: candidate.Website,
     role: candidate['Which role(s) are you applying for? '].split(', '),
@@ -37,16 +37,16 @@ jsonSheet.map(async candidate => {
     joinReason:
       candidate['Why do you want to join Hack4Impact, and what do you hope to gain from it?'],
     timeCommitment: candidate['Please list your time commitments'],
-    timeCanDevote: candidate['How much time can you devote to Hack4Impact per week?'],
+    classesTaken: candidate['Which classes have you taken?'],
     techExperience:
       candidate[
         'List technical/design experience (classes taken, side projects, internships, class projects, portfolio link)'
       ],
     howTheyKnowUs: candidate['How did you hear about us?'],
-    additionalComments: candidate['Any additional comments?'],
+    additionalComments: candidate['What else shoudl we know about you?'],
     interviews: [
       {
-        timeCommitmentNotes: candidate['Time Commitment'],
+        timeCommitmentNotes: candidate['Please list your time commitments'],
         dedicationToCommunityNotes: candidate['Dedication to Community'],
         techCompetenceNotes: candidate['Technical Competence '],
         otherNotes: candidate.Notes,
