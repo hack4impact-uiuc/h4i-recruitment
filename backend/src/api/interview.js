@@ -16,7 +16,6 @@ router.get(
     if (key && key.length === 11) {
       keyVerified = keyData.keys.filter(currKey => currKey.key === key).length !== 0
     }
-    console.log('HELLO')
     let statusCode = keyVerified ? 200 : 403
     let message = keyVerified ? 'key is verified' : 'key did not pass verification'
     res.status(statusCode).json({

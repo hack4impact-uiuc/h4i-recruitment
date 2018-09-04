@@ -78,7 +78,6 @@ export function generateMatchData(candidate1, candidate2, match_id) {
 }
 
 export const fetchCandidates = (statuses, years, gradDates, sorts, roles, selectBy) => {
-  console.log(roles)
   return dispatch => {
     dispatch(fetchCandidatesBegin())
     return getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy)
