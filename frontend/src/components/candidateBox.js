@@ -8,6 +8,7 @@ import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
 import { getCandidateInterviews } from '../utils/api'
 import ErrorMessage from '../components/errorMessage'
+import CandidateStatus from '../components/candidateStatus'
 
 type Props = {
   candidate: {},
@@ -102,30 +103,7 @@ class CandidateBox extends Component {
         <Row className="divider-bottom">
           <Col md={6}>
             <h3>
-              {this.state.status && this.state.status === 'Accepted' ? (
-                // Replaced the span with Badge for easier, more consistent styling
-                <Badge color="success">Accepted</Badge>
-              ) : (
-                <></>
-              )}
-
-              {this.state.status && this.state.status === 'Pending' ? (
-                <Badge color="warning">Pending</Badge>
-              ) : (
-                <></>
-              )}
-
-              {this.state.status && this.state.status === 'Rejected' ? (
-                <Badge color="danger">Rejected</Badge>
-              ) : (
-                <></>
-              )}
-
-              {this.state.status && this.state.status === 'Interviewing' ? (
-                <Badge color="info">Interviewing</Badge>
-              ) : (
-                <></>
-              )}
+              <CandidateStatus status={this.state.status} />
             </h3>
           </Col>
           <Col md={6} className="text-right">

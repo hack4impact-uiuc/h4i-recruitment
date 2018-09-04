@@ -7,6 +7,7 @@ import {
   fetchCandidatesSuccess,
   fetchCandidatesFailure,
   fetchCandidates,
+  fetchAllCandidates,
   addFilter,
   removeFilter,
   resetFilters
@@ -23,5 +24,6 @@ export {
   fetchCandidates,
   addFilter,
   removeFilter,
-  resetFilters
+  resetFilters,
+  fetchAllCandidates
 }

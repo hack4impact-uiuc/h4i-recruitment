@@ -43,7 +43,7 @@ function getCandidateMatch() {
 }
 
 function getCandidates() {
-  return fetch(`${API_URL}/candidates?status=everyone&key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates?key=${getKey()}`).then(res => res.json())
 }
 
 function setCandidateStatus(id: string, status: string) {
