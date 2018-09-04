@@ -271,21 +271,30 @@ class Interview extends Component<Props> {
             <ul>
               {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
                 <li>
-                  <Link href={{ pathname: '/candidate', query: { id: this.props.candidateId } }}>
-                    <a>
-                      Candidate&#39;s Page (OPEN A NEW TAB. YOU WILL LOSE YOUR FILLED OUT FORMS IF
-                      YOU CLICK ON IT.)
-                    </a>
-                  </Link>
+                  <a
+                    href={`/candidate?id=${this.props.candidateId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {this.props.candidateName}&#39;s Page
+                  </a>
                 </li>
               ) : null}
               <li>
-                <a href="https://docs.google.com/document/d/1S-rDqfEOWVCQImTQ8zIu_Aj4L-YBi5aCjlawvQrQJ6A/edit#">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://docs.google.com/document/d/1S-rDqfEOWVCQImTQ8zIu_Aj4L-YBi5aCjlawvQrQJ6A/edit#"
+                >
                   Interview Guide
                 </a>
               </li>
               <li>
-                <a href="https://docs.google.com/document/d/1119YvTWvh58L7eOy-FvVvLyb9wLzZLImQSPBO3yPszI/edit">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://docs.google.com/document/d/1119YvTWvh58L7eOy-FvVvLyb9wLzZLImQSPBO3yPszI/edit"
+                >
                   Interview Tips
                 </a>
               </li>
