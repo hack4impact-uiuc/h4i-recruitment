@@ -17,7 +17,7 @@ before(done => {
   mockgoose.prepareStorage().then(() => {
     mongoose.connect(
       '',
-      function(err) {
+      function (err) {
         done(err)
       }
     )
@@ -41,7 +41,7 @@ describe('GET verify_interviewer/:key', () => {
     })
     const res = await request(app).get(`/interview/verify_interviewer?key=hjsdhfy79`)
     expect(403).to.eq(res.status)
-    expect(expected).to.eq(res.text)
+    expect(res.text).to.eq(expected)
   })
   it('should return false when the key contains a substring that is the real key', async () => {
     const expected = JSON.stringify({
@@ -51,13 +51,18 @@ describe('GET verify_interviewer/:key', () => {
     })
     const res = await request(app).get(`/interview/verify_interviewer?key=hjsdhfy79uutt`)
     expect(403).to.eq(res.status)
-    expect(expected).to.eq(res.text)
+    expect(res.text).to.eq(expected)
   })
   it('should return true when the key matches a key in the db', async () => {
-    const expected = JSON.stringify({ code: 200, message: 'key is verified', success: true })
+    const expected = JSON.stringify({
+      code: 200,
+      message: 'key is verified',
+      success: true,
+      result: { name: 'Test Key', is_lead: true }
+    })
     const res = await request(app).get(`/interview/verify_interviewer?key=${KEY}`)
     expect(200).to.eq(res.status)
-    expect(expected).to.eq(res.text)
+    expect(res.text).to.eq(expected)
   })
   it('should return false when the key is the same length as keys in db but is not in the db', async () => {
     const expected = JSON.stringify({
@@ -67,7 +72,7 @@ describe('GET verify_interviewer/:key', () => {
     })
     const res = await request(app).get(`/interview/verify_interviewer?key=hjsdhfy79ud`)
     expect(403).to.eq(res.status)
-    expect(expected).to.eq(res.text)
+    expect(res.text).to.eq(expected)
   })
 })
 
