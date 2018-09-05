@@ -90,6 +90,12 @@ class HomePage extends Component<Props> {
                     </div>
                   </Col>
                 </Col>
+                <Col lg="9" sm="8">
+                  <ErrorMessage
+                    code="404"
+                    message={`Bad Fetch with ${error}. If you are authenticated, click "Query Candidates".`}
+                  />
+                </Col>
               </Row>
             </Container>
           </div>
