@@ -164,12 +164,13 @@ class Interview extends Component<Props> {
   }
   submit = async e => {
     console.log('Adding Interview....')
-    const overallScore = this.state.sections.reduce((accumulator, section) => {
-      section.questions[0].score + accumulator
-    })
+    let overallScore = 0
+    const sections = this.state.sections
+    for (let idx in sections) {
+      overallScore += sections[idx].questions[0].score
+    }
     if (this.props.candidateName === '' || this.props.candidateId === '') {
       const msg = 'Interview does not have a Candidate. Please put down a candidate.'
-      console.log(msg)
       alert(msg)
     } else {
       const res = await addInterview(

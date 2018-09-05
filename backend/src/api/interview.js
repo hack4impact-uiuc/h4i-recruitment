@@ -21,7 +21,8 @@ router.get(
     res.status(statusCode).json({
       code: statusCode,
       message: message,
-      success: keyVerified
+      success: keyVerified,
+      result: { name: req._key_name, is_lead: req._is_lead }
     })
   })
 )
@@ -62,7 +63,6 @@ router.get(
       interview => interview.candidate_id === req.params.candidate_id
     )
     let statusCode = retInterviews ? 200 : 400
-
     res.status(statusCode).json({
       code: statusCode,
       message: '',
@@ -97,6 +97,7 @@ router.post(
   errorWrap(async (req, res) => {
     const data = req.body
     let response = 'Interview Added Sucessfully'
+    let code = 404
     let interviewerKey = data.interviewerKey
     let reqSections = data.sections
     let candidateId = data.candidateId
@@ -122,6 +123,7 @@ router.post(
       // await Candidate.findByIdAndUpdate(candidateId, { status: 'interviewing' })
       const interview = new Interview({
         interviewer_key: interviewerKey,
+        interviewer_name: req._key_name,
         overall_score: score,
         candidate_id: candidateId,
         candidate_name: candidateName,
@@ -131,10 +133,11 @@ router.post(
         category: givenCategory
       })
       await interview.save()
+      code = 200
       // await Candidate.findByIdAndUpdate(candidateId, { interview: interview})
     }
     res.json({
-      code: 200,
+      code,
       message: response,
       result: {},
       success: true
@@ -171,7 +174,7 @@ router.delete(
 router.put(
   '/:interview_id',
   errorWrap(async (req, res) => {
-    data = req.body
+    const data = req.body
     let response = 'Interview Edited Sucessfully'
     let interviewId = req.params.interview_id
     let reqSections = data.sections

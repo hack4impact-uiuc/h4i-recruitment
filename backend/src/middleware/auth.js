@@ -8,7 +8,7 @@ const auth = (req, res, next) => {
   if (key != undefined) {
     if (key && key.length === 11) {
       const keysFiltered = keyData.keys.filter(currKey => currKey.key === key)
-      keyVerified = keysFiltered.length !== 0
+      const keyVerified = keysFiltered.length !== 0
 
       if (keyVerified) {
         req._key_name = keysFiltered[0].name // set the user's name of the key that was used to make the request
