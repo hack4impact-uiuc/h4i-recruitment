@@ -182,3 +182,7 @@ p > b {
   text-decoration: none !important;
   margin: 0 !important;
 }
+
+.login-box {
+  margin: 20%;
+}

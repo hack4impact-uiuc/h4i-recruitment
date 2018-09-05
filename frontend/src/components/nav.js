@@ -83,8 +83,11 @@ class NavigationBar extends Component {
                   Welcome {this.state.username ? this.state.username : null}!
                 </div>
               ) : null}
+              <Link prefetch href="/dashboard">
+                <a className="nav-bar-link pl-3">Dashboard</a>
+              </Link>
               <Link prefetch href="/facemash">
-                <a className="nav-bar-link">Facemash</a>
+                <a className="nav-bar-link pl-3">Facemash</a>
               </Link>
               <Link prefetch href="/interviewportal">
                 <a className="nav-bar-link pl-3">Interview Portal</a>
