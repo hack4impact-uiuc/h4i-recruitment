@@ -11,7 +11,7 @@ import {
   SET_STATUS,
   RESET_FILTERS
 } from './actionTypes.js'
-import { getAllCandidates } from '../utils/api'
+import { getAllCandidates, getCandidates } from '../utils/api'
 // Action Creators
 
 export const fetchCandidatesFailure = error => ({ type: FETCH_CANDIDATES_FAILURE, payload: error })
@@ -81,6 +81,17 @@ export const fetchCandidates = (statuses, years, gradDates, sorts, roles, select
   return dispatch => {
     dispatch(fetchCandidatesBegin())
     return getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy)
+      .then(json => {
+        dispatch(fetchCandidatesSuccess(json.result))
+      })
+      .catch(error => dispatch(fetchCandidatesFailure(error)))
+  }
+}
+
+export const fetchAllCandidates = () => {
+  return dispatch => {
+    dispatch(fetchCandidatesBegin())
+    return getCandidates()
       .then(json => {
         dispatch(fetchCandidatesSuccess(json.result))
       })
