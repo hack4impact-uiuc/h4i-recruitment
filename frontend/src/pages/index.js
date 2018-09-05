@@ -77,7 +77,24 @@ class HomePage extends Component<Props> {
     let { candidates, error, loading, filters, sort } = this.props
     if (error) {
       console.error(error)
-      return <ErrorMessage code="404" message={`Bad Fetch with ${error}`} />
+      return (
+        <>
+          <div className="page-content-wrapper">
+            <Container fluid>
+              <Row>
+                <Col lg="2" sm="3" className="ml-2">
+                  <FilterComponent />
+                  <Col>
+                    <div>
+                      <Button onClick={this.query}> Query Candidates </Button>
+                    </div>
+                  </Col>
+                </Col>
+              </Row>
+            </Container>
+          </div>
+        </>
+      )
     }
     return (
       <>
