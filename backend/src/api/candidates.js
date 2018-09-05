@@ -23,7 +23,7 @@ router.get(
   })
 )
 router.post(
-  '/query/',
+  '/query',
   [leadsOnly],
   errorWrap(async (req, res) => {
     let filter = req.body.filters
@@ -54,6 +54,9 @@ router.post(
       .map(x => x.replace('Number of Matches', 'facemashRankings.numOfMatches'))
 
     Array.from(renamedSelects).forEach(x => (selectFilters[x] = 1))
+    // add github to the query as well, althought it isn't
+    // a selectable in the frontend
+    selectFilters.github = 1
 
     let candidates = await Candidate.find()
       .select(selectFilters)

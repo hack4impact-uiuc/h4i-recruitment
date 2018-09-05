@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { getCandidates, setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
+import CandidateLinksBadge from '../components/candidateLinksBadge'
 
 type Props = {}
 
@@ -81,34 +82,10 @@ class TablePage extends React.Component<Props> {
                     </td>
                     <td>{candidate.graduationDate}</td>
                     <td>
-                      {candidate.resumeID ? (
-                        <a className="card-links" href={`${candidate.resumeID}`}>
-                          <Badge color="primary">Resume</Badge>
-                        </a>
-                      ) : (
-                        <p className="space-fix-placeholder"> </p>
-                      )}
-                      {candidate.linkedIn ? (
-                        <a className="card-links" href={`${candidate.linkedIn}`}>
-                          <Badge color="primary">LinkedIn</Badge>
-                        </a>
-                      ) : (
-                        <p className="space-fix-placeholder"> </p>
-                      )}
-                      {candidate.github ? (
-                        <a className="card-links" href={`${candidate.github}`}>
-                          <Badge color="primary">Github</Badge>
-                        </a>
-                      ) : (
-                        <p className="space-fix-placeholder"> </p>
-                      )}
-                      {candidate.website ? (
-                        <a className="card-links" href={`${candidate.website}`}>
-                          <Badge color="primary">Website</Badge>
-                        </a>
-                      ) : (
-                        <p className="space-fix-placeholder"> </p>
-                      )}
+                      <CandidateLinksBadge link={candidate.resumeID} text="Resume" />
+                      <CandidateLinksBadge link={candidate.linkedIn} text="LinkedIn" />
+                      <CandidateLinksBadge link={candidate.github} text="Github" />
+                      <CandidateLinksBadge link={candidate.website} text="Website" />
                     </td>
                     <td>
                       {candidate.facemashRankings != undefined

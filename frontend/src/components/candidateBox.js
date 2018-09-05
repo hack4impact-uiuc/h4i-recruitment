@@ -9,6 +9,7 @@ import { setStatus } from '../actions/actionCreators'
 import { getCandidateInterviews } from '../utils/api'
 import ErrorMessage from '../components/errorMessage'
 import CandidateStatus from '../components/candidateStatus'
+import CandidateLinks from '../components/candidateLinks'
 
 type Props = {
   candidate: {},
@@ -73,34 +74,10 @@ class CandidateBox extends Component {
             <h3>{candidate.name}</h3>
           </Col>
           <Col md={6} className="text-right">
-            <a
-              style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
-              className="pr-2"
-              href={`${candidate.resumeID}`}
-            >
-              Resume
-            </a>
-            <a
-              style={{ textDecoration: candidate.website ? null : 'line-through' }}
-              className="pr-2"
-              href={candidate.website}
-            >
-              Website
-            </a>
-            <a
-              style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
-              className="pr-2"
-              href={candidate.linkedIn}
-            >
-              LinkedIn
-            </a>
-            <a
-              style={{ textDecoration: candidate.github ? null : 'line-through' }}
-              className="pr-2"
-              href={candidate.github}
-            >
-              Github
-            </a>
+            <CandidateLinks link={candidate.resumeID} text="Resume" />
+            <CandidateLinks link={candidate.website} text="Website" />
+            <CandidateLinks link={candidate.linkedIn} text="LinkedIn" />
+            <CandidateLinks link={candidate.github} text="Github" />
           </Col>
         </Row>
 
@@ -115,8 +92,8 @@ class CandidateBox extends Component {
               <a>
                 <p>
                   Change Status:
-                  <select onChange={this.handleChange}>
-                    <option value="" selected disabled hidden>
+                  <select value={this.state.status} onChange={this.handleChange}>
+                    <option selected disabled hidden>
                       Choose here
                     </option>
                     <option value={statusEnum.PENDING}>Pending</option>
