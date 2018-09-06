@@ -1,109 +1,49 @@
-// @flow
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Container, Button, Row, Col } from 'reactstrap'
-import CandidateListComponent from '../components/candidateList'
-import FilterComponent from '../components/filterComponent'
-import ErrorMessage from '../components/errorMessage'
-import { fetchCandidates, addFilter, removeFilter } from '../actions'
+import React from 'react'
+import Router from 'next/router'
+import { Button, Container, Input } from 'reactstrap'
+import { validateKey } from '../utils/api'
 
-type Props = {
-  candidates: Array<any>,
-  loading: boolean,
-  error: boolean,
-  filters: Object,
-  sort: Object
-}
+type Props = {}
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      fetchCandidates,
-      addFilter,
-      removeFilter
-    },
-    dispatch
-  )
-}
-
-const mapStateToProps = state => ({
-  candidates: state.candidateListPage.candidates,
-  loading: state.candidateListPage.candidatesLoading,
-  error: state.candidateListPage.candidatesError,
-  filters: state.candidateListPage.filters,
-  sort: state.candidateListPage.sort
-})
-
-class HomePage extends Component<Props> {
-  constructor(props, context) {
+class LoginPage extends React.Component<Props> {
+  constructor(props) {
     super(props)
     this.state = {
-      candidates: this.props.candidates,
-      error: this.props.error,
-      loading: this.props.loading,
-      filters: this.props.filters,
-      sort: this.props.sort
+      currentKey: ''
     }
   }
-
-  componentDidMount() {
-    if (this.props.candidates.length == 0) {
-      this.props.fetchCandidates(
-        this.props.filters.statuses,
-        this.props.filters.years,
-        this.props.filters.gradDates,
-        this.props.filters.sortBy,
-        this.props.filters.roles,
-        this.props.filters.selectBy
-      )
+  handleSubmit = async () => {
+    console.log(this.state.currentKey)
+    const { success, result } = await validateKey(this.state.currentKey)
+    if (success) {
+      sessionStorage.setItem('interviewerKey', this.state.currentKey)
+      sessionStorage.setItem('interviewerName', result.name)
+      Router.push('/facemash')
     }
   }
-
-  query = () => {
-    if (this.props.candidates.length != 0) {
-      this.props.fetchCandidates(
-        this.props.filters.statuses,
-        this.props.filters.years,
-        this.props.filters.gradDates,
-        this.props.filters.sortBy,
-        this.props.filters.roles,
-        this.props.filters.selectBy
-      )
-    }
+  onTextChange = e => {
+    console.log(this.state.currentKey)
+    this.setState({ currentKey: e.target.value })
   }
-
   render() {
-    let { candidates, error, loading, filters, sort } = this.props
-    if (error) {
-      console.error(error)
-      return <ErrorMessage code="404" message={`Bad Fetch with ${error}`} />
-    }
     return (
-      <>
-        <div className="page-content-wrapper">
-          <Container fluid>
-            <Row>
-              <Col lg="2" sm="3" className="ml-2">
-                <FilterComponent />
-                <Col>
-                  <div>
-                    <Button onClick={this.query}> Query Candidates </Button>
-                  </div>
-                </Col>
-              </Col>
-              <Col lg="9" sm="8">
-                <CandidateListComponent candidates={candidates} />
-              </Col>
-            </Row>
-          </Container>
+      <Container>
+        <div className="align-middle login-box">
+          <h4>Enter Key:</h4>
+          <Input
+            type="text"
+            value={this.state.currentKey}
+            onChange={this.onTextChange}
+            name="Input Key"
+            placeholder="Input Your Key"
+          />
+          <Button className="mt-3" color="primary" onClick={this.handleSubmit}>
+            Login
+          </Button>
         </div>
-      </>
+      </Container>
     )
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomePage)
+export default LoginPage

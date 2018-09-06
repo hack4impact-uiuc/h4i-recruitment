@@ -2,12 +2,18 @@ const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Candidate, Match } = require('../models')
+const { statusEnum } = require('../utils/enums')
 
 router.get(
   '/',
   errorWrap(async (req, res) => {
     // Get minimum number of times a candidate has been matched
     const min = await Candidate.aggregate([
+      {
+        $match: {
+          status: { $ne: statusEnum.REJECTED }
+        }
+      },
       {
         $group: {
           _id: {},
@@ -18,7 +24,14 @@ router.get(
 
     // Select a random candidate out of those with the minimum number of matches
     const cand1 = await Candidate.aggregate([
-      { $match: { 'facemashRankings.numOfMatches': min[0].min } },
+      {
+        $match: {
+          $and: [
+            { 'facemashRankings.numOfMatches': min[0].min },
+            { status: { $ne: statusEnum.REJECTED } }
+          ]
+        }
+      },
       { $sample: { size: 1 } }
     ])
 
@@ -43,7 +56,7 @@ router.get(
     const secondMin = await Candidate.aggregate([
       {
         $match: {
-          _id: { $nin: prev_ids }
+          $and: [{ _id: { $nin: prev_ids } }, { status: { $ne: statusEnum.REJECTED } }]
         }
       },
       {
@@ -59,7 +72,11 @@ router.get(
     const cand2 = await Candidate.aggregate([
       {
         $match: {
-          $and: [{ 'facemashRankings.numOfMatches': secondMin[0].min }, { _id: { $nin: prev_ids } }]
+          $and: [
+            { 'facemashRankings.numOfMatches': secondMin[0].min },
+            { _id: { $nin: prev_ids } },
+            { status: { $ne: statusEnum.REJECTED } }
+          ]
         }
       },
       { $sample: { size: 1 } }

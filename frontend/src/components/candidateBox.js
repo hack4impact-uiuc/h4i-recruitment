@@ -8,6 +8,8 @@ import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
 import { getCandidateInterviews } from '../utils/api'
 import ErrorMessage from '../components/errorMessage'
+import CandidateStatus from '../components/candidateStatus'
+import CandidateLinks from '../components/candidateLinks'
 
 type Props = {
   candidate: {},
@@ -29,7 +31,7 @@ class CandidateBox extends Component {
     this.state = {
       status: this.props.candidate == undefined ? '' : this.props.candidate.status,
       interviews: [],
-      avgInterviewscore: null
+      avgInterviewScore: null
     }
   }
   handleChange = e => {
@@ -37,23 +39,24 @@ class CandidateBox extends Component {
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
-  // {}
   async componentDidMount() {
     const res = await getCandidateInterviews(this.props.candidate._id)
-    console.log(res.result)
-    console.log('boi')
     this.setState({
       interviews: res.result,
-      avgInterviewscore: this.avgInterviewscore()
+      avgInterviewScore: this.avgInterviewScore(res.result)
     })
   }
-  avgInterviewscore = e => {
-    let avgs = 0
-    for (var i = 0; i < this.state.interviews.length; i++) {
-      avgs += this.state.interviews[0].overall_score
+  avgInterviewScore = interviews => {
+    if (interviews == undefined) {
+      return 0
     }
-    if (avgs != 0) {
-      return avgs / this.state.interviews.length
+
+    let avgs = 0
+    for (var i = 0; i < interviews.length; i++) {
+      avgs += interviews[i].overall_score
+    }
+    if (interviews.length != 0) {
+      avgs = avgs / interviews.length
     }
     return avgs
   }
@@ -71,64 +74,17 @@ class CandidateBox extends Component {
             <h3>{candidate.name}</h3>
           </Col>
           <Col md={6} className="text-right">
-            <a
-              style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
-              className="pr-2"
-              href={`${candidate.resumeID}`}
-            >
-              Resume
-            </a>
-            <a
-              style={{ textDecoration: candidate.website ? null : 'line-through' }}
-              className="pr-2"
-              href={candidate.website}
-            >
-              Website
-            </a>
-            <a
-              style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
-              className="pr-2"
-              href={candidate.linkedIn}
-            >
-              LinkedIn
-            </a>
-            <a
-              style={{ textDecoration: candidate.github ? null : 'line-through' }}
-              className="pr-2"
-              href={candidate.github}
-            >
-              Github
-            </a>
+            <CandidateLinks link={candidate.resumeID} text="Resume" />
+            <CandidateLinks link={candidate.website} text="Website" />
+            <CandidateLinks link={candidate.linkedIn} text="LinkedIn" />
+            <CandidateLinks link={candidate.github} text="Github" />
           </Col>
         </Row>
 
         <Row className="divider-bottom">
           <Col md={6}>
             <h3>
-              {this.state.status && this.state.status === 'Accepted' ? (
-                // Replaced the span with Badge for easier, more consistent styling
-                <Badge color="success">Accepted</Badge>
-              ) : (
-                <></>
-              )}
-
-              {this.state.status && this.state.status === 'Pending' ? (
-                <Badge color="warning">Pending</Badge>
-              ) : (
-                <></>
-              )}
-
-              {this.state.status && this.state.status === 'Rejected' ? (
-                <Badge color="danger">Rejected</Badge>
-              ) : (
-                <></>
-              )}
-
-              {this.state.status && this.state.status === 'Interviewing' ? (
-                <Badge color="info">Interviewing</Badge>
-              ) : (
-                <></>
-              )}
+              <CandidateStatus status={this.state.status} />
             </h3>
           </Col>
           <Col md={6} className="text-right">
@@ -136,8 +92,8 @@ class CandidateBox extends Component {
               <a>
                 <p>
                   Change Status:
-                  <select onChange={this.handleChange}>
-                    <option value="" selected disabled hidden>
+                  <select value={this.state.status} onChange={this.handleChange}>
+                    <option selected disabled hidden>
                       Choose here
                     </option>
                     <option value={statusEnum.PENDING}>Pending</option>
@@ -220,10 +176,10 @@ class CandidateBox extends Component {
               <Col md={12}>
                 <h5>Interview Information</h5>
                 <p>
-                  <b>Average Score: </b> {this.state.avgInterviewscore}
+                  <b>Average Score: </b> {this.state.avgInterviewScore}
                 </p>
-                {this.state.interviews.map(interview => (
-                  <p>
+                {this.state.interviews.map((interview, idx) => (
+                  <p key={idx}>
                     <b> General Notes: </b> {interview.general_notes}
                     <br />
                     <b> Category: </b> {interview.category}
