@@ -31,7 +31,7 @@ class CandidatePage extends Component<Props> {
     super(props)
     this.state = {
       form: {},
-      interviews:[],
+      interviews: [],
       addNotesModal: false,
       candidate: null,
       modalOpen: false,
@@ -65,8 +65,8 @@ class CandidatePage extends Component<Props> {
   goBack = () => {
     Router.back()
   }
-  async handleShowAllInterviews(id){
-    const {result} = await getCandidateInterviews(id)
+  async handleShowAllInterviews(id) {
+    const { result } = await getCandidateInterviews(id)
     this.setState({
       interviews: result,
       modalOpen: true
@@ -111,7 +111,11 @@ class CandidatePage extends Component<Props> {
               <Button outline color="primary" className="margin-sm-all" onClick={this.toggle}>
                 Add Comment
               </Button>
-              <Button outline color="primary" onClick={() => this.handleShowAllInterviews(candidate._id)}>
+              <Button
+                outline
+                color="primary"
+                onClick={() => this.handleShowAllInterviews(candidate._id)}
+              >
                 Show Candidate Interviews
               </Button>
             </Col>
@@ -124,7 +128,13 @@ class CandidatePage extends Component<Props> {
 
           <Row>
             <Col md={8}>
-              <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} exitModal={this.exitModal} candidateName ={candidate.name} interviews={this.state.interviews} />
+              <CandidateInterviewsModal
+                isOpen={this.state.modalOpen}
+                candidateId={candidate._id}
+                exitModal={this.exitModal}
+                candidateName={candidate.name}
+                interviews={this.state.interviews}
+              />
               <AddCommentsModal
                 submit={this.submitComment}
                 isOpen={this.state.addNotesModal}

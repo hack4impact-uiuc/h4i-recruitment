@@ -67,7 +67,6 @@ router.get(
   })
 )
 
-
 // router.get(
 //   '/',
 //   [leadsOnly],
@@ -119,7 +118,6 @@ router.get(
     })
   })
 )
-
 
 router.post(
   '/',

@@ -10,23 +10,20 @@ import {
   Input,
   FormText
 } from 'reactstrap'
-import InterviewCard from './interviewCard';
-import InterviewDetails from './interviewDetails';
+import InterviewCard from './interviewCard'
+import InterviewDetails from './interviewDetails'
 type Props = {}
 
 class CandidateInterviewsModal extends React.Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-     viewDetails: false,
-     currentInterview: null
+      viewDetails: false,
+      currentInterview: null
     }
-
   }
-  async componentDidMount() {
-    
-  }
-  handleViewDetails = (interview)=> {
+  async componentDidMount() {}
+  handleViewDetails = interview => {
     this.setState({
       viewDetails: true,
       currentInterview: interview
@@ -44,37 +41,34 @@ class CandidateInterviewsModal extends React.Component<Props> {
       <Container>
         <Modal isOpen={this.props.isOpen}>
           <ModalHeader>
-            {
-              !this.state.viewDetails?
-              this.props.candidateName+"'s Interviews":
-              this.state.currentInterview.candidate_name+"'s Interview By "+ this.state.currentInterview.interviewer_key
-            }
+            {!this.state.viewDetails
+              ? this.props.candidateName + "'s Interviews"
+              : this.state.currentInterview.candidate_name +
+                "'s Interview By " +
+                this.state.currentInterview.interviewer_key}
           </ModalHeader>
           <ModalBody>
-            {
-              this.state.viewDetails?
-                (<InterviewDetails
-                    onExitDetails = {this.handleExitDetails}
-                    interview = {this.state.currentInterview}
-                />
-              )  
-              :
-                this.props.interviews?
-                this.props.interviews.map(interview => {
-                  return (
-                      <InterviewCard
-                          onViewDetails = {this.handleViewDetails}
-                          interview = {interview}
-                          key = {interview._id} 
-                          overallScore={interview.overall_score}
-                          category = {interview.category}
-                          interviewer = {interview.interviewer_key}
-                      />
-                  )
-                })
-                : 
-              (<h1> No Interviews Have Been Recorded So Far </h1>) 
-            }
+            {this.state.viewDetails ? (
+              <InterviewDetails
+                onExitDetails={this.handleExitDetails}
+                interview={this.state.currentInterview}
+              />
+            ) : this.props.interviews ? (
+              this.props.interviews.map(interview => {
+                return (
+                  <InterviewCard
+                    onViewDetails={this.handleViewDetails}
+                    interview={interview}
+                    key={interview._id}
+                    overallScore={interview.overall_score}
+                    category={interview.category}
+                    interviewer={interview.interviewer_key}
+                  />
+                )
+              })
+            ) : (
+              <h1> No Interviews Have Been Recorded So Far </h1>
+            )}
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={this.props.exitModal}>
