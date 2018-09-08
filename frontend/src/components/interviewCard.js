@@ -36,7 +36,6 @@ class InterviewCard extends Component {
   }
 
   handleViewDetails() {
-    console.log(this.props.onViewDetails)
     this.props.onViewDetails(this.props.interview)
   }
 
@@ -53,9 +52,8 @@ class InterviewCard extends Component {
             <b>Interviewer: </b>
             {this.props.interviewer}
           </p>
-
           <div>
-            <Button value={this.props.interview} onClick={() => this.handleViewDetails()}>
+            <Button onClick={() => this.handleViewDetails()}>
               View Details
             </Button>
           </div>
