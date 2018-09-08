@@ -2,7 +2,9 @@ var XLSX = require('xlsx')
 var mongoose = require('mongoose')
 var Candidate = require('./models/candidate')
 var { statusEnum } = require('./enums')
-var { getGithubContributions } = mongoose.connect(process.env.MONGO_URL)
+var { getGithubContributions } = require('../utils/gitScraper')
+
+mongoose.connect(process.env.MONGO_URL)
 mongoose.Promise = global.Promise
 mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
@@ -43,7 +45,7 @@ jsonSheet.map(async candidate => {
         'List technical/design experience (classes taken, side projects, internships, class projects, portfolio link)'
       ],
     howTheyKnowUs: candidate['How did you hear about us?'],
-    additionalComments: candidate['What else shoudl we know about you?'],
+    additionalComments: candidate['What else should we know about you?'],
     interviews: [
       {
         timeCommitmentNotes: candidate['Please list your time commitments'],
