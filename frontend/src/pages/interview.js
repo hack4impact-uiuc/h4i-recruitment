@@ -292,7 +292,7 @@ class Interview extends Component<Props> {
             <ModalHeader>
               Are you sure you want to submit? Have you filled out everything?
             </ModalHeader>
-            <ModalBody>There's no turning back... Everything is immutable :)</ModalBody>
+            <ModalBody>There&#39;s no turning back... Everything is immutable :)</ModalBody>
             <ModalFooter>
               <Button onClick={this.toggle} color="secondary">
                 Cancel
@@ -444,14 +444,15 @@ class Interview extends Component<Props> {
                 Technical Interview Portion
                 <ul>
                   <li>
-                    <b>-1 point:</b> Didn’t communicate with you at all during technical interview
+                    <b>-1 point:</b> Didn&#39;t communicate with you at all during technical
+                    interview
                   </li>
                   <li>Let you know what and why they chose to do things: Great!</li>
                 </ul>
                 Subjective:
                 <ul>
                   <li>
-                    <b>No: -2 Meh: -1. Hell ya: 0</b> Are they someone you’d enjoy working with?
+                    <b>No: -2 Meh: -1. Hell ya: 0</b> Are they someone you&#39;d enjoy working with?
                   </li>
                 </ul>
                 <FormGroup>
@@ -495,7 +496,7 @@ class Interview extends Component<Props> {
               </InterviewSectionCard>
               <InterviewSectionCard title="Resume and Tech Knowledge (3 Points)">
                 Do they have projects? Internships? Do they actually know what they are talking
-                about? Do they understand the underlying technologies they've used?
+                about? Do they understand the underlying technologies they&#39;ve used?
                 <hr />
                 If you detect they were kind of bullshitting: <b>-1 overall</b>
                 <FormGroup>
@@ -656,6 +657,7 @@ class Interview extends Component<Props> {
               </InterviewSectionCard>
 
               <InterviewSectionCard title="Category">
+                This will be used in addition to the overall score you gave your interviewee.
                 <FormGroup>
                   <InterviewCategory chooseCategory={this.chooseCategory} />
                   <Input
