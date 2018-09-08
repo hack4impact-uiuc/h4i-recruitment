@@ -24,7 +24,7 @@ import CandidateDropdown from '../components/candidateDropdown'
 import InterviewCategory from '../components/interviewCategory'
 import ErrorMessage from '../components/errorMessage'
 import { getKey, addInterview, getCandidates } from '../utils/api'
-import InterviewCard from '../components/interviewCard'
+import InterviewSectionCard from '../components/interviewSectionCard'
 import FacemashProfile from '../components/facemashProfile'
 type Props = {
   loading: boolean,
@@ -306,7 +306,7 @@ class Interview extends Component<Props> {
         <Row>
           <Col md="6">
             <Form>
-              <InterviewCard title="Time Commitment (7 points)">
+              <InterviewSectionCard title="Time Commitment (7 points)">
                 -1 for each:
                 <ul>
                   <li>Exec member for another org Consulting Club such as IBC, OTCR</li>
@@ -363,8 +363,8 @@ class Interview extends Component<Props> {
                   id="time-commitment-explanation"
                   placeholder="Explain as much as possible. It'll help during deliberations!"
                 />
-              </InterviewCard>
-              <InterviewCard title="Initiative and Passion (5 points)">
+              </InterviewSectionCard>
+              <InterviewSectionCard title="Initiative and Passion (5 points)">
                 <FormGroup check>
                   <Label>
                     <Input
@@ -422,8 +422,8 @@ class Interview extends Component<Props> {
                     the org
                   </Label>
                 </FormGroup>
-              </InterviewCard>
-              <InterviewCard title="Community (5 points)">
+              </InterviewSectionCard>
+              <InterviewSectionCard title="Community (5 points)">
                 <FormGroup>
                   <Label>
                     <b>Give them score out of 5:</b>
@@ -462,8 +462,8 @@ class Interview extends Component<Props> {
                     placeholder="Please explain in as much as possible. It'll help a lot during deliberations!"
                   />
                 </FormGroup>
-              </InterviewCard>
-              <InterviewCard title="Resume and Tech Knowledge (3 Points)">
+              </InterviewSectionCard>
+              <InterviewSectionCard title="Resume and Tech Knowledge (3 Points)">
                 <FormGroup>
                   <FormGroup check>
                     <Label>
@@ -510,8 +510,8 @@ class Interview extends Component<Props> {
                     </Label>
                   </FormGroup>
                 </FormGroup>
-              </InterviewCard>
-              <InterviewCard title="Knowledge of Web Dev or Data (2 points)">
+              </InterviewSectionCard>
+              <InterviewSectionCard title="Knowledge of Web Dev or Data (2 points)">
                 <FormGroup>
                   <FormGroup check>
                     <Label>
@@ -548,8 +548,8 @@ class Interview extends Component<Props> {
                     </Label>
                   </FormGroup>
                 </FormGroup>
-              </InterviewCard>
-              <InterviewCard title="Technical Challenge (5 points)">
+              </InterviewSectionCard>
+              <InterviewSectionCard title="Technical Challenge (5 points)">
                 <FormGroup>
                   <FormGroup check>
                     <Label>
@@ -618,9 +618,9 @@ class Interview extends Component<Props> {
                     </Label>
                   </FormGroup>
                 </FormGroup>
-              </InterviewCard>
+              </InterviewSectionCard>
 
-              <InterviewCard title="Category">
+              <InterviewSectionCard title="Category">
                 <FormGroup>
                   <InterviewCategory chooseCategory={this.chooseCategory} />
                   <Input
@@ -632,8 +632,8 @@ class Interview extends Component<Props> {
                     placeholder="Explain here why you've categorized the applicant like this."
                   />
                 </FormGroup>
-              </InterviewCard>
-              <InterviewCard title="General Notes">
+              </InterviewSectionCard>
+              <InterviewSectionCard title="General Notes">
                 <Label>
                   <b>
                     Any other notes that the rubrik didn&#39;t cover or emphasis you&#39;d like to
@@ -652,7 +652,7 @@ class Interview extends Component<Props> {
                 <FormFeedback>
                   Please fill in your general thoughts about this candidate!
                 </FormFeedback>
-              </InterviewCard>
+              </InterviewSectionCard>
               <FormGroup>
                 <Link prefetch href="/interviewportal">
                   <Button
