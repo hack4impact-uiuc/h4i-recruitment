@@ -173,6 +173,5 @@ export {
   getCandidatesByStatus,
   addCommentToCandidate,
   getKey,
-  getCandidateInterviews,
   getCandidates
 }

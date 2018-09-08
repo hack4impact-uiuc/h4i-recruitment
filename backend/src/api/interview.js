@@ -68,17 +68,17 @@ router.get(
 )
 
 
-router.get(
-  '/',
-  [leadsOnly],
-  errorWrap(async (req, res) => {
-    console.log(req.params.candidate_id)
-    const interviews = await Interview.find()
-    const retInterviews = interviews.filter(
-      interview => interview.candidate_id === req.params.candidate_id
-    )
-    console.log(retInterviews)
-    let statusCode = retInterviews ? 200 : 400
+// router.get(
+//   '/',
+//   [leadsOnly],
+//   errorWrap(async (req, res) => {
+//     console.log(req.params.candidate_id)
+//     const interviews = await Interview.find()
+//     const retInterviews = interviews.filter(
+//       interview => interview.candidate_id === req.params.candidate_id
+//     )
+//     console.log(retInterviews)
+//     let statusCode = retInterviews ? 200 : 400
 
 router.get(
   '/:interview_id',
@@ -94,10 +94,6 @@ router.get(
   })
 )
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1ef7cdd183e815f867d64a073ade4370058278d0
 router.get(
   '/',
   errorWrap(async (req, res) => {

@@ -11,6 +11,7 @@ import CommentBox from '../components/commentBox'
 import ErrorMessage from '../components/errorMessage'
 import { addInterviewCandidate } from './../actions'
 import { bindActionCreators } from 'redux'
+import { getCandidateInterviews } from '../utils/api'
 import CandidateInterviewsModal from '../components/candidateInterviewsModal'
 
 type Props = {}
@@ -30,6 +31,7 @@ class CandidatePage extends Component<Props> {
     super(props)
     this.state = {
       form: {},
+      interviews:[],
       addNotesModal: false,
       candidate: null,
       modalOpen: false,
@@ -63,8 +65,10 @@ class CandidatePage extends Component<Props> {
   goBack = () => {
     Router.back()
   }
-  handleShowAllInterviews = () => {
+  async handleShowAllInterviews(id){
+    const {result} = await getCandidateInterviews(id)
     this.setState({
+      interviews: result,
       modalOpen: true
     })
   }
@@ -73,6 +77,12 @@ class CandidatePage extends Component<Props> {
     await addInterviewCandidate(candidateId, candidateName)
     Router.push('/interview')
   }
+  exitModal = () => {
+    this.setState({
+      modalOpen: false
+    })
+  }
+
   render() {
     if (this.state.candidate == undefined) {
       return (
@@ -101,7 +111,7 @@ class CandidatePage extends Component<Props> {
               <Button outline color="primary" className="margin-sm-all" onClick={this.toggle}>
                 Add Comment
               </Button>
-              <Button outline color="primary" onClick={this.handleShowAllInterviews}>
+              <Button outline color="primary" onClick={() => this.handleShowAllInterviews(candidate._id)}>
                 Show Candidate Interviews
               </Button>
             </Col>
@@ -110,15 +120,11 @@ class CandidatePage extends Component<Props> {
                 Back
               </Button>
             </Col>
-            <Button outline color="primary" onClick={this.handleShowAllInterviews}>
-              Show Candidate Interviews
-            </Button>
-            <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} />
           </Row>
 
           <Row>
             <Col md={8}>
-              <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} />
+              <CandidateInterviewsModal isOpen={this.state.modalOpen} candidateId={candidate._id} exitModal={this.exitModal} candidateName ={candidate.name} interviews={this.state.interviews} />
               <AddCommentsModal
                 submit={this.submitComment}
                 isOpen={this.state.addNotesModal}

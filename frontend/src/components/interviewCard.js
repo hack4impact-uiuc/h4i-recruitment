@@ -35,6 +35,12 @@ class InterviewCard extends Component {
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
+  
+  handleViewDetails(){
+    console.log(this.props.onViewDetails)
+    this.props.onViewDetails(this.props.interview)
+  }
+
   render() {
     return (
       <Card className="candidate-card">
@@ -42,15 +48,15 @@ class InterviewCard extends Component {
           <CardTitle>
             Overall Interview Score: {this.props.overallScore}
           </CardTitle>
-          <div>
+          <p>
              <b>Category: </b>{this.props.category}
-          </div>
-          <div>
+          </p>
+          <p>
             <b>Interviewer: </b>{this.props.interviewer}
-          </div>
+          </p>
 
-          <div onClick={e => handler(candidate._id)}>
-            <Button>
+          <div>
+            <Button value={this.props.interview} onClick={() => this.handleViewDetails()}>
                 View Details            
             </Button>    
           </div>
