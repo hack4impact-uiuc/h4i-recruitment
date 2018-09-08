@@ -53,9 +53,7 @@ class InterviewCard extends Component {
             {this.props.interviewer}
           </p>
           <div>
-            <Button onClick={() => this.handleViewDetails()}>
-              View Details
-            </Button>
+            <Button onClick={() => this.handleViewDetails()}>View Details</Button>
           </div>
         </CardBody>
       </Card>
