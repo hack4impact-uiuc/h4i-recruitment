@@ -1,14 +1,14 @@
 const rp = require('request-promise')
 const cheerio = require('cheerio')
 
-function getGithubContributions(url) {
+function getGithubContributions (url) {
   const options = {
     uri: url,
     transform: body => cheerio.load(body)
   }
   return rp(options)
     .then($ => {
-      return $('.js-contribution-graph')
+      return $('.js-yearly-contributions')
         .text()
         .trim()
         .split(' ')[0]

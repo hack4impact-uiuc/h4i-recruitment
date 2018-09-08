@@ -84,12 +84,14 @@ class FacemashProfile extends Component {
           <p>
             <b>Graduation Date:</b> {candidate.graduationDate}
           </p>
-          <p>
-            <b>Minor:</b> {candidate.minor}
-          </p>
+          {candidate.minor ? (
+            <p>
+              <b>Minor:</b> {candidate.minor}
+            </p>
+          ) : null}
 
           <p>
-            <b>Applied Role:</b> {candidate.role.join(', ')}
+            <b>Applied Role:</b> {candidate.role !== undefined ? candidate.role.join(', ') : null}
           </p>
           <p>
             <b>Github Contributions:</b> {candidate.githubContributions}
@@ -101,13 +103,14 @@ class FacemashProfile extends Component {
             <b>Reason for joining:</b> {candidate.joinReason}
           </p>
           <p>
-            <b>Time Commitment:</b> {candidate.timeCanDevote}
-          </p>
-          <p>
             <b>Time Commitment List:</b> {candidate.timeCommitment}
           </p>
           <p>
             <b>Tech Experience:</b> {candidate.techExperience}
+          </p>
+          <p>
+            <b>Classes Taken:</b>
+            {candidate.classesTaken != undefined ? candidate.classesTaken.join(', ') : null}
           </p>
           <p>
             <b>How They know us:</b> {candidate.howTheyKnowUs}

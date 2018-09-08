@@ -57,7 +57,7 @@ router.post(
     // add github to the query as well, althought it isn't
     // a selectable in the frontend
     selectFilters.github = 1
-
+    console.log(filter)
     let candidates = await Candidate.find()
       .select(selectFilters)
       .find({ status: filter.status })

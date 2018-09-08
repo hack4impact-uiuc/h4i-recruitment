@@ -23,6 +23,7 @@ const Candidate = new mongoose.Schema(
     timeCanDevote: { type: String },
     techExperience: { type: String },
     howTheyKnowUs: { type: String },
+    classesTaken: [String],
     additionalComments: { type: String },
     // interviews: [Interview],
     facemashRankings: {
