@@ -16,6 +16,7 @@ const Interview = new mongoose.Schema({
   candidate_id: { type: String },
   candidate_name: { type: String },
   interviewer_key: { type: String },
+  interviewer_name: { type: String },
   overall_score: { type: Number },
   general_notes: { type: String },
   category_notes: { type: String },

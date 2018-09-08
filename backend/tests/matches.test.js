@@ -6,6 +6,7 @@ const app = require('../src/app')
 const { Candidate, Match } = require('../src/models')
 const { candidateIds, createCandidates, createMatches, matchIds, KEY } = require('./utils.js')
 const mockgoose = new Mockgoose(mongoose)
+const { statusEnum } = require('../src/utils/enums')
 
 before(done => {
   // Tests might not run on some computers without the following line
@@ -65,6 +66,20 @@ describe('GET /matchCandidates', () => {
       .expect(200)
     const matched_candidates = [candidateIds(0), candidateIds(1)]
     expect(matched_candidates).to.contain.members([res.body.result.candidate1._id])
+    expect(res.body.result.candidate2._id).to.eq(candidateIds(2))
+    const match = await Match.find({ _id: res.body.result.matchID })
+    expect(match).to.have.lengthOf(1)
+  })
+
+  it('should not pick a rejected candidate for a match', async () => {
+    await createCandidates([5, 5, 6, 7, 7], [0, 0, 0, 0, 0])
+    let cand1 = await Candidate.findById(candidateIds(0))
+    cand1.status = statusEnum.REJECTED
+    cand1.save()
+    const res = await request(app)
+      .get(`/matchCandidates?key=${KEY}`)
+      .expect(200)
+    expect(res.body.result.candidate1._id).to.eq(candidateIds(1))
     expect(res.body.result.candidate2._id).to.eq(candidateIds(2))
     const match = await Match.find({ _id: res.body.result.matchID })
     expect(match).to.have.lengthOf(1)
