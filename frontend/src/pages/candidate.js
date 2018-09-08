@@ -5,11 +5,14 @@ import Router, { withRouter } from 'next/router'
 import { getCandidateById, addCommentToCandidate } from '../utils/api'
 import configureStore from './../store/appStore'
 import Candidate from '../components/candidateBox'
+import candidateInterviewsModal from '../components/candidateInterviewsModal'
 import AddCommentsModal from '../components/addCommentsModal'
 import CommentBox from '../components/commentBox'
 import ErrorMessage from '../components/errorMessage'
 import { addInterviewCandidate } from './../actions'
 import { bindActionCreators } from 'redux'
+import { getCandidateInterviews } from '../utils/api'
+import CandidateInterviewsModal from '../components/candidateInterviewsModal'
 
 type Props = {}
 const mapDispatchToProps = dispatch => {
@@ -28,8 +31,10 @@ class CandidatePage extends Component<Props> {
     super(props)
     this.state = {
       form: {},
+      interviews: [],
       addNotesModal: false,
       candidate: null,
+      modalOpen: false,
       comments: []
     }
   }
@@ -60,11 +65,24 @@ class CandidatePage extends Component<Props> {
   goBack = () => {
     Router.back()
   }
+  async handleShowAllInterviews(id) {
+    const { result } = await getCandidateInterviews(id)
+    this.setState({
+      interviews: result,
+      modalOpen: true
+    })
+  }
   async handleAddInterview(candidateId, candidateName) {
     const { addInterviewCandidate } = this.props
     await addInterviewCandidate(candidateId, candidateName)
     Router.push('/interview')
   }
+  exitModal = () => {
+    this.setState({
+      modalOpen: false
+    })
+  }
+
   render() {
     if (this.state.candidate == undefined) {
       return (
@@ -93,6 +111,13 @@ class CandidatePage extends Component<Props> {
               <Button outline color="primary" className="margin-sm-all" onClick={this.toggle}>
                 Add Comment
               </Button>
+              <Button
+                outline
+                color="primary"
+                onClick={() => this.handleShowAllInterviews(candidate._id)}
+              >
+                Show Candidate Interviews
+              </Button>
             </Col>
             <Col md={4}>
               <Button color="primary" onClick={this.goBack}>
@@ -103,6 +128,13 @@ class CandidatePage extends Component<Props> {
 
           <Row>
             <Col md={8}>
+              <CandidateInterviewsModal
+                isOpen={this.state.modalOpen}
+                candidateId={candidate._id}
+                exitModal={this.exitModal}
+                candidateName={candidate.name}
+                interviews={this.state.interviews}
+              />
               <AddCommentsModal
                 submit={this.submitComment}
                 isOpen={this.state.addNotesModal}

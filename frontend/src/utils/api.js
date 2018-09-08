@@ -109,6 +109,7 @@ function getCandidateInterviews(candidateId: string) {
     res => res.json()
   )
 }
+
 function addInterview(
   interviewerKey: string,
   candidateId: string,
@@ -160,6 +161,7 @@ function editInterview(
 
 export {
   getPastInterviews,
+  getCandidateInterviews,
   validateKey,
   addInterview,
   editInterview,
@@ -171,6 +173,5 @@ export {
   getCandidatesByStatus,
   addCommentToCandidate,
   getKey,
-  getCandidateInterviews,
   getCandidates
 }
