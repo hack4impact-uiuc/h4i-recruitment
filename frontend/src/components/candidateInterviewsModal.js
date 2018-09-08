@@ -45,7 +45,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
               ? this.props.candidateName + "'s Interviews"
               : this.state.currentInterview.candidate_name +
                 "'s Interview By " +
-                this.state.currentInterview.interviewer_key}
+                this.state.currentInterview.interviewer_name}
           </ModalHeader>
           <ModalBody>
             {this.state.viewDetails ? (
@@ -62,7 +62,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
                     key={interview._id}
                     overallScore={interview.overall_score}
                     category={interview.category}
-                    interviewer={interview.interviewer_key}
+                    interviewer={interview.interviewer_name}
                   />
                 )
               })
