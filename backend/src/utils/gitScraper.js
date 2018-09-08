@@ -1,7 +1,7 @@
 const rp = require('request-promise')
 const cheerio = require('cheerio')
 
-function getGithubContributions (url) {
+function getGithubContributions(url) {
   const options = {
     uri: url,
     transform: body => cheerio.load(body)
