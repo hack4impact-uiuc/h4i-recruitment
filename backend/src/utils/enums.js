@@ -25,7 +25,7 @@ const statusEnum = {
 }
 
 const rolesEnum = {
-  SWE: 'Software Engineer',
+  SWE: 'Software Developer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
   UI: 'UI/UX Designer'
