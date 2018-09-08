@@ -6,6 +6,7 @@ const yearsEnum = {
 }
 
 const gradEnum = {
+  SP19: 'Spring 2019',
   FA19: 'Fall 2019',
   SP20: 'Spring 2020',
   FA20: 'Fall 2020',

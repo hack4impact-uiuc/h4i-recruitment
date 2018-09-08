@@ -8,7 +8,7 @@ function getGithubContributions(url) {
   }
   return rp(options)
     .then($ => {
-      return $('.js-contribution-graph')
+      return $('.js-yearly-contributions')
         .text()
         .trim()
         .split(' ')[0]

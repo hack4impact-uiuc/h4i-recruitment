@@ -75,6 +75,7 @@ class DashboardPage extends Component<Props> {
 
   render() {
     let { candidates, error, loading, filters, sort } = this.props
+    console.log(candidates)
     if (error) {
       console.error(error)
       return (

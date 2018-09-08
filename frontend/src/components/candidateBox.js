@@ -40,6 +40,7 @@ class CandidateBox extends Component {
     this.setState({ status: e.target.value })
   }
   async componentDidMount() {
+    //TODO: once we move interviews to the candidate object, we can remove avgInterviewScore from state
     const res = await getCandidateInterviews(this.props.candidate._id)
     this.setState({
       interviews: res.result,
@@ -47,8 +48,9 @@ class CandidateBox extends Component {
     })
   }
   avgInterviewScore = interviews => {
-    if (interviews == undefined) {
-      return 0
+    console.log(interviews)
+    if (interviews == undefined || !interviews || interviews.length === 0) {
+      return 'N/A'
     }
 
     let avgs = 0
@@ -68,7 +70,7 @@ class CandidateBox extends Component {
     }
     const { candidate } = this.props
     return (
-      <div>
+      <div className="candidate-box-wrapper">
         <Row>
           <Col md={6}>
             <h3>{candidate.name}</h3>
@@ -119,13 +121,13 @@ class CandidateBox extends Component {
               <b>Reason for joining:</b> {candidate.joinReason}
             </p>
             <p>
-              <b>Time Commitment:</b> {candidate.timeCanDevote}
-            </p>
-            <p>
-              <b>Time Commitment List:</b> {candidate.timeCommitment}
+              <b>Time Commitment:</b> {candidate.timeCommitment}
             </p>
             <p>
               <b>Tech Experience:</b> {candidate.techExperience}
+            </p>
+            <p>
+              <b>Classes Taken:</b> {candidate.classesTaken}
             </p>
             <p>
               <b>How They know us:</b> {candidate.howTheyKnowUs}
@@ -138,7 +140,7 @@ class CandidateBox extends Component {
           <Col md={4}>
             <Row>
               <Col md={12}>
-                <h5>Additional Information</h5>
+                <h5 className="text-info pt-3">Additional Information</h5>
 
                 {candidate.major ? (
                   <p>
@@ -155,6 +157,9 @@ class CandidateBox extends Component {
                   <b>Graduation Date:</b> {candidate.graduationDate}
                 </p>
                 <p>
+                  <b>Year</b> {candidate.year}
+                </p>
+                <p>
                   <b>Github Contributions:</b> {candidate.githubContributions}
                 </p>
               </Col>
@@ -162,7 +167,7 @@ class CandidateBox extends Component {
 
             <Row>
               <Col md={12}>
-                <h5>Facemash Statistics</h5>
+                <h5 className="text-info pt-3">Facemash Statistics</h5>
                 <p>
                   <b>Facemash Score: </b> {candidate.facemashRankings.elo}
                 </p>
@@ -174,7 +179,7 @@ class CandidateBox extends Component {
 
             <Row>
               <Col md={12}>
-                <h5>Interview Information</h5>
+                <h5 className="text-info pt-3">Interview Information</h5>
                 <p>
                   <b>Average Score: </b> {this.state.avgInterviewScore}
                 </p>

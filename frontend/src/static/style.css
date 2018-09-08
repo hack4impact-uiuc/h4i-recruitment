@@ -190,3 +190,6 @@ p > b {
   margin-top: 20%;
   margin-left: 30px;
 }
+.candidate-box-wrapper p {
+  color: #656565;
+}
