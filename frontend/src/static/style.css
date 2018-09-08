@@ -186,3 +186,7 @@ p > b {
 .login-box {
   margin: 20%;
 }
+.login-loading-box {
+  margin-top: 20%;
+  margin-left: 30px;
+}

@@ -253,21 +253,6 @@ class Interview extends Component<Props> {
         </Row>
         <Row>
           <Col md="6">
-            <p>
-              As an interviewer, you are representing Hack4Impact as a whole. Please be respectful
-              and fully attentive to your interviewee.
-              <ul>
-                <li>Lean forward</li>
-                <li>Eye contact, nodding, “uh huh,” “oh cool”, or david’s favorite: “dope dope”</li>
-                <li>Don’t rush them</li>
-                <li>
-                  Be mindful of sighing, appearing disengaged, acting impatient, checking the time,
-                  etc.
-                </li>
-              </ul>
-            </p>
-          </Col>
-          <Col md="6">
             Some quick links:
             <ul>
               {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
