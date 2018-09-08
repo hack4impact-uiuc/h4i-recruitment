@@ -127,7 +127,8 @@ class CandidateBox extends Component {
               <b>Tech Experience:</b> {candidate.techExperience}
             </p>
             <p>
-              <b>Classes Taken:</b> {candidate.classesTaken}
+              <b>Classes Taken:</b>{' '}
+              {candidate.classesTaken != undefined ? candidate.classesTaken.join(', ') : null}
             </p>
             <p>
               <b>How They know us:</b> {candidate.howTheyKnowUs}
