@@ -241,7 +241,7 @@ class Interview extends Component<Props> {
       candidates = []
     }
     return (
-      <Container>
+      <Container fluid>
         <Row>
           <Col md="2" />
           <Col md="2">
@@ -424,6 +424,36 @@ class Interview extends Component<Props> {
                 </FormGroup>
               </InterviewSectionCard>
               <InterviewSectionCard title="Community (5 points)">
+                <p>Gauging Community is really hard. Fill this out in the end.</p>
+                Identifying those who embody Intentionality, Curiosity, and Empathy... Subtract the
+                points from 7.
+                <hr />
+                Asking Questions at the end
+                <ul>
+                  <li>
+                    <b>-2 points:</b> Didn&#39;t ask you any questions at end
+                  </li>
+                  <li>
+                    <b>-1 point:</b> Asked you some BS questions. Beyond just logistical questions
+                  </li>
+                  <li>
+                    Asked you solid questions and about what we do, what you do, your
+                    recommendation, etc: Great!
+                  </li>
+                </ul>
+                Technical Interview Portion
+                <ul>
+                  <li>
+                    <b>-1 point:</b> Didn’t communicate with you at all during technical interview
+                  </li>
+                  <li>Let you know what and why they chose to do things: Great!</li>
+                </ul>
+                Subjective:
+                <ul>
+                  <li>
+                    <b>No: -2 Meh: -1. Hell ya: 0</b> Are they someone you’d enjoy working with?
+                  </li>
+                </ul>
                 <FormGroup>
                   <Label>
                     <b>Give them score out of 5:</b>
@@ -464,6 +494,10 @@ class Interview extends Component<Props> {
                 </FormGroup>
               </InterviewSectionCard>
               <InterviewSectionCard title="Resume and Tech Knowledge (3 Points)">
+                Do they have projects? Internships? Do they actually know what they are talking
+                about? Do they understand the underlying technologies they've used?
+                <hr />
+                If you detect they were kind of bullshitting: <b>-1 overall</b>
                 <FormGroup>
                   <FormGroup check>
                     <Label>
@@ -473,7 +507,7 @@ class Interview extends Component<Props> {
                         onClick={this.onSelect}
                         name="Resume And Tech Knowledge"
                       />
-                      0 - No Experience
+                      0 - No experience, or completely BS their experience
                     </Label>
                   </FormGroup>
                   <FormGroup check>
@@ -484,7 +518,8 @@ class Interview extends Component<Props> {
                         onClick={this.onSelect}
                         name="Resume And Tech Knowledge"
                       />
-                      1 - has worked on 1 to 2 projects
+                      1 - can speak about one or two projects, or a meh internship. Doesn't really
+                      have an in-depth understanding of what they've used.
                     </Label>
                   </FormGroup>
                   <FormGroup check>
@@ -495,7 +530,7 @@ class Interview extends Component<Props> {
                         onClick={this.onSelect}
                         name="Resume And Tech Knowledge"
                       />
-                      2 - Has internship or a couple substantial projects
+                      2 - can speak to one internship with great experience or multiple projects
                     </Label>
                   </FormGroup>
                   <FormGroup check>
@@ -506,7 +541,7 @@ class Interview extends Component<Props> {
                         onClick={this.onSelect}
                         name="Resume And Tech Knowledge"
                       />
-                      3 - Multiple
+                      3 - Multiple.
                     </Label>
                   </FormGroup>
                 </FormGroup>
@@ -667,13 +702,17 @@ class Interview extends Component<Props> {
             </Form>
           </Col>
           <Col md="6">
-            {candidate != undefined ? (
+            {/* {candidate != undefined ? (
               <FacemashProfile showFacemash={true} candidate={candidate} />
             ) : (
               <h4 className="text-center align-middle">
                 Pick a User to interview and their profile will show up here
               </h4>
-            )}
+            )} */}
+            <iframe
+              className="embed-doc embed-responsive-item"
+              src="https://docs.google.com/a/illinois.edu/document/d/e/2PACX-1vRISnK6xFN-_10jJWyORT-xvp8KGPNSi0YOkHNvN8PlMaHc-U-DAjssfDe1T4SFHhUQpxyPCQk--nP2/pub?embedded=true"
+            />
           </Col>
         </Row>
       </Container>
