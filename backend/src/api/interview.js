@@ -28,36 +28,9 @@ router.get(
 )
 
 router.get(
-  '/',
-  [leadsOnly],
-  errorWrap(async (req, res) => {
-    let interviews = await Interview.find()
-    res.json({
-      code: 200,
-      message: '',
-      result: { interviews },
-      success: true
-    })
-  })
-)
-
-router.get(
-  '/:interview_id',
-  [leadsOnly],
-  errorWrap(async (req, res) => {
-    const retInterview = await Interview.findById(req.params.interview_id)
-    res.json({
-      code: 200,
-      message: '',
-      result: { retInterview },
-      success: true
-    })
-  })
-)
-
-router.get(
   '/candidate-interviews/:candidate_id',
   errorWrap(async (req, res) => {
+    console.log(req.params.candidate_id)
     const interviews = await Interview.find()
     const retInterviews = interviews.filter(
       interview => interview.candidate_id === req.params.candidate_id
@@ -80,12 +53,54 @@ router.get(
     const retInterviews = interviews.filter(
       interview => interview.interviewer_key === req.params.interviewer_key
     )
+
+    console.log(retInterviews)
     let statusCode = retInterviews ? 200 : 400
 
     res.status(statusCode).json({
       code: statusCode,
       message: '',
       result: retInterviews,
+      success: true
+    })
+  })
+)
+
+router.get(
+  '/:interview_id',
+  [leadsOnly],
+  errorWrap(async (req, res) => {
+    const retInterview = await Interview.findById(req.params.interview_id)
+    res.json({
+      code: 200,
+      message: '',
+      result: retInterviews,
+      success: true
+    })
+  })
+)
+
+router.get(
+  '/',
+  errorWrap(async (req, res) => {
+    let interviews = await Interview.find()
+    res.json({
+      code: 200,
+      message: '',
+      result: { interviews },
+      success: true
+    })
+  })
+)
+
+router.get(
+  '/:interview_id',
+  errorWrap(async (req, res) => {
+    const retInterview = await Interview.findById(req.params.interview_id)
+    res.json({
+      code: 200,
+      message: '',
+      result: { retInterview },
       success: true
     })
   })
