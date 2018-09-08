@@ -6,6 +6,9 @@ import { Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
+import ErrorMessage from '../components/errorMessage'
+import CandidateStatus from '../components/candidateStatus'
+import CandidateLinks from '../components/candidateLinks'
 
 type Props = {
   candidate: {},
@@ -25,7 +28,7 @@ class FacemashProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate.status
+      status: this.props.candidate != undefined ? this.props.candidate.status : null
     }
   }
   handleChange = e => {
@@ -34,27 +37,26 @@ class FacemashProfile extends Component {
     this.setState({ status: e.target.value })
   }
   render() {
-    if (!this.props.candidate) {
-      return <div>User doesn&#39;t exist</div>
-    }
     const { candidate } = this.props
+    if (!this.props.candidate || candidate == undefined) {
+      return (
+        <ErrorMessage message="User doesn&#39;t exist or cannot be queried. Check if you are logged In" />
+      )
+    }
+    console.log('candidate', candidate)
     return (
       <div className="rounded-lightblue-border">
         <div className="lightblue-section padded-all-sm">
           <h2>
             {candidate.name}
-            {!this.props.hideStatus && (
-              <Badge color={this.state.status == 'rejected' ? 'danger' : 'success'}>
-                {this.state.status}
-              </Badge>
-            )}
+            {!this.props.hideStatus && <CandidateStatus status={this.state.status} />}
           </h2>
           {!this.props.hideStatus && (
             <a>
               <p>
                 Change Status:
-                <select onChange={this.handleChange}>
-                  <option value="" selected disabled hidden>
+                <select value={this.state.status} onChange={this.handleChange}>
+                  <option selected disabled hidden>
                     Choose here
                   </option>
                   <option value={statusEnum.PENDING}>Pending</option>
@@ -65,34 +67,10 @@ class FacemashProfile extends Component {
               </p>
             </a>
           )}
-          <a
-            style={{ textDecoration: candidate.resumeID ? null : 'line-through' }}
-            className="pr-2"
-            href={`${candidate.resumeID}`}
-          >
-            Resume
-          </a>
-          <a
-            style={{ textDecoration: candidate.website ? null : 'line-through' }}
-            className="pr-2"
-            href={candidate.website}
-          >
-            Website
-          </a>
-          <a
-            style={{ textDecoration: candidate.linkedIn ? null : 'line-through' }}
-            className="pr-2"
-            href={candidate.linkedIn}
-          >
-            LinkedIn
-          </a>
-          <a
-            style={{ textDecoration: candidate.github ? null : 'line-through' }}
-            className="pr-2"
-            href={candidate.github}
-          >
-            Github
-          </a>
+          <CandidateLinks link={candidate.resumeID} text="Resume" />
+          <CandidateLinks link={candidate.website} text="Website" />
+          <CandidateLinks link={candidate.linkedIn} text="LinkedIn" />
+          <CandidateLinks link={candidate.github} text="Github" />
         </div>
         <div className="padded-all-sm">
           {candidate.major ? (
@@ -137,6 +115,17 @@ class FacemashProfile extends Component {
           <p>
             <b>Additional Comments:</b> {candidate.additionalComments}
           </p>
+          {this.props.showFacemash && candidate.facemashRankings != undefined ? (
+            <>
+              <h5>Facemash Statistics</h5>
+              <p>
+                <b>Facemash Score: </b> {candidate.facemashRankings.elo}
+              </p>
+              <p>
+                <b>Number of Matches: </b> {candidate.facemashRankings.numOfMatches}
+              </p>
+            </>
+          ) : null}
         </div>
       </div>
     )

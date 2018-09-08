@@ -8,6 +8,7 @@ import Router from 'next/router'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
+import CandidateLinksBadge from '../components/candidateLinksBadge'
 
 const handler = (_id: string) =>
   Router.push({
@@ -154,8 +155,8 @@ class CandidateCardComponent extends Component {
           </div>
           <p>
             Change Status:
-            <select onChange={this.handleChange}>
-              <option value="" selected disabled hidden>
+            <select value={this.state.status} onChange={this.handleChange}>
+              <option selected disabled hidden>
                 Choose here
               </option>
               <option value={statusEnum.PENDING}>Pending</option>
@@ -167,32 +168,10 @@ class CandidateCardComponent extends Component {
 
           <Row>
             <Col md={12}>
-              {candidate.resumeID ? (
-                <a className="card-links" href={`${candidate.resumeID}`}>
-                  <Badge color="primary">Resume</Badge>
-                </a>
-              ) : (
-                // Needed to create a placeholder class to use display: none,
-                // which causes the element to basically not exist on the page
-                // and take up no space
-                <p className="space-fix-placeholder"> </p>
-              )}
-
-              {candidate.website ? (
-                <a className="card-links" href={`${candidate.website}`}>
-                  <Badge color="primary">Website</Badge>
-                </a>
-              ) : (
-                <p className="space-fix-placeholder"> </p>
-              )}
-
-              {candidate.linkedIn ? (
-                <a className="card-links" href={`${candidate.linkedIn}`}>
-                  <Badge color="primary">LinkedIn</Badge>
-                </a>
-              ) : (
-                <p className="space-fix-placeholder"> </p>
-              )}
+              <CandidateLinksBadge link={candidate.resumeID} text="Resume" />
+              <CandidateLinksBadge link={candidate.linkedIn} text="LinkedIn" />
+              <CandidateLinksBadge link={candidate.github} text="Github" />
+              <CandidateLinksBadge link={candidate.website} text="Website" />
             </Col>
           </Row>
         </CardBody>
