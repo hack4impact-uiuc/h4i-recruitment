@@ -6,6 +6,7 @@ export const yearsEnum = {
 }
 
 export const gradEnum = {
+  SP19: 'Spring 2019',
   FA19: 'Fall 2019',
   SP20: 'Spring 2020',
   FA20: 'Fall 2020',
@@ -37,7 +38,7 @@ export const categoryEnum = {
 }
 
 export const rolesEnum = {
-  SWE: 'Software Engineer',
+  SWE: 'Software Developer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
   UI: 'UI/UX Designer'
