@@ -59,9 +59,7 @@ export const selectByEnum = {
   YEAR: 'Year',
   GRADYR: 'Graduation Year',
   STATUS: 'Status',
-  RESUME: 'Resume',
-  WEBSITE: 'Website',
-  LINKEDIN: 'LinkedIn',
+  LINKS: 'Links',
   ELO: 'Facemash Score',
   MATCHES: 'Number of Matches'
 }

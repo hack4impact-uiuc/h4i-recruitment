@@ -89,6 +89,7 @@ class Dashboard extends React.Component<Props> {
       .filter(x => this.state.filters.years.includes(x.year))
 
     let selects = this.state.filters.selectBy
+    console.log(selects)
     return (
       <>
         <div className="page-content-wrapper">
@@ -97,7 +98,7 @@ class Dashboard extends React.Component<Props> {
               <Col lg="2" sm="3" className="ml-2">
                 <FilterComponent />
               </Col>
-              <Col lg="9" sm="8">
+              <Col lg="7" sm="8">
                 <Container>
                   <Row>
                     <h4>Ordered by Facemash Ranking. 'Rejected' Filtered out</h4>
@@ -107,13 +108,13 @@ class Dashboard extends React.Component<Props> {
                           <th>#</th>
                           <th>Name</th>
                           {selects.includes('Status') ? <th>Status</th> : <> </>}
-                          <th>Year</th>
-                          <th>Graduation Date</th>
-                          <th>Roles</th>
-                          <th>Hours</th>
-                          <th>Links</th>
-                          <th>FaceMash Score</th>
-                          <th>Matches</th>
+                          {selects.includes('Year') ? <th>Year</th> : <> </>}
+                          {selects.includes('Graduation Year') ? <th>Graduation Date</th> : <> </>}
+                          {selects.includes('Roles') ? <th>Roles</th> : <> </>}
+                          {selects.includes('Hours') ? <th>Hours</th> : <> </>}
+                          {selects.includes('Links') ? <th>Links</th> : <> </>}
+                          {selects.includes('Facemash Score') ? <th>FaceMash Score</th> : <> </>}
+                          {selects.includes('Number of Matches') ? <th>Matches</th> : <> </>}
                           <th>Change Status</th>
                           <th />
                         </tr>
@@ -134,26 +135,54 @@ class Dashboard extends React.Component<Props> {
                                 <> </>
                               )}
 
-                              <td>{candidate.year}</td>
-                              <td>{candidate.graduationDate}</td>
-                              <td>{candidate.role.join(' ')}</td>
-                              <td>{candidate.timeCommitment}</td>
-                              <td>
-                                <CandidateLinksBadge link={candidate.resumeID} text="Resume" />
-                                <CandidateLinksBadge link={candidate.linkedIn} text="LinkedIn" />
-                                <CandidateLinksBadge link={candidate.github} text="Github" />
-                                <CandidateLinksBadge link={candidate.website} text="Website" />
-                              </td>
-                              <td>
-                                {candidate.facemashRankings != undefined
-                                  ? candidate.facemashRankings.elo
-                                  : null}
-                              </td>
-                              <td>
-                                {candidate.facemashRankings != undefined
-                                  ? candidate.facemashRankings.numOfMatches
-                                  : null}
-                              </td>
+                              {selects.includes('Year') ? <td>{candidate.year}</td> : <> </>}
+                              {selects.includes('Graduation Year') ? (
+                                <td>{candidate.graduationDate}</td>
+                              ) : (
+                                <> </>
+                              )}
+                              {selects.includes('Roles') ? (
+                                <td>{candidate.role.join(' ')}</td>
+                              ) : (
+                                <> </>
+                              )}
+                              {selects.includes('Hours') ? (
+                                <td>{candidate.timeCommitment}</td>
+                              ) : (
+                                <> </>
+                              )}
+
+                              {selects.includes('Links') ? (
+                                <td>
+                                  <CandidateLinksBadge link={candidate.resumeID} text="Resume" />
+                                  <CandidateLinksBadge link={candidate.linkedIn} text="LinkedIn" />
+                                  <CandidateLinksBadge link={candidate.github} text="Github" />
+                                  <CandidateLinksBadge link={candidate.website} text="Website" />
+                                </td>
+                              ) : (
+                                <> </>
+                              )}
+
+                              {selects.includes('Facemash Score') ? (
+                                <td>
+                                  {candidate.facemashRankings != undefined
+                                    ? candidate.facemashRankings.elo
+                                    : null}
+                                </td>
+                              ) : (
+                                <> </>
+                              )}
+
+                              {selects.includes('Facemash Score') ? (
+                                <td>
+                                  {candidate.facemashRankings != undefined
+                                    ? candidate.facemashRankings.numOfMatches
+                                    : null}
+                                </td>
+                              ) : (
+                                <> </>
+                              )}
+
                               <td>
                                 <select name={candidate._id} onChange={this.handleChange}>
                                   <option value="" selected disabled hidden>
