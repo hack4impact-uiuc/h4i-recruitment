@@ -106,11 +106,12 @@ class Dashboard extends React.Component<Props> {
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Name</th>
+                          {selects.includes('Name') ? <th>Name</th> : <> </>}
                           {selects.includes('Status') ? <th>Status</th> : <> </>}
                           {selects.includes('Year') ? <th>Year</th> : <> </>}
                           {selects.includes('Graduation Year') ? <th>Graduation Date</th> : <> </>}
                           {selects.includes('Roles') ? <th>Roles</th> : <> </>}
+                          {selects.includes('Major') ? <th>Major</th> : <> </>}
                           {selects.includes('Hours') ? <th>Hours</th> : <> </>}
                           {selects.includes('Links') ? <th>Links</th> : <> </>}
                           {selects.includes('Facemash Score') ? <th>FaceMash Score</th> : <> </>}
@@ -124,7 +125,8 @@ class Dashboard extends React.Component<Props> {
                           filteredCandidates.map((candidate, key) => (
                             <tr key={candidate._id}>
                               <th scope="row">{key + 1}</th>
-                              <td>{candidate.name}</td>
+                              {selects.includes('Name') ? <td>{candidate.name}</td> : <> </>}
+
                               {selects.includes('Status') ? (
                                 <td>
                                   <h6>
@@ -143,6 +145,11 @@ class Dashboard extends React.Component<Props> {
                               )}
                               {selects.includes('Roles') ? (
                                 <td>{candidate.role.join(' ')}</td>
+                              ) : (
+                                <> </>
+                              )}
+                              {selects.includes('Major') ? (
+                                <td>{candidate.major}</td>
                               ) : (
                                 <> </>
                               )}
@@ -173,15 +180,14 @@ class Dashboard extends React.Component<Props> {
                                 <> </>
                               )}
 
-                              {selects.includes('Facemash Score') ? (
-                                <td>
+
+                              {selects.includes('Number of Matches') ? <td>
                                   {candidate.facemashRankings != undefined
                                     ? candidate.facemashRankings.numOfMatches
                                     : null}
                                 </td>
-                              ) : (
-                                <> </>
-                              )}
+                          : <> </>}
+                                
 
                               <td>
                                 <select name={candidate._id} onChange={this.handleChange}>
