@@ -18,6 +18,7 @@ class TablePage extends React.Component<Props> {
   }
   async componentDidMount() {
     const res = await getCandidates()
+    let candidates = res.result
     this.setState({
       candidates: res.result == undefined ? [] : res.result
     })

@@ -6,7 +6,8 @@ const leadSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.LEAD_SUFF
 const auth = (req, res, next) => {
   const key = req.query.key
   if (key != undefined) {
-    if (key && key.length === 11) {
+    // removed && key.length === 11
+    if (key) {
       const keysFiltered = keyData.keys.filter(currKey => currKey.key === key)
       const keyVerified = keysFiltered.length !== 0
 

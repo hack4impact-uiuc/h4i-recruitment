@@ -84,6 +84,9 @@ class FacemashProfile extends Component {
           <p>
             <b>Graduation Date:</b> {candidate.graduationDate}
           </p>
+          <p>
+            <b>Year:</b> {candidate.year}
+          </p>
           {candidate.minor ? (
             <p>
               <b>Minor:</b> {candidate.minor}
