@@ -22,52 +22,6 @@ router.get(
     res.json({ result: candidates })
   })
 )
-router.post(
-  '/query',
-  [leadsOnly],
-  errorWrap(async (req, res) => {
-    let filter = req.body.filters
-    let sortFilters = {}
-    let renamedSorts = Array.from(req.body.filters.sorts)
-      .map(x => x.replace('Graduation Year', 'graduationDate'))
-      .map(x => x.replace('Year', 'year'))
-      .map(x => x.replace('Status', 'status'))
-      .map(x => x.replace('Facemash Score', 'facemashRankings.elo'))
-    Array.from(renamedSorts).forEach(x => (sortFilters[x] = 1))
-    if (sortFilters['facemashRankings.elo']) {
-      sortFilters['facemashRankings.elo'] = -1
-    }
-
-    let selectFilters = {}
-    let renamedSelects = Array.from(req.body.filters.selectBy)
-      .map(x => x.replace('Graduation Year', 'graduationDate'))
-      .map(x => x.replace('Year', 'year'))
-      .map(x => x.replace('Status', 'status'))
-      .map(x => x.replace('Major', 'major'))
-      .map(x => x.replace('Hours', 'hours'))
-      .map(x => x.replace('Roles', 'role'))
-      .map(x => x.replace('Name', 'name'))
-      .map(x => x.replace('Resume', 'resume'))
-      .map(x => x.replace('Website', 'website'))
-      .map(x => x.replace('LinkedIn', 'linkedIn'))
-      .map(x => x.replace('Facemash Score', 'facemashRankings.elo'))
-      .map(x => x.replace('Number of Matches', 'facemashRankings.numOfMatches'))
-
-    Array.from(renamedSelects).forEach(x => (selectFilters[x] = 1))
-    // add github to the query as well, althought it isn't
-    // a selectable in the frontend
-    selectFilters.github = 1
-    console.log(filter)
-    let candidates = await Candidate.find()
-      .select(selectFilters)
-      .find({ status: filter.status })
-      .find({ year: filter.year })
-      .find({ graduationDate: filter.graduationDate })
-      .find({ role: { $in: filter.roles } })
-      .sort(sortFilters)
-    res.json({ result: candidates })
-  })
-)
 
 // TODO: Fix
 router.post(
