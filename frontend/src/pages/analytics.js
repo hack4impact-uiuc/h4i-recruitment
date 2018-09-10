@@ -2,7 +2,7 @@
 import React from 'react'
 import { Container, Row, Table, Badge, Media, Col, Button } from 'reactstrap'
 import Link from 'next/link'
-import { getCandidates, setCandidateStatus, getAllCandidates } from '../utils/api'
+import { getCandidates, setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
@@ -68,8 +68,9 @@ class Analytics extends React.Component<Props> {
 
   render() {
     let data = {}
-    let compareBy = 'Roles'
-    switch (this.state.filters.compareBy[1]) {
+    console.log('HI')
+    console.log(this.state.filters.compareBy)
+    switch (this.state.filters.compareBy[0] ? this.state.filters.compareBy[0] : "Roles") {
       case 'Year':
         this.state.filters.years.forEach(year => (data[year] = 0))
         this.state.candidates.map(candidate => (data[candidate.year] += 1))

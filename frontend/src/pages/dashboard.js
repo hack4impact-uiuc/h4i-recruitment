@@ -2,7 +2,7 @@
 import React from 'react'
 import { Container, Row, Table, Badge, Media, Col, Button } from 'reactstrap'
 import Link from 'next/link'
-import { getCandidates, setCandidateStatus, getAllCandidates } from '../utils/api'
+import { getCandidates, setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'

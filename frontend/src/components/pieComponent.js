@@ -79,20 +79,17 @@ class PieComponent extends Component<Props> {
     const statuses = enumToArray(statusEnum)
     const gradDates = enumToArray(gradEnum)
     const compareBy = enumToArray(compareByEnum)
-    const selectBy = enumToArray(selectByEnum)
     let statusFilter = [],
       roleFilter = [],
       yearFilter = [],
       gradFilter = [],
-      // sortByFilter = [],
-      selectByFilter = []
+      compareByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
-      // sortByFilter = this.props.filters.sortBy
-      selectByFilter = this.props.filters.selectBy
+      compareByFilter = this.props.filters.sortBy
     }
 
     return (
@@ -162,7 +159,7 @@ class PieComponent extends Component<Props> {
                   <input
                     type="checkbox"
                     id={el}
-                    // name="roles"
+                    name="roles"
                     value={el}
                     checked={roleFilter.includes(el)}
                     onChange={this.handleChange}
@@ -213,7 +210,7 @@ class PieComponent extends Component<Props> {
                     id={el}
                     name="compareBy"
                     value={el}
-                    // checked={sortByFilter.includes(el)}
+                    checked={compareByFilter.includes(el)}
                     onChange={this.handleCompareChange}
                   />
                   <div className="state">

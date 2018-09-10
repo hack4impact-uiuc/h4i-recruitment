@@ -57,7 +57,7 @@ export const compareByEnum = {
   YEAR: 'Year',
   GRADYR: 'Graduation Year',
   STATUS: 'Status',
-  ROLES: 'Roles',
+  ROLES: 'Roles'
 }
 
 export const selectByEnum = {
