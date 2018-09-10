@@ -11,6 +11,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addFilter, removeFilter } from '../actions'
 
+import sortJsonArray from 'sort-json-array'
+
 type Props = {}
 
 const mapDispatchToProps = dispatch => {
@@ -31,6 +33,19 @@ const mapStateToProps = state => ({
   sort: state.candidateListPage.sort
 })
 
+
+var sortByProperty = function(property) {
+  return function(x, y) {
+    return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
+  }
+}
+
+var sortByMultipleProperties = function(property1, property2) {
+  return function(x, y) {
+    return x[property1][property2] === y[property1][property2] ? 0 : x[property1][property2] > y[property1][property2] ? 1 : -1
+  }
+}
+
 class Dashboard extends React.Component<Props> {
   constructor(props) {
     super(props)
@@ -38,8 +53,7 @@ class Dashboard extends React.Component<Props> {
       candidates: this.props.candidates,
       error: this.props.error,
       loading: this.props.loading,
-      filters: this.props.filters,
-      sort: this.props.sort
+      filters: this.props.filters
     }
   }
   async componentDidMount() {
@@ -54,8 +68,6 @@ class Dashboard extends React.Component<Props> {
     this.setState({
       filters: nextProps.filters
     })
-    // console.log(this.state.filters.statuses)
-    // this.state.candidates.map(candidate => this.filters.statuses.contains(candidate.status))
   }
 
   handleChange = e => {
@@ -88,8 +100,31 @@ class Dashboard extends React.Component<Props> {
       .filter(x => this.state.filters.statuses.includes(x.status))
       .filter(x => this.state.filters.years.includes(x.year))
 
+    switch (this.state.filters.sortBy[0]) {
+      case 'Name':
+        filteredCandidates = filteredCandidates.sort(sortByProperty('name'))
+        break
+      case 'Year':
+        filteredCandidates = filteredCandidates.sort(sortByProperty('year'))
+        break
+      case 'Status':
+        filteredCandidates = filteredCandidates.sort(sortByProperty('status'))
+        break
+      case 'Graduation Year':
+        filteredCandidates = filteredCandidates.sort(sortByProperty('graduationDate'))
+        break
+      case 'Facemash Score':
+        filteredCandidates = filteredCandidates.sort(
+          sortByMultipleProperties('facemashRankings', 'elo')
+        )
+        break
+      case 'Number of Matches':
+        filteredCandidates = filteredCandidates.sort(
+          sortByMultipleProperties('facemashRankings', 'numOfMatches')
+        )
+        break
+    }
     let selects = this.state.filters.selectBy
-    console.log(selects)
     return (
       <>
         <div className="page-content-wrapper">
@@ -101,7 +136,6 @@ class Dashboard extends React.Component<Props> {
               <Col lg="7" sm="8">
                 <Container>
                   <Row>
-                    <h4>Ordered by Facemash Ranking. 'Rejected' Filtered out</h4>
                     <Table size="m" hover className="candidate-table">
                       <thead>
                         <tr>
@@ -148,11 +182,7 @@ class Dashboard extends React.Component<Props> {
                               ) : (
                                 <> </>
                               )}
-                              {selects.includes('Major') ? (
-                                <td>{candidate.major}</td>
-                              ) : (
-                                <> </>
-                              )}
+                              {selects.includes('Major') ? <td>{candidate.major}</td> : <> </>}
                               {selects.includes('Hours') ? (
                                 <td>{candidate.timeCommitment}</td>
                               ) : (
@@ -180,14 +210,15 @@ class Dashboard extends React.Component<Props> {
                                 <> </>
                               )}
 
-
-                              {selects.includes('Number of Matches') ? <td>
+                              {selects.includes('Number of Matches') ? (
+                                <td>
                                   {candidate.facemashRankings != undefined
                                     ? candidate.facemashRankings.numOfMatches
                                     : null}
                                 </td>
-                          : <> </>}
-                                
+                              ) : (
+                                <> </>
+                              )}
 
                               <td>
                                 <select name={candidate._id} onChange={this.handleChange}>

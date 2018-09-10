@@ -43,9 +43,36 @@ class FilterComponent extends Component<Props> {
     }
   }
 
+  handleSortChange = async event => {
+    console.log('SORT CHANGE')
+    if (event.target.checked) {
+      console.log("ADDING")
+      console.log(event.target.name + " " + event.target.value)
+
+      // this.props.filters.sortBy.map(value => this.props.removeFilter(event.target.name, value))
+      // this.props.filters.sortBy.map(value => console.log(event.target.name + " " + value))
+
+
+      // this.props.addFilter(event.target.name, event.target.value)
+      
+      this.props.removeFilter(event.target.name, event.target.value)
+      this.props.removeFilter(event.target.name, event.target.value)
+
+      // console.log("NEW LIST: " + this.props.filters.sortBy)
+    } else {
+      console.log("REMOVING")
+      console.log(event.target.name + " " + event.target.value)
+      this.props.removeFilter(event.target.name, event.target.value)
+    }
+  }
+
   handleClick = event => {
     this.props.resetFilters()
   }
+
+  // handleSortClick = event => {
+  //   this.props.resetFilters()
+  // }
 
   render() {
     const years = enumToArray(yearsEnum)
@@ -58,16 +85,17 @@ class FilterComponent extends Component<Props> {
       roleFilter = [],
       yearFilter = [],
       gradFilter = [],
-      sortByFilter = [],
+      // sortByFilter = [],
       selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
-      sortByFilter = this.props.filters.sortBy
+      // sortByFilter = this.props.filters.sortBy
       selectByFilter = this.props.filters.selectBy
     }
+
     return (
       <div className="filter-box">
         <div>
@@ -210,8 +238,8 @@ class FilterComponent extends Component<Props> {
                     id={el}
                     name="sortBy"
                     value={el}
-                    checked={sortByFilter.includes(el)}
-                    onChange={this.handleChange}
+                    // checked={sortByFilter.includes(el)}
+                    onChange={this.handleSortChange}
                   />
                   <div className="state">
                     <label htmlFor={el}>{el}</label>

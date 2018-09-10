@@ -4385,6 +4385,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+sort-json-array@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/sort-json-array/-/sort-json-array-0.1.7.tgz#993a5aa05e482740975f2990515300e4dacd639a"
+
 source-list-map@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.0.tgz#aaa47403f7b245a92fbc97ea08f250d6087ed085"

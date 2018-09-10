@@ -45,10 +45,12 @@ export const rolesEnum = {
 }
 
 export const sortByEnum = {
+  NAME: 'Name',
+  YEAR: 'Year',
   GRADYR: 'Graduation Year',
-  YR: 'Year',
-  STS: 'Status',
-  ELO: 'Facemash Score'
+  STATUS: 'Status',
+  ELO: 'Facemash Score',
+  MATCHES: 'Number of Matches'
 }
 
 export const selectByEnum = {
