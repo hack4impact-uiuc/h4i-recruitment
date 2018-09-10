@@ -10,11 +10,7 @@ import PieComponent from '../components/pieComponent'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addFilter, removeFilter } from '../actions'
-
-import sortJsonArray from 'sort-json-array'
-import { Pie } from "react-chartjs-2";
-
-
+import { Pie } from 'react-chartjs-2'
 
 type Props = {}
 
@@ -32,22 +28,8 @@ const mapStateToProps = state => ({
   candidates: state.candidateListPage.candidates,
   loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
-  filters: state.candidateListPage.filters,
-  sort: state.candidateListPage.sort
+  filters: state.candidateListPage.filters
 })
-
-
-var sortByProperty = function(property) {
-  return function(x, y) {
-    return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
-  }
-}
-
-var sortByMultipleProperties = function(property1, property2) {
-  return function(x, y) {
-    return x[property1][property2] === y[property1][property2] ? 0 : x[property1][property2] > y[property1][property2] ? 1 : -1
-  }
-}
 
 class Analytics extends React.Component<Props> {
   constructor(props) {
@@ -83,74 +65,56 @@ class Analytics extends React.Component<Props> {
     setCandidateStatus(e.target.name, e.target.value)
     this.setState({ candidates: newCandidates })
   }
-  // sort function
-  compareByFacemashScore = (candidate1, candidate2) => {
-    if (candidate1.facemashRankings == undefined) {
-      return 0
-    }
-    if (candidate1.facemashRankings.elo > candidate2.facemashRankings.elo) {
-      return -1
-    }
-    if (candidate1.facemashRankings.elo < candidate2.facemashRankings.elo) {
-      return 1
-    }
-    return 0
-  }
 
   render() {
-    let filteredCandidates = this.state.candidates
-      .filter(x => this.state.filters.gradDates.includes(x.graduationDate))
-      .filter(x => this.state.filters.statuses.includes(x.status))
-      .filter(x => this.state.filters.years.includes(x.year))
-
-    switch (this.state.filters.sortBy[0]) {
-      case 'Name':
-        filteredCandidates = filteredCandidates.sort(sortByProperty('name'))
-        break
+    let data = {}
+    let compareBy = 'Roles'
+    switch (this.state.filters.compareBy[1]) {
       case 'Year':
-        filteredCandidates = filteredCandidates.sort(sortByProperty('year'))
+        this.state.filters.years.forEach(year => (data[year] = 0))
+        this.state.candidates.map(candidate => (data[candidate.year] += 1))
         break
       case 'Status':
-        filteredCandidates = filteredCandidates.sort(sortByProperty('status'))
+        this.state.filters.statuses.forEach(status => (data[status] = 0))
+        this.state.candidates.map(candidate => (data[candidate.status] += 1))
         break
       case 'Graduation Year':
-        filteredCandidates = filteredCandidates.sort(sortByProperty('graduationDate'))
+        this.state.filters.gradDates.forEach(graduationDate => (data[graduationDate] = 0))
+        this.state.candidates.map(candidate => (data[candidate.graduationDate] += 1))
         break
-      case 'Facemash Score':
-        filteredCandidates = filteredCandidates.sort(
-          sortByMultipleProperties('facemashRankings', 'elo')
-        )
-        break
-      case 'Number of Matches':
-        filteredCandidates = filteredCandidates.sort(
-          sortByMultipleProperties('facemashRankings', 'numOfMatches')
-        )
+      case 'Roles':
+        this.state.filters.roles.forEach(role => (data[role] = 0))
+        this.state.candidates.map(candidate => candidate.role.map(role => (data[role] += 1)))
         break
     }
+
+    Object.keys(data).map(
+      key => (isNaN(data[key]) ? delete data[key]:data[key] = data[key])
+    )
     let selects = this.state.filters.selectBy
 
     const chartData = {
-        labels: ["Developmental stage", "Disease", "Domain", "PTM", "Biological process", "Cellular component", "Coding sequence diversity", "Technical term", "Ligand", "Molecular function"],
+      labels: Object.keys(data),
 
-        datasets: [
-          {
-            label: "SpectraCount",
-            data: [12, 6041, 12564, 11463, 14778, 14652, 7608, 16696, 14218, 15458],
-            backgroundColor: [
-              "#3e95cd",
-              "#8e5ea2",
-              "#3cba9f",
-              "#e8c3b9",
-              "#c45850",
-              "#1c0549",
-              "#db316d",
-              "#ff005a",
-              "  #ff6700",
-              "#13890f"
-            ]
-          }
-        ]
-      };
+      datasets: [
+        {
+          label: 'SpectraCount',
+          data: Object.values(data),
+          backgroundColor: [
+            '#3e95cd',
+            '#8e5ea2',
+            '#3cba9f',
+            '#e8c3b9',
+            '#c45850',
+            '#1c0549',
+            '#db316d',
+            '#ff005a',
+            '  #ff6700',
+            '#13890f'
+          ]
+        }
+      ]
+    }
     return (
       <>
         <div className="page-content-wrapper">
@@ -160,7 +124,7 @@ class Analytics extends React.Component<Props> {
                 <PieComponent />
               </Col>
               <Col lg="9" sm="7">
-              <Pie data={chartData} />
+                <Pie data={chartData} />
               </Col>
             </Row>
           </Container>

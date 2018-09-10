@@ -7,7 +7,7 @@ import {
   statusEnum,
   rolesEnum,
   gradEnum,
-  sortByEnum,
+  compareByEnum,
   enumToArray,
   selectByEnum
 } from '../utils/enums'
@@ -43,25 +43,24 @@ class PieComponent extends Component<Props> {
     }
   }
 
-  handleSortChange = async event => {
-    console.log('SORT CHANGE')
+  handleCompareChange = async event => {
     if (event.target.checked) {
       console.log("ADDING")
       console.log(event.target.name + " " + event.target.value)
 
-      // this.props.filters.sortBy.map(value => this.props.removeFilter(event.target.name, value))
+      this.props.filters.sortBy.map(value => this.props.removeFilter(event.target.name, value))
       // this.props.filters.sortBy.map(value => console.log(event.target.name + " " + value))
 
 
-      // this.props.addFilter(event.target.name, event.target.value)
+      this.props.addFilter(event.target.name, event.target.value)
       
-      this.props.removeFilter(event.target.name, event.target.value)
-      this.props.removeFilter(event.target.name, event.target.value)
+    //   this.props.removeFilter(event.target.name, event.target.value)
+    //   this.props.removeFilter(event.target.name, event.target.value)
 
       // console.log("NEW LIST: " + this.props.filters.sortBy)
     } else {
-      console.log("REMOVING")
-      console.log(event.target.name + " " + event.target.value)
+    //   console.log("REMOVING")
+    //   console.log(event.target.name + " " + event.target.value)
       this.props.removeFilter(event.target.name, event.target.value)
     }
   }
@@ -79,7 +78,7 @@ class PieComponent extends Component<Props> {
     const roles = enumToArray(rolesEnum)
     const statuses = enumToArray(statusEnum)
     const gradDates = enumToArray(gradEnum)
-    const sortBy = enumToArray(sortByEnum)
+    const compareBy = enumToArray(compareByEnum)
     const selectBy = enumToArray(selectByEnum)
     let statusFilter = [],
       roleFilter = [],
@@ -100,30 +99,6 @@ class PieComponent extends Component<Props> {
       <div className="filter-box">
         <div>
           <h3>Query Panel</h3>
-        </div>
-        <div>
-          <h5>Selects</h5>
-        </div>
-        <div>
-          {selectBy.map((el, idx) => {
-            return (
-              <div key={idx}>
-                <div className="pretty p-default">
-                  <input
-                    type="checkbox"
-                    id={el}
-                    name="selectBy"
-                    value={el}
-                    checked={selectByFilter.includes(el)}
-                    onChange={this.handleChange}
-                  />
-                  <div className="state">
-                    <label htmlFor={el}>{el}</label>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
         </div>
         <div>
           <h4>Filters</h4>
@@ -187,7 +162,7 @@ class PieComponent extends Component<Props> {
                   <input
                     type="checkbox"
                     id={el}
-                    name="roles"
+                    // name="roles"
                     value={el}
                     checked={roleFilter.includes(el)}
                     onChange={this.handleChange}
@@ -229,17 +204,17 @@ class PieComponent extends Component<Props> {
           <h4>Compare</h4>
         </div>
         <div>
-          {sortBy.map((el, idx) => {
+          {compareBy.map((el, idx) => {
             return (
               <div key={idx}>
                 <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}
-                    name="sortBy"
+                    name="compareBy"
                     value={el}
                     // checked={sortByFilter.includes(el)}
-                    onChange={this.handleSortChange}
+                    onChange={this.handleCompareChange}
                   />
                   <div className="state">
                     <label htmlFor={el}>{el}</label>
