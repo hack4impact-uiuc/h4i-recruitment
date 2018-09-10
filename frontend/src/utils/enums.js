@@ -53,6 +53,10 @@ export const sortByEnum = {
   MATCHES: 'Number of Matches'
 }
 
+export const compareBy = {
+  NAME: 'LOL'
+}
+
 export const selectByEnum = {
   NAME: 'Name',
   MAJOR: 'Major',

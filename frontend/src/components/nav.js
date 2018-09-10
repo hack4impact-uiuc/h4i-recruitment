@@ -86,6 +86,9 @@ class NavigationBar extends Component {
               <Link prefetch href="/dashboard">
                 <a className="nav-bar-link pl-3">Dashboard</a>
               </Link>
+              <Link prefetch href="/analytics">
+                <a className="nav-bar-link pl-3">Analytics</a>
+              </Link>
               <Link prefetch href="/facemash">
                 <a className="nav-bar-link pl-3">Facemash</a>
               </Link>
