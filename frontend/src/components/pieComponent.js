@@ -89,7 +89,7 @@ class PieComponent extends Component<Props> {
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
-      compareByFilter = this.props.filters.sortBy
+      // compareByFilter = this.props.filters.compareBy
     }
 
     return (
@@ -201,6 +201,7 @@ class PieComponent extends Component<Props> {
           <h4>Compare</h4>
         </div>
         <div>
+          {console.log("FILYER " + compareByFilter)}
           {compareBy.map((el, idx) => {
             return (
               <div key={idx}>

@@ -44,24 +44,10 @@ class FilterComponent extends Component<Props> {
   }
 
   handleSortChange = async event => {
-    console.log('SORT CHANGE')
     if (event.target.checked) {
-      console.log("ADDING")
-      console.log(event.target.name + " " + event.target.value)
-
-      // this.props.filters.sortBy.map(value => this.props.removeFilter(event.target.name, value))
-      // this.props.filters.sortBy.map(value => console.log(event.target.name + " " + value))
-
-
-      // this.props.addFilter(event.target.name, event.target.value)
-      
-      this.props.removeFilter(event.target.name, event.target.value)
-      this.props.removeFilter(event.target.name, event.target.value)
-
-      // console.log("NEW LIST: " + this.props.filters.sortBy)
+      this.props.filters.sortBy.map(value => this.props.removeFilter(event.target.name, value))
+      this.props.addFilter(event.target.name, event.target.value)
     } else {
-      console.log("REMOVING")
-      console.log(event.target.name + " " + event.target.value)
       this.props.removeFilter(event.target.name, event.target.value)
     }
   }
@@ -82,14 +68,14 @@ class FilterComponent extends Component<Props> {
     const sortBy = enumToArray(sortByEnum)
     const selectBy = enumToArray(selectByEnum)
     let statusFilter = [],
-      roleFilter = [],
+      rolesFilter = [],
       yearFilter = [],
       gradFilter = [],
       // sortByFilter = [],
       selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
-      roleFilter = this.props.filters.roles
+      rolesFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
       // sortByFilter = this.props.filters.sortBy
@@ -189,7 +175,7 @@ class FilterComponent extends Component<Props> {
                     id={el}
                     name="roles"
                     value={el}
-                    checked={roleFilter.includes(el)}
+                    checked={rolesFilter.includes(el)}
                     onChange={this.handleChange}
                   />
                   <div className="state">

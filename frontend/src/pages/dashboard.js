@@ -35,7 +35,9 @@ const mapStateToProps = state => ({
 
 
 var sortByProperty = function(property) {
+  console.log(property)
   return function(x, y) {
+    // console.log(x[property])
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
   }
 }
@@ -105,6 +107,7 @@ class Dashboard extends React.Component<Props> {
         filteredCandidates = filteredCandidates.sort(sortByProperty('name'))
         break
       case 'Year':
+        console.log("YO year")
         filteredCandidates = filteredCandidates.sort(sortByProperty('year'))
         break
       case 'Status':
