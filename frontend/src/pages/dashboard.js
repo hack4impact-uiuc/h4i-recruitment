@@ -10,8 +10,7 @@ import FilterComponent from '../components/filterComponent'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addFilter, removeFilter } from '../actions'
-
-import sortJsonArray from 'sort-json-array'
+import { createFalse } from 'typescript'
 
 type Props = {}
 
@@ -33,18 +32,19 @@ const mapStateToProps = state => ({
   sort: state.candidateListPage.sort
 })
 
-
 var sortByProperty = function(property) {
-  console.log(property)
   return function(x, y) {
-    // console.log(x[property])
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
   }
 }
 
 var sortByMultipleProperties = function(property1, property2) {
   return function(x, y) {
-    return x[property1][property2] === y[property1][property2] ? 0 : x[property1][property2] > y[property1][property2] ? 1 : -1
+    return x[property1][property2] === y[property1][property2]
+      ? 0
+      : x[property1][property2] > y[property1][property2]
+        ? 1
+        : -1
   }
 }
 
@@ -101,13 +101,13 @@ class Dashboard extends React.Component<Props> {
       .filter(x => this.state.filters.gradDates.includes(x.graduationDate))
       .filter(x => this.state.filters.statuses.includes(x.status))
       .filter(x => this.state.filters.years.includes(x.year))
+      .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
 
     switch (this.state.filters.sortBy[0]) {
       case 'Name':
         filteredCandidates = filteredCandidates.sort(sortByProperty('name'))
         break
       case 'Year':
-        console.log("YO year")
         filteredCandidates = filteredCandidates.sort(sortByProperty('year'))
         break
       case 'Status':

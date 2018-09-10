@@ -43,7 +43,6 @@ class FacemashProfile extends Component {
         <ErrorMessage message="User doesn&#39;t exist or cannot be queried. Check if you are logged In" />
       )
     }
-    console.log('candidate', candidate)
     return (
       <div className="rounded-lightblue-border">
         <div className="lightblue-section padded-all-sm">

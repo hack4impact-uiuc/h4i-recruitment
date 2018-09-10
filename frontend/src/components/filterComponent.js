@@ -163,7 +163,7 @@ class FilterComponent extends Component<Props> {
           })}
         </div>
         <div>
-          <h5>Role</h5>
+          <h5>Roles</h5>
         </div>
         <div>
           {roles.map((el, idx) => {

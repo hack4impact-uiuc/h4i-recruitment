@@ -68,8 +68,6 @@ class Analytics extends React.Component<Props> {
 
   render() {
     let data = {}
-    console.log('HI')
-    console.log(this.state.filters.compareBy)
     switch (this.state.filters.compareBy[1] ? this.state.filters.compareBy[1] : this.state.filters.compareBy[0]) {
       case 'Year':
         this.state.filters.years.forEach(year => (data[year] = 0))

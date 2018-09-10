@@ -45,22 +45,8 @@ class PieComponent extends Component<Props> {
 
   handleCompareChange = async event => {
     if (event.target.checked) {
-      console.log("ADDING")
-      console.log(event.target.name + " " + event.target.value)
-
-      this.props.filters.sortBy.map(value => this.props.removeFilter(event.target.name, value))
-      // this.props.filters.sortBy.map(value => console.log(event.target.name + " " + value))
-
-
       this.props.addFilter(event.target.name, event.target.value)
-      
-    //   this.props.removeFilter(event.target.name, event.target.value)
-    //   this.props.removeFilter(event.target.name, event.target.value)
-
-      // console.log("NEW LIST: " + this.props.filters.sortBy)
     } else {
-    //   console.log("REMOVING")
-    //   console.log(event.target.name + " " + event.target.value)
       this.props.removeFilter(event.target.name, event.target.value)
     }
   }
