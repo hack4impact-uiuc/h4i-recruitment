@@ -55,10 +55,6 @@ class PieComponent extends Component<Props> {
     this.props.resetFilters()
   }
 
-  // handleSortClick = event => {
-  //   this.props.resetFilters()
-  // }
-
   render() {
     const years = enumToArray(yearsEnum)
     const roles = enumToArray(rolesEnum)
@@ -75,7 +71,6 @@ class PieComponent extends Component<Props> {
       roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
-      // compareByFilter = this.props.filters.compareBy
     }
 
     return (

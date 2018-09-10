@@ -56,10 +56,6 @@ class FilterComponent extends Component<Props> {
     this.props.resetFilters()
   }
 
-  // handleSortClick = event => {
-  //   this.props.resetFilters()
-  // }
-
   render() {
     const years = enumToArray(yearsEnum)
     const roles = enumToArray(rolesEnum)
@@ -71,14 +67,12 @@ class FilterComponent extends Component<Props> {
       rolesFilter = [],
       yearFilter = [],
       gradFilter = [],
-      // sortByFilter = [],
       selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       rolesFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
-      // sortByFilter = this.props.filters.sortBy
       selectByFilter = this.props.filters.selectBy
     }
 

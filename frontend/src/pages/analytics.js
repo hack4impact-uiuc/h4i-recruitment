@@ -68,22 +68,30 @@ class Analytics extends React.Component<Props> {
 
   render() {
     let data = {}
+
+    let filteredCandidates = this.state.candidates
+      .filter(x => this.state.filters.gradDates.includes(x.graduationDate))
+      .filter(x => this.state.filters.statuses.includes(x.status))
+      .filter(x => this.state.filters.years.includes(x.year))
+      .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
+
+
     switch (this.state.filters.compareBy[this.state.filters.compareBy.length - 1]) {
       case 'Year':
         this.state.filters.years.forEach(year => (data[year] = 0))
-        this.state.candidates.map(candidate => (data[candidate.year] += 1))
+        filteredCandidates.map(candidate => (data[candidate.year] += 1))
         break
       case 'Status':
         this.state.filters.statuses.forEach(status => (data[status] = 0))
-        this.state.candidates.map(candidate => (data[candidate.status] += 1))
+        filteredCandidates.map(candidate => (data[candidate.status] += 1))
         break
       case 'Graduation Year':
         this.state.filters.gradDates.forEach(graduationDate => (data[graduationDate] = 0))
-        this.state.candidates.map(candidate => (data[candidate.graduationDate] += 1))
+        filteredCandidates.map(candidate => (data[candidate.graduationDate] += 1))
         break
       case 'Roles':
         this.state.filters.roles.forEach(role => (data[role] = 0))
-        this.state.candidates.map(candidate => candidate.role.map(role => (data[role] += 1)))
+        filteredCandidates.map(candidate => candidate.role.map(role => (data[role] += 1)))
         break
     }
 
