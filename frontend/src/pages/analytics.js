@@ -68,7 +68,7 @@ class Analytics extends React.Component<Props> {
 
   render() {
     let data = {}
-    switch (this.state.filters.compareBy[1] ? this.state.filters.compareBy[1] : this.state.filters.compareBy[0]) {
+    switch (this.state.filters.compareBy[this.state.filters.compareBy.length - 1]) {
       case 'Year':
         this.state.filters.years.forEach(year => (data[year] = 0))
         this.state.candidates.map(candidate => (data[candidate.year] += 1))

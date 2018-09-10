@@ -187,7 +187,6 @@ class PieComponent extends Component<Props> {
           <h4>Compare</h4>
         </div>
         <div>
-          {console.log("FILYER " + compareByFilter)}
           {compareBy.map((el, idx) => {
             return (
               <div key={idx}>
@@ -197,7 +196,7 @@ class PieComponent extends Component<Props> {
                     id={el}
                     name="compareBy"
                     value={el}
-                    checked={compareByFilter.includes(el)}
+                    // checked={compareByFilter.includes(el)}
                     onChange={this.handleCompareChange}
                   />
                   <div className="state">
