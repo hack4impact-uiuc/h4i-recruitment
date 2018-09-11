@@ -136,6 +136,17 @@ class CandidateBox extends Component {
             <p>
               <b>Additional Comments:</b> {candidate.additionalComments}
             </p>
+            <h5 className="text-info pt-3">Interview Information</h5>
+            <p>
+              <b>Average Score: </b> {this.state.avgInterviewScore}
+            </p>
+            {this.state.interviews.map((interview, idx) => (
+              <p key={idx}>
+                <b> General Notes: </b> {interview.general_notes}
+                <br />
+                <b> Category: </b> {interview.category}
+              </p>
+            ))}
           </Col>
 
           <Col md={4}>
@@ -163,6 +174,12 @@ class CandidateBox extends Component {
                 <p>
                   <b>Github Contributions:</b> {candidate.githubContributions}
                 </p>
+                <p>
+                  <b>Email:</b> {candidate.email}
+                </p>
+                <p>
+                  <b>_id:</b> {candidate._id}
+                </p>
               </Col>
             </Row>
 
@@ -175,22 +192,6 @@ class CandidateBox extends Component {
                 <p>
                   <b>Number of Matches: </b> {candidate.facemashRankings.numOfMatches}
                 </p>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md={12}>
-                <h5 className="text-info pt-3">Interview Information</h5>
-                <p>
-                  <b>Average Score: </b> {this.state.avgInterviewScore}
-                </p>
-                {this.state.interviews.map((interview, idx) => (
-                  <p key={idx}>
-                    <b> General Notes: </b> {interview.general_notes}
-                    <br />
-                    <b> Category: </b> {interview.category}
-                  </p>
-                ))}
               </Col>
             </Row>
           </Col>
