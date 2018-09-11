@@ -75,7 +75,6 @@ class Analytics extends React.Component<Props> {
       .filter(x => this.state.filters.years.includes(x.year))
       .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
 
-
     switch (this.state.filters.compareBy[this.state.filters.compareBy.length - 1]) {
       case 'Year':
         this.state.filters.years.forEach(year => (data[year] = 0))
@@ -95,9 +94,7 @@ class Analytics extends React.Component<Props> {
         break
     }
 
-    Object.keys(data).map(
-      key => (isNaN(data[key]) ? delete data[key]:data[key] = data[key])
-    )
+    Object.keys(data).map(key => (isNaN(data[key]) ? delete data[key] : (data[key] = data[key])))
     let selects = this.state.filters.selectBy
 
     const chartData = {

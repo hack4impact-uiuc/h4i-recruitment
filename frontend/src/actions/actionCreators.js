@@ -11,7 +11,7 @@ import {
   SET_STATUS,
   RESET_FILTERS
 } from './actionTypes.js'
-import {getCandidates } from '../utils/api'
+import { getCandidates } from '../utils/api'
 // Action Creators
 
 export const fetchCandidatesFailure = error => ({ type: FETCH_CANDIDATES_FAILURE, payload: error })
