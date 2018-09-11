@@ -384,8 +384,7 @@ class Interview extends Component<Props> {
                       onClick={this.onSelect}
                       name="Initiative and Passion"
                     />
-                    1 - Had a general idea of what hack4impact was. They probably only read a couple
-                    sentences about Hack4Impact and applied and that&#39;s it.
+                    1 - Simply applied, no real knowledge of what we do
                   </Label>
                 </FormGroup>
                 <FormGroup check>
@@ -396,7 +395,7 @@ class Interview extends Component<Props> {
                       onClick={this.onSelect}
                       name="Initiative and Passion"
                     />
-                    2 - Really into it, thinking about ways they could contribute to the org
+                    2 - Thinking about how Hack4Impact fits into their plans
                   </Label>
                 </FormGroup>
                 <FormGroup check>

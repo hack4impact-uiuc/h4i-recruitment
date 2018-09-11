@@ -61,6 +61,7 @@ class TablePage extends React.Component<Props> {
               <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Email</th>
                 <th>Status</th>
                 <th>Graduation Date</th>
                 <th>Links</th>
@@ -76,6 +77,7 @@ class TablePage extends React.Component<Props> {
                   <tr key={candidate._id}>
                     <th scope="row">{key + 1}</th>
                     <td>{candidate.name}</td>
+                    <td>{candidate.email}</td>
                     <td>
                       <h6>
                         <CandidateStatus status={candidate.status} />
