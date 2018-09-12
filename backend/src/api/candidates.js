@@ -23,23 +23,6 @@ router.get(
   })
 )
 
-// TODO: Fix
-router.post(
-  '/',
-  [leadsOnly],
-  errorWrap(async (req, res) => {
-    const c = new Candidate({
-      name: 'Tim',
-      email: 'other@gmail.com',
-      graduationDate: '2018',
-      major: 'CompE',
-      resumeID: 'resume2.pdf',
-      role: 'SWE'
-    })
-    await c.save()
-    res.json({ status: 'success', message: 'Successfully added Candidate' })
-  })
-)
 
 router.post(
   '/query',
@@ -87,6 +70,25 @@ router.post(
     res.json({ result: candidates })
   })
 )
+
+// TODO: Fix
+router.post(
+  '/',
+  [leadsOnly],
+  errorWrap(async (req, res) => {
+    const c = new Candidate({
+      name: 'Tim',
+      email: 'other@gmail.com',
+      graduationDate: '2018',
+      major: 'CompE',
+      resumeID: 'resume2.pdf',
+      role: 'SWE'
+    })
+    await c.save()
+    res.json({ status: 'success', message: 'Successfully added Candidate' })
+  })
+)
+
 
 // Initialize endpoints generate dummy data for development purposes
 
