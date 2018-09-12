@@ -10,7 +10,6 @@ import FilterComponent from '../components/filterComponent'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addFilter, removeFilter } from '../actions'
-import { createFalse } from 'typescript'
 
 type Props = {}
 
