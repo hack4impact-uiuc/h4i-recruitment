@@ -47,7 +47,7 @@ async function parseStuff() {
         year = yearsEnum.SOPHOMORE
         break
       case gradEnum.FA21:
-        year = yearsEnum.FRESHMAN
+        year = yearsEnum.SOPHOMORE
         break
       case gradEnum.SP22:
         year = yearsEnum.FRESHMAN

@@ -103,7 +103,6 @@ class CandidateCardComponent extends Component {
             ) : (
               <></>
             )}
-
             {candidate.graduationDate ? (
               <p>
                 <span className="highlight">{candidate.graduationDate}</span>

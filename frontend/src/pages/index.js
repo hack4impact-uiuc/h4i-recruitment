@@ -26,7 +26,7 @@ class LoginPage extends React.Component<Props> {
       this.setState({
         loading: false
       })
-      Router.push('/facemash')
+      Router.push('/dashboard')
     } else {
       this.setState({
         loading: false
