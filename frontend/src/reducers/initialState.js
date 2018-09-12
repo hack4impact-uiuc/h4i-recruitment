@@ -5,7 +5,8 @@ import {
   gradEnum,
   sortByEnum,
   enumToArray,
-  selectByEnum
+  selectByEnum,
+  compareByEnum
 } from '../utils/enums'
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
       roles: enumToArray(rolesEnum),
       gradDates: enumToArray(gradEnum),
       sortBy: enumToArray(sortByEnum),
+      compareBy: enumToArray(compareByEnum),
       selectBy: enumToArray(selectByEnum)
     },
     sort: {

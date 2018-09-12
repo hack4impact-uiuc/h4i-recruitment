@@ -22,6 +22,7 @@ router.get(
     res.json({ result: candidates })
   })
 )
+
 router.post(
   '/query',
   [leadsOnly],

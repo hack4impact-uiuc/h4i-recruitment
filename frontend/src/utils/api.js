@@ -12,32 +12,6 @@ function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
 }
 
-async function getAllCandidates(statuses, years, gradDates, sorts, roles, selectBy) {
-  console.log('get key', getKey())
-  const res = await fetch(`${API_URL}/candidates/query?key=${getKey()}`, {
-    body: JSON.stringify({
-      filters: {
-        status: statuses,
-        year: years,
-        roles: roles,
-        graduationDate: gradDates,
-        sorts: sorts,
-        selectBy: selectBy
-      }
-    }),
-    headers: {
-      'content-type': 'application/json'
-    },
-    method: 'POST',
-    mode: 'cors'
-  })
-  const json_res = await res.json()
-  if (res.status >= 400) {
-    throw new Error(`Bad Response (${res.status}) From Server with message: ${json_res.message}`)
-  }
-  return json_res
-}
-
 function getCandidateMatch() {
   return fetch(`${API_URL}/matchCandidates?key=${getKey()}`).then(res => res.json())
 }

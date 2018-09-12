@@ -7,7 +7,7 @@ import {
   statusEnum,
   rolesEnum,
   gradEnum,
-  sortByEnum,
+  compareByEnum,
   enumToArray,
   selectByEnum
 } from '../utils/enums'
@@ -34,7 +34,7 @@ type Props = {
   filters: Object
 }
 
-class FilterComponent extends Component<Props> {
+class PieComponent extends Component<Props> {
   handleChange = event => {
     if (event.target.checked) {
       this.props.addFilter(event.target.name, event.target.value)
@@ -43,9 +43,8 @@ class FilterComponent extends Component<Props> {
     }
   }
 
-  handleSortChange = async event => {
+  handleCompareChange = async event => {
     if (event.target.checked) {
-      this.props.filters.sortBy.map(value => this.props.removeFilter(event.target.name, value))
       this.props.addFilter(event.target.name, event.target.value)
     } else {
       this.props.removeFilter(event.target.name, event.target.value)
@@ -61,49 +60,23 @@ class FilterComponent extends Component<Props> {
     const roles = enumToArray(rolesEnum)
     const statuses = enumToArray(statusEnum)
     const gradDates = enumToArray(gradEnum)
-    const sortBy = enumToArray(sortByEnum)
-    const selectBy = enumToArray(selectByEnum)
+    const compareBy = enumToArray(compareByEnum)
     let statusFilter = [],
-      rolesFilter = [],
+      roleFilter = [],
       yearFilter = [],
       gradFilter = [],
-      selectByFilter = []
+      compareByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
-      rolesFilter = this.props.filters.roles
+      roleFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
-      selectByFilter = this.props.filters.selectBy
     }
 
     return (
       <div className="filter-box">
         <div>
           <h3>Query Panel</h3>
-        </div>
-        <div>
-          <h5>Selects</h5>
-        </div>
-        <div>
-          {selectBy.map((el, idx) => {
-            return (
-              <div key={idx}>
-                <div className="pretty p-default">
-                  <input
-                    type="checkbox"
-                    id={el}
-                    name="selectBy"
-                    value={el}
-                    checked={selectByFilter.includes(el)}
-                    onChange={this.handleChange}
-                  />
-                  <div className="state">
-                    <label htmlFor={el}>{el}</label>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
         </div>
         <div>
           <h4>Filters</h4>
@@ -157,7 +130,7 @@ class FilterComponent extends Component<Props> {
           })}
         </div>
         <div>
-          <h5>Roles</h5>
+          <h5>Role</h5>
         </div>
         <div>
           {roles.map((el, idx) => {
@@ -169,7 +142,7 @@ class FilterComponent extends Component<Props> {
                     id={el}
                     name="roles"
                     value={el}
-                    checked={rolesFilter.includes(el)}
+                    checked={roleFilter.includes(el)}
                     onChange={this.handleChange}
                   />
                   <div className="state">
@@ -206,20 +179,20 @@ class FilterComponent extends Component<Props> {
         </div>
 
         <div>
-          <h4>Sorts</h4>
+          <h4>Compare</h4>
         </div>
         <div>
-          {sortBy.map((el, idx) => {
+          {compareBy.map((el, idx) => {
             return (
               <div key={idx}>
                 <div className="pretty p-default">
                   <input
                     type="checkbox"
                     id={el}
-                    name="sortBy"
+                    name="compareBy"
                     value={el}
-                    // checked={sortByFilter.includes(el)}
-                    onChange={this.handleSortChange}
+                    // checked={compareByFilter.includes(el)}
+                    onChange={this.handleCompareChange}
                   />
                   <div className="state">
                     <label htmlFor={el}>{el}</label>
@@ -241,4 +214,4 @@ class FilterComponent extends Component<Props> {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FilterComponent)
+)(PieComponent)

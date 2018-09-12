@@ -70,7 +70,6 @@ describe('GET /matchCandidates', () => {
     const match = await Match.find({ _id: res.body.result.matchID })
     expect(match).to.have.lengthOf(1)
   })
-
   // it('should not pick a rejected candidate for a match', async () => {
   //   await createCandidates([5, 5, 6, 7, 7], [0, 0, 0, 0, 0])
   //   let cand1 = await Candidate.findById(candidateIds(0))
