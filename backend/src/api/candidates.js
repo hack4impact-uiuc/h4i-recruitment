@@ -23,7 +23,6 @@ router.get(
   })
 )
 
-
 router.post(
   '/query',
   [leadsOnly],
@@ -88,7 +87,6 @@ router.post(
     res.json({ status: 'success', message: 'Successfully added Candidate' })
   })
 )
-
 
 // Initialize endpoints generate dummy data for development purposes
 
