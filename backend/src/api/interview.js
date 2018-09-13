@@ -88,7 +88,7 @@ router.get(
     res.json({
       code: 200,
       message: '',
-      result: { interviews },
+      result: interviews,
       success: true
     })
   })

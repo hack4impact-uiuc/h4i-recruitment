@@ -20,6 +20,10 @@ function getCandidates() {
   return fetch(`${API_URL}/candidates?key=${getKey()}`).then(res => res.json())
 }
 
+function getInterviewingCandidates() {
+  return fetch(`${API_URL}/candidates?status=Interviewing&&key=${getKey()}`).then(res => res.json())
+}
+
 function setCandidateStatus(id: string, status: string) {
   return fetch(`${API_URL}/candidates/${id}/status?key=${getKey()}`, {
     body: JSON.stringify({
@@ -133,6 +137,10 @@ function editInterview(
   }).then(res => res.json())
 }
 
+function getAllInterviews() {
+  return fetch(`${API_URL}/interview?key=${getKey()}`).then(res => res.json())
+}
+
 export {
   getPastInterviews,
   getCandidateInterviews,
@@ -147,5 +155,7 @@ export {
   getCandidatesByStatus,
   addCommentToCandidate,
   getKey,
-  getCandidates
+  getCandidates,
+  getInterviewingCandidates,
+  getAllInterviews
 }
