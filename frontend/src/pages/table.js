@@ -6,6 +6,7 @@ import { getCandidates, setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
+import { compareByFacemashScore } from '../utils/core'
 
 type Props = {}
 
@@ -34,24 +35,11 @@ class TablePage extends React.Component<Props> {
     console.log(e.target.name)
     this.setState({ candidates: newCandidates })
   }
-  // sort function
-  compareByFacemashScore = (candidate1, candidate2) => {
-    if (candidate1.facemashRankings == undefined) {
-      return 0
-    }
-    if (candidate1.facemashRankings.elo > candidate2.facemashRankings.elo) {
-      return -1
-    }
-    if (candidate1.facemashRankings.elo < candidate2.facemashRankings.elo) {
-      return 1
-    }
-    return 0
-  }
 
   render() {
     const { candidates } = this.state
     let filteredCandidates = candidates.filter(candidate => candidate.status !== statusEnum.DENIED)
-    filteredCandidates.sort(this.compareByFacemashScore)
+    filteredCandidates.sort(compareByFacemashScore)
     return (
       <Container>
         <Row>

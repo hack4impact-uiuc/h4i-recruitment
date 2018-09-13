@@ -1,6 +1,6 @@
 //@flow
 import React from 'react'
-import { Container, Row, Table, Badge, Media, Col, Button } from 'reactstrap'
+import { Container, Row, Table, Col, FormGroup, Label, Input } from 'reactstrap'
 import Link from 'next/link'
 import { getCandidates, setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
@@ -54,12 +54,12 @@ class Dashboard extends React.Component<Props> {
       candidates: this.props.candidates,
       error: this.props.error,
       loading: this.props.loading,
-      filters: this.props.filters
+      filters: this.props.filters,
+      search: ''
     }
   }
   async componentDidMount() {
     const res = await getCandidates()
-    let candidates = res.result
     this.setState({
       candidates: res.result == undefined ? [] : res.result
     })
@@ -70,7 +70,11 @@ class Dashboard extends React.Component<Props> {
       filters: nextProps.filters
     })
   }
-
+  handleSearchInput = e => {
+    this.setState({
+      search: e.target.value
+    })
+  }
   handleChange = e => {
     let newCandidates = this.state.candidates.map(candidate => {
       if (candidate._id === e.target.name) {
@@ -81,19 +85,6 @@ class Dashboard extends React.Component<Props> {
     setCandidateStatus(e.target.name, e.target.value)
     this.setState({ candidates: newCandidates })
   }
-  // sort function
-  compareByFacemashScore = (candidate1, candidate2) => {
-    if (candidate1.facemashRankings == undefined) {
-      return 0
-    }
-    if (candidate1.facemashRankings.elo > candidate2.facemashRankings.elo) {
-      return -1
-    }
-    if (candidate1.facemashRankings.elo < candidate2.facemashRankings.elo) {
-      return 1
-    }
-    return 0
-  }
 
   render() {
     let filteredCandidates = this.state.candidates
@@ -101,6 +92,7 @@ class Dashboard extends React.Component<Props> {
       .filter(x => this.state.filters.statuses.includes(x.status))
       .filter(x => this.state.filters.years.includes(x.year))
       .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
+      .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))
 
     switch (this.state.filters.sortBy[0]) {
       case 'Name':
@@ -116,14 +108,14 @@ class Dashboard extends React.Component<Props> {
         filteredCandidates = filteredCandidates.sort(sortByProperty('graduationDate'))
         break
       case 'Facemash Score':
-        filteredCandidates = filteredCandidates.sort(
-          sortByMultipleProperties('facemashRankings', 'elo')
-        )
+        filteredCandidates = filteredCandidates
+          .sort(sortByMultipleProperties('facemashRankings', 'elo'))
+          .reverse()
         break
       case 'Number of Matches':
-        filteredCandidates = filteredCandidates.sort(
-          sortByMultipleProperties('facemashRankings', 'numOfMatches')
-        )
+        filteredCandidates = filteredCandidates
+          .sort(sortByMultipleProperties('facemashRankings', 'numOfMatches'))
+          .reverse()
         break
     }
     let selects = this.state.filters.selectBy
@@ -137,6 +129,20 @@ class Dashboard extends React.Component<Props> {
               </Col>
               <Col lg="7" sm="8">
                 <Container>
+                  <Row>
+                    <Col sm={12}>
+                      <FormGroup>
+                        <Label htmlFor="search" />
+                        <Input
+                          type="search"
+                          id="search"
+                          value={this.state.search}
+                          placeholder="Search Candidates"
+                          onChange={this.handleSearchInput}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
                   <Row>
                     <Table size="m" hover className="candidate-table">
                       <thead>
