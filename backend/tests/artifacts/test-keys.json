@@ -1,12 +1,12 @@
 {
-    "keys":[
-        {
-            "name": "Test Key",
-            "key": "hjsdhfy79uu"
-        },
-        {
-            "name": "Non-lead KEy",
-            "key": "hjsdhfy79uus"
-        }
-    ]
+  "keys": [
+    {
+      "name": "Test Key",
+      "key": "hjsdhfy79uu"
+    },
+    {
+      "name": "Non-lead KEy",
+      "key": "hjsdhfy79uus"
+    }
+  ]
 }

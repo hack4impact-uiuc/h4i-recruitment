@@ -9,6 +9,9 @@ import {
   compareByEnum
 } from '../utils/enums'
 
+const selectList = enumToArray(selectByEnum)
+selectList.splice(selectList.indexOf('Hours'), 1)
+
 const initialState = {
   facemash: {
     candidates: null,
@@ -31,7 +34,7 @@ const initialState = {
       gradDates: enumToArray(gradEnum),
       sortBy: enumToArray(sortByEnum),
       compareBy: enumToArray(compareByEnum),
-      selectBy: enumToArray(selectByEnum)
+      selectBy: selectList
     },
     sort: {
       age: false,

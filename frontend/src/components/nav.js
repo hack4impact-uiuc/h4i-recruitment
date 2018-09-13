@@ -70,7 +70,7 @@ class NavigationBar extends Component {
     return (
       <>
         <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
-          <Link prefetch href="/">
+          <Link prefetch href={this.state.loggedIn ? '/dashboard' : '/'}>
             <NavbarBrand className="ml-3">
               <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
             </NavbarBrand>

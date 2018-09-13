@@ -292,7 +292,10 @@ class Interview extends Component<Props> {
             <ModalHeader>
               Are you sure you want to submit? Have you filled out everything?
             </ModalHeader>
-            <ModalBody>There&#39;s no turning back... Everything is immutable :)</ModalBody>
+            <ModalBody>
+              There&#39;s no turning back... Everything is immutable :) The backend often goes to
+              sleep. Wait a bit before you click "Submit" again.
+            </ModalBody>
             <ModalFooter>
               <Button onClick={this.toggle} color="secondary">
                 Cancel
