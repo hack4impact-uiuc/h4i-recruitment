@@ -122,7 +122,7 @@ describe('GET /interview', () => {
     const res = await request(app)
       .get(`/interview?key=${KEY}`)
       .expect(200)
-    expect(res.body.result.interviews).to.be.an('array')
+    expect(res.body.result).to.be.an('array')
   })
 
   // shouldnt be like this b/c tests should be idempotent
