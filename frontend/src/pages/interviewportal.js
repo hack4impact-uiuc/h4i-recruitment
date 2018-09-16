@@ -43,6 +43,9 @@ class InterviewPortal extends Component<Props> {
             Past Interviews
           </Button>
         </Link>
+        <Link prefetch href="/interviewlist">
+          <Button color="primary">All Interviews</Button>
+        </Link>
       </Container>
     )
   }

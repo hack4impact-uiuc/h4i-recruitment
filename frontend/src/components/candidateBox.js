@@ -48,7 +48,6 @@ class CandidateBox extends Component {
     })
   }
   avgInterviewScore = interviews => {
-    console.log(interviews)
     if (interviews == undefined || !interviews || interviews.length === 0) {
       return 'N/A'
     }
@@ -140,11 +139,14 @@ class CandidateBox extends Component {
             <p>
               <b>Average Score: </b> {this.state.avgInterviewScore}
             </p>
-            {this.state.interviews.map((interview, idx) => (
-              <p key={idx}>
-                <b> General Notes: </b> {interview.general_notes}
+            {this.state.interviews.map(interview => (
+              <p key={interview._id}>
+                <b>Interviewer: </b>
+                {interview.interviewer_name}
                 <br />
                 <b> Category: </b> {interview.category}
+                <br />
+                <b> Reason: </b> {interview.category_notes}
               </p>
             ))}
           </Col>
