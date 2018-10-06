@@ -10,6 +10,7 @@ import { getCandidateInterviews } from '../utils/api'
 import ErrorMessage from '../components/errorMessage'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinks from '../components/candidateLinks'
+import ChangeStatus from '../components/changeStatus'
 
 type Props = {
   candidate: {},
@@ -93,15 +94,7 @@ class CandidateBox extends Component {
               <a>
                 <p>
                   Change Status:
-                  <select value={this.state.status} onChange={this.handleChange}>
-                    <option selected disabled hidden>
-                      Choose here
-                    </option>
-                    <option value={statusEnum.PENDING}>Pending</option>
-                    <option value={statusEnum.ACCEPTED}>Accepted</option>
-                    <option value={statusEnum.DENIED}>Rejected</option>
-                    <option value={statusEnum.INTERVIEWING}>Interviewing</option>
-                  </select>
+                  <ChangeStatus status={this.state.status} handleChange={this.handleChange} />
                 </p>
               </a>
             )}
@@ -158,8 +151,7 @@ class CandidateBox extends Component {
 
                 {candidate.major ? (
                   <p>
-                    {' '}
-                    <b>Major:</b> {candidate.major}{' '}
+                    <b>Major:</b> {candidate.major}
                   </p>
                 ) : (
                   <p> </p>

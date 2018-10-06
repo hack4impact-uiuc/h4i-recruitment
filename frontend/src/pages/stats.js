@@ -96,6 +96,19 @@ class StatsPage extends Component<Props> {
               .filter(candidate => candidate.status === statusEnum.INTERVIEWING)
               .map(candidate => candidate.email + ', ')}
           </p>
+
+          <h3>Emails: Rejected</h3>
+          <p>
+            {this.state.candidates
+              .filter(candidate => candidate.status === statusEnum.REJECTED)
+              .map(candidate => candidate.email + ', ')}
+          </p>
+          <h3>Emails: Accepted</h3>
+          <p>
+            {this.state.candidates
+              .filter(candidate => candidate.status === statusEnum.ACCEPTED)
+              .map(candidate => candidate.email + ', ')}
+          </p>
         </Container>
       </>
     )

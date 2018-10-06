@@ -39,7 +39,7 @@ describe('GET verify_interviewer/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interview/verify_interviewer?key=hjsdhfy79`)
+    const res = await request(app).get(`/interviews/verify_interviewer?key=hjsdhfy79`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -49,7 +49,7 @@ describe('GET verify_interviewer/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interview/verify_interviewer?key=hjsdhfy79uutt`)
+    const res = await request(app).get(`/interviews/verify_interviewer?key=hjsdhfy79uutt`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -60,7 +60,7 @@ describe('GET verify_interviewer/:key', () => {
       success: true,
       result: { name: 'Test Key', is_lead: true }
     })
-    const res = await request(app).get(`/interview/verify_interviewer?key=${KEY}`)
+    const res = await request(app).get(`/interviews/verify_interviewer?key=${KEY}`)
     expect(200).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -70,13 +70,13 @@ describe('GET verify_interviewer/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interview/verify_interviewer?key=hjsdhfy79ud`)
+    const res = await request(app).get(`/interviews/verify_interviewer?key=hjsdhfy79ud`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
 })
 
-describe('POST /interview', () => {
+describe('POST /interviews', () => {
   it('creates one interview', async () => {
     let interview = {
       interviewer_key: 'CaptainMeg',
@@ -111,16 +111,16 @@ describe('POST /interview', () => {
       general_notes: 'Candidate is average'
     }
     const res = await request(app)
-      .post(`/interview?key=${KEY}`)
+      .post(`/interviews?key=${KEY}`)
       .send(interview)
       .expect(200)
   })
 })
 
-describe('GET /interview', () => {
+describe('GET /interviews', () => {
   it('should get all interviews', async () => {
     const res = await request(app)
-      .get(`/interview?key=${KEY}`)
+      .get(`/interviews?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.be.an('array')
   })
@@ -135,7 +135,7 @@ describe('GET /interview', () => {
   // })
 })
 
-describe('PUT /interview', () => {
+describe('PUT /interviews', () => {
   it('should edit an interview', async () => {
     let interview = new Interview({
       interviewer_key: 'CaptainMeg',
@@ -150,7 +150,7 @@ describe('PUT /interview', () => {
       general_notes: 'Candidate is amazing'
     }
     const res = await request(app)
-      .put(`/interview/${interview._id}?key=${KEY}`)
+      .put(`/interviews/${interview._id}?key=${KEY}`)
       .send(body_params)
       .expect(200)
 
@@ -159,7 +159,7 @@ describe('PUT /interview', () => {
   })
 })
 
-describe('DELETE /interview', () => {
+describe('DELETE /interviews', () => {
   it('delete an interview', async () => {
     let interview = new Interview({
       interviewer_key: 'CaptainMeg',
@@ -171,7 +171,7 @@ describe('DELETE /interview', () => {
     await interview.save()
 
     await request(app)
-      .delete(`/interview/${interview._id}/?key=${KEY}`)
+      .delete(`/interviews/${interview._id}/?key=${KEY}`)
       .expect(200)
     const deleted_candidate = await Interview.findById(interview._id)
   })

@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
   res.send('hi')
 })
 
-router.use('/interview', interview)
+router.use('/interviews', interview)
 router.use('/candidates', candidates)
 router.use('/matchCandidates', matchCandidates)
 router.use('/matches', matches)

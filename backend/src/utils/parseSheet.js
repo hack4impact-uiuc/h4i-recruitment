@@ -14,13 +14,13 @@ const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
 const ws = wb.Sheets[wb.SheetNames[0]]
 
 const jsonSheet = XLSX.utils.sheet_to_json(ws)
-function sleep(ms) {
+function sleep (ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms)
   })
 }
 
-async function parseStuff() {
+async function parseStuff () {
   await sleep(3000)
   for (let i = 0; i < jsonSheet.length; i++) {
     let candidate = jsonSheet[i]

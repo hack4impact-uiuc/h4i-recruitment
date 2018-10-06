@@ -360,6 +360,7 @@ class Interview extends Component<Props> {
                     sections.filter(section => section.section_name === 'Time Commitment')[0]
                       .section_notes
                   }
+                  className="textarea-input"
                   onChange={this.handleTextChange}
                   type="textarea"
                   name="Time Commitment"
@@ -486,6 +487,7 @@ class Interview extends Component<Props> {
                   <Input
                     style={{ height: '130px' }}
                     type="textarea"
+                    className="textarea-input"
                     name="Community"
                     value={
                       sections.filter(section => section.section_name === 'Community')[0]
@@ -666,6 +668,7 @@ class Interview extends Component<Props> {
                     style={{ marginTop: '15px', height: '100px' }}
                     type="textarea"
                     name="categoryNotes"
+                    className="textarea-input"
                     value={this.state.categoryNotes}
                     onChange={this.handleChange}
                     placeholder="Explain here why you've categorized the applicant like this."
@@ -682,6 +685,7 @@ class Interview extends Component<Props> {
                 <Input
                   style={{ height: '150px' }}
                   type="textarea"
+                  className="textarea-input"
                   name="generalNotes"
                   value={this.state.generalNotes}
                   onChange={this.handleChange}

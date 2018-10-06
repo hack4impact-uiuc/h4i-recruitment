@@ -11,7 +11,7 @@ router.get(
     const min = await Candidate.aggregate([
       {
         $match: {
-          status: { $ne: statusEnum.DENIED }
+          status: { $ne: statusEnum.REJECTED }
         }
       },
       {
@@ -28,7 +28,7 @@ router.get(
         $match: {
           $and: [
             { 'facemashRankings.numOfMatches': min[0].min },
-            { status: { $ne: statusEnum.DENIED } }
+            { status: { $ne: statusEnum.REJECTED } }
           ]
         }
       },
@@ -56,7 +56,7 @@ router.get(
     const secondMin = await Candidate.aggregate([
       {
         $match: {
-          $and: [{ _id: { $nin: prev_ids } }, { status: { $ne: statusEnum.DENIED } }]
+          $and: [{ _id: { $nin: prev_ids } }, { status: { $ne: statusEnum.REJECTED } }]
         }
       },
       {
@@ -75,7 +75,7 @@ router.get(
           $and: [
             { 'facemashRankings.numOfMatches': secondMin[0].min },
             { _id: { $nin: prev_ids } },
-            { status: { $ne: statusEnum.DENIED } }
+            { status: { $ne: statusEnum.REJECTED } }
           ]
         }
       },

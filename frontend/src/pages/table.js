@@ -7,6 +7,7 @@ import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 import { compareByFacemashScore } from '../utils/core'
+import ChangeStatus from '../components/changeStatus'
 
 type Props = {}
 
@@ -38,7 +39,9 @@ class TablePage extends React.Component<Props> {
 
   render() {
     const { candidates } = this.state
-    let filteredCandidates = candidates.filter(candidate => candidate.status !== statusEnum.DENIED)
+    let filteredCandidates = candidates.filter(
+      candidate => candidate.status !== statusEnum.REJECTED
+    )
     filteredCandidates.sort(compareByFacemashScore)
     return (
       <Container>
@@ -89,15 +92,7 @@ class TablePage extends React.Component<Props> {
                         : null}
                     </td>
                     <td>
-                      <select name={candidate._id} onChange={this.handleChange}>
-                        <option value="" selected disabled hidden>
-                          Change status
-                        </option>
-                        <option value={statusEnum.PENDING}>Pending</option>
-                        <option value={statusEnum.ACCEPTED}>Accepted</option>
-                        <option value={statusEnum.DENIED}>Rejected</option>
-                        <option value={statusEnum.INTERVIEWING}>Interviewing</option>
-                      </select>
+                      <ChangeStatus candidateID={candidate._id} handleChange={this.handleChange} />
                     </td>
                     <td>
                       <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
