@@ -2,7 +2,7 @@ version: 2
 jobs:
   frontend_lint:
     docker:
-      - image: node:8.4.0
+      - image: node:10.8.0
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
@@ -13,7 +13,7 @@ jobs:
             yarn format:check
   backend_lint:
     docker:
-      - image: node:8.4.0
+      - image: node:10.8.0
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
@@ -24,7 +24,7 @@ jobs:
             yarn format:check
   backend_test:
     docker:
-      - image: node:8.4.0
+      - image: node:10.8.0
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
@@ -35,7 +35,7 @@ jobs:
             yarn test
   frontend_build:
     docker:
-      - image: node:8.4.0
+      - image: node:10.8.0
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
