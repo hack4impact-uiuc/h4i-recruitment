@@ -60,7 +60,7 @@ class FacemashProfile extends Component {
                   </option>
                   <option value={statusEnum.PENDING}>Pending</option>
                   <option value={statusEnum.ACCEPTED}>Accepted</option>
-                  <option value={statusEnum.DENIED}>Rejected</option>
+                  <option value={statusEnum.REJECTED}>Rejected</option>
                   <option value={statusEnum.INTERVIEWING}>Interviewing</option>
                 </select>
               </p>

@@ -2,15 +2,15 @@
 import React from 'react'
 import { Container, Row, Table, Col, FormGroup, Label, Input } from 'reactstrap'
 import Link from 'next/link'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { addFilter, removeFilter } from '../actions'
 import { getCandidates, setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 import FilterComponent from '../components/filterComponent'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { addFilter, removeFilter } from '../actions'
-
+import ChangeStatus from '../components/changeStatus'
 type Props = {}
 
 const mapDispatchToProps = dispatch => {
@@ -229,15 +229,10 @@ class Dashboard extends React.Component<Props> {
                               )}
 
                               <td>
-                                <select name={candidate._id} onChange={this.handleChange}>
-                                  <option value="" selected disabled hidden>
-                                    Change status
-                                  </option>
-                                  <option value={statusEnum.PENDING}>Pending</option>
-                                  <option value={statusEnum.ACCEPTED}>Accepted</option>
-                                  <option value={statusEnum.DENIED}>Rejected</option>
-                                  <option value={statusEnum.INTERVIEWING}>Interviewing</option>
-                                </select>
+                                <ChangeStatus
+                                  candidateID={candidate._id}
+                                  handleChange={this.handleChange}
+                                />
                               </td>
                               <td>
                                 <Link

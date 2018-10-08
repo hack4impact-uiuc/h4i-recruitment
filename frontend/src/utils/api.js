@@ -74,16 +74,16 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 }
 
 function validateKey(key: string) {
-  return fetch(`${API_URL}/interview/verify_interviewer?key=${key}`).then(res => res.json())
+  return fetch(`${API_URL}/interviews/verify_interviewer?key=${key}`).then(res => res.json())
 }
 
 function getPastInterviews(interviewerKey: string) {
-  return fetch(`${API_URL}/interview/past-interviews/${interviewerKey}?key=${getKey()}`).then(res =>
-    res.json()
+  return fetch(`${API_URL}/interviews/past-interviews/${interviewerKey}?key=${getKey()}`).then(
+    res => res.json()
   )
 }
 function getCandidateInterviews(candidateId: string) {
-  return fetch(`${API_URL}/interview/candidate-interviews/${candidateId}?key=${getKey()}`).then(
+  return fetch(`${API_URL}/interviews/candidate-interviews/${candidateId}?key=${getKey()}`).then(
     res => res.json()
   )
 }
@@ -98,7 +98,7 @@ function addInterview(
   category: string,
   sections: Array
 ) {
-  return fetch(`${API_URL}/interview?key=${getKey()}`, {
+  return fetch(`${API_URL}/interviews?key=${getKey()}`, {
     body: JSON.stringify({
       interviewerKey,
       candidateId,
@@ -123,7 +123,7 @@ function editInterview(
   overallScore: number,
   generalNotes: string
 ) {
-  return fetch(`${API_URL}/interview/${interviewId}?key=${getKey()}`, {
+  return fetch(`${API_URL}/interviews/${interviewId}?key=${getKey()}`, {
     body: JSON.stringify({
       sections,
       overallScore,
@@ -138,7 +138,7 @@ function editInterview(
 }
 
 function getAllInterviews() {
-  return fetch(`${API_URL}/interview?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/interviews?key=${getKey()}`).then(res => res.json())
 }
 
 export {

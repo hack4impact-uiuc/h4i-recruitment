@@ -169,6 +169,7 @@ router.post(
     let response = 'Status set Sucessfully'
     let code = 200
     const candidateId = req.params.candidateId
+    // Required to validate the given "status"
     switch (data.status) {
       case statusEnum.PENDING:
         await Candidate.findByIdAndUpdate(candidateId, {
@@ -194,11 +195,27 @@ router.post(
           }
         })
         break
-      case statusEnum.DENIED:
+      case statusEnum.REJECTED:
         await Candidate.findByIdAndUpdate(candidateId, {
           $set: {
             lastStatusChangeByUser: { name: req._key_name, key: req._key },
-            status: statusEnum.DENIED
+            status: statusEnum.REJECTED
+          }
+        })
+        break
+      case statusEnum.INVALID:
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.INVALID
+          }
+        })
+        break
+      case statusEnum.DONE_INTERVIEWING:
+        await Candidate.findByIdAndUpdate(candidateId, {
+          $set: {
+            lastStatusChangeByUser: { name: req._key_name, key: req._key },
+            status: statusEnum.DONE_INTERVIEWING
           }
         })
         break

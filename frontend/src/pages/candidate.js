@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Alert, Row, Col } from 'reactstrap'
-import Router, { withRouter } from 'next/router'
+import Router from 'next/router'
 import { getCandidateById, addCommentToCandidate } from '../utils/api'
 import configureStore from './../store/appStore'
 import Candidate from '../components/candidateBox'

@@ -19,9 +19,11 @@ const gradEnum = {
 
 const statusEnum = {
   ACCEPTED: 'Accepted',
-  DENIED: 'Rejected',
+  REJECTED: 'Rejected',
   INTERVIEWING: 'Interviewing',
-  PENDING: 'Pending'
+  DONE_INTERVIEWING: 'Done Interviewing',
+  PENDING: 'Pending',
+  INVALID: 'Invalid'
 }
 
 const rolesEnum = {
