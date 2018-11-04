@@ -1,7 +1,7 @@
 const express = require('express')
 var mongodb = require('mongodb')
 const { errorWrap, leadsOnly } = require('../middleware')
-const { Interview } = require('../models')
+const { Interview, Candidate } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
@@ -27,7 +27,26 @@ router.get(
     })
   })
 )
+// useful route to get all interviews
+router.get(
+  '/',
+  errorWrap(async (req, res) => {
+    const candidates = await Candidate.find()
+    let interviews = []
+    for (var idx = 0; idx < candidates.length; idx++) {
+      // TODO: apeend candidate.interviews with interviews
+    }
 
+    res.json({
+      code: 200,
+      message: '',
+      result: interviews,
+      success: true
+    })
+  })
+)
+
+// BELOW ARE LEGACY ENDPOINTS - they still work but will be removed shortly
 router.get(
   '/candidate-interviews/:candidate_id',
   errorWrap(async (req, res) => {
@@ -80,20 +99,6 @@ router.get(
     })
   })
 )
-
-router.get(
-  '/',
-  errorWrap(async (req, res) => {
-    let interviews = await Interview.find()
-    res.json({
-      code: 200,
-      message: '',
-      result: interviews,
-      success: true
-    })
-  })
-)
-
 router.get(
   '/:interview_id',
   errorWrap(async (req, res) => {
@@ -170,7 +175,7 @@ router.delete(
     if (retInterview == undefined) {
       response = 'Invalid Delete Interview request'
     } else {
-      Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, function(err, results) {})
+      Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, function (err, results) {})
     }
     res.json({
       code: 200,
@@ -204,21 +209,21 @@ router.put(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { sections: reqSections } },
         { new: true },
-        function(err, doc) {}
+        function (err, doc) {}
       )
     } else if (overallScore != undefined) {
       Interview.findOneAndUpdate(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { overall_score: overallScore } },
         { new: true },
-        function(err, doc) {}
+        function (err, doc) {}
       )
     } else if (genNotes != undefined) {
       Interview.findOneAndUpdate(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { general_notes: genNotes } },
         { new: true },
-        function(err, doc) {}
+        function (err, doc) {}
       )
     }
     res.json({

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Interview = require('./interview')
+const { InterviewSchema } = require('./interview')
 const { CommentSchema } = require('./comment')
 const { statusEnum } = require('../utils/enums')
 
@@ -25,7 +25,7 @@ const Candidate = new mongoose.Schema(
     howTheyKnowUs: { type: String },
     classesTaken: [String],
     additionalComments: { type: String },
-    // interviews: [Interview],
+    interviews: [InterviewSchema],
     facemashRankings: {
       elo: { type: Number, default: 1000 },
       numOfMatches: { type: Number, default: 0 }
