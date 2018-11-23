@@ -1,3 +1,7 @@
+/*
+ * this script is used to parse the generated excel sheet
+ * from google forms and create Candidates out of that
+ */
 var XLSX = require('xlsx')
 var mongoose = require('mongoose')
 var Candidate = require('../models/candidate')

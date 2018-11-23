@@ -3,11 +3,11 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import { Container, Row, Col, Button } from 'reactstrap'
 import { bindActionCreators } from 'redux'
+import ReactLoading from 'react-loading'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/facemashProfile'
 import ErrorMessage from '../components/errorMessage'
-import ReactLoading from 'react-loading'
 
 type Props = {
   candidates: Array<any>,

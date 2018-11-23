@@ -1,3 +1,7 @@
+/* router middleware to only allow
+ * keys with the leads suffix to access the endpoint
+ * must be called AFTER the auth middleware
+ */
 const leadsOnly = (req, res, next) => {
   if (!req._is_lead) {
     const msg = `The key '${

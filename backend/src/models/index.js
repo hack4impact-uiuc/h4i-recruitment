@@ -1,3 +1,4 @@
+// This module defines the mongoose models used for Mongo
 const Candidate = require('./candidate')
 const Interview = require('./interview').InterviewModel
 const Stats = require('./stats')

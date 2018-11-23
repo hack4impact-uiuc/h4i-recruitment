@@ -1,3 +1,5 @@
+// Change Status dropdown
+// handler function must be included for logic
 import React from 'react'
 import { statusEnum } from '../utils/enums'
 

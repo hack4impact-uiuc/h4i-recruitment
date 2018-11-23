@@ -1,3 +1,7 @@
+// This component is a Modal that has a submit and cancel button
+// It opens whenever the prop `open` is true and shows a loader
+// whenver the prop `loading` is true
+// cancelAction and submitAction must deal with the logic of these props
 import React from 'react'
 import ReactLoading from 'react-loading'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Col, Row } from 'reactstrap'

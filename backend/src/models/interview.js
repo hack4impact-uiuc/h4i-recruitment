@@ -1,4 +1,4 @@
-// A new document will be created
+// Subdocument to Candidates
 const mongoose = require('mongoose')
 
 const Question = new mongoose.Schema({

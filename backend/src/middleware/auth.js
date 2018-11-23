@@ -3,10 +3,15 @@ const keyPath =
 const keyData = require(keyPath)
 const leadSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.LEAD_SUFFIX
 
+// middleware around router
+// checks whether key passed in through the query parameters
+// are one of the keys listed in the json file.
+// Passes name, key, is a lead boolean to the request object with the attributes: _key_name, _key, _is_lead
 const auth = (req, res, next) => {
   const key = req.query.key
   if (key != undefined) {
     // removed && key.length === 11
+    // Can add this rule if wanted
     if (key) {
       const keysFiltered = keyData.keys.filter(currKey => currKey.key === key)
       const keyVerified = keysFiltered.length !== 0
@@ -28,6 +33,7 @@ const auth = (req, res, next) => {
         }
 
         // check whether key is a lead's key or a member's key
+        // this is used by the leadsOnly middleware
         if (key.endsWith(leadSuffix)) {
           req._is_lead = true
         } else {

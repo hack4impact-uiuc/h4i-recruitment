@@ -2,17 +2,14 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Alert, Row, Col } from 'reactstrap'
 import Router from 'next/router'
-import { getCandidateById, addCommentToCandidate } from '../utils/api'
-import configureStore from './../store/appStore'
+import { bindActionCreators } from 'redux'
 import Candidate from '../components/candidateBox'
-import candidateInterviewsModal from '../components/candidateInterviewsModal'
 import AddCommentsModal from '../components/addCommentsModal'
 import CommentBox from '../components/commentBox'
 import ErrorMessage from '../components/errorMessage'
-import { addInterviewCandidate } from './../actions'
-import { bindActionCreators } from 'redux'
-import { getCandidateInterviews } from '../utils/api'
 import CandidateInterviewsModal from '../components/candidateInterviewsModal'
+import { getCandidateById, addCommentToCandidate, getCandidateInterviews } from '../utils/api'
+import { addInterviewCandidate } from './../actions'
 
 type Props = {}
 const mapDispatchToProps = dispatch => {
@@ -65,6 +62,7 @@ class CandidatePage extends Component<Props> {
   goBack = () => {
     Router.back()
   }
+  // handles the click to show all interviews. Modal pops up
   async handleShowAllInterviews(id) {
     const { result } = await getCandidateInterviews(id)
     this.setState({
@@ -72,6 +70,7 @@ class CandidatePage extends Component<Props> {
       modalOpen: true
     })
   }
+  // goes to add the interview
   async handleAddInterview(candidateId, candidateName) {
     const { addInterviewCandidate } = this.props
     await addInterviewCandidate(candidateId, candidateName)
@@ -133,7 +132,7 @@ class CandidatePage extends Component<Props> {
                 candidateId={candidate._id}
                 exitModal={this.exitModal}
                 candidateName={candidate.name}
-                interviews={this.state.interviews}
+                interviews={candidate.interviews}
               />
               <AddCommentsModal
                 submit={this.submitComment}

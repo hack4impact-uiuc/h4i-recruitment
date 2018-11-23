@@ -25,13 +25,13 @@ const Candidate = new mongoose.Schema(
     howTheyKnowUs: { type: String },
     classesTaken: [String],
     additionalComments: { type: String },
-    interviews: [InterviewSchema],
+    interviews: [InterviewSchema], // subdocument
     facemashRankings: {
       elo: { type: Number, default: 1000 },
       numOfMatches: { type: Number, default: 0 }
     },
     status: { type: String, default: statusEnum.PENDING },
-    comments: [CommentSchema],
+    comments: [CommentSchema], // subdocument
     lastStatusChangeByUser: {
       name: { type: String },
       key: { type: String }

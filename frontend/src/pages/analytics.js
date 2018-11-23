@@ -1,16 +1,12 @@
 //@flow
 import React from 'react'
-import { Container, Row, Table, Badge, Media, Col, Button } from 'reactstrap'
-import Link from 'next/link'
+import { Container, Row, Col } from 'reactstrap'
 import { getCandidates, setCandidateStatus } from '../utils/api'
-import { statusEnum } from '../utils/enums'
-import CandidateStatus from '../components/candidateStatus'
-import CandidateLinksBadge from '../components/candidateLinksBadge'
-import PieComponent from '../components/pieComponent'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addFilter, removeFilter } from '../actions'
 import { Pie } from 'react-chartjs-2'
+import { addFilter, removeFilter } from '../actions'
+import PieComponent from '../components/pieComponent'
 
 type Props = {}
 

@@ -41,7 +41,7 @@ class AddCommentsModalComponent extends React.Component<Props> {
         <ModalFooter>
           <Button color="primary" onClick={this.submit}>
             Submit
-          </Button>{' '}
+          </Button>
           <Button color="secondary" onClick={this.cancel}>
             Cancel
           </Button>
