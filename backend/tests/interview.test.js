@@ -81,7 +81,7 @@ describe('POST /candidates/:candidateId/interviews', () => {
     const candidate = new Candidate({
       name: 'TimInterview1',
       email: 'someemailunique',
-      resumeID: 'some resume link'
+      resumeID: 'some resume link unique'
     })
     await candidate.save()
 
@@ -127,9 +127,10 @@ describe('POST /candidates/:candidateId/interviews', () => {
 describe('GET /interviews', () => {
   it('should get all interviews', async () => {
     const res = await request(app)
-      .get(`/candidates/interviews?key=${KEY}`)
+      .get(`/interviews?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.be.an('array')
+    expect(res.body.result[0]).to.be.an('array')
   })
 
   // shouldnt be like this b/c tests should be idempotent

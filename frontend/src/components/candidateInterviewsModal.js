@@ -72,7 +72,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={this.props.exitModal}>
-              Cancel
+              Exit
             </Button>
           </ModalFooter>
         </Modal>

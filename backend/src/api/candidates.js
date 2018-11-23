@@ -12,11 +12,7 @@ router.get(
   errorWrap(async (req, res) => {
     let candidates
     if (req.query.status) {
-      if (req.query.status === 'everyone') {
-        candidates = await Candidate.find()
-      } else {
-        candidates = await Candidate.find({ status: req.query.status })
-      }
+      candidates = await Candidate.find({ status: req.query.status })
     } else {
       candidates = await Candidate.find()
     }
@@ -265,17 +261,17 @@ router.post(
     let catNotes = data.categoryNotes
     let givenCategory = data.category
 
-    if (interviewerKey == undefined) {
+    if (interviewerKey === undefined) {
       response = 'Invalid interviewerKey'
-    } else if (candidateId == undefined) {
+    } else if (candidateId === undefined) {
       response = 'Invalid candidateId'
-    } else if (candidateName == undefined) {
+    } else if (candidateName === undefined) {
       response = 'Invalid candidateName'
-    } else if (reqSections == undefined) {
+    } else if (reqSections === undefined) {
       response = 'Invalid sections'
-    } else if (score == undefined) {
+    } else if (score === undefined) {
       response = 'Invalid score'
-    } else if (genNotes == undefined) {
+    } else if (genNotes === undefined) {
       response = 'Invalid notes'
     } else {
       // await Candidate.findByIdAndUpdate(candidateId, { status: 'interviewing' })
@@ -293,7 +289,6 @@ router.post(
       await Candidate.findByIdAndUpdate(candidateId, {
         $push: { interviews: interview }
       })
-      await interview.save()
       code = 200
     }
     res.json({
@@ -329,21 +324,21 @@ router.put(
     let overallScore = data.overall_score
     let genNotes = data.general_notes
 
-    if (interviewId == undefined) {
+    if (interviewId === undefined) {
       response = 'Invalid Edit Interview request'
-    } else if (reqSections != undefined) {
+    } else if (reqSections !== undefined) {
       Interview.findOneAndUpdate(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { sections: reqSections } },
         { new: true }
       )
-    } else if (overallScore != undefined) {
+    } else if (overallScore !== undefined) {
       Interview.findOneAndUpdate(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { overall_score: overallScore } },
         { new: true }
       )
-    } else if (genNotes != undefined) {
+    } else if (genNotes !== undefined) {
       Interview.findOneAndUpdate(
         { _id: new mongodb.ObjectId(interviewId) },
         { $set: { general_notes: genNotes } },
@@ -359,17 +354,13 @@ router.put(
   })
 )
 router.delete(
-  '/:candidateId/interviews',
+  '/:candidateId/interviews/:interviewId',
   [leadsOnly],
   errorWrap(async (req, res) => {
     let response = 'Interview Deleted Sucessfully'
-    let id = req.params.interview_id
-    const retInterview = await Interview.findById(id)
-    if (retInterview == undefined) {
-      response = 'Invalid Delete Interview request'
-    } else {
-      Interview.deleteOne({ _id: new mongodb.ObjectId(id) })
-    }
+    const candidate = await Candidate.findById(req.params.candidateId)
+    await candidate.interviews.id(req.params.interviewId).remove()
+    await candidate.save() // save cascades down to subdocument
     res.json({
       code: 200,
       message: response,

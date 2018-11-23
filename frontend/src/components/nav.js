@@ -101,6 +101,11 @@ class NavigationBar extends Component {
                 </Link>
               </Nav>
               <Nav navbar>
+                <Link prefetch href="/stats">
+                  <a className="nav-bar-link pl-3">Emails/Stats</a>
+                </Link>
+              </Nav>
+              <Nav navbar>
                 {!this.state.loggedIn ? (
                   <a className="nav-bar-link pl-3" href="#" onClick={this.toggle}>
                     Login

@@ -1,3 +1,4 @@
+// A new document will be created
 const mongoose = require('mongoose')
 
 const Question = new mongoose.Schema({

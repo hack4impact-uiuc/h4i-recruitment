@@ -25,9 +25,10 @@ import InterviewCategory from '../components/interviewCategory'
 import ErrorMessage from '../components/errorMessage'
 import { getKey, addInterview, getCandidates } from '../utils/api'
 import InterviewSectionCard from '../components/interviewSectionCard'
-import FacemashProfile from '../components/facemashProfile'
+import ReactLoading from 'react-loading'
+import VerificationModal from '../components/verificationModal'
+
 type Props = {
-  loading: boolean,
   error: boolean,
   filters: Object,
   sort: Object,
@@ -60,9 +61,9 @@ class Interview extends Component<Props> {
   constructor(props, context) {
     super(props)
     this.state = {
+      loading: false,
       candidates: [],
       error: this.props.error,
-      loading: this.props.loading,
       filters: this.props.filters,
       sort: this.props.sort,
       candidateId: '',
@@ -145,7 +146,6 @@ class Interview extends Component<Props> {
   }
 
   chooseCategory = e => {
-    console.log(e)
     this.setState({
       category: e
     })
@@ -163,6 +163,9 @@ class Interview extends Component<Props> {
     })
   }
   submit = async e => {
+    this.setState({
+      loading: true
+    })
     console.log('Adding Interview....')
     let overallScore = 0
     const sections = this.state.sections
@@ -187,6 +190,9 @@ class Interview extends Component<Props> {
       alert('Successfully added interview')
       Router.push({ pathname: '/candidate', query: { id: this.props.candidateId } })
     }
+    this.setState({
+      loading: false
+    })
   }
   async componentDidMount() {
     const res = await getCandidates()
@@ -213,7 +219,7 @@ class Interview extends Component<Props> {
   }
 
   render() {
-    let { error, loading, filters, sort } = this.props
+    let { error, filters, sort } = this.props
     let { candidates } = this.state
     if (error) {
       console.error(error)
@@ -241,7 +247,7 @@ class Interview extends Component<Props> {
       candidates = []
     }
     return (
-      <Container fluid>
+      <Container>
         <Row>
           <Col md="2" />
           <Col md="2">
@@ -287,27 +293,18 @@ class Interview extends Component<Props> {
             </ul>
           </Col>
         </Row>
+        <VerificationModal
+          loading={this.state.loading}
+          open={this.state.verificationModalOpen}
+          cancelAction={this.toggle}
+          submitAction={this.submit}
+          header="Are you sure you want to submit? Have you filled out everything?"
+          body="There&#39;s no turning back... Everything is immutable :) The backend often goes
+                  to sleep. Wait a bit before you click 'Submit' again."
+        />
+
         <Row>
-          <Modal isOpen={this.state.verificationModalOpen}>
-            <ModalHeader>
-              Are you sure you want to submit? Have you filled out everything?
-            </ModalHeader>
-            <ModalBody>
-              There&#39;s no turning back... Everything is immutable :) The backend often goes to
-              sleep. Wait a bit before you click "Submit" again.
-            </ModalBody>
-            <ModalFooter>
-              <Button onClick={this.toggle} color="secondary">
-                Cancel
-              </Button>
-              <Button onClick={this.submit} color="primary">
-                Submit
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </Row>
-        <Row>
-          <Col md="6">
+          <Col>
             <Form>
               <InterviewSectionCard title="Time Commitment (7 points)">
                 -1 for each:
@@ -709,19 +706,19 @@ class Interview extends Component<Props> {
               </FormGroup>
             </Form>
           </Col>
-          <Col md="6">
-            {/* {candidate != undefined ? (
+          {/* <Col md="6">
+            {candidate != undefined ? (
               <FacemashProfile showFacemash={true} candidate={candidate} />
             ) : (
               <h4 className="text-center align-middle">
                 Pick a User to interview and their profile will show up here
               </h4>
-            )} */}
+            )}
             <iframe
               className="embed-doc embed-responsive-item"
               src="https://docs.google.com/a/illinois.edu/document/d/e/2PACX-1vRISnK6xFN-_10jJWyORT-xvp8KGPNSi0YOkHNvN8PlMaHc-U-DAjssfDe1T4SFHhUQpxyPCQk--nP2/pub?embedded=true"
             />
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     )

@@ -78,13 +78,13 @@ function validateKey(key: string) {
 }
 
 function getPastInterviews(interviewerKey: string) {
-  return fetch(`${API_URL}/interviews/past-interviews/${interviewerKey}?key=${getKey()}`).then(
-    res => res.json()
+  return fetch(`${API_URL}/interviews/interviewer/${interviewerKey}?key=${getKey()}`).then(res =>
+    res.json()
   )
 }
 function getCandidateInterviews(candidateId: string) {
-  return fetch(`${API_URL}/interviews/candidate-interviews/${candidateId}?key=${getKey()}`).then(
-    res => res.json()
+  return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`).then(res =>
+    res.json()
   )
 }
 
@@ -98,7 +98,7 @@ function addInterview(
   category: string,
   sections: Array
 ) {
-  return fetch(`${API_URL}/interviews?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`, {
     body: JSON.stringify({
       interviewerKey,
       candidateId,
@@ -141,6 +141,13 @@ function getAllInterviews() {
   return fetch(`${API_URL}/interviews?key=${getKey()}`).then(res => res.json())
 }
 
+function deleteInterview(candidateId: string, interviewId: string) {
+  return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}?key=${getKey()}`, {
+    method: 'DELETE',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   getPastInterviews,
   getCandidateInterviews,
@@ -157,5 +164,6 @@ export {
   getKey,
   getCandidates,
   getInterviewingCandidates,
-  getAllInterviews
+  getAllInterviews,
+  deleteInterview
 }
