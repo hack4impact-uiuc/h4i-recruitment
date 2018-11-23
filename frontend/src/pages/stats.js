@@ -34,10 +34,33 @@ class StatsPage extends Component<Props> {
         <Container>
           <h1>Statistics</h1>
           <p>This is a place for a bunch of unorganized stats</p>
-          <p>Pending:</p>
-          <p>Interviewed: </p>
-          <p>Rejected: </p>
-          <p>Accepted: </p>
+          <p>
+            Pending:
+            {candidates.filter(candidate => candidate.status === statusEnum.PENDING).length}
+          </p>
+          <p>
+            Interviewed:{' '}
+            {candidates.filter(candidate => candidate.status === statusEnum.INTERVIEWING).length}
+          </p>
+          <p>
+            Done Interviewing:{' '}
+            {
+              candidates.filter(candidate => candidate.status === statusEnum.DONE_INTERVIEWING)
+                .length
+            }
+          </p>
+          <p>
+            Rejected:{' '}
+            {candidates.filter(candidate => candidate.status === statusEnum.REJECTED).length}
+          </p>
+          <p>
+            Invalid:{' '}
+            {candidates.filter(candidate => candidate.status === statusEnum.INVALID).length}
+          </p>
+          <p>
+            Accepted:{' '}
+            {candidates.filter(candidate => candidate.status === statusEnum.ACCEPTED).length}
+          </p>
 
           <h4>Class Distribution After initial Sweep:</h4>
           <p>

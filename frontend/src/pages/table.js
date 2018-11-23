@@ -25,28 +25,28 @@ class TablePage extends React.Component<Props> {
       candidates: res.result == undefined ? [] : res.result
     })
   }
-  handleChange = e => {
+  handleChange = async e => {
     let newCandidates = this.state.candidates.map(candidate => {
       if (candidate._id === e.target.name) {
         candidate.status = e.target.value
       }
       return candidate
     })
-    setCandidateStatus(e.target.name, e.target.value)
-    console.log(e.target.name)
+    await setCandidateStatus(e.target.name, e.target.value)
     this.setState({ candidates: newCandidates })
   }
 
   render() {
     const { candidates } = this.state
     let filteredCandidates = candidates.filter(
-      candidate => candidate.status !== statusEnum.REJECTED
+      candidate =>
+        candidate.status !== statusEnum.REJECTED && candidate.status !== statusEnum.INVALID
     )
     filteredCandidates.sort(compareByFacemashScore)
     return (
       <Container>
         <Row>
-          <h4>Ordered by Facemash Ranking. 'Rejected' Filtered out</h4>
+          <h4>Ordered by Facemash Ranking. 'Rejected'/'Invalid' Filtered out</h4>
           <Table size="sm" hover className="candidate-table">
             <thead>
               <tr>

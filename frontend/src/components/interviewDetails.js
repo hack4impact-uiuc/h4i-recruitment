@@ -24,7 +24,7 @@ class InterviewDetails extends Component {
   render() {
     let interview = this.props.interview
     return (
-      <Container>
+      <Container fluid>
         <p>
           <b>Overall Score:</b> {interview.overall_score}
         </p>
@@ -38,19 +38,21 @@ class InterviewDetails extends Component {
           <b>General Notes:</b> {interview.general_notes}
         </p>
         <ListGroup>
-          {interview.sections.map(section => {
-            return (
-              <ListGroupItem key={section.section_name}>
-                <h5>
-                  {section.section_name}: {section.questions[0].score}
-                </h5>
-                <p className="textarea-input">Notes:{section.section_notes}</p>
-              </ListGroupItem>
-            )
-          })}
+          {interview.sections.map(section => (
+            <ListGroupItem key={section.section_name}>
+              <h5>
+                {section.section_name}: {section.questions[0].score}
+              </h5>
+              <p className="textarea-input">Notes:{section.section_notes}</p>
+            </ListGroupItem>
+          ))}
         </ListGroup>
         <div>
-          <Button value={this.props.interview} onClick={() => this.handleExitDetails()}>
+          <Button
+            style={{ marginTop: 5 }}
+            value={this.props.interview}
+            onClick={() => this.handleExitDetails()}
+          >
             Exit Details
           </Button>
         </div>

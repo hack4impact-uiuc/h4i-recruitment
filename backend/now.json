@@ -1,4 +1,8 @@
 {
+  "name": "h4i-recruitment-backend",
+  "features": {
+    "cloud": "v2"
+  },
   "type": "docker",
   "alias": "hack4impact-recruitment-backend.now.sh",
   "env": {

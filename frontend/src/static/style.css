@@ -81,6 +81,7 @@ p > b {
 .candidate-card {
   transition: all 200ms;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 .candidate-card:hover {
   background-color: #e7e7e7;
@@ -201,4 +202,10 @@ p > b {
 
 .textarea-input {
   white-space: pre-line;
+}
+
+.regular-anchor {
+  font-size: 14px;
+  color: #4e4e4e;
+  font-weight: 400;
 }

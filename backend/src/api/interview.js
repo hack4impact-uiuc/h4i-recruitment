@@ -1,7 +1,7 @@
 const express = require('express')
 var mongodb = require('mongodb')
 const { errorWrap, leadsOnly } = require('../middleware')
-const { Interview } = require('../models')
+const { Interview, Candidate } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
@@ -27,11 +27,55 @@ router.get(
     })
   })
 )
+// useful route to get all interviews
+router.get(
+  '/',
+  errorWrap(async (req, res) => {
+    const candidates = await Candidate.find()
+    let interviews = []
+    for (var idx = 0; idx < candidates.length; idx++) {
+      if (candidates[idx].interviews.length !== 0) {
+        interviews.push(...candidates[idx].interviews)
+      }
+    }
 
+    res.json({
+      code: 200,
+      message: '',
+      result: interviews,
+      success: true
+    })
+  })
+)
+
+// get interviews based on interviewer
+router.get(
+  '/interviewer/:interviewer_key',
+  errorWrap(async (req, res) => {
+    let interviews = []
+    const candidates = await Candidate.find()
+    for (var idx = 0; idx < candidates.length; idx++) {
+      if (candidates[idx].interviews.length !== 0) {
+        const filtered = candidates[idx].interviews.filter(
+          interview => interview.interviewer_key === req.params.interviewer_key
+        )
+        interviews.push(...filtered)
+      }
+    }
+    let statusCode = interviews ? 200 : 400
+
+    res.status(statusCode).json({
+      code: statusCode,
+      message: '',
+      result: interviews,
+      success: true
+    })
+  })
+)
+// BELOW ARE LEGACY ENDPOINTS - they still work but will be removed shortly
 router.get(
   '/candidate-interviews/:candidate_id',
   errorWrap(async (req, res) => {
-    console.log(req.params.candidate_id)
     const interviews = await Interview.find()
     const retInterviews = interviews.filter(
       interview => interview.candidate_id === req.params.candidate_id
@@ -80,20 +124,6 @@ router.get(
     })
   })
 )
-
-router.get(
-  '/',
-  errorWrap(async (req, res) => {
-    let interviews = await Interview.find()
-    res.json({
-      code: 200,
-      message: '',
-      result: interviews,
-      success: true
-    })
-  })
-)
-
 router.get(
   '/:interview_id',
   errorWrap(async (req, res) => {
@@ -161,32 +191,6 @@ router.post(
   })
 )
 
-router.delete(
-  '/:interview_id',
-  errorWrap(async (req, res) => {
-    let response = 'Interview Deleted Sucessfully'
-    let id = req.params.interview_id
-    const retInterview = await Interview.findById(id)
-    if (retInterview == undefined) {
-      response = 'Invalid Delete Interview request'
-    } else {
-      Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, function(err, results) {})
-    }
-    res.json({
-      code: 200,
-      message: response,
-      result: {},
-      success: true
-    })
-
-    // Interview.deleteOne({ _id: new mongodb.ObjectId(id) }, (err, result) => {
-    //   if (err)
-    //     response = 'Invalid Delete'
-    //   res.json({ result: response })
-    // })
-  })
-)
-
 router.put(
   '/:interview_id',
   errorWrap(async (req, res) => {
@@ -220,6 +224,26 @@ router.put(
         { new: true },
         function(err, doc) {}
       )
+    }
+    res.json({
+      code: 200,
+      message: response,
+      result: {},
+      success: true
+    })
+  })
+)
+// delete interview given interview id
+router.delete(
+  '/:interview_id',
+  errorWrap(async (req, res) => {
+    let response = 'Interview Deleted Sucessfully'
+    let id = req.params.interview_id
+    const retInterview = await Interview.findById(id)
+    if (retInterview === undefined) {
+      response = 'Invalid Delete Interview request'
+    } else {
+      await Interview.deleteOne({ _id: new mongodb.ObjectId(id) })
     }
     res.json({
       code: 200,

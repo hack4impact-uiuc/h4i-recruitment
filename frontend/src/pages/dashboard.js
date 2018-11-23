@@ -60,8 +60,9 @@ class Dashboard extends React.Component<Props> {
   }
   async componentDidMount() {
     const res = await getCandidates()
+    console.log(res)
     this.setState({
-      candidates: res.result == undefined ? [] : res.result
+      candidates: res.result === undefined ? [] : res.result
     })
   }
 
@@ -93,7 +94,6 @@ class Dashboard extends React.Component<Props> {
       .filter(x => this.state.filters.years.includes(x.year))
       .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
       .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))
-
     switch (this.state.filters.sortBy[0]) {
       case 'Name':
         filteredCandidates = filteredCandidates.sort(sortByProperty('name'))
@@ -167,7 +167,17 @@ class Dashboard extends React.Component<Props> {
                           filteredCandidates.map((candidate, key) => (
                             <tr key={candidate._id}>
                               <th scope="row">{key + 1}</th>
-                              {selects.includes('Name') ? <td>{candidate.name}</td> : <> </>}
+                              {selects.includes('Name') ? (
+                                <td>
+                                  <Link
+                                    href={{ pathname: '/candidate', query: { id: candidate._id } }}
+                                  >
+                                    <a className="regular-anchor">{candidate.name}</a>
+                                  </Link>
+                                </td>
+                              ) : (
+                                <> </>
+                              )}
 
                               {selects.includes('Status') ? (
                                 <td>

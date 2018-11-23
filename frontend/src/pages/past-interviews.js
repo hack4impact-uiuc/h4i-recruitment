@@ -4,7 +4,9 @@ import Router from 'next/router'
 import { editInterview } from './../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getKey, getPastInterviews } from '../utils/api'
+import { getKey, getPastInterviews, deleteInterview } from '../utils/api'
+import VerificationModal from '../components/verificationModal'
+
 type Props = {}
 
 const mapStateToProps = state => ({})
@@ -23,7 +25,10 @@ class PastInterviews extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      interviews: []
+      interviews: [],
+      verificationModalOpen: false,
+      interviewToDelete: null,
+      loading: false
     }
   }
 
@@ -41,11 +46,45 @@ class PastInterviews extends Component<Props> {
       Router.push('/interview')
     }
   }
+  toggle = () => {
+    this.setState({
+      interviewToDelete: null,
+      verificationModalOpen: false
+    })
+  }
+  handleDeleteClick = (interviewId, candidateId) => {
+    this.setState({
+      verificationModalOpen: true,
+      interviewToDelete: { interviewId, candidateId }
+    })
+  }
+  delete = async () => {
+    this.setState({
+      loading: true
+    })
+    const interview = this.state.interviewToDelete
+    await deleteInterview(interview.candidateId, interview.interviewId)
+    const newInterviews = this.state.interviews.filter(x => x._id !== interview.interviewId)
+    this.setState({
+      interviews: newInterviews,
+      verificationModalOpen: false,
+      interviewToDelete: null,
+      loading: false
+    })
+  }
 
   render() {
-    let interviews = this.state.interviews
+    const { interviews } = this.state
     return (
       <Container>
+        <VerificationModal
+          open={this.state.verificationModalOpen}
+          loading={this.state.loading}
+          cancelAction={this.toggle}
+          submitAction={this.delete}
+          header="Are you sure you want to delete this interview?"
+          body="There's no going back!"
+        />
         <Table>
           <thead>
             <tr>
@@ -58,15 +97,24 @@ class PastInterviews extends Component<Props> {
           <tbody>
             {interviews ? (
               interviews.map((interview, i) => {
-                console.log('DIS INTER', interview)
                 return [
-                  <tr key={i}>
-                    <td>{i}</td>
+                  <tr key={i + 1}>
+                    <td>{i + 1}</td>
                     <td>{interview.candidate_name}</td>
                     <td>{interview.overall_score}</td>
                     <td>
                       <Button onClick={() => this.handleEditInterview(interview)}>
                         Edit Interview
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        color="danger"
+                        onClick={() =>
+                          this.handleDeleteClick(interview._id, interview.candidate_id)
+                        }
+                      >
+                        Delete
                       </Button>
                     </td>
                   </tr>

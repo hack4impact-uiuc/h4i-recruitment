@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const Mockgoose = require('mockgoose-fix').Mockgoose
 const app = require('../src/app')
 const { KEY } = require('./utils')
-const { Interview } = require('../src/models')
+const { Interview, Candidate } = require('../src/models')
 
 const mockgoose = new Mockgoose(mongoose)
 
@@ -17,7 +17,7 @@ before(done => {
   mockgoose.prepareStorage().then(() => {
     mongoose.connect(
       '',
-      function (err) {
+      function(err) {
         done(err)
       }
     )
@@ -76,8 +76,15 @@ describe('GET verify_interviewer/:key', () => {
   })
 })
 
-describe('POST /interviews', () => {
+describe('POST /candidates/:candidateId/interviews', () => {
   it('creates one interview', async () => {
+    const candidate = new Candidate({
+      name: 'TimInterview1',
+      email: 'someemailunique',
+      resumeID: 'some resume link unique'
+    })
+    await candidate.save()
+
     let interview = {
       interviewer_key: 'CaptainMeg',
       sections: [
@@ -111,7 +118,7 @@ describe('POST /interviews', () => {
       general_notes: 'Candidate is average'
     }
     const res = await request(app)
-      .post(`/interviews?key=${KEY}`)
+      .post(`/candidates/${candidate._id}/interviews?key=${KEY}`)
       .send(interview)
       .expect(200)
   })
