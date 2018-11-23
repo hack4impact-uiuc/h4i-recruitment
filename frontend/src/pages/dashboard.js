@@ -167,7 +167,17 @@ class Dashboard extends React.Component<Props> {
                           filteredCandidates.map((candidate, key) => (
                             <tr key={candidate._id}>
                               <th scope="row">{key + 1}</th>
-                              {selects.includes('Name') ? <td>{candidate.name}</td> : <> </>}
+                              {selects.includes('Name') ? (
+                                <td>
+                                  <Link
+                                    href={{ pathname: '/candidate', query: { id: candidate._id } }}
+                                  >
+                                    <a className="regular-anchor">{candidate.name}</a>
+                                  </Link>
+                                </td>
+                              ) : (
+                                <> </>
+                              )}
 
                               {selects.includes('Status') ? (
                                 <td>

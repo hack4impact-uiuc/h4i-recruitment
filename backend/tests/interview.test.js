@@ -17,7 +17,7 @@ before(done => {
   mockgoose.prepareStorage().then(() => {
     mongoose.connect(
       '',
-      function (err) {
+      function(err) {
         done(err)
       }
     )
@@ -130,7 +130,6 @@ describe('GET /interviews', () => {
       .get(`/interviews?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.be.an('array')
-    expect(res.body.result[0]).to.be.an('array')
   })
 
   // shouldnt be like this b/c tests should be idempotent

@@ -203,3 +203,9 @@ p > b {
 .textarea-input {
   white-space: pre-line;
 }
+
+.regular-anchor {
+  font-size: 14px;
+  color: #4e4e4e;
+  font-weight: 400;
+}

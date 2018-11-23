@@ -15,6 +15,14 @@ class AddCommentsModalComponent extends React.Component<Props> {
       inputText: e.target.value
     })
   }
+  cancel = e => {
+    this.setState({ inputText: '' })
+    this.props.toggle()
+  }
+  submit = e => {
+    this.props.submit(this.state.inputText)
+    this.setState({ inputText: '' })
+  }
   render() {
     return (
       <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
@@ -31,10 +39,10 @@ class AddCommentsModalComponent extends React.Component<Props> {
           <FormText color="muted">Write down whatever your heart desires!</FormText>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => this.props.submit(this.state.inputText)}>
+          <Button color="primary" onClick={this.submit}>
             Submit
           </Button>{' '}
-          <Button color="secondary" onClick={this.props.toggle}>
+          <Button color="secondary" onClick={this.cancel}>
             Cancel
           </Button>
         </ModalFooter>
