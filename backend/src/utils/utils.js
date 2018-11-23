@@ -10,6 +10,7 @@ const getStats = async () => {
   newStats.save()
   return newStats
 }
+
 module.exports = {
   getStats
 }

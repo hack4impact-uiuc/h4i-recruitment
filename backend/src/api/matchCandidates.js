@@ -1,3 +1,6 @@
+/*
+ * Most of the logic for faceMash
+ */
 const express = require('express')
 const router = express.Router()
 const { errorWrap } = require('../middleware')

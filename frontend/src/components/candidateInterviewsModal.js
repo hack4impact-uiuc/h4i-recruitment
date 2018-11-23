@@ -1,15 +1,7 @@
+// This is a Modal that opens up, showing a
+// list of interviews a candidate
 import React from 'react'
-import {
-  Container,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  CardCol,
-  Button,
-  Input,
-  FormText
-} from 'reactstrap'
+import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import InterviewCard from './interviewCard'
 import InterviewDetails from './interviewDetails'
 type Props = {}
@@ -22,7 +14,6 @@ class CandidateInterviewsModal extends React.Component<Props> {
       currentInterview: null
     }
   }
-  async componentDidMount() {}
   handleViewDetails = interview => {
     this.setState({
       viewDetails: true,

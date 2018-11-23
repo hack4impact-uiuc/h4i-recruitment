@@ -8,11 +8,7 @@ import {
   Container,
   Col,
   Row,
-  FormFeedback,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
+  FormFeedback
 } from 'reactstrap'
 import Link from 'next/link'
 import React from 'react'
@@ -23,10 +19,9 @@ import { fetchAllCandidates, addFilter, removeFilter } from '../actions'
 import CandidateDropdown from '../components/candidateDropdown'
 import InterviewCategory from '../components/interviewCategory'
 import ErrorMessage from '../components/errorMessage'
-import { getKey, addInterview, getCandidates } from '../utils/api'
 import InterviewSectionCard from '../components/interviewSectionCard'
-import ReactLoading from 'react-loading'
 import VerificationModal from '../components/verificationModal'
+import { getKey, addInterview, getCandidates } from '../utils/api'
 
 type Props = {
   error: boolean,

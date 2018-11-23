@@ -74,8 +74,7 @@ class FacemashProfile extends Component {
         <div className="padded-all-sm">
           {candidate.major ? (
             <p>
-              {' '}
-              <b>Major:</b> {candidate.major}{' '}
+              <b>Major:</b> {candidate.major}
             </p>
           ) : (
             <p> </p>

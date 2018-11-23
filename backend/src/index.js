@@ -1,3 +1,4 @@
+// this file connects to mongo and starts the express server
 const app = require('./app')
 const mongoose = require('mongoose')
 

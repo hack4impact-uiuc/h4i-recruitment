@@ -1,10 +1,10 @@
 import { Button, Container } from 'reactstrap'
 import { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import Link from 'next/link'
 import Router from 'next/router'
 import { connect } from 'react-redux'
 import { newInterview } from './../actions'
-import { bindActionCreators } from 'redux'
 
 type Props = {}
 

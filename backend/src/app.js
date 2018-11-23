@@ -1,3 +1,8 @@
+/*
+ * this file initializes the express object and sets up everything
+ * this is so tests can import the app instead of importing index.js
+ * which starts the server
+ */
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')

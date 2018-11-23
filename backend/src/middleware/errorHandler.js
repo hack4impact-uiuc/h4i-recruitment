@@ -1,3 +1,7 @@
+/*
+ * router middleware to handle errors
+ * logs error and returns 500 response with error message
+ */
 const errorHandler = (err, req, res, _next) => {
   console.error(err)
   console.error(err.stack)

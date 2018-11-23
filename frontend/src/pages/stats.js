@@ -39,26 +39,26 @@ class StatsPage extends Component<Props> {
             {candidates.filter(candidate => candidate.status === statusEnum.PENDING).length}
           </p>
           <p>
-            Interviewed:{' '}
+            Interviewed:
             {candidates.filter(candidate => candidate.status === statusEnum.INTERVIEWING).length}
           </p>
           <p>
-            Done Interviewing:{' '}
+            Done Interviewing:
             {
               candidates.filter(candidate => candidate.status === statusEnum.DONE_INTERVIEWING)
                 .length
             }
           </p>
           <p>
-            Rejected:{' '}
+            Rejected:
             {candidates.filter(candidate => candidate.status === statusEnum.REJECTED).length}
           </p>
           <p>
-            Invalid:{' '}
+            Invalid:
             {candidates.filter(candidate => candidate.status === statusEnum.INVALID).length}
           </p>
           <p>
-            Accepted:{' '}
+            Accepted:
             {candidates.filter(candidate => candidate.status === statusEnum.ACCEPTED).length}
           </p>
 
@@ -70,15 +70,15 @@ class StatsPage extends Component<Props> {
           <p>
             # of Sophomores Applied:{
               candidates.filter(candidate => candidate.year === yearsEnum.SOPHOMORE).length
-            }{' '}
+            }
           </p>
           <p>
             # of Juniors Applied:{
               candidates.filter(candidate => candidate.year === yearsEnum.JUNIOR).length
-            }{' '}
+            }
           </p>
           <p>
-            # of Seniors Applied:{' '}
+            # of Seniors Applied:
             {candidates.filter(candidate => candidate.year === yearsEnum.SENIOR).length}
           </p>
 

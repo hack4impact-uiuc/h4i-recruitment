@@ -41,7 +41,7 @@ class Login extends Component<Props> {
           <ModalFooter>
             <Link prefetch href="/">
               <Button color="secondary">Cancel</Button>
-            </Link>{' '}
+            </Link>
             <Button
               onClick={e => {
                 this.handleSubmit()

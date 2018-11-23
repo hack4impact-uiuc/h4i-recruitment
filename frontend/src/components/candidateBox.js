@@ -1,4 +1,5 @@
 // @flow
+// This Component shows the details of a candidate
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -41,11 +42,10 @@ class CandidateBox extends Component {
     this.setState({ status: e.target.value })
   }
   async componentDidMount() {
-    //TODO: once we move interviews to the candidate object, we can remove avgInterviewScore from state
-    const res = await getCandidateInterviews(this.props.candidate._id)
+    const { interviews } = this.props.candidate
     this.setState({
-      interviews: res.result,
-      avgInterviewScore: this.avgInterviewScore(res.result)
+      interviews: interviews,
+      avgInterviewScore: this.avgInterviewScore(interviews)
     })
   }
   avgInterviewScore = interviews => {
@@ -64,7 +64,6 @@ class CandidateBox extends Component {
   }
   render() {
     // includes null
-    console.log('candidate', this.props.candidate)
     if (this.props.candidate == undefined) {
       return <ErrorMessage message="User doesn&#39;t exist" />
     }
@@ -119,7 +118,7 @@ class CandidateBox extends Component {
               <b>Tech Experience:</b> {candidate.techExperience}
             </p>
             <p>
-              <b>Classes Taken:</b>{' '}
+              <b>Classes Taken:</b>
               {candidate.classesTaken != undefined ? candidate.classesTaken.join(', ') : null}
             </p>
             <p>
