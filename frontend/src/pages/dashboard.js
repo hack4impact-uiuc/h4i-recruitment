@@ -92,8 +92,7 @@ class Dashboard extends React.Component<Props> {
       .filter(x => this.state.filters.statuses.includes(x.status))
       .filter(x => this.state.filters.years.includes(x.year))
       .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
-    console.log(this.state.filters.roles)
-    // .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))
+      .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))
     switch (this.state.filters.sortBy[0]) {
       case 'Name':
         filteredCandidates = filteredCandidates.sort(sortByProperty('name'))
