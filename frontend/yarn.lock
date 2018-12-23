@@ -3388,6 +3388,14 @@ neo-async@^2.5.0:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.2.tgz#489105ce7bc54e709d736b195f82135048c50fcc"
 
+next-page-transitions@^1.0.0-alpha.4:
+  version "1.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/next-page-transitions/-/next-page-transitions-1.0.0-alpha.4.tgz#808ded81ff0f69820c5a31473a9f6daced6577af"
+  integrity sha512-bXYLQFmUQQqfhGw/8uuFRHPRRszuYSewB1ypjkTzvbO2YvD/twAqqlzUY55wAjjoY28wqrj3TQUw9gd/sxcneQ==
+  dependencies:
+    prop-types "^15.6.1"
+    react-transition-group "^2.3.1"
+
 next-redux-wrapper@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-2.0.0.tgz#74587381ff9c762cd85676d9739a51a3aeceed58"

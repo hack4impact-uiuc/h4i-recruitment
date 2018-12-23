@@ -6,6 +6,7 @@ import Head from '../components/head'
 import Nav from '../components/nav'
 import configureStore from '../store/appStore'
 import ErrorMessage from '../components/errorMessage'
+import { PageTransition } from 'next-page-transitions'
 
 export default withRedux(configureStore, { debug: true })(
   class MyApp extends App {
@@ -42,10 +43,30 @@ export default withRedux(configureStore, { debug: true })(
                   message="Something went Wrong. Are you logged in? Check logs as well"
                 />
               ) : (
-                <Component {...pageProps} />
+                <PageTransition timeout={300} classNames="page-transition">
+                  <Component {...pageProps} />
+                </PageTransition>
               )}
             </div>
           </Provider>
+          <style jsx global>
+            {`
+              .page-transition-enter {
+                opacity: 0;
+              }
+              .page-transition-enter-active {
+                opacity: 1;
+                transition: opacity 300ms;
+              }
+              .page-transition-exit {
+                opacity: 1;
+              }
+              .page-transition-exit-active {
+                opacity: 0;
+                transition: opacity 300ms;
+              }
+            `}
+          </style>
         </Container>
       )
     }

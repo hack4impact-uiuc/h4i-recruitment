@@ -10,7 +10,8 @@
     "parse": "node src/parseSheet.js",
     "format": "prettier --write '{src,test}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
-    "test": "NODE_ENV=test mocha tests --opts ./tests/mocha.opts"
+    "test": "NODE_ENV=test mocha tests --opts ./tests/mocha.opts",
+    "populatedb": "dotenv node src/utils/populate.js"
   },
   "dependencies": {
     "body-parser": "1.18.2",

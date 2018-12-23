@@ -8,6 +8,7 @@ const Candidate = new mongoose.Schema(
     name: { type: String, require: true },
     email: { type: String, require: true, unique: true },
     graduationDate: { type: String },
+    gender: { type: String },
     year: { type: String },
     major: { type: String, require: true },
     minor: { type: String },
