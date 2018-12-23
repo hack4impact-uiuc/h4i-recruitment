@@ -18,13 +18,13 @@ const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
 const ws = wb.Sheets[wb.SheetNames[0]]
 
 const jsonSheet = XLSX.utils.sheet_to_json(ws)
-function sleep (ms) {
+function sleep(ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms)
   })
 }
 
-async function parseStuff () {
+async function parseStuff() {
   await sleep(3000)
   for (let i = 0; i < jsonSheet.length; i++) {
     let candidate = jsonSheet[i]
@@ -80,14 +80,14 @@ async function parseStuff () {
           : [],
       roleReason:
         candidate[
-            'For each role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
+          'For each role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
         ],
       joinReason:
         candidate['Why do you want to join Hack4Impact, and what do you hope to gain from it?'],
       timeCommitment: candidate['Please list your time commitments'],
       techExperience:
         candidate[
-            'List technical/design experience (side projects, internships, class projects, portfolio link, additional classes)'
+          'List technical/design experience (side projects, internships, class projects, portfolio link, additional classes)'
         ],
       howTheyKnowUs: candidate['How did you hear about us?'],
       additionalComments: candidate['What else should we know about you?'],

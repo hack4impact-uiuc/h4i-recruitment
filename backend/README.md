@@ -26,7 +26,7 @@ Afterwards, run `recreate_db.sh`:
 ```
 $ ./recreate_db.sh
 ```
-Note: it will not run if you don't have docker running. If you don't have docker, startup mongodb running on `localhost` port `27017` and create a user: `mongoadmin` with password: `secret` with the authentication db as `admin`.
+Note: it will not run if you don't have docker running. If you don't have docker, startup mongodb running on `localhost` port `27017` and create a user: `mongoadmin` with password: `secret` with the authentication db as `admin`. Then, run `yarn populatedb` to populate the database (it connects to the database specified under `MONGO_URL` in the `.env` file).
 
 ## Deployment
 
