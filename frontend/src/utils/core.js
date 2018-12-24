@@ -11,5 +11,18 @@ const compareByFacemashScore = (candidate1, candidate2) => {
   }
   return 0
 }
+const avgInterviewScore = interviews => {
+  if (interviews == undefined || !interviews || interviews.length === 0) {
+    return 'N/A'
+  }
 
-export { compareByFacemashScore }
+  let avgs = 0
+  for (var i = 0; i < interviews.length; i++) {
+    avgs += interviews[i].overall_score
+  }
+  if (interviews.length != 0) {
+    avgs = avgs / interviews.length
+  }
+  return avgs
+}
+export { compareByFacemashScore, avgInterviewScore }

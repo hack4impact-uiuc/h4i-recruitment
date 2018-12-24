@@ -1,5 +1,4 @@
 //@flow
-import React from 'react'
 
 // This component is an anchor tag in which it
 // adds a strikethrough if the link doesn't exist

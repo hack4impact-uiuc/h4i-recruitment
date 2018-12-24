@@ -3,13 +3,14 @@ import React, { Component } from 'react'
 import { Container, Button, Alert, Row, Col } from 'reactstrap'
 import Router from 'next/router'
 import { bindActionCreators } from 'redux'
-import Candidate from '../components/candidateBox'
-import AddCommentsModal from '../components/addCommentsModal'
-import CommentBox from '../components/commentBox'
+import Candidate from '../components/candidates/candidateBox'
+import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
+import AddCommentsModal from '../components/comments/addCommentsModal'
+import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
-import CandidateInterviewsModal from '../components/candidateInterviewsModal'
 import { getCandidateById, addCommentToCandidate, getCandidateInterviews } from '../utils/api'
 import { addInterviewCandidate } from './../actions'
+import ActionButton from '../components/actionButton'
 
 type Props = {}
 const mapDispatchToProps = dispatch => {

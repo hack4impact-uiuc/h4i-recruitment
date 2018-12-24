@@ -1,5 +1,5 @@
-import { Modal, Container, Button, Input, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { Component } from 'react'
+import { Modal, Container, Button, Input, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import Router from 'next/router'
 import Link from 'next/link'
 import { validateKey } from '../utils/api'
@@ -28,10 +28,12 @@ class Login extends Component<Props> {
   render() {
     return (
       <Container>
-        <Modal isOpen={true}>
+        <Modal isOpen={true} autoFocus={false}>
           <ModalHeader>Login to Your Interview Portal</ModalHeader>
           <ModalBody>
             <Input
+              autoFocus={true}
+              ref={input => input && input.focus()}
               type="text"
               onChange={this.onTextChange}
               name="Input Key"

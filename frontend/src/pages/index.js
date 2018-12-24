@@ -18,7 +18,6 @@ class LoginPage extends React.Component<Props> {
     this.setState({
       loading: true
     })
-    console.log('current Key: ', this.state.currentKey)
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
       sessionStorage.setItem('interviewerKey', this.state.currentKey)
@@ -37,6 +36,12 @@ class LoginPage extends React.Component<Props> {
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }
+  // handles when user presses "Enter" when input is focused
+  _handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleSubmit()
+    }
+  }
   render() {
     return (
       <Container>
@@ -51,11 +56,13 @@ class LoginPage extends React.Component<Props> {
           <div className="align-middle login-box">
             <h4>Enter Key:</h4>
             <Input
+              autoFocus={true}
               type="text"
               value={this.state.currentKey}
               onChange={this.onTextChange}
               name="Input Key"
               placeholder="Input Your Key"
+              onKeyPress={this._handleKeyPress}
             />
             <Button className="mt-3" color="primary" onClick={this.handleSubmit}>
               Login

@@ -38,6 +38,7 @@ class NavigationBar extends Component {
     sessionStorage.removeItem('interviewerKey')
     this.setState({ loggedIn: false })
     alert('Logged Out!')
+    Router.push('/')
   }
   async handleSubmit() {
     this.setState({
@@ -47,7 +48,7 @@ class NavigationBar extends Component {
     if (success) {
       sessionStorage.setItem('interviewerKey', this.state.currentKey)
       sessionStorage.setItem('interviewerName', result.name)
-      Router.push(Router.asPath)
+      Router.push('/dashboard')
     }
     this.setState({
       loggedIn: true,
@@ -63,6 +64,12 @@ class NavigationBar extends Component {
         loggedIn: true,
         username: sessionStorage.getItem('interviewerName')
       })
+    }
+  }
+  // handles when user presses "Enter" when input is focused
+  _handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleSubmit()
     }
   }
 
@@ -120,14 +127,16 @@ class NavigationBar extends Component {
           </Collapse>
         </Navbar>
         <Container>
-          <Modal isOpen={this.state.isOpen}>
+          <Modal autoFocus={false} isOpen={this.state.isOpen}>
             <ModalHeader>Login to Your Interview Portal</ModalHeader>
             <ModalBody>
               <Input
+                autoFocus={true}
                 type="text"
                 onChange={this.onTextChange}
                 name="Input Key"
                 placeholder="Input Your Key"
+                onKeyPress={this._handleKeyPress}
               />
             </ModalBody>
             <ModalFooter>

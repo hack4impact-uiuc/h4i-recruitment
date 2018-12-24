@@ -181,7 +181,6 @@ class Interview extends Component<Props> {
         this.state.category,
         this.state.sections
       )
-      console.log('Interview response', res)
       alert('Successfully added interview')
       Router.push({ pathname: '/candidate', query: { id: this.props.candidateId } })
     }
@@ -243,7 +242,7 @@ class Interview extends Component<Props> {
     }
     return (
       <Container>
-        <Row>
+        <Row style={{ marginTop: '20px' }}>
           <Col md="2" />
           <Col md="2">
             <h3>Interviewing</h3>
