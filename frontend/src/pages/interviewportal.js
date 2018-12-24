@@ -144,8 +144,8 @@ class InterviewPortal extends Component<Props> {
                 ]
               })
             ) : (
-                <tr>No Interviews</tr>
-              )}
+              <tr>No Interviews</tr>
+            )}
           </tbody>
         </Table>
       </Container>
