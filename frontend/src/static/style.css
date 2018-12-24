@@ -21,6 +21,10 @@ p > b {
   font-weight: 900;
   color: black;
 }
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
 .divider-bottom {
   padding-bottom: 1%;
   margin-bottom: 2%;
@@ -208,4 +212,9 @@ p > b {
   font-size: 14px;
   color: #4e4e4e;
   font-weight: 400;
+}
+
+.no-buffer {
+  padding:0;
+  margin:0 !important;
 }

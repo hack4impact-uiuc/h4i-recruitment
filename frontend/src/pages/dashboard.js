@@ -59,7 +59,6 @@ class Dashboard extends React.Component<Props> {
   }
   async componentDidMount() {
     const res = await getCandidates()
-    console.log(res)
     this.setState({
       candidates: res.result === undefined ? [] : res.result
     })
@@ -162,7 +161,7 @@ class Dashboard extends React.Component<Props> {
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredCandidates != undefined &&
+                        {filteredCandidates != undefined || filteredCandidates.length != 0 ? (
                           filteredCandidates.map((candidate, key) => (
                             <tr key={candidate._id}>
                               <th scope="row">{key + 1}</th>
@@ -253,7 +252,12 @@ class Dashboard extends React.Component<Props> {
                                 </Link>
                               </td>
                             </tr>
-                          ))}
+                          ))
+                        ) : (
+                          <div className="center">
+                            <p>No Candidates exist given the filters.</p>
+                          </div>
+                        )}
                       </tbody>
                     </Table>
                   </Row>

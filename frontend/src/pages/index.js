@@ -18,7 +18,6 @@ class LoginPage extends React.Component<Props> {
     this.setState({
       loading: true
     })
-    console.log('current Key: ', this.state.currentKey)
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
       sessionStorage.setItem('interviewerKey', this.state.currentKey)
@@ -51,6 +50,7 @@ class LoginPage extends React.Component<Props> {
           <div className="align-middle login-box">
             <h4>Enter Key:</h4>
             <Input
+              autoFocus={true}
               type="text"
               value={this.state.currentKey}
               onChange={this.onTextChange}

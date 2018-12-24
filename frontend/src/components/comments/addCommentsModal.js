@@ -25,10 +25,12 @@ class AddCommentsModalComponent extends React.Component<Props> {
   }
   render() {
     return (
-      <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
+      <Modal autoFocus={false} isOpen={this.props.isOpen} toggle={this.props.toggle}>
         <ModalHeader toggle={this.props.toggle}>Add Comment</ModalHeader>
         <ModalBody>
           <Input
+            autoFocus={true}
+            ref={input => input && input.focus()}
             type="textarea"
             value={this.state.inputText}
             name="text"

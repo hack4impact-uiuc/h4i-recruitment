@@ -94,12 +94,10 @@ router.get(
   '/past-interviews/:interviewer_key',
   errorWrap(async (req, res) => {
     const interviews = await Interview.find()
-    console.log(interviews)
     const retInterviews = interviews.filter(
       interview => interview.interviewer_key === req.params.interviewer_key
     )
 
-    console.log(retInterviews)
     let statusCode = retInterviews ? 200 : 400
 
     res.status(statusCode).json({

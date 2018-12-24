@@ -4,14 +4,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Badge, Row, Col } from 'reactstrap'
-import { setCandidateStatus } from '../utils/api'
-import { statusEnum } from '../utils/enums'
-import { setStatus } from '../actions/actionCreators'
-import { getCandidateInterviews } from '../utils/api'
-import ErrorMessage from '../components/errorMessage'
-import CandidateStatus from '../components/candidateStatus'
-import CandidateLinks from '../components/candidateLinks'
-import ChangeStatus from '../components/changeStatus'
+import { setCandidateStatus } from '../../utils/api'
+import { setStatus } from '../../actions/actionCreators'
+import ErrorMessage from '../errorMessage'
+import CandidateStatus from '../candidateStatus'
+import CandidateLinks from '../candidateLinks'
+import ChangeStatus from '../changeStatus'
+import { avgInterviewScore } from '../../utils/core'
 
 type Props = {
   candidate: {},
@@ -45,22 +44,8 @@ class CandidateBox extends Component {
     const { interviews } = this.props.candidate
     this.setState({
       interviews: interviews,
-      avgInterviewScore: this.avgInterviewScore(interviews)
+      avgInterviewScore: avgInterviewScore(interviews)
     })
-  }
-  avgInterviewScore = interviews => {
-    if (interviews == undefined || !interviews || interviews.length === 0) {
-      return 'N/A'
-    }
-
-    let avgs = 0
-    for (var i = 0; i < interviews.length; i++) {
-      avgs += interviews[i].overall_score
-    }
-    if (interviews.length != 0) {
-      avgs = avgs / interviews.length
-    }
-    return avgs
   }
   render() {
     // includes null
@@ -92,7 +77,7 @@ class CandidateBox extends Component {
             {!this.props.hideStatus && (
               <a>
                 <p>
-                  Change Status:
+                  Change Status:{' '}
                   <ChangeStatus status={this.state.status} handleChange={this.handleChange} />
                 </p>
               </a>

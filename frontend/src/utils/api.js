@@ -21,7 +21,7 @@ function getCandidates() {
 }
 
 function getInterviewingCandidates() {
-  return fetch(`${API_URL}/candidates?status=Interviewing&&key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates?key=${getKey()}`).then(res => res.json())
 }
 
 function setCandidateStatus(id: string, status: string) {
@@ -43,7 +43,6 @@ function getCandidatesByStatus(status: string) {
 }
 
 function setMatchWinner(candidate1: string, candidate2: string, winnerID: string, matchID: string) {
-  console.log('setMatchWinner')
   return fetch(`${API_URL}/matchCandidates?key=${getKey()}`, {
     body: JSON.stringify({
       candidate1,

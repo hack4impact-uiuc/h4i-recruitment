@@ -43,7 +43,7 @@ class InterviewDetails extends Component {
               <h5>
                 {section.section_name}: {section.questions[0].score}
               </h5>
-              <p className="textarea-input">Notes:{section.section_notes}</p>
+              <p className="textarea-input">Notes: {section.section_notes}</p>
             </ListGroupItem>
           ))}
         </ListGroup>

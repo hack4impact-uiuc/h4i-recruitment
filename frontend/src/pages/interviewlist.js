@@ -2,6 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
 import { getInterviewingCandidates, getAllInterviews } from '../utils/api'
+import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
+import { avgInterviewScore } from '../utils/core'
+import ActionLink from '../components/actionLink'
+import ActionButton from '../components/actionButton'
 
 const CardCol = ({ children, ...rest }) => (
   // This handles the size of each card - lg size 3 causes 4 cards/row
@@ -21,12 +25,13 @@ class InterviewListPage extends React.Component<Props> {
     super(props)
     this.state = {
       candidates: [],
-      interviews: []
+      interviews: [],
+      modalOpen: false,
+      currentCandidateId: ''
     }
   }
   async componentDidMount() {
     const res = await getInterviewingCandidates()
-    console.log(res)
     const candidates = res.result
     const interviewres = await getAllInterviews()
     const interviews = interviewres.result
@@ -36,53 +41,91 @@ class InterviewListPage extends React.Component<Props> {
       interviews: interviews == undefined ? [] : interviews
     })
   }
+  toggleModal = candidateId => {
+    this.setState({
+      currentCandidateId: candidateId,
+      modalOpen: !this.state.modalOpen
+    })
+  }
   render() {
     const { candidates, interviews } = this.state
-    console.log(interviews)
+    const currentCandidate = candidates.find(
+      candidate => candidate._id === this.state.currentCandidateId
+    )
     return (
       <Container>
         <Row>
           <h4 className="mt-3">Candidates who interviewed</h4>
         </Row>
         <Row className="candidate-list-box">
-          {candidates.map(candidate => (
-            <CardCol key={candidate._id}>
-              <Card className="candidate-card h-100">
-                <CardTitle>
-                  {candidate.name ? (
-                    <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
-                      <a className="m-3 card-title inline">{candidate.name}</a>
-                    </Link>
-                  ) : (
-                    <></>
-                  )}
-                </CardTitle>
-                <CardBody>
-                  <p>
-                    <b>Graduating: </b>
-                    {candidate.graduationDate}
-                  </p>
-                  {this.state.interviews
-                    .filter(interview => interview.candidate_id == candidate._id)
-                    .map(interview => (
-                      <>
-                        <p>
-                          <b>Category: </b>
-                          {interview.category}
-                        </p>
-                        <p>
-                          <b>Score: </b> {interview.overall_score}
-                        </p>
-                        <p>
-                          <b>Interviewer: </b> {interview.interviewer_name}
-                        </p>
-                      </>
-                    ))}
-                </CardBody>
-              </Card>
-            </CardCol>
-          ))}
+          {candidates.map(
+            candidate =>
+              candidate.interviews.length === 0 ? null : (
+                <CardCol key={candidate._id}>
+                  <Card className="candidate-card h-100">
+                    <CardTitle style={{ margin: '15px 0 0 0' }}>
+                      {candidate.name ? (
+                        <>
+                          <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                            <a className="m-3 card-title inline">{candidate.name}</a>
+                          </Link>
+                          <p
+                            className="text-muted"
+                            style={{
+                              float: 'right',
+                              marginBottom: 0,
+                              paddingRight: '5px',
+                              fontSize: '12px'
+                            }}
+                          >
+                            Avg Score: {avgInterviewScore(candidate.interviews)}
+                            <br />
+                            interviews: {candidate.interviews.length}
+                          </p>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </CardTitle>
+                    <CardBody>
+                      <p>
+                        <b>Graduating: </b>
+                        {candidate.graduationDate}
+                      </p>
+                      {this.state.interviews
+                        .filter(interview => interview.candidate_id == candidate._id)
+                        .map(interview => (
+                          <div className="pb-1">
+                            <p className="no-buffer">
+                              <b>Interviewer: </b>
+                              {interview.interviewer_name}
+                            </p>
+                            <div style={{ paddingLeft: '5px' }}>
+                              <p className="no-buffer">
+                                <i>Category: </i> {interview.category}
+                                <br />
+                                <i>Score: </i> {interview.overall_score}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      <ActionLink
+                        text="View interviews"
+                        onClick={() => this.toggleModal(candidate._id)}
+                      />
+                    </CardBody>
+                  </Card>
+                </CardCol>
+              )
+          )}
         </Row>
+        <CandidateInterviewsModal
+          isOpen={this.state.modalOpen}
+          candidateId={this.state.currentCandidateId}
+          exitModal={this.toggleModal}
+          candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
+          interviews={currentCandidate === undefined ? '' : currentCandidate.interviews}
+        />
       </Container>
     )
   }
