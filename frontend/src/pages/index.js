@@ -36,6 +36,12 @@ class LoginPage extends React.Component<Props> {
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }
+  // handles when user presses "Enter" when input is focused
+  _handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleSubmit()
+    }
+  }
   render() {
     return (
       <Container>
@@ -56,6 +62,7 @@ class LoginPage extends React.Component<Props> {
               onChange={this.onTextChange}
               name="Input Key"
               placeholder="Input Your Key"
+              onKeyPress={this._handleKeyPress}
             />
             <Button className="mt-3" color="primary" onClick={this.handleSubmit}>
               Login

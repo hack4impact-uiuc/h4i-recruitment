@@ -23,6 +23,12 @@ class AddCommentsModalComponent extends React.Component<Props> {
     this.props.submit(this.state.inputText)
     this.setState({ inputText: '' })
   }
+  // handles when user presses "Enter" when input is focused
+  _handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.submit()
+    }
+  }
   render() {
     return (
       <Modal autoFocus={false} isOpen={this.props.isOpen} toggle={this.props.toggle}>
@@ -37,6 +43,7 @@ class AddCommentsModalComponent extends React.Component<Props> {
             id="comment-input"
             style={{ height: 200, wordBreak: 'break-word' }}
             onChange={this.handleChange}
+            onKeyPress={this._handleKeyPress}
           />
           <FormText color="muted">Write down whatever your heart desires!</FormText>
         </ModalBody>

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default ({ link, text, style, onClick }) => (
+const ActionLink = ({ link, text, style, onClick }) => (
   <>
     {link !== undefined ? (
       <Link href={link}>
@@ -26,3 +26,5 @@ export default ({ link, text, style, onClick }) => (
     `}</style>
   </>
 )
+
+export default ActionLink

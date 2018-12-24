@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
 import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
 import { getInterviewingCandidates, getAllInterviews } from '../utils/api'
 import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
@@ -57,6 +58,7 @@ class InterviewListPage extends React.Component<Props> {
         <Row>
           <h4 className="mt-3">Candidates who interviewed</h4>
         </Row>
+        <ActionButton text="Back" onClick={Router.back} />
         <Row className="candidate-list-box">
           {candidates.map(
             candidate =>

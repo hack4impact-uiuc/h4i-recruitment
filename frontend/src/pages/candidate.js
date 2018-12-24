@@ -10,6 +10,7 @@ import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
 import { getCandidateById, addCommentToCandidate, getCandidateInterviews } from '../utils/api'
 import { addInterviewCandidate } from './../actions'
+import ActionButton from '../components/actionButton'
 
 type Props = {}
 const mapDispatchToProps = dispatch => {

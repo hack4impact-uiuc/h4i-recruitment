@@ -27,8 +27,7 @@ const ActionButton = ({ link, text, style, white, onClick }) => (
         color: white;
       }
       button a {
-        font-family: 'Chivo', sans-serif;
-        font-weight: 100;
+        font-weight: 500;
         font-size: 14px;
         text-decoration: none;
       }

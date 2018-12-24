@@ -48,7 +48,7 @@ class NavigationBar extends Component {
     if (success) {
       sessionStorage.setItem('interviewerKey', this.state.currentKey)
       sessionStorage.setItem('interviewerName', result.name)
-      Router.push(Router.asPath)
+      Router.push('/dashboard')
     }
     this.setState({
       loggedIn: true,
@@ -64,6 +64,12 @@ class NavigationBar extends Component {
         loggedIn: true,
         username: sessionStorage.getItem('interviewerName')
       })
+    }
+  }
+  // handles when user presses "Enter" when input is focused
+  _handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleSubmit()
     }
   }
 
@@ -130,6 +136,7 @@ class NavigationBar extends Component {
                 onChange={this.onTextChange}
                 name="Input Key"
                 placeholder="Input Your Key"
+                onKeyPress={this._handleKeyPress}
               />
             </ModalBody>
             <ModalFooter>

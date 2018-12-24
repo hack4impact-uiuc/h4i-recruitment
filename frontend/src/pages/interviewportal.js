@@ -1,12 +1,13 @@
 import { Container, Button, Table, Row } from 'reactstrap'
 import { Component } from 'react'
 import Router from 'next/router'
-import { editInterview, newInterview } from '../actions'
+import Link from 'next/link'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { editInterview, newInterview } from '../actions'
 import { getKey, getPastInterviews, deleteInterview } from '../utils/api'
 import VerificationModal from '../components/verificationModal'
-import Link from 'next/link'
+import ActionButton from '../components/actionButton'
 
 type Props = {}
 
@@ -86,18 +87,12 @@ class InterviewPortal extends Component<Props> {
       <Container>
         <h1>Interviews</h1>
         <Row style={{ marginBottom: '30px' }}>
-          <Button
+          <ActionButton
+            text="New Interview"
             onClick={this.handleNewInterview}
-            color="primary"
-            style={{
-              marginRight: '20px'
-            }}
-          >
-            New Interview
-          </Button>
-          <Link prefetch href="/interviewlist">
-            <Button color="primary">All Interviews</Button>
-          </Link>
+            style={{ marginRight: '20px' }}
+          />
+          <ActionButton text="All Interviews" link="/interviewlist" />
         </Row>
         <VerificationModal
           open={this.state.verificationModalOpen}
@@ -149,8 +144,8 @@ class InterviewPortal extends Component<Props> {
                 ]
               })
             ) : (
-              <tr>No Interviews</tr>
-            )}
+                <tr>No Interviews</tr>
+              )}
           </tbody>
         </Table>
       </Container>
