@@ -5,7 +5,6 @@ export default {
       round: "0",
       type: "faceMash",
       name: "FaceMash",
-      path: "/facemash"
     },
     {
       round: "1",
