@@ -1,9 +1,15 @@
 export default {
-  currentRound: 1,
+  currentRound: 0,
   rounds: [
     {
       round: "0",
-      type: "mass_interview",
+      type: "faceMash",
+      name: "FaceMash",
+      path: "/facemash"
+    },
+    {
+      round: "1",
+      type: "interview",
       name: "Mass Interview",
       categories: [
         {
@@ -14,8 +20,8 @@ export default {
       ]
     },
     {
-      round: "1",
-      type: "individual_interview",
+      round: "2",
+      type: "interview",
       name: "Individual Interview",
       categories: [
         {

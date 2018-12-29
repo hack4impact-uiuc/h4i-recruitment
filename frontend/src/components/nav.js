@@ -18,7 +18,7 @@ import {
   Container
 } from 'reactstrap'
 import { validateKey, getKey } from '../utils/api'
-import interviewData from '../../../data/interviewData.js'
+import roundData from '../../../data/roundData.js'
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class NavigationBar extends Component {
       isOpen: false,
       loggedIn: false,
       username: null,
-      currentRoundNumber: interviewData.currentRound
+      currentRound: roundData.currentRound
     }
   }
 
@@ -98,13 +98,17 @@ class NavigationBar extends Component {
               <Link prefetch href="/analytics">
                 <a className="nav-bar-link pl-3">Analytics</a>
               </Link>
-              <Link prefetch href="/facemash">
+              <Link
+                prefetch
+                href={
+                  roundData.rounds[this.state.currentRound].type == 'interview'
+                    ? '/interviewportal'
+                    : '/facemash'
+                }
+              >
                 <a className="nav-bar-link pl-3">
-                  {interviewData.rounds[this.state.currentRoundNumber].name}
+                  {roundData.rounds[this.state.currentRound].name}
                 </a>
-              </Link>
-              <Link prefetch href="/interviewportal">
-                <a className="nav-bar-link pl-3">Interview Portal</a>
               </Link>
               <Nav navbar>
                 <Link prefetch href="/table">
