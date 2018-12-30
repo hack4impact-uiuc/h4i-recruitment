@@ -19,12 +19,16 @@ router.post(
     let response = 'Round Changed Sucessfully'
     let code = 404
     const newRound = req.body.round
-    Structure.deleteMany({})
-    const structure = new Structure({
-      round: newRound
-    })
-    await structure.save()
-    code = 200
+    if (newRound >= roundData.numberRounds) {
+      response = 'Invalid Round'
+    } else {
+      Structure.deleteMany({})
+      const structure = new Structure({
+        round: newRound
+      })
+      await structure.save()
+      code = 200
+    }
     res.json({
       code,
       message: response,
