@@ -1,5 +1,5 @@
 export default {
-  currentRound: 0,
+  numberRounds: 3,
   rounds: [
     {
       round: "0",
