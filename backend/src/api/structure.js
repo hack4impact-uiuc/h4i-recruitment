@@ -2,7 +2,6 @@ const express = require('express')
 const { Structure } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
-import roundData from '../../../data/roundData.js'
 
 router.get(
   '/',
@@ -16,19 +15,15 @@ router.post(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    let response = 'Round Changed Sucessfully'
+    let response = 'Round Changed Successfully'
     let code = 404
     const newRound = req.body.round
-    if (newRound >= roundData.numberRounds) {
-      response = 'Invalid Round'
-    } else {
-      Structure.deleteMany({})
-      const structure = new Structure({
-        round: newRound
-      })
-      await structure.save()
-      code = 200
-    }
+    Structure.deleteMany({})
+    const structure = new Structure({
+      round: newRound
+    })
+    await structure.save()
+    code = 200
     res.json({
       code,
       message: response,
