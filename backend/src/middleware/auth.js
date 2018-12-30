@@ -40,6 +40,11 @@ const auth = (req, res, next) => {
         } else {
           req._is_lead = false
         }
+        if (key.endsWith(directorSuffix)) {
+          req._is_director = true
+        } else {
+          req._is_director = false
+        }
         return next()
       }
     }
