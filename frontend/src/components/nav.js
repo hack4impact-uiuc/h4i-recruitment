@@ -27,7 +27,7 @@ class NavigationBar extends Component {
       isOpen: false,
       loggedIn: false,
       username: null,
-      currentRound: roundData.currentRound
+      currentRound: 0
     }
   }
 
