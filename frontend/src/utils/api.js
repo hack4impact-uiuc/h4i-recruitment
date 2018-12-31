@@ -147,6 +147,25 @@ function deleteInterview(candidateId: string, interviewId: string) {
   }).then(res => res.json())
 }
 
+function getRound() {
+  return fetch(`${API_URL}/structure?key=${getKey()}`, {
+    method: 'GET'
+  }).then(res => res.json())
+}
+
+function setRound(round: number) {
+  return fetch(`${API_URL}/structure?key=${getKey()}`, {
+    body: JSON.stringify({
+      round
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   getPastInterviews,
   getCandidateInterviews,
@@ -164,5 +183,7 @@ export {
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,
-  deleteInterview
+  deleteInterview,
+  getRound,
+  setRound
 }
