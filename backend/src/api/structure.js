@@ -6,7 +6,7 @@ const router = express.Router()
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const structure = await Structure.find()
+    const structure = await Structure.find()[0]
     res.send({ result: structure })
   })
 )
@@ -18,7 +18,7 @@ router.post(
     let response = 'Round Changed Successfully'
     let code = 404
     const newRound = req.body.round
-    Structure.deleteMany({})
+    await Structure.remove({})
     const structure = new Structure({
       round: newRound
     })

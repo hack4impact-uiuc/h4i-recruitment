@@ -1,8 +1,8 @@
 import { Component } from 'react'
-import { Button, Input } from 'reactstrap'
+import { Button, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import Router from 'next/router'
 import Link from 'next/link'
-import { setRound } from '../utils/api'
+import { getRound, setRound } from '../utils/api'
 
 type Props = {}
 
@@ -11,14 +11,14 @@ class Rounds extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      currentRound: ''
+      currentRound: getRound().round
     }
   }
   async handleSubmit() {
     const { success } = await setRound(this.state.currentRound)
     if (success) {
-      //sessionStorage.setItem('interviewerKey', this.state.currentKey)
-      Router.push('/facemash')
+      sessionStorage.setItem('currentRound', this.state.currentRound)
+      Router.push('/dashboard')
     }
   }
   onTextChange = e => {
@@ -34,7 +34,7 @@ class Rounds extends Component<Props> {
   render() {
     return (
       <div className="align-middle login-box">
-        <h4>Enter Key:</h4>
+        <h4>Enter Round:</h4>
         <Input
           autoFocus={true}
           type="text"
