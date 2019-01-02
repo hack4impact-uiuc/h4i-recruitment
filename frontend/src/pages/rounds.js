@@ -11,18 +11,18 @@ class Rounds extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      currentRound: getRound().round
+      round: getRound().round
     }
   }
   async handleSubmit() {
-    const { success } = await setRound(this.state.currentRound)
+    const { success } = await setRound(this.state.round)
     if (success) {
-      sessionStorage.setItem('currentRound', this.state.currentRound)
+      sessionStorage.setItem('currentRound', this.state.round)
       Router.push('/dashboard')
     }
   }
   onTextChange = e => {
-    this.setState({ currentRound: e.target.value })
+    this.setState({ round: e.target.value })
   }
 
   _handleKeyPress = e => {
@@ -38,7 +38,7 @@ class Rounds extends Component<Props> {
         <Input
           autoFocus={true}
           type="text"
-          value={this.state.currentRound}
+          value={this.state.round}
           onChange={this.onTextChange}
           name="Input Round"
           placeholder="Input the New Round"
