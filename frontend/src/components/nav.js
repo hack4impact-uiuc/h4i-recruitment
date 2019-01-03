@@ -83,9 +83,8 @@ class NavigationBar extends Component {
       })
     }
     const res = await getRound()
-    let round = res.result.round
-    if (round) {
-      this.props.setRoundRedux(round)
+    if (res.result) {
+      this.props.setRoundRedux(res.result.round)
     } else {
       this.props.setRoundRedux(0)
     }
