@@ -1,28 +1,39 @@
 import { Component } from 'react'
 import { Button, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import Router from 'next/router'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import Link from 'next/link'
 import { getRound, setRound } from '../utils/api'
+import RoundDropdown from '../components/roundDropdown'
+import roundData from '../../../data/roundData.js'
+import { setRoundRedux } from '../actions'
 
-type Props = {}
+const mapStateToProps = state => ({
+  round: state.round,
+  selectedRound: state.selectedRound
+})
 
-// Main app
-class Rounds extends Component<Props> {
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setRoundRedux
+    },
+    dispatch
+  )
+}
+
+class Rounds extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      round: getRound().round
-    }
   }
-  async handleSubmit() {
-    const { success } = await setRound(this.state.round)
+  async changeRound() {
+    this.props.setRoundRedux(this.props.selectedRound)
+    const { success } = await setRound(this.props.selectedRound)
     if (success) {
-      sessionStorage.setItem('currentRound', this.state.round)
+      sessionStorage.setItem('currentRound', this.props.selectedRound)
       Router.push('/dashboard')
     }
-  }
-  onTextChange = e => {
-    this.setState({ round: e.target.value })
   }
 
   _handleKeyPress = e => {
@@ -34,21 +45,19 @@ class Rounds extends Component<Props> {
   render() {
     return (
       <div className="align-middle login-box">
-        <h4>Enter Round:</h4>
-        <Input
-          autoFocus={true}
-          type="text"
-          value={this.state.round}
-          onChange={this.onTextChange}
-          name="Input Round"
-          placeholder="Input the New Round"
-          onKeyPress={this._handleKeyPress}
-        />
-        <Button className="mt-3" color="primary" onClick={this.handleSubmit}>
+        <h3>Current Round: {roundData.rounds[this.props.round].name}</h3>
+        <br />
+        <h4>See round structure below:</h4>
+        <RoundDropdown />
+        <pre>{JSON.stringify(roundData.rounds[this.props.selectedRound], null, '\t')}</pre>
+        <Button className="mt-3" color="primary" onClick={this.changeRound.bind(this)}>
           Submit Round
         </Button>
       </div>
     )
   }
 }
-export default Rounds
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Rounds)
