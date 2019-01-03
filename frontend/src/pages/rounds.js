@@ -53,7 +53,8 @@ class Rounds extends Component {
   }
 
   render() {
-    return <div className="align-middle round-box">
+    return (
+      <div className="align-middle round-box">
         <Modal isOpen={this.state.modalOpen} autoFocus={false}>
           <ModalBody>User doesn&#39;t have the privileges to change rounds.</ModalBody>
           <ModalFooter>
@@ -72,6 +73,7 @@ class Rounds extends Component {
           Change Round (Directors Only)
         </Button>
       </div>
+    )
   }
 }
 export default connect(
