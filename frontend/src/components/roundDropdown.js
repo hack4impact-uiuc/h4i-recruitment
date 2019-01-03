@@ -10,9 +10,7 @@ import Select from 'react-select'
 import roundData from '../../../data/roundData.js'
 import { setSelectedRound } from '../actions'
 
-const mapStateToProps = state => ({
-  round: state.round
-})
+const mapStateToProps = state => {}
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
