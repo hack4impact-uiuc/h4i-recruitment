@@ -33,16 +33,13 @@ class RoundDropdown extends Component {
     this.props.setSelectedRound(selectedOption.value)
   }
 
+  getRoundInfo = (round, index) => {
+    return { value: index, label: round.name }
+  }
+
   render() {
     var round_names = []
-    for (var i = 0; i < roundData.numberRounds; i++) {
-      let curr_round = roundData.rounds[i]
-      let curr_round_label = {
-        value: i,
-        label: curr_round.name.toString()
-      }
-      round_names.push(curr_round_label)
-    }
+    var round_names = roundData.rounds.map(this.getRoundInfo)
     return (
       <Fragment>
         <Select
