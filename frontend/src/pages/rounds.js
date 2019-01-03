@@ -8,7 +8,6 @@ import { setRound } from '../utils/api'
 import RoundDropdown from '../components/roundDropdown'
 import roundData from '../../../data/roundData.js'
 import { setRoundRedux } from '../actions'
-import { timingSafeEqual } from 'crypto'
 
 const mapStateToProps = state => ({
   round: state.round,
