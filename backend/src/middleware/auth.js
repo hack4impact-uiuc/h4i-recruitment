@@ -35,14 +35,14 @@ const auth = (req, res, next) => {
 
         // check whether key is a lead's key or a member's key
         // this is used by the leadsOnly middleware
-        if (key.endsWith(leadSuffix) || key.endsWith(directorSuffix)) {
+        if (key.endsWith(directorSuffix)) {
           req._is_lead = true
+          req._is_director = true
+        } else if (key.endsWith(leadSuffix)) {
+          req._is_lead = true
+          req._is_director = false
         } else {
           req._is_lead = false
-        }
-        if (key.endsWith(directorSuffix)) {
-          req._is_director = true
-        } else {
           req._is_director = false
         }
         return next()
