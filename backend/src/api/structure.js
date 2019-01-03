@@ -6,7 +6,7 @@ const router = express.Router()
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const structure = await Structure.find()[0]
+    const structure = await Structure.findOne()
     res.send({ result: structure })
   })
 )

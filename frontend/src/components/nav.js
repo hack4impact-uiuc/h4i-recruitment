@@ -14,20 +14,35 @@ import {
   ModalBody,
   Input,
   Button,
-  NavLink,
   Container
 } from 'reactstrap'
-import { validateKey, getKey } from '../utils/api'
+import { validateKey, getKey, getCandidates } from '../utils/api'
 import roundData from '../../../data/roundData.js'
 
+import { setRoundRedux } from '../actions'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { getRound } from '../utils/api'
+
+const mapStateToProps = state => ({
+  round: state.round
+})
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setRoundRedux
+    },
+    dispatch
+  )
+}
 class NavigationBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isOpen: false,
       loggedIn: false,
-      username: null,
-      currentRound: 0
+      username: null
     }
   }
 
@@ -60,12 +75,19 @@ class NavigationBar extends Component {
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }
-  componentDidMount() {
+  async componentDidMount() {
     if (getKey() != undefined) {
       this.setState({
         loggedIn: true,
         username: sessionStorage.getItem('interviewerName')
       })
+    }
+    const res = await getRound()
+    let round = res.result.round
+    if (round) {
+      this.props.setRoundRedux(round)
+    } else {
+      this.props.setRoundRedux(0)
     }
   }
   // handles when user presses "Enter" when input is focused
@@ -101,14 +123,12 @@ class NavigationBar extends Component {
               <Link
                 prefetch
                 href={
-                  roundData.rounds[this.state.currentRound].type == 'interview'
+                  roundData.rounds[this.props.round].type == 'interview'
                     ? '/interviewportal'
                     : '/facemash'
                 }
               >
-                <a className="nav-bar-link pl-3">
-                  {roundData.rounds[this.state.currentRound].name}
-                </a>
+                <a className="nav-bar-link pl-3">{roundData.rounds[this.props.round].name}</a>
               </Link>
               <Nav navbar>
                 <Link prefetch href="/table">
@@ -174,4 +194,7 @@ class NavigationBar extends Component {
   }
 }
 
-export default NavigationBar
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavigationBar)

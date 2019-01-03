@@ -191,6 +191,11 @@ p > b {
 .login-box {
   margin: 20%;
 }
+
+.round-box {
+  margin: 10%;
+}
+
 .login-loading-box {
   margin-top: 20%;
   margin-left: 30px;

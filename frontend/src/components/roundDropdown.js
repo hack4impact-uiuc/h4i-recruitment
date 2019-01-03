@@ -48,7 +48,7 @@ class RoundDropdown extends Component {
     return (
       <Fragment>
         <Select
-          placeholder={roundData.rounds[this.props.round].name}
+          placeholder="View round structure..."
           options={round_names}
           onChange={this.handleChange}
           value={this.state.selectedOption}
