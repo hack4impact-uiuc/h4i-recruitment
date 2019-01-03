@@ -1,10 +1,9 @@
 export default {
-  numberRounds: 3,
   rounds: [
     {
       round: "0",
       type: "faceMash",
-      name: "FaceMash",
+      name: "FaceMash"
     },
     {
       round: "1",
