@@ -140,7 +140,7 @@ router.post(
   [leadsOnly],
   errorWrap(async (req, res) => {
     const data = req.body
-    let response = 'Interview Added Sucessfully'
+    let response = 'Interview Added Successfully'
     let code = 404
     let interviewerKey = data.interviewerKey
     let reqSections = data.sections
