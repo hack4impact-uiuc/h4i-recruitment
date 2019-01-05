@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Link from 'next/link'
 import RoundDropdown from '../components/roundDropdown'
+import { Card, CardBody, CardText, CardTitle } from 'reactstrap'
 import roundData from '../../../data/roundData.js'
 import { setRoundRedux } from '../actions'
 import { timingSafeEqual } from 'crypto'
@@ -29,13 +30,23 @@ class Rounds extends Component {
     }
   }
 
-  interpretRounds = () => roundData.rounds[2].questions[0].map(this.interpretRound)
+  interpretRounds = () => roundData.rounds[2].questions.map(this.interpretQuestions)
 
-  interpretRound = round => {
-    console.log(round.type)
-    switch (round.type) {
+  interpretQuestions = questions =>
+    questions.map(this.interpretQuestion).map(cardData => <Card>{cardData}</Card>)
+
+  interpretQuestion = question => {
+    switch (question.type) {
+      case 'title':
+        return <CardTitle>{question.title}</CardTitle>
+      case 'text':
+        return <CardText>{question.body}</CardText>
+      case 'dropdown':
+        return 'idk how to make a dropdown'
+      case 'prompt':
+        return 'write something here: jk idk how to make a prompt box thing'
       default:
-        return <h4>{round.type}</h4>
+        return <h4>{question.type}</h4>
     }
   }
 
