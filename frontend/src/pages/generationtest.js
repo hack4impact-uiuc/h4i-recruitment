@@ -29,14 +29,18 @@ class Rounds extends Component {
     }
   }
 
-  interpretRounds = () => roundData.rounds
+  interpretRounds = () => roundData.rounds[2].questions[0].map(this.interpretRound)
+
+  interpretRound = round => {
+    console.log(round.type)
+    switch (round.type) {
+      default:
+        return <h4>{round.type}</h4>
+    }
+  }
 
   render() {
-    return (
-      <div className="align-middle round-box">
-        {JSON.stringify(this.interpretRounds(), null, '\t')}
-      </div>
-    )
+    return <div className="align-middle round-box">{this.interpretRounds()}</div>
   }
 }
 export default connect(
