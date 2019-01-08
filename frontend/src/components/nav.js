@@ -16,11 +16,13 @@ import {
   Button,
   Container
 } from 'reactstrap'
-import { validateKey, getKey, getCandidates, getRound } from '../utils/api'
+import { validateKey, getKey, getCandidates } from '../utils/api'
 import roundData from '../../../data/roundData.js'
+
 import { setRoundRedux } from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { getRound } from '../utils/api'
 
 const mapStateToProps = state => ({
   round: state.round
