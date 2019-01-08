@@ -49,7 +49,8 @@ const mapStateToProps = state => ({
   filters: state.candidateListPage.filters,
   sort: state.candidateListPage.sort,
   candidateId: state.interview.candidateId,
-  candidateName: state.interview.candidateName
+  candidateName: state.interview.candidateName,
+  round: state.round
 })
 
 class Interview extends Component<Props> {

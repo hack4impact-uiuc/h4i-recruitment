@@ -5,12 +5,21 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Link from 'next/link'
 import RoundDropdown from '../components/roundDropdown'
-import { Card, CardBody, CardText, CardTitle } from 'reactstrap'
+import { Card, CardBody, CardText, CardTitle, Container, Col, Row } from 'reactstrap'
+import InterviewSectionCard from '../components/interviewSectionCard'
 import roundData from '../../../data/roundData.js'
+import CandidateDropdown from '../components/candidateDropdown'
 import { setRoundRedux } from '../actions'
 import { timingSafeEqual } from 'crypto'
 
 const mapStateToProps = state => ({
+  candidates: state.candidateListPage.candidates,
+  loading: state.candidateListPage.candidatesLoading,
+  error: state.candidateListPage.candidatesError,
+  filters: state.candidateListPage.filters,
+  sort: state.candidateListPage.sort,
+  candidateId: state.interview.candidateId,
+  candidateName: state.interview.candidateName,
   round: state.round
 })
 
@@ -30,10 +39,26 @@ class Rounds extends Component {
     }
   }
 
-  interpretRounds = () => roundData.rounds[2].questions.map(this.interpretQuestions)
+  produceCurrentRound = () => {
+    return roundData.rounds[this.props.round].type === 'interview' ? (
+      roundData.rounds[this.props.round].questions.map(this.interpretQuestions)
+    ) : (
+      <InterviewSectionCard>
+        <CardBody>
+          <CardTitle>
+            The current round is {roundData.rounds[this.props.round].name} which doesn&#39;t
+            necessitate an interview.
+          </CardTitle>
+        </CardBody>
+      </InterviewSectionCard>
+    )
+  }
 
-  interpretQuestions = questions =>
-    questions.map(this.interpretQuestion).map(cardData => <Card>{cardData}</Card>)
+  interpretQuestions = questions => (
+    <InterviewSectionCard>
+      <CardBody>{questions.map(this.interpretQuestion)}</CardBody>
+    </InterviewSectionCard>
+  )
 
   interpretQuestion = question => {
     switch (question.type) {
@@ -51,7 +76,83 @@ class Rounds extends Component {
   }
 
   render() {
-    return <div className="align-middle round-box">{this.interpretRounds()}</div>
+    let { error, filters, sort } = this.props
+    let { candidates } = this.state
+    if (error) {
+      console.error(error)
+      return (
+        <ErrorMessage
+          code="404"
+          message={`Bad Fetch with ${error}. Candidates may be empty. Check if you are logged in.`}
+        />
+      )
+    }
+    const statusFilter = filters.statuses
+    const { sections } = this.state
+    let candidate = null
+    if (candidates != undefined) {
+      candidates = candidates.filter(candidate => {
+        return statusFilter.includes(candidate.status)
+      })
+      const filtered_candidates = candidates.filter(
+        candidate => candidate._id == this.props.candidateId
+      )
+      if (filtered_candidates.length != 0) {
+        candidate = filtered_candidates[0]
+      }
+    } else {
+      candidates = []
+    }
+    return (
+      <Container>
+        <Row style={{ marginTop: '20px' }}>
+          <Col md="2" />
+          <Col md="2">
+            <h3>Interviewing</h3>
+          </Col>
+          <Col md="4">
+            <CandidateDropdown candidates={candidates} />
+          </Col>
+        </Row>
+        <Row>
+          <Col md="6">
+            Some quick links:
+            <ul>
+              {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
+                <li>
+                  <a
+                    href={`/candidate?id=${this.props.candidateId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {this.props.candidateName}&#39;s Page
+                  </a>
+                </li>
+              ) : null}
+              <li>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://docs.google.com/document/d/1S-rDqfEOWVCQImTQ8zIu_Aj4L-YBi5aCjlawvQrQJ6A/edit#"
+                >
+                  Interview Guide
+                </a>
+              </li>
+              <li>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://docs.google.com/document/d/1119YvTWvh58L7eOy-FvVvLyb9wLzZLImQSPBO3yPszI/edit"
+                >
+                  Interview Tips
+                </a>
+              </li>
+            </ul>
+          </Col>
+        </Row>
+        <div className="align-middle round-box">{this.produceCurrentRound()}</div>
+      </Container>
+    )
   }
 }
 export default connect(

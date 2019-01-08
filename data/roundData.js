@@ -1,3 +1,6 @@
+// import React from "../frontend/node_modules/react";
+// this was an attempt to be able to parse jsx in this file, but I can't get that to work
+
 export default {
   rounds: [
     {
