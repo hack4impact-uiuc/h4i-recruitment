@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 // import React from "../frontend/node_modules/react";
 // this was an attempt to be able to parse jsx in this file, but I can't get that to work
 
->>>>>>> 7ec4c6038fb3a469a387cf80f38077f5eed5ce6f
 export default {
   rounds: [
     {
@@ -33,8 +30,6 @@ export default {
           minScore: 0,
           maxScore: 7
         }
-<<<<<<< HEAD
-=======
       ],
       questions: [
         [
@@ -75,7 +70,6 @@ export default {
             prompt: "Explain why you awarded those points:"
           }
         ]
->>>>>>> 7ec4c6038fb3a469a387cf80f38077f5eed5ce6f
       ]
     }
   ]
