@@ -4,7 +4,6 @@ import Router from 'next/router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Link from 'next/link'
-import RoundDropdown from '../components/roundDropdown'
 import { Card, CardBody, CardText, CardTitle, Container, Col, Row } from 'reactstrap'
 import InterviewSectionCard from '../components/interviewSectionCard'
 import roundData from '../../../data/roundData.js'
@@ -43,27 +42,30 @@ class Rounds extends Component {
     return roundData.rounds[this.props.round].type === 'interview' ? (
       roundData.rounds[this.props.round].questions.map(this.interpretQuestions)
     ) : (
-      <InterviewSectionCard>
-        <CardBody>
-          <CardTitle>
-            The current round is {roundData.rounds[this.props.round].name} which doesn&#39;t
-            necessitate an interview.
-          </CardTitle>
-        </CardBody>
+      <InterviewSectionCard
+        title={
+          'The current round is ' +
+          roundData.rounds[this.props.round].name +
+          " which doesn't necessitate an interview."
+        }
+      />
+    )
+  }
+
+  interpretQuestions = questions => {
+    return (
+      <InterviewSectionCard
+        title={questions.filter(question => question.type === 'title')[0]['title']}
+      >
+        {questions.map(this.interpretQuestion)}
       </InterviewSectionCard>
     )
   }
 
-  interpretQuestions = questions => (
-    <InterviewSectionCard>
-      <CardBody>{questions.map(this.interpretQuestion)}</CardBody>
-    </InterviewSectionCard>
-  )
-
   interpretQuestion = question => {
     switch (question.type) {
       case 'title':
-        return <CardTitle>{question.title}</CardTitle>
+        return
       case 'text':
         return <CardText>{question.body}</CardText>
       case 'dropdown':
@@ -71,7 +73,7 @@ class Rounds extends Component {
       case 'prompt':
         return 'write something here: jk idk how to make a prompt box thing'
       default:
-        return <h4>{question.type}</h4>
+        return 'erm . . . something in roundData.js was not formatted correctly'
     }
   }
 
