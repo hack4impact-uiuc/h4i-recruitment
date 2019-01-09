@@ -3,12 +3,10 @@ import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
 import Router from 'next/router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Link from 'next/link'
 import { setRound } from '../utils/api'
 import RoundDropdown from '../components/roundDropdown'
 import roundData from '../../../data/roundData.js'
 import { setRoundRedux } from '../actions'
-import { timingSafeEqual } from 'crypto'
 
 const mapStateToProps = state => ({
   round: state.round,
