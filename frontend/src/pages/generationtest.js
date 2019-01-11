@@ -72,6 +72,16 @@ class Rounds extends Component {
         return 'idk how to make a dropdown'
       case 'prompt':
         return 'write something here: jk idk how to make a prompt box thing'
+      case 'list':
+        return (
+          <CardText>
+            <ul>
+              {question.items.map(item => (
+                <li>item</li>
+              ))}
+            </ul>
+          </CardText>
+        )
       default:
         return 'erm . . . something in roundData.js was not formatted correctly'
     }
