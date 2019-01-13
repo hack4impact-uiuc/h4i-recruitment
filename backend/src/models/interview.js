@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 
 const Question = new mongoose.Schema({
   question_text: { type: String },
-  score: { type: Number }
+  score: { type: Number, default: 0 },
+  notes: { type: String, default: '' },
+  type: { type: String, enum: ['Dropdown', 'Multiple Choice', 'Category'] },
+  options: { type: [String] }
 })
 
 const Section = new mongoose.Schema({
@@ -22,7 +25,8 @@ const Interview = new mongoose.Schema({
   general_notes: { type: String },
   category_notes: { type: String },
   category: { type: String },
-  sections: { type: [Section] }
+  sections: { type: [Section] },
+  structure: { type: String }
 })
 
 module.exports.InterviewSchema = Interview
