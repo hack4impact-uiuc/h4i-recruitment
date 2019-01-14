@@ -172,5 +172,6 @@ export {
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,
-  deleteInterview
+  deleteInterview,
+  addReferral
 }

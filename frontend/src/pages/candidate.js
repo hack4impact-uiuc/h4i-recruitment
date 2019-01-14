@@ -8,7 +8,7 @@ import CandidateInterviewsModal from '../components/candidates/candidateIntervie
 import AddCommentsModal from '../components/comments/addCommentsModal'
 import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
-import { getCandidateById, addCommentToCandidate, getCandidateInterviews } from '../utils/api'
+import { addReferral, getCandidateById, addCommentToCandidate, getCandidateInterviews } from '../utils/api'
 import { addInterviewCandidate } from './../actions'
 import ActionButton from '../components/actionButton'
 
@@ -77,6 +77,10 @@ class CandidatePage extends Component<Props> {
     await addInterviewCandidate(candidateId, candidateName)
     Router.push('/interview')
   }
+  // adds referral
+  async handleReferral(candidateId) {
+    await addReferral(candidateId)
+  }
   exitModal = () => {
     this.setState({
       modalOpen: false
@@ -117,6 +121,13 @@ class CandidatePage extends Component<Props> {
                 onClick={() => this.handleShowAllInterviews(candidate._id)}
               >
                 Show Candidate Interviews
+              </Button>
+              <Button
+                outline
+                color="primary"
+                onClick={() => this.handleReferral(candidate._id)}
+              >
+                Refer
               </Button>
             </Col>
             <Col md={4}>
