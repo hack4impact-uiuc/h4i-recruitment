@@ -369,4 +369,19 @@ router.delete(
   })
 )
 
+router.post(
+  '/:candidateId/referrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $push: { referrals: req._key_name }
+    })
+
+    res.json({
+      message: `Successfully referred user ${candidate._id}`,
+      status: 200,
+      success: true
+    })
+  })
+)
+
 module.exports = router
