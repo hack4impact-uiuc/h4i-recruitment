@@ -150,6 +150,7 @@ router.post(
     let genNotes = data.generalNotes
     let catNotes = data.categoryNotes
     let givenCategory = data.category
+    let structure = data.structure
 
     if (interviewerKey == undefined) {
       response = 'Invalid interviewerKey'
@@ -163,6 +164,8 @@ router.post(
       response = 'Invalid score'
     } else if (genNotes == undefined) {
       response = 'Invalid notes'
+    } else if (structure == undefined) {
+      response = 'Invalid structure'
     } else {
       // await Candidate.findByIdAndUpdate(candidateId, { status: 'interviewing' })
       const interview = new Interview({
@@ -174,7 +177,8 @@ router.post(
         general_notes: genNotes,
         category_notes: catNotes,
         sections: reqSections,
-        category: givenCategory
+        category: givenCategory,
+        structure: structure
       })
       await interview.save()
       code = 200

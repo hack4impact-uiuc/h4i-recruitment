@@ -95,7 +95,8 @@ function addInterview(
   generalNotes: string,
   categoryNotes: string,
   category: string,
-  sections: Array
+  sections: Array,
+  structure: string
 ) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`, {
     body: JSON.stringify({
@@ -106,7 +107,8 @@ function addInterview(
       generalNotes,
       categoryNotes,
       category,
-      sections
+      sections,
+      structure
     }),
     headers: {
       'content-type': 'application/json'
