@@ -8,7 +8,12 @@ import CandidateInterviewsModal from '../components/candidates/candidateIntervie
 import AddCommentsModal from '../components/comments/addCommentsModal'
 import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
-import { addReferral, getCandidateById, addCommentToCandidate, getCandidateInterviews } from '../utils/api'
+import {
+  addReferral,
+  getCandidateById,
+  addCommentToCandidate,
+  getCandidateInterviews
+} from '../utils/api'
 import { addInterviewCandidate } from './../actions'
 import ActionButton from '../components/actionButton'
 
@@ -122,11 +127,7 @@ class CandidatePage extends Component<Props> {
               >
                 Show Candidate Interviews
               </Button>
-              <Button
-                outline
-                color="primary"
-                onClick={() => this.handleReferral(candidate._id)}
-              >
+              <Button outline color="primary" onClick={() => this.handleReferral(candidate._id)}>
                 Refer
               </Button>
             </Col>
