@@ -3,10 +3,12 @@ const mongoose = require('mongoose')
 
 const Question = new mongoose.Schema({
   question_text: { type: String },
-  score: { type: Number, default: 0 },
-  notes: { type: String, default: '' },
-  type: { type: String, enum: ['Dropdown', 'Multiple Choice', 'Category'] },
-  options: { type: [String] }
+  score: { type: Number, default: 0 }, // 0 indicates that a question is not scored, e.g. a category/feedback only question
+  notes_prompt: { type: String, default: '' }, // if there is space for additional notes, this contains the header
+  type: { type: String, enum: ['Dropdown', 'Multiple Choice', 'None'] }, // Pick one for a notes-only question
+  options: { type: [String] }, // strings containing JSON objects with keys for score (optional) and description (optional) with at least one required
+  answer: { type: String },
+  notes_answer: { type: String, default: '' }
 })
 
 const Section = new mongoose.Schema({
@@ -26,7 +28,7 @@ const Interview = new mongoose.Schema({
   category_notes: { type: String },
   category: { type: String },
   sections: { type: [Section] },
-  structure: { type: String }
+  structure: { type: String } // a string containing the JSON configuration of the round this interview belongs to for reconstruction
 })
 
 module.exports.InterviewSchema = Interview
