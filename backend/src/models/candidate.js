@@ -25,6 +25,8 @@ const Candidate = new mongoose.Schema(
     techExperience: { type: String },
     howTheyKnowUs: { type: String },
     classesTaken: [String],
+    strongReferrals: [String],
+    referrals: [String],
     additionalComments: { type: String },
     interviews: [InterviewSchema], // subdocument
     facemashRankings: {
