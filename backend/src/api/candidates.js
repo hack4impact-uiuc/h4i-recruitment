@@ -386,7 +386,7 @@ router.post(
     } else {
       res.json({
         message: `Already referred user`,
-        status: 403,
+        status: 400,
         success: false
       })
     }
