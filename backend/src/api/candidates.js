@@ -383,5 +383,19 @@ router.post(
     })
   })
 )
+router.delete(
+  '/:candidateId/referrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $pull: { referrals: req._key_name }
+    })
+
+    res.json({
+      message: `Successfully deleted referral for user ${candidate._id}`,
+      status: 200,
+      success: true
+    })
+  })
+)
 
 module.exports = router

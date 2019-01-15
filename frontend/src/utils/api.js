@@ -155,6 +155,14 @@ function addReferral(candidateID: string) {
   }).then(res => res.json())
 }
 
+function deleteReferral(candidateID: string) {
+  console.log(`Deleting referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+    method: 'DELETE',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   getPastInterviews,
   getCandidateInterviews,
@@ -173,5 +181,6 @@ export {
   getInterviewingCandidates,
   getAllInterviews,
   deleteInterview,
-  addReferral
+  addReferral,
+  deleteReferral
 }

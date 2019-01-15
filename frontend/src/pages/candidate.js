@@ -10,6 +10,7 @@ import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
 import {
   addReferral,
+  deleteReferral,
   getCandidateById,
   addCommentToCandidate,
   getCandidateInterviews
@@ -86,6 +87,10 @@ class CandidatePage extends Component<Props> {
   async handleReferral(candidateId) {
     await addReferral(candidateId)
   }
+    // removes referral
+    async handleRemoveReferral(candidateId) {
+      await deleteReferral(candidateId)
+    }
   exitModal = () => {
     this.setState({
       modalOpen: false
@@ -134,6 +139,14 @@ class CandidatePage extends Component<Props> {
                 onClick={() => this.handleReferral(candidate._id)}
               >
                 Refer
+              </Button>
+              <Button
+                outline
+                color="primary"
+                className="margin-sm-all"
+                onClick={() => this.handleRemoveReferral(candidate._id)}
+              >
+                Delete Refer
               </Button>
             </Col>
             <Col md={4}>
