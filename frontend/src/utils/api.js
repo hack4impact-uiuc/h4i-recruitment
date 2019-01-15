@@ -6,7 +6,23 @@ const getKey = () => sessionStorage.getItem('interviewerKey')
 const API_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://hack4impact-recruitment-backend.now.sh'
-    : 'http://localhost:8080'
+    : 'http://52.14.207.0:8080'
+
+function addInterviewSchedule(file: File) {
+  return fetch(`${API_URL}/interviews/scheduleUpload/?key=${getKey()}`, {
+      method: 'POST',
+      headers: {
+        "content-type":"application/CSV"
+      },
+      body: file
+      }).then(
+        res => res.json()
+      ).then(
+        success => console.log(success)
+      ).catch(
+        error => console.log(error)
+      );
+  }
 
 function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
@@ -148,6 +164,7 @@ function deleteInterview(candidateId: string, interviewId: string) {
 }
 
 export {
+  addInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,
   validateKey,
