@@ -127,7 +127,12 @@ class CandidatePage extends Component<Props> {
               >
                 Show Candidate Interviews
               </Button>
-              <Button outline color="primary" onClick={() => this.handleReferral(candidate._id)}>
+              <Button
+                outline
+                color="primary"
+                className="margin-sm-all"
+                onClick={() => this.handleReferral(candidate._id)}
+              >
                 Refer
               </Button>
             </Col>
