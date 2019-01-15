@@ -372,15 +372,24 @@ router.delete(
 router.post(
   '/:candidateId/referrals',
   errorWrap(async (req, res) => {
-    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
-      $push: { referrals: req._key_name }
-    })
-
-    res.json({
-      message: `Successfully referred user ${candidate._id}`,
-      status: 200,
-      success: true
-    })
+    const candidate = await Candidate.findById(req.params.candidateId)
+    const referrals = candidate.referrals
+    if (referrals === undefined || referrals.indexOf(req._key_name) === -1) {
+      const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+        $push: { referrals: req._key_name }
+      })
+      res.json({
+        message: `Successfully referred user ${candidate._id}`,
+        status: 200,
+        success: true
+      })
+    } else {
+      res.json({
+        message: `Already referred user`,
+        status: 403,
+        success: false
+      })
+    }
   })
 )
 router.delete(

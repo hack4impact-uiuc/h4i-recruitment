@@ -87,10 +87,10 @@ class CandidatePage extends Component<Props> {
   async handleReferral(candidateId) {
     await addReferral(candidateId)
   }
-    // removes referral
-    async handleRemoveReferral(candidateId) {
-      await deleteReferral(candidateId)
-    }
+  // removes referral
+  async handleRemoveReferral(candidateId) {
+    await deleteReferral(candidateId)
+  }
   exitModal = () => {
     this.setState({
       modalOpen: false
@@ -143,7 +143,6 @@ class CandidatePage extends Component<Props> {
               <Button
                 outline
                 color="primary"
-                className="margin-sm-all"
                 onClick={() => this.handleRemoveReferral(candidate._id)}
               >
                 Delete Refer
