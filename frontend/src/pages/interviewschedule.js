@@ -11,25 +11,30 @@ type Props = {}
 
 const mapStateToProps = state => ({})
 
-class InterviewSchedule extends Component<Props>{
-  constructor(props){
+class InterviewSchedule extends Component<Props> {
+  constructor(props) {
     super(props)
-    this.uploadSchedule = this.uploadSchedule.bind(this);
+    this.uploadSchedule = this.uploadSchedule.bind(this)
   }
 
   uploadSchedule(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    addInterviewSchedule(this.uploadInput.files[0]);
+    addInterviewSchedule(this.uploadInput.files[0])
   }
 
   render() {
-    return(
+    return (
       <Container>
         <form onSubmit={this.uploadSchedule}>
           <div>
             <h2>Select CSV file to upload</h2>
-            <input ref={(ref) => { this.uploadInput = ref; }} type="file"/>
+            <input
+              ref={ref => {
+                this.uploadInput = ref
+              }}
+              type="file"
+            />
           </div>
           <button type="submit">Parse Schedule</button>
         </form>
