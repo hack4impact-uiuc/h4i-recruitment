@@ -1,5 +1,6 @@
 const express = require('express')
 var mongodb = require('mongodb')
+const csv = require('csv-array')
 const { errorWrap, leadsOnly } = require('../middleware')
 const { FutureInterview } = require('../models')
 const keyPath =
@@ -9,47 +10,69 @@ const keyData = require(keyPath)
 const router = express.Router()
 
 router.post(
-  '/schedule/upload',
+  '/upload',
   [leadsOnly],
   errorWrap(async (req, res) => {
-    const data = req.body
+    const data = req.body['schedule']
+    console.log(data);
     let response = 'Schedule Adding Failed'
     let code = 404
 
-    //TODO: do stuff
-    //await "FutureInterview.ParseSchedule()"? or just do the logic here
+    //TODO: parse schedule
+    var arr = data.split("\n").map(function(e) {
+      return e.split(",");
+    })
+    var date = arr[0][0];
+    var headers = arr[0]
+
+    for(var i = 1; i < arr.length; i++){
+      for(var j = 1; j < arr[i].length; j++){
+        if(arr[i][j] === "") continue;
+
+        var interview = arr[i][j]
+        var interviewers = interview.split(':')[1].split(';')[0].split('&').map(s => s.trim());
+        var interviewees = interview.split(':')[2].split('&').map(s => s.trim());
+
+        let newInterview = new FutureInterview({
+          candidates: interviewees,
+          interviewers: interviewers,
+          room: arr[0][j],
+          date: date,
+          time: arr[i][0]
+        })
+        const res = await newInterview.save()
+        console.log(res)
+      }
+    }
+
     response = 'Schedule Added Sucessfully'
     code = 200
     res.json({
       code,
       message: response,
-      result: {},
+      result: data,
       success: true
     })
   })
 )
 
 router.post(
-  '/schedule/populateTest',
+  '/populateTest',
   errorWrap(async (req, res) => {
     var newInterview = new FutureInterview({
-      candidate_id: '1234',
-      candidate_name: 'Steve Jobs',
-      interviewer_key: 'tkol',
-      interviewer_name: "Tim Ko",
+      candidates: ['Steve Jobs'],
+      interviewers: ['Tim Ko'],
       room: "Room A",
-      date: "1/24",
+      date: "01/24/2019",
       time: "10:00AM"
     })
     await newInterview.save()
 
     newInterview = new FutureInterview({
-      candidate_id: '5678',
-      candidate_name: 'Bill Gates',
-      interviewer_key: 'tkol',
-      interviewer_name: "Tim Ko",
+      candidates: ['Bill Gates'],
+      interviewers: ["Tim Ko"],
       room: "Room B",
-      date: "1/25",
+      date: "01/25/2019",
       time: "2:00PM"
     })
 
@@ -65,7 +88,7 @@ router.post(
 )
 
 router.get(
-  '/schedule',
+  '/',
   [leadsOnly],
   errorWrap(async (req, res) => {
     const futureInterviews = await FutureInterview.find()

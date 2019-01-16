@@ -6,10 +6,8 @@ const mongoose = require('mongoose')
 * adding a FutureInterview schema to a candidate. For now it is just a model.
 */
 const FutureInterview = new mongoose.Schema({
-  candidate_id: { type: String },
-  candidate_name: { type: String },
-  interviewer_key: { type: String },
-  interviewer_name: { type: String },
+  candidates: [{type: String}],
+  interviewers: [{type: String}],
   room: { type: String },
   date: { type: String },
   time: { type: String }
