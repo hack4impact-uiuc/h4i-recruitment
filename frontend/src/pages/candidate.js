@@ -39,8 +39,7 @@ class CandidatePage extends Component<Props> {
       addNotesModal: false,
       candidate: null,
       modalOpen: false,
-      comments: [],
-      referrals: []
+      comments: []
     }
   }
   async componentDidMount() {
