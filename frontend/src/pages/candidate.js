@@ -39,7 +39,8 @@ class CandidatePage extends Component<Props> {
       addNotesModal: false,
       candidate: null,
       modalOpen: false,
-      comments: []
+      comments: [],
+      referrals: []
     }
   }
   async componentDidMount() {
@@ -85,11 +86,13 @@ class CandidatePage extends Component<Props> {
   }
   // adds referral
   async handleReferral(candidateId) {
-    await addReferral(candidateId)
+    const { result } = await addReferral(candidateId)
+    this.setState({ candidate: { ...this.state.candidate, referrals: result } })
   }
   // removes referral
   async handleRemoveReferral(candidateId) {
-    await deleteReferral(candidateId)
+    const { result } = await deleteReferral(candidateId)
+    this.setState({ candidate: { ...this.state.candidate, referrals: result } })
   }
   exitModal = () => {
     this.setState({
