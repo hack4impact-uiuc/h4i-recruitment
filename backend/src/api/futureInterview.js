@@ -14,24 +14,31 @@ router.post(
   [leadsOnly],
   errorWrap(async (req, res) => {
     const data = req.body['schedule']
-    console.log(data);
+    console.log(data)
     let response = 'Schedule Adding Failed'
     let code = 404
 
     //TODO: parse schedule
-    var arr = data.split("\n").map(function(e) {
-      return e.split(",");
+    var arr = data.split('\n').map(function(e) {
+      return e.split(',')
     })
-    var date = arr[0][0];
+    var date = arr[0][0]
     var headers = arr[0]
 
-    for(var i = 1; i < arr.length; i++){
-      for(var j = 1; j < arr[i].length; j++){
-        if(arr[i][j] === "") continue;
+    for (var i = 1; i < arr.length; i++) {
+      for (var j = 1; j < arr[i].length; j++) {
+        if (arr[i][j] === '') continue
 
         var interview = arr[i][j]
-        var interviewers = interview.split(':')[1].split(';')[0].split('&').map(s => s.trim());
-        var interviewees = interview.split(':')[2].split('&').map(s => s.trim());
+        var interviewers = interview
+          .split(':')[1]
+          .split(';')[0]
+          .split('&')
+          .map(s => s.trim())
+        var interviewees = interview
+          .split(':')[2]
+          .split('&')
+          .map(s => s.trim())
 
         let newInterview = new FutureInterview({
           candidates: interviewees,
@@ -62,18 +69,18 @@ router.post(
     var newInterview = new FutureInterview({
       candidates: ['Steve Jobs'],
       interviewers: ['Tim Ko'],
-      room: "Room A",
-      date: "01/24/2019",
-      time: "10:00AM"
+      room: 'Room A',
+      date: '01/24/2019',
+      time: '10:00AM'
     })
     await newInterview.save()
 
     newInterview = new FutureInterview({
       candidates: ['Bill Gates'],
-      interviewers: ["Tim Ko"],
-      room: "Room B",
-      date: "01/25/2019",
-      time: "2:00PM"
+      interviewers: ['Tim Ko'],
+      room: 'Room B',
+      date: '01/25/2019',
+      time: '2:00PM'
     })
 
     await newInterview.save()
@@ -111,7 +118,7 @@ router.get(
     res.json({
       code,
       message: 'This endpoint must be implemented',
-      result: {interviews},
+      result: { interviews },
       success: true
     })
   })

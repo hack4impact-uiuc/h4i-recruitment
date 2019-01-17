@@ -9,26 +9,23 @@ const API_URL =
     : 'http://52.14.207.0:8080'
 
 function addInterviewSchedule(file: File) {
-  var reader = new FileReader();
-  var scheduleString = "";
-  reader.onload = function(e){
-    scheduleString = reader.result;
+  var reader = new FileReader()
+  var scheduleString = ''
+  reader.onload = function(e) {
+    scheduleString = reader.result
     fetch(`${API_URL}/schedule/upload/?key=${getKey()}`, {
-        method: 'POST',
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify({"schedule": scheduleString})
-        }).then(
-          res => res.json()
-        ).then(
-          success => console.log(success)
-        ).catch(
-          error => console.log(error)
-        );
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ schedule: scheduleString })
+    })
+      .then(res => res.json())
+      .then(success => console.log(success))
+      .catch(error => console.log(error))
   }
 
-  reader.readAsText(file);
+  reader.readAsText(file)
 }
 
 function getCandidateById(id: string) {
