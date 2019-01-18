@@ -23,13 +23,14 @@ class MultipleChoiceInterview extends Component {
 
   render() {
     let options = []
-    if (this.props.scoreOptions) {
+    if (this.props.scoreOptions && this.props.textOptions) {
       for (i = 0; i < this.props.scoreOptions.length; i++) {
-        options.push(this.props.scoreOptions[i])
-        if (this.props.textOptions) {
-          options[i] = options[i] + this.props.textOptions[i]
-        }
+        options.push(this.props.scoreOptions[i] + this.props.textOptions[i])
       }
+    } else if (this.props.scoreOptions) {
+      options = scoreOptions
+    } else {
+      options = textOptions
     }
     return (
       <InterviewSectionCard title={this.props.title}>
