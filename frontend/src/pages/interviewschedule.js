@@ -50,10 +50,6 @@ class InterviewSchedule extends Component<Props> {
   getAllInterviewCards = interviews => {
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     var d = new Date()
-    var currDate = d.getDate()
-    var currMonth = d.getMonth()
-    var currYear = d.getFullYear()
-    var dstring = '' + (currMonth + 1) + '/' + currDate + '/' + currYear
 
     var jsx = []
 
@@ -83,6 +79,7 @@ class InterviewSchedule extends Component<Props> {
   }
 
   compareDates = (a, b) => {
+    //Given two datetime strings, compare them
     var adate = new Date(a)
     var bdate = new Date(b)
     if (adate < bdate) {
