@@ -35,14 +35,18 @@ class InterviewSchedule extends Component<Props> {
     //return populated interview card
     return (
       <div className="interview-card future-interview">
-        <a>Time: {interview.time}</a>
-        <br />
-        <a>Room: {interview.room}</a>
-        <br />
-        <a>Interviewers: {interview.interviewers.join(', ')}</a>
-        <br />
-        <a>Candidates: {interview.candidates.join(', ')}</a>
-        <br />
+        <p>
+          <b>Time:</b> {interview.time}
+        </p>
+        <p>
+          <b>Room:</b> {interview.room}
+        </p>
+        <p>
+          <b>Interviewers:</b> {interview.interviewers.join(', ')}
+        </p>
+        <p>
+          <b>Candidates:</b> {interview.candidates.join(', ')}
+        </p>
       </div>
     )
   }
@@ -71,7 +75,11 @@ class InterviewSchedule extends Component<Props> {
         cd = new Date(i.date)
         cd.setHours(0, 0, 0, 0)
         jsx.push(<br />)
-        jsx.push(<h4 style={{ clear: 'both' }}>{days[cd.getDay()] + ', ' + i.date}</h4>)
+        jsx.push(
+          <h4 className="pt-5" style={{ clear: 'both' }}>
+            {days[cd.getDay()] + ', ' + i.date}
+          </h4>
+        )
       }
       jsx.push(this.getInterviewCard(i))
     })
