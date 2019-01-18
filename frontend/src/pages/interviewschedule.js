@@ -28,89 +28,94 @@ class InterviewSchedule extends Component<Props> {
     addInterviewSchedule(this.uploadInput.files[0])
   }
 
-  getInterviewCard = (interview) => {
-    if(interview === undefined){
-      return null;
+  getInterviewCard = interview => {
+    if (interview === undefined) {
+      return null
     }
     //return populated interview card
     return (
       <div className="interview-card future-interview">
-        <a>Time: {interview.time}</a><br/>
-        <a>Room: {interview.room}</a><br/>
-        <a>Interviewers: {interview.interviewers.join(', ')}</a><br/>
-        <a>Candidates: {interview.candidates.join(', ')}</a><br/>
+        <a>Time: {interview.time}</a>
+        <br />
+        <a>Room: {interview.room}</a>
+        <br />
+        <a>Interviewers: {interview.interviewers.join(', ')}</a>
+        <br />
+        <a>Candidates: {interview.candidates.join(', ')}</a>
+        <br />
       </div>
-    );
+    )
   }
 
-  getAllInterviewCards = (interviews) => {
-    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  getAllInterviewCards = interviews => {
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     var d = new Date()
     var currDate = d.getDate()
     var currMonth = d.getMonth()
     var currYear = d.getFullYear()
-    var dstring = "" + (currMonth + 1) + "/" + currDate + "/" + currYear
+    var dstring = '' + (currMonth + 1) + '/' + currDate + '/' + currYear
 
     var jsx = []
 
     //sort interviews by date
-    interviews = interviews.sort((a,b) => {
-      var adatetime = a.date + " " + a.time
-      var bdatetime = b.date + " " + b.time
-      return this.compareDates(adatetime,bdatetime)
+    interviews = interviews.sort((a, b) => {
+      var adatetime = a.date + ' ' + a.time
+      var bdatetime = b.date + ' ' + b.time
+      return this.compareDates(adatetime, bdatetime)
     })
 
     var cd = new Date() //current date we're operating on, for day grouping
-    cd.setHours(0,0,0,0)
-    interviews.forEach((i) => {
-      if(d > new Date(i.date + " " + i.time)){ return; }
-      var fd = i.date.split('/') //first date in list
-      if(cd.getDate() !== (new Date(i.date)).getDate()){
+    cd.setHours(0, 0, 0, 0)
+    cd.setFullYear(0, 0, 0)
+    interviews.forEach(i => {
+      if (d > new Date(i.date + ' ' + i.time)) {
+        return
+      }
+      if (cd.getDate() !== new Date(i.date).getDate()) {
         cd = new Date(i.date)
-        cd.setHours(0,0,0,0)
-        jsx.push(<br/>)
-        jsx.push(<h4 style={{"clear":"both"}}>{days[cd.getDay()] + ", " + i.date}</h4>)
+        cd.setHours(0, 0, 0, 0)
+        jsx.push(<br />)
+        jsx.push(<h4 style={{ clear: 'both' }}>{days[cd.getDay()] + ', ' + i.date}</h4>)
       }
       jsx.push(this.getInterviewCard(i))
     })
-    return jsx;
+    return jsx
   }
 
-  compareDates = (a,b) => {
+  compareDates = (a, b) => {
     var adate = new Date(a)
     var bdate = new Date(b)
-    if (adate < bdate){
-      return -1;
+    if (adate < bdate) {
+      return -1
     } else if (adate > bdate) {
-      return 1;
+      return 1
     } else {
-      return 0;
+      return 0
     }
   }
 
-  async componentDidMount(){
-    const res = await getInterviewSchedule();
-    var interviewList = res.result.interviews;
+  async componentDidMount() {
+    const res = await getInterviewSchedule()
+    var interviewList = res.result.interviews
     console.log(interviewList)
     this.setState({
       interviews: interviewList === undefined ? [] : interviewList,
       interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList)
-    });
+    })
   }
-
 
   render() {
     return (
       <div>
-        <Container style={{"overflow":"hidden"}}>
+        <Container style={{ overflow: 'hidden' }}>
           <h1>Upcoming Interviews</h1>
           {this.state.interviewCards}
         </Container>
-        <hr/>
+        <hr />
         <Container>
           <form onSubmit={this.uploadSchedule}>
             <div>
-              <h2>Select CSV file to upload</h2>
+              <h2>Upload a New Schedule</h2>
               <input
                 ref={ref => {
                   this.uploadInput = ref
@@ -120,6 +125,7 @@ class InterviewSchedule extends Component<Props> {
             </div>
             <button type="submit">Parse Schedule</button>
           </form>
+          <br />
         </Container>
       </div>
     )

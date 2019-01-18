@@ -28,7 +28,7 @@ function addInterviewSchedule(file: File) {
   reader.readAsText(file)
 }
 
-function getInterviewSchedule(){
+function getInterviewSchedule() {
   return fetch(`${API_URL}/schedule?key=${getKey()}`).then(res => res.json())
 }
 
