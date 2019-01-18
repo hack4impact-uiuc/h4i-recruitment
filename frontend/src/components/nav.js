@@ -17,7 +17,7 @@ import {
   Container
 } from 'reactstrap'
 import { validateKey, getKey, getRound } from '../utils/api'
-import roundData from '../../../data/roundData.js'
+import roundData from '../../data/roundData.js'
 import { setRoundRedux } from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'

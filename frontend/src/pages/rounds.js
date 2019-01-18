@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { setRound } from '../utils/api'
 import RoundDropdown from '../components/roundDropdown'
-import roundData from '../../../data/roundData.js'
+import roundData from '../../data/roundData.js'
 import { setRoundRedux } from '../actions'
 
 const mapStateToProps = state => ({

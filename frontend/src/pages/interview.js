@@ -68,6 +68,7 @@ class Interview extends Component<Props> {
       generalNotes: '',
       categoryNotes: '',
       category: '',
+      sections: props.categories,
       sections: [
         {
           section_name: 'Time Commitment',
@@ -670,7 +671,7 @@ class Interview extends Component<Props> {
               <InterviewSectionCard title="General Notes">
                 <Label>
                   <b>
-                    Any other notes that the rubrik didn&#39;t cover or emphasis you&#39;d like to
+                    Any other notes that the rubric didn&#39;t cover or emphasis you&#39;d like to
                     make? Any general thoughts about this Candidate?
                   </b>
                 </Label>

@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Link from 'next/link'
 import { Card, CardBody, CardText, CardTitle, Container, Col, Row } from 'reactstrap'
 import InterviewSectionCard from '../components/interviewSectionCard'
-import roundData from '../../../data/roundData.js'
+import roundData from '../../data/roundData.js'
 import CandidateDropdown from '../components/candidateDropdown'
 import { setRoundRedux } from '../actions'
 import { timingSafeEqual } from 'crypto'
@@ -56,35 +56,8 @@ class Rounds extends Component {
     return (
       <InterviewSectionCard
         title={questions.filter(question => question.type === 'title')[0]['title']}
-      >
-        {questions.map(this.interpretQuestion)}
-      </InterviewSectionCard>
+      />
     )
-  }
-
-  interpretQuestion = question => {
-    switch (question.type) {
-      case 'title':
-        return
-      case 'text':
-        return <CardText>{question.body}</CardText>
-      case 'dropdown':
-        return 'idk how to make a dropdown'
-      case 'prompt':
-        return 'write something here: jk idk how to make a prompt box thing'
-      case 'list':
-        return (
-          <CardText>
-            <ul>
-              {question.items.map(item => (
-                <li>item</li>
-              ))}
-            </ul>
-          </CardText>
-        )
-      default:
-        return 'erm . . . something in roundData.js was not formatted correctly'
-    }
   }
 
   render() {
@@ -117,51 +90,6 @@ class Rounds extends Component {
     }
     return (
       <Container>
-        <Row style={{ marginTop: '20px' }}>
-          <Col md="2" />
-          <Col md="2">
-            <h3>Interviewing</h3>
-          </Col>
-          <Col md="4">
-            <CandidateDropdown candidates={candidates} />
-          </Col>
-        </Row>
-        <Row>
-          <Col md="6">
-            Some quick links:
-            <ul>
-              {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
-                <li>
-                  <a
-                    href={`/candidate?id=${this.props.candidateId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {this.props.candidateName}&#39;s Page
-                  </a>
-                </li>
-              ) : null}
-              <li>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://docs.google.com/document/d/1S-rDqfEOWVCQImTQ8zIu_Aj4L-YBi5aCjlawvQrQJ6A/edit#"
-                >
-                  Interview Guide
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://docs.google.com/document/d/1119YvTWvh58L7eOy-FvVvLyb9wLzZLImQSPBO3yPszI/edit"
-                >
-                  Interview Tips
-                </a>
-              </li>
-            </ul>
-          </Col>
-        </Row>
         <div className="align-middle round-box">{this.produceCurrentRound()}</div>
       </Container>
     )
