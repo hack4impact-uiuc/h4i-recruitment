@@ -28,6 +28,10 @@ function addInterviewSchedule(file: File) {
   reader.readAsText(file)
 }
 
+function getInterviewSchedule() {
+  return fetch(`${API_URL}/schedule?key=${getKey()}`).then(res => res.json())
+}
+
 function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
 }
@@ -169,6 +173,7 @@ function deleteInterview(candidateId: string, interviewId: string) {
 
 export {
   addInterviewSchedule,
+  getInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,
   validateKey,

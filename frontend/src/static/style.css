@@ -181,6 +181,20 @@ p > b {
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.01), 0 3px 24px rgba(48, 51, 51, 0.09);
 }
 
+.future-interview {
+  float: left;
+  width: 18%;
+  min-width: max-content;
+  background-color: #77dd77;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: medium solid #000000;
+  border-radius: 4px;
+  text-align: center;
+}
+
 .nav-bar-name {
   font-size: 10pt;
   color: #ffffff !important;
