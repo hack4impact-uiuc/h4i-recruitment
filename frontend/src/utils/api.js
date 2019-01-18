@@ -147,6 +147,22 @@ function deleteInterview(candidateId: string, interviewId: string) {
   }).then(res => res.json())
 }
 
+function addReferral(candidateID: string) {
+  console.log(`Adding referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function deleteReferral(candidateID: string) {
+  console.log(`Deleting referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+    method: 'DELETE',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   getPastInterviews,
   getCandidateInterviews,
@@ -164,5 +180,7 @@ export {
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,
-  deleteInterview
+  deleteInterview,
+  addReferral,
+  deleteReferral
 }
