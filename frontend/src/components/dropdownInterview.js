@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import InterviewSectionCard from './interviewSectionCard'
 
-mapOptions = options => {
-  options.map(option => (
-    <FormGroup check>
-      <Label>
-        <Input type="radio" value={option.value} onClick={this.onSelect} name={option.name} />
-        {option.text}
-      </Label>
-    </FormGroup>
-  ))
+mapOptionsDropdown = options => {
+  return (
+    <Input onChange={this.onSelect} type="select" name="Time Commitment" id="time-commitment-input">
+      {' '}
+      options.map(option => (
+      <option value={option.value}>{option.name}</option>
+      ))
+    </Input>
+  )
 }
 
 class MultipleChoiceInterview extends Component {
@@ -25,12 +25,19 @@ class MultipleChoiceInterview extends Component {
     let options = []
     if (this.props.scoreOptions && this.props.textOptions) {
       for (i = 0; i < this.props.scoreOptions.length; i++) {
-        options.push(this.props.scoreOptions[i] + this.props.textOptions[i])
+        options.push({
+          name: this.props.scoreOptions[i] + ' - ' + this.props.textOptions[i],
+          value: this.props.scoreOptions[i]
+        })
       }
     } else if (this.props.scoreOptions) {
-      options = scoreOptions
+      for (i = 0; i < this.props.scoreOptions.length; i++) {
+        options.push({ name: this.props.scoreOptions[i], value: this.props.scoreOptions[i] })
+      }
     } else {
-      options = textOptions
+      for (i = 0; i < this.props.textOptions.length; i++) {
+        options.push({ name: this.props.textOptions[i], value: this.props.textOptions[i] })
+      }
     }
     return (
       <InterviewSectionCard title={this.props.title}>

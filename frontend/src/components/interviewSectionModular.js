@@ -1,20 +1,41 @@
 import React, { Component } from 'react'
 import InterviewSectionCard from './interviewSectionCard'
 
-mapOptions = options => {
-  options.map(option => (
+mapOptionsDropdown = options => {
+  return (
+    <Input onChange={this.onSelect} type="select" name="Time Commitment" id="time-commitment-input">
+      {options.map(option => <option value={option.value}>{option.name}</option>)}
+    </Input>
+  )
+}
+
+mapOptionsMultipleChoice = options => {
+  return options.map(option => (
     <FormGroup check>
       <Label>
         <Input type="radio" value={option.value} onClick={this.onSelect} name={option.name} />
-        {option.text}
       </Label>
     </FormGroup>
   ))
 }
 
-class MultipleChoiceInterview extends Component {
+class InterviewSectionModular extends Component {
   constructor(props) {
     super(props)
+  }
+
+  handleNotesChange = e => {
+    this.props.notes = e.target.value
+  }
+
+  onSelect = e => {
+    if (typeof e.target.value == 'number') {
+      this.props.score = e.target.value
+      this.props.response = ''
+    } else {
+      this.props.response = e.target.value
+      this.props.score = 0
+    }
   }
 
   render() {
@@ -39,10 +60,23 @@ class MultipleChoiceInterview extends Component {
       <InterviewSectionCard title={this.props.title}>
         {this.props.description ? <p>{this.props.description}</p> : null}
         {this.props.prompt ? <p>{this.props.prompt}</p> : null}
-        {mapOptions(options)}
+        {this.props.type == 'dropdown'
+          ? mapOptionsDropdown(options)
+          : mapOptionsMultipleChoice(options)}
+        {this.props.notesPrompt ? (
+          <Input
+            style={{ height: '130px' }}
+            value={this.props.notes}
+            className="textarea-input"
+            onChange={this.handleNotesChange}
+            type="textarea"
+            id="time-commitment-explanation"
+            placeholder={this.props.notesPrompt}
+          />
+        ) : null}
       </InterviewSectionCard>
     )
   }
 }
 
-export default MultipleChoiceInterview
+export default InterviewSectionModular
