@@ -17,10 +17,24 @@ class MultipleChoiceInterview extends Component {
     super(props)
   }
 
+  handleNotesChange = e => {
+    this.props.notes = e.target.value
+  }
+
   render() {
+    let options = []
+    if (this.props.scoreOptions) {
+      for (i = 0; i < this.props.scoreOptions.length; i++) {
+        options.push(this.props.scoreOptions[i])
+        if (this.props.textOptions) {
+          options[i] = options[i] + this.props.textOptions[i]
+        }
+      }
+    }
     return (
       <InterviewSectionCard title={this.props.title}>
-        {this.props.body}
+        {this.props.description ? <p>{this.props.description}</p> : null}
+        {this.props.prompt ? <p>{this.props.prompt}</p> : null}
         <FormGroup>
           <Label>{this.props.formLabel}</Label>
           <Input
@@ -29,9 +43,20 @@ class MultipleChoiceInterview extends Component {
             name={this.props.name}
             id={this.props.id}
           >
-            {this.mapOptions(this.props.options)}
+            {this.mapOptions(options)}
           </Input>
         </FormGroup>
+        {this.props.notesPrompt ? (
+          <Input
+            style={{ height: '130px' }}
+            value={this.props.notes}
+            className="textarea-input"
+            onChange={this.handleNotesChange}
+            type="textarea"
+            id="time-commitment-explanation"
+            placeholder={this.props.notesPrompt}
+          />
+        ) : null}
       </InterviewSectionCard>
     )
   }
