@@ -22,14 +22,15 @@ class MultipleChoiceInterview extends Component {
       <InterviewSectionCard title={this.props.title}>
         {this.props.body}
         <FormGroup>
-            <Label>{this.props.formLabel}</Label>
-            <Input
-            value={/* I'm not sure how to set the value */}
+          <Label>{this.props.formLabel}</Label>
+          <Input
+            value={'temp' /* I'm not sure how to set the value */}
             onChange={this.onSelect}
             name={this.props.name}
-            id={this.props.id}>
-                {this.mapOptions(this.props.options)}
-            </Input>
+            id={this.props.id}
+          >
+            {this.mapOptions(this.props.options)}
+          </Input>
         </FormGroup>
       </InterviewSectionCard>
     )
