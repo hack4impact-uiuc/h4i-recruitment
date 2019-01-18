@@ -4,6 +4,9 @@ html {
   font-family: 'Lato', sans-serif;
   font-size: 15px;
 }
+pre {
+  font-family: 'Lato', sans-serif;
+}
 a {
   color: #067df7;
   text-decoration: none;

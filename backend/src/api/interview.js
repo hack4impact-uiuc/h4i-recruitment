@@ -148,8 +148,6 @@ router.post(
     let candidateName = data.candidateName
     let score = data.overallScore
     let genNotes = data.generalNotes
-    let catNotes = data.categoryNotes
-    let givenCategory = data.category
 
     if (interviewerKey == undefined) {
       response = 'Invalid interviewerKey'
@@ -172,9 +170,7 @@ router.post(
         candidate_id: candidateId,
         candidate_name: candidateName,
         general_notes: genNotes,
-        category_notes: catNotes,
-        sections: reqSections,
-        category: givenCategory
+        sections: reqSections
       })
       await interview.save()
       code = 200

@@ -17,11 +17,12 @@ import { bindActionCreators } from 'redux'
 import Router from 'next/router'
 import { fetchAllCandidates, addFilter, removeFilter } from '../actions'
 import CandidateDropdown from '../components/candidateDropdown'
-import InterviewCategory from '../components/interviewCategory'
 import ErrorMessage from '../components/errorMessage'
 import InterviewSectionCard from '../components/interviewSectionCard'
 import VerificationModal from '../components/verificationModal'
+import InterviewSectionModular from '../components/interviewSectionModular'
 import { getKey, addInterview, getCandidates } from '../utils/api'
+import roundData from '../../data/roundData'
 
 type Props = {
   error: boolean,
@@ -68,83 +69,15 @@ class Interview extends Component<Props> {
       generalNotes: '',
       categoryNotes: '',
       category: '',
-      sections: props.categories,
-      sections: [
-        {
-          section_name: 'Time Commitment',
-          questions: [
-            {
-              question_text: 'Time Commitment',
-              score: 0
-            }
-          ],
-          section_notes: ''
-        },
-        {
-          section_name: 'Initiative and Passion',
-          questions: [
-            {
-              question_text: 'Initiative and Passion',
-              score: 0
-            }
-          ],
-          section_notes: ''
-        },
-        {
-          section_name: 'Community',
-          questions: [
-            {
-              question_text: 'Community',
-              score: 0
-            }
-          ],
-          section_notes: ''
-        },
-        {
-          section_name: 'Resume And Tech Knowledge',
-          questions: [
-            {
-              question_text: 'Resume And Tech Knowledge',
-              score: 0
-            }
-          ],
-          section_notes: ''
-        },
-        {
-          section_name: 'Knowledge of Web Dev',
-          questions: [
-            {
-              question_text: 'Knowledge of Web Dev',
-              score: 0
-            }
-          ],
-          section_notes: ''
-        },
-        {
-          section_name: 'Technical Challenge',
-          questions: [
-            {
-              question_text: 'Technical Challenge',
-              score: 0
-            }
-          ],
-          section_notes: ''
-        }
-      ],
+      sections: roundData.rounds[2].sections,
       verificationModalOpen: false
     }
   }
 
-  handleTextChange = e => {
-    let newSections = this.state.sections
-    const currSection = newSections.filter(section => section.section_name === e.target.name)[0]
-    currSection.section_notes = e.target.value
-    this.setState({ sections: newSections })
-  }
-
-  chooseCategory = e => {
+  handleSubmitClick = e => {
+    e.preventDefault()
     this.setState({
-      category: e
+      verificationModalOpen: true
     })
   }
 
@@ -153,12 +86,7 @@ class Interview extends Component<Props> {
       [e.target.name]: e.target.value
     })
   }
-  handleSubmitClick = e => {
-    e.preventDefault()
-    this.setState({
-      verificationModalOpen: true
-    })
-  }
+
   submit = async e => {
     this.setState({
       loading: true
@@ -167,7 +95,7 @@ class Interview extends Component<Props> {
     let overallScore = 0
     const sections = this.state.sections
     for (let idx in sections) {
-      overallScore += sections[idx].questions[0].score
+      overallScore += sections[idx].response.score
     }
     if (this.props.candidateName === '' || this.props.candidateId === '') {
       const msg = 'Interview does not have a Candidate. Please put down a candidate.'
@@ -179,8 +107,6 @@ class Interview extends Component<Props> {
         this.props.candidateName,
         overallScore,
         this.state.generalNotes,
-        this.state.categoryNotes,
-        this.state.category,
         this.state.sections
       )
       alert('Successfully added interview')
@@ -197,17 +123,6 @@ class Interview extends Component<Props> {
     })
   }
 
-  onSelect = e => {
-    let newSections = this.state.sections
-    const currSection = newSections.filter(section => section.section_name === e.target.name)[0]
-    const currQuestion = currSection.questions.filter(
-      question => question.question_text === e.target.name
-    )[0]
-    currQuestion.score = parseInt(e.target.value)
-    this.setState({
-      sections: newSections
-    })
-  }
   toggle = () => {
     this.setState({
       verificationModalOpen: !this.state.verificationModalOpen
@@ -302,372 +217,20 @@ class Interview extends Component<Props> {
         <Row>
           <Col>
             <Form>
-              <InterviewSectionCard title="Time Commitment (7 points)">
-                -1 for each:
-                <ul>
-                  <li>Exec member for another org Consulting Club such as IBC, OTCR</li>
-                  <li>
-                    Some other club that requires time that I can&#39;t think of (ex: Enactus
-                    Fraternity Pledge during the same semester)
-                  </li>
-                  <li>Hard/Time-consuming classes</li>
-                </ul>
-                -2 for each:
-                <ul>
-                  <li>
-                    Hard course-load (still take one point off for each hard class they have as
-                    described above)
-                  </li>
-                  <li>Too many org obligations</li>
-                </ul>
-                <FormGroup>
-                  <Label>
-                    <b>Give them a score out of 7:</b>
-                  </Label>
-                  <Input
-                    value={
-                      sections.filter(section => section.section_name === 'Time Commitment')[0]
-                        .score
-                    }
-                    onChange={this.onSelect}
-                    type="select"
-                    name="Time Commitment"
-                    id="time-commitment-input"
-                  >
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                  </Input>
-                </FormGroup>
-                <Label>
-                  <b>Explain Why you gave them those points:</b>
-                </Label>
-                <Input
-                  style={{ height: '130px' }}
-                  value={
-                    sections.filter(section => section.section_name === 'Time Commitment')[0]
-                      .section_notes
-                  }
-                  className="textarea-input"
-                  onChange={this.handleTextChange}
-                  type="textarea"
-                  name="Time Commitment"
-                  id="time-commitment-explanation"
-                  placeholder="Explain as much as possible. It'll help during deliberations!"
+              {sections.map(section => (
+                <InterviewSectionModular
+                  title={section.title}
+                  scoreOptions={section.scoreOptions}
+                  textOptions={section.textOptions}
+                  type={section.type}
+                  description={section.description}
+                  prompt={section.prompt}
+                  notes={section.notes}
+                  notesPrompt={section.notesPrompt}
+                  response={section.response}
+                  score={section.score}
                 />
-              </InterviewSectionCard>
-              <InterviewSectionCard title="Initiative and Passion (5 points)">
-                <FormGroup check>
-                  <Label>
-                    <Input
-                      type="radio"
-                      value="0"
-                      onClick={this.onSelect}
-                      name="Initiative and Passion"
-                    />
-                    0 - Definitely using this as a resume booster
-                  </Label>
-                </FormGroup>
-                <FormGroup check>
-                  <Label>
-                    <Input
-                      type="radio"
-                      value="1"
-                      onClick={this.onSelect}
-                      name="Initiative and Passion"
-                    />
-                    1 - Simply applied, no real knowledge of what we do
-                  </Label>
-                </FormGroup>
-                <FormGroup check>
-                  <Label>
-                    <Input
-                      type="radio"
-                      value="2"
-                      onClick={this.onSelect}
-                      name="Initiative and Passion"
-                    />
-                    2 - Thinking about how Hack4Impact fits into their plans
-                  </Label>
-                </FormGroup>
-                <FormGroup check>
-                  <Label>
-                    <Input
-                      type="radio"
-                      value="3"
-                      onClick={this.onSelect}
-                      name="Initiative and Passion"
-                    />
-                    3 - Thinking about how they fit into Hack4Impact plans
-                  </Label>
-                </FormGroup>
-                <FormGroup check>
-                  <Label>
-                    <Input
-                      type="radio"
-                      value="5"
-                      onClick={this.onSelect}
-                      name="Initiative and Passion"
-                    />
-                    5 - Goes above and beyond and gives you a new idea on how you can contribute to
-                    the org
-                  </Label>
-                </FormGroup>
-              </InterviewSectionCard>
-              <InterviewSectionCard title="Community (5 points)">
-                <p>Gauging Community is really hard. Fill this out in the end.</p>
-                Identifying those who embody Intentionality, Curiosity, and Empathy... Subtract the
-                points from 7.
-                <hr />
-                Asking Questions at the end
-                <ul>
-                  <li>
-                    <b>-2 points:</b> Didn&#39;t ask you any questions at end
-                  </li>
-                  <li>
-                    <b>-1 point:</b> Asked you some BS questions. Beyond just logistical questions
-                  </li>
-                  <li>
-                    Asked you solid questions and about what we do, what you do, your
-                    recommendation, etc: Great!
-                  </li>
-                </ul>
-                Technical Interview Portion
-                <ul>
-                  <li>
-                    <b>-1 point:</b> Didn&#39;t communicate with you at all during technical
-                    interview
-                  </li>
-                  <li>Let you know what and why they chose to do things: Great!</li>
-                </ul>
-                Subjective:
-                <ul>
-                  <li>
-                    <b>No: -2 Meh: -1. Hell ya: 0</b> Are they someone you&#39;d enjoy working with?
-                  </li>
-                </ul>
-                <FormGroup>
-                  <Label>
-                    <b>Give them score out of 5:</b>
-                  </Label>
-                  <Input
-                    value={
-                      sections.filter(section => section.section_name === 'Community')[0].score
-                    }
-                    onChange={this.onSelect}
-                    type="select"
-                    name="Community"
-                    id="community-input"
-                  >
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </Input>
-                  <Label>
-                    <b>
-                      Will they contribute to community or are they just using this as a resume
-                      booster? Explain your reasoning for your score.
-                    </b>
-                  </Label>
-                  <Input
-                    style={{ height: '130px' }}
-                    type="textarea"
-                    className="textarea-input"
-                    name="Community"
-                    value={
-                      sections.filter(section => section.section_name === 'Community')[0]
-                        .section_notes
-                    }
-                    onChange={this.handleTextChange}
-                    placeholder="Please explain in as much as possible. It'll help a lot during deliberations!"
-                  />
-                </FormGroup>
-              </InterviewSectionCard>
-              <InterviewSectionCard title="Resume and Tech Knowledge (3 Points)">
-                Do they have projects? Internships? Do they actually know what they are talking
-                about? Do they understand the underlying technologies they&#39;ve used?
-                <hr />
-                If you detect they were kind of bullshitting: <b>-1 overall</b>
-                <FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="0"
-                        onClick={this.onSelect}
-                        name="Resume And Tech Knowledge"
-                      />
-                      0 - No experience, or completely BS their experience
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="1"
-                        onClick={this.onSelect}
-                        name="Resume And Tech Knowledge"
-                      />
-                      1 - can speak about one or two projects, or a meh internship. Doesn't really
-                      have an in-depth understanding of what they've used.
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="2"
-                        onClick={this.onSelect}
-                        name="Resume And Tech Knowledge"
-                      />
-                      2 - can speak to one internship with great experience or multiple projects
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="3"
-                        onClick={this.onSelect}
-                        name="Resume And Tech Knowledge"
-                      />
-                      3 - Multiple.
-                    </Label>
-                  </FormGroup>
-                </FormGroup>
-              </InterviewSectionCard>
-              <InterviewSectionCard title="Knowledge of Web Dev or Data (2 points)">
-                <FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="0"
-                        onClick={this.onSelect}
-                        name="Knowledge of Web Dev"
-                      />
-                      0 - No experience
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="1"
-                        onClick={this.onSelect}
-                        name="Knowledge of Web Dev"
-                      />
-                      1 - Some experience with it, has done a couple projects, knows what flask is,
-                      experience with ltk, data visualizations. etc.
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="2"
-                        onClick={this.onSelect}
-                        name="Knowledge of Web Dev"
-                      />
-                      2 - Knows more than you - if they are a you think they could be a tech lead
-                    </Label>
-                  </FormGroup>
-                </FormGroup>
-              </InterviewSectionCard>
-              <InterviewSectionCard title="Technical Challenge (5 points)">
-                <FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="0"
-                        onClick={this.onSelect}
-                        name="Technical Challenge"
-                      />
-                      0 - couldn&#39;t complete
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="1"
-                        onClick={this.onSelect}
-                        name="Technical Challenge"
-                      />
-                      1 - completed but with a lot of help/slow
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="2"
-                        onClick={this.onSelect}
-                        name="Technical Challenge"
-                      />
-                      2 - completed in a reasonable amount of time with help
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="3"
-                        onClick={this.onSelect}
-                        name="Technical Challenge"
-                      />
-                      3 - completed in a reasonable amount of time with minimal help
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="4"
-                        onClick={this.onSelect}
-                        name="Technical Challenge"
-                      />
-                      4 - completed in reasonable amount of time with no help
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check>
-                    <Label>
-                      <Input
-                        type="radio"
-                        value="5"
-                        onClick={this.onSelect}
-                        name="Technical Challenge"
-                      />
-                      5 - damn [enter pronoun]&#39;s good
-                    </Label>
-                  </FormGroup>
-                </FormGroup>
-              </InterviewSectionCard>
-
-              <InterviewSectionCard title="Category">
-                This will be used in addition to the overall score you gave your interviewee.
-                <FormGroup>
-                  <InterviewCategory chooseCategory={this.chooseCategory} />
-                  <Input
-                    style={{ marginTop: '15px', height: '100px' }}
-                    type="textarea"
-                    name="categoryNotes"
-                    className="textarea-input"
-                    value={this.state.categoryNotes}
-                    onChange={this.handleChange}
-                    placeholder="Explain here why you've categorized the applicant like this."
-                  />
-                </FormGroup>
-              </InterviewSectionCard>
+              ))}
               <InterviewSectionCard title="General Notes">
                 <Label>
                   <b>
