@@ -6,8 +6,8 @@ const getKey = () => sessionStorage.getItem('interviewerKey')
 const API_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://hack4impact-recruitment-backend.now.sh'
-    : 'http://localhost:8080'
-
+    : 'http://localhost:8080' // make sure your backend is running on this port.
+// if your frontend can't connect, try the normal IP
 function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
 }
