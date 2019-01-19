@@ -14,7 +14,6 @@ router.post(
   [leadsOnly],
   errorWrap(async (req, res) => {
     const data = req.body['schedule']
-    console.log(data)
     let response = 'Schedule Adding Failed'
     let code = 404
 
@@ -48,7 +47,6 @@ router.post(
           time: arr[i][0]
         })
         const res = await newInterview.save()
-        console.log(res)
       }
     }
 
@@ -63,6 +61,7 @@ router.post(
   })
 )
 
+// This endpoint is an example
 router.post(
   '/populateTest',
   errorWrap(async (req, res) => {

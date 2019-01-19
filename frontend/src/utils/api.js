@@ -6,7 +6,7 @@ const getKey = () => sessionStorage.getItem('interviewerKey')
 const API_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://hack4impact-recruitment-backend.now.sh'
-    : 'http://52.14.207.0:8080'
+    : 'http://localhost:8080'
 
 function addInterviewSchedule(file: File) {
   var reader = new FileReader()
