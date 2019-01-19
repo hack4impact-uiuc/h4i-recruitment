@@ -79,15 +79,18 @@ class InterviewSectionModular extends Component {
           ? this.mapOptionsDropdown(options)
           : this.mapOptionsMultipleChoice(options)}
         {this.props.notesPrompt ? (
-          <Input
-            style={{ height: '130px' }}
-            value={this.props.notes}
-            className="textarea-input"
-            onChange={this.handleNotesChange}
-            type="textarea"
-            id="time-commitment-explanation"
-            placeholder={this.props.notesPrompt}
-          />
+          <>
+            <br />
+            <Input
+              style={{ height: '130px' }}
+              value={this.props.notes}
+              className="textarea-input"
+              onChange={this.handleNotesChange}
+              type="textarea"
+              id="time-commitment-explanation"
+              placeholder={this.props.notesPrompt}
+            />
+          </>
         ) : null}
       </InterviewSectionCard>
     )
