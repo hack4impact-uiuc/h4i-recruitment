@@ -13,16 +13,6 @@ const roundData = {
       name: 'Mass Interview',
       sections: [
         {
-          title: 'This should result in a message that the format is invalid'
-        }
-      ]
-    },
-    {
-      round: '2',
-      type: 'interview',
-      name: 'Individual Interview',
-      sections: [
-        {
           title: 'Time Commitment (7 points)',
           description:
             '-1 for each:\n' +
@@ -76,7 +66,14 @@ const roundData = {
           notesPrompt:
             'Will they contribute to community or are they just using this as a resume booster? Explain your reasoning for your score.',
           response: {}
-        },
+        }
+      ]
+    },
+    {
+      round: '2',
+      type: 'interview',
+      name: 'Individual Interview',
+      sections: [
         {
           title: 'Resume and Tech Knowledge (3 points)',
           description:
@@ -136,6 +133,16 @@ const roundData = {
           ],
           notesPrompt: 'Explain here why you’ve categorized the applicant like this.',
           response: {}
+        }
+      ]
+    },
+    {
+      round: '3',
+      type: 'interview',
+      name: 'Invalid Interview',
+      sections: [
+        {
+          title: 'This should result in a message that the format is invalid'
         }
       ]
     }
