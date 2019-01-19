@@ -89,11 +89,11 @@ class CandidatePage extends Component<Props> {
     const { result } = await addReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, referrals: result } })
   }
-    // adds strong referral
-    async handleStrongReferral(candidateId) {
-      const { result } = await addStrongReferral(candidateId)
-      this.setState({ candidate: { ...this.state.candidate, strongReferrals: result } })
-    }
+  // adds strong referral
+  async handleStrongReferral(candidateId) {
+    const { result } = await addStrongReferral(candidateId)
+    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result } })
+  }
   // removes referral
   async handleRemoveReferral(candidateId) {
     const { result } = await deleteReferral(candidateId)
@@ -148,11 +148,7 @@ class CandidatePage extends Component<Props> {
               >
                 Strong Refer
               </Button>
-              <Button
-                outline
-                color="primary"
-                onClick={() => this.handleReferral(candidate._id)}
-              >
+              <Button outline color="primary" onClick={() => this.handleReferral(candidate._id)}>
                 Refer
               </Button>
               <Button
