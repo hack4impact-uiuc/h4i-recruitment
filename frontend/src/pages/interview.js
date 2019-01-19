@@ -69,7 +69,7 @@ class Interview extends Component<Props> {
       generalNotes: '',
       categoryNotes: '',
       category: '',
-      sections: roundData.rounds[2].sections,
+      sections: roundData.rounds[this.props.round].sections,
       verificationModalOpen: false
     }
   }
