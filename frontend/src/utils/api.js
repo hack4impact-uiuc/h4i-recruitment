@@ -155,6 +155,14 @@ function addReferral(candidateID: string) {
   }).then(res => res.json())
 }
 
+function addStrongReferral(candidateID: string) {
+  console.log(`Adding strong referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/strongReferrals?key=${getKey()}`, {
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 function deleteReferral(candidateID: string) {
   console.log(`Deleting referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
@@ -182,5 +190,6 @@ export {
   getAllInterviews,
   deleteInterview,
   addReferral,
+  addStrongReferral,
   deleteReferral
 }

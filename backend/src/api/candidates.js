@@ -388,6 +388,34 @@ router.post(
       })
     } else {
       res.json({
+        result: referrals,
+        message: `Already referred user`,
+        status: 400,
+        success: false
+      })
+    }
+  })
+)
+router.post(
+  '/:candidateId/strongReferrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findById(req.params.candidateId)
+    const strongReferrals = candidate.strongReferrals
+    if (strongReferrals === undefined || strongReferrals.indexOf(req._key_name) === -1) {
+      const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+        $push: { strongReferrals: req._key_name }
+      })
+      const updatedCandidate = await Candidate.findById(req.params.candidateId)
+      const updatedReferrals = updatedCandidate.strongReferrals
+      res.json({
+        result: updatedReferrals,
+        message: `Successfully strongly referred user ${candidate._id}`,
+        status: 200,
+        success: true
+      })
+    } else {
+      res.json({
+        result: strongReferrals,
         message: `Already referred user`,
         status: 400,
         success: false

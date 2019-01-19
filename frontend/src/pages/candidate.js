@@ -10,6 +10,7 @@ import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
 import {
   addReferral,
+  addStrongReferral,
   deleteReferral,
   getCandidateById,
   addCommentToCandidate,
@@ -88,6 +89,11 @@ class CandidatePage extends Component<Props> {
     const { result } = await addReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, referrals: result } })
   }
+    // adds strong referral
+    async handleStrongReferral(candidateId) {
+      const { result } = await addStrongReferral(candidateId)
+      this.setState({ candidate: { ...this.state.candidate, strongReferrals: result } })
+    }
   // removes referral
   async handleRemoveReferral(candidateId) {
     const { result } = await deleteReferral(candidateId)
@@ -138,6 +144,13 @@ class CandidatePage extends Component<Props> {
                 outline
                 color="primary"
                 className="margin-sm-all"
+                onClick={() => this.handleStrongReferral(candidate._id)}
+              >
+                Strong Refer
+              </Button>
+              <Button
+                outline
+                color="primary"
                 onClick={() => this.handleReferral(candidate._id)}
               >
                 Refer
