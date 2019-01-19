@@ -6,7 +6,8 @@ const getKey = () => sessionStorage.getItem('interviewerKey')
 const API_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://hack4impact-recruitment-backend.now.sh'
-    : 'http://localhost:8080'
+    : 'http://localhost:8080' // make sure your backend is running on this port.
+// if your frontend can't connect, try the normal IP
 
 function addInterviewSchedule(file: File) {
   var reader = new FileReader()
@@ -171,6 +172,22 @@ function deleteInterview(candidateId: string, interviewId: string) {
   }).then(res => res.json())
 }
 
+function addReferral(candidateID: string) {
+  console.log(`Adding referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function deleteReferral(candidateID: string) {
+  console.log(`Deleting referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+    method: 'DELETE',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   addInterviewSchedule,
   getInterviewSchedule,
@@ -190,5 +207,7 @@ export {
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,
-  deleteInterview
+  deleteInterview,
+  addReferral,
+  deleteReferral
 }

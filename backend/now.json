@@ -1,4 +1,5 @@
 {
+  "version": 1,
   "name": "h4i-recruitment-backend",
   "features": {
     "cloud": "v2"

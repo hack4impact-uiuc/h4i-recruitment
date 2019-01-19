@@ -369,4 +369,47 @@ router.delete(
   })
 )
 
+router.post(
+  '/:candidateId/referrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findById(req.params.candidateId)
+    const referrals = candidate.referrals
+    if (referrals === undefined || referrals.indexOf(req._key_name) === -1) {
+      const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+        $push: { referrals: req._key_name }
+      })
+      const updatedCandidate = await Candidate.findById(req.params.candidateId)
+      const updatedReferrals = updatedCandidate.referrals
+      res.json({
+        result: updatedReferrals,
+        message: `Successfully referred user ${candidate._id}`,
+        status: 200,
+        success: true
+      })
+    } else {
+      res.json({
+        message: `Already referred user`,
+        status: 400,
+        success: false
+      })
+    }
+  })
+)
+router.delete(
+  '/:candidateId/referrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $pull: { referrals: req._key_name }
+    })
+    const updatedCandidate = await Candidate.findById(req.params.candidateId)
+    const updatedReferrals = updatedCandidate.referrals
+    res.json({
+      result: updatedReferrals,
+      message: `Successfully deleted referral for user ${candidate._id}`,
+      status: 200,
+      success: true
+    })
+  })
+)
+
 module.exports = router
