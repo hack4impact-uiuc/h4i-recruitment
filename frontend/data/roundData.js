@@ -13,9 +13,7 @@ const roundData = {
       name: 'Mass Interview',
       sections: [
         {
-          title: 'Overall Score',
-          minScore: 0,
-          maxScore: 5
+          title: 'This should result in a message that the format is invalid'
         }
       ]
     },
