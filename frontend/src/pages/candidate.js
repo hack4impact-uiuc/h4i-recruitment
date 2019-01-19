@@ -87,17 +87,20 @@ class CandidatePage extends Component<Props> {
   // adds referral
   async handleReferral(candidateId) {
     const { result } = await addReferral(candidateId)
-    this.setState({ candidate: { ...this.state.candidate, referrals: result } })
+    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
+    this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
   // adds strong referral
   async handleStrongReferral(candidateId) {
     const { result } = await addStrongReferral(candidateId)
-    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result } })
+    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
+    this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
   // removes referral
   async handleRemoveReferral(candidateId) {
     const { result } = await deleteReferral(candidateId)
-    this.setState({ candidate: { ...this.state.candidate, referrals: result } })
+    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
+    this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
   exitModal = () => {
     this.setState({

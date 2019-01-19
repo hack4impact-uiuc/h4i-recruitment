@@ -372,14 +372,16 @@ router.delete(
 router.post(
   '/:candidateId/referrals',
   errorWrap(async (req, res) => {
-    const candidate = await Candidate.findById(req.params.candidateId)
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $pull: { referrals: req._key_name, strongReferrals: req._key_name }
+    })
     const referrals = candidate.referrals
     if (referrals === undefined || referrals.indexOf(req._key_name) === -1) {
       const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
         $push: { referrals: req._key_name }
       })
       const updatedCandidate = await Candidate.findById(req.params.candidateId)
-      const updatedReferrals = updatedCandidate.referrals
+      const updatedReferrals = [updatedCandidate.strongReferrals, updatedCandidate.referrals]
       res.json({
         result: updatedReferrals,
         message: `Successfully referred user ${candidate._id}`,
@@ -399,14 +401,16 @@ router.post(
 router.post(
   '/:candidateId/strongReferrals',
   errorWrap(async (req, res) => {
-    const candidate = await Candidate.findById(req.params.candidateId)
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $pull: { referrals: req._key_name, strongReferrals: req._key_name }
+    })
     const strongReferrals = candidate.strongReferrals
     if (strongReferrals === undefined || strongReferrals.indexOf(req._key_name) === -1) {
       const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
         $push: { strongReferrals: req._key_name }
       })
       const updatedCandidate = await Candidate.findById(req.params.candidateId)
-      const updatedReferrals = updatedCandidate.strongReferrals
+      const updatedReferrals = [updatedCandidate.strongReferrals, updatedCandidate.referrals]
       res.json({
         result: updatedReferrals,
         message: `Successfully strongly referred user ${candidate._id}`,
@@ -427,10 +431,10 @@ router.delete(
   '/:candidateId/referrals',
   errorWrap(async (req, res) => {
     const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
-      $pull: { referrals: req._key_name }
+      $pull: { referrals: req._key_name, strongReferrals: req._key_name }
     })
     const updatedCandidate = await Candidate.findById(req.params.candidateId)
-    const updatedReferrals = updatedCandidate.referrals
+    const updatedReferrals = [updatedCandidate.strongReferrals, updatedCandidate.referrals]
     res.json({
       result: updatedReferrals,
       message: `Successfully deleted referral for user ${candidate._id}`,
