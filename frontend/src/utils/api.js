@@ -8,6 +8,31 @@ const API_URL =
     ? 'https://hack4impact-recruitment-backend.now.sh'
     : 'http://localhost:8080' // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
+
+function addInterviewSchedule(file: File) {
+  var reader = new FileReader()
+  var scheduleString = ''
+  reader.onload = function(e) {
+    scheduleString = reader.result
+    fetch(`${API_URL}/schedule/upload/?key=${getKey()}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ schedule: scheduleString })
+    })
+      .then(res => res.json())
+      .then(success => console.log(success))
+      .catch(error => console.log(error))
+  }
+
+  reader.readAsText(file)
+}
+
+function getInterviewSchedule() {
+  return fetch(`${API_URL}/schedule?key=${getKey()}`).then(res => res.json())
+}
+
 function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
 }
@@ -164,6 +189,8 @@ function deleteReferral(candidateID: string) {
 }
 
 export {
+  addInterviewSchedule,
+  getInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,
   validateKey,
