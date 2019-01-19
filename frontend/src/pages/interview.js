@@ -95,7 +95,9 @@ class Interview extends Component<Props> {
     let overallScore = 0
     const sections = this.state.sections
     for (let idx in sections) {
-      overallScore += sections[idx].response.score
+      if (sections[idx].response.score) {
+        overallScore += parseInt(sections[idx].response.score)
+      }
     }
     if (this.props.candidateName === '' || this.props.candidateId === '') {
       const msg = 'Interview does not have a Candidate. Please put down a candidate.'
@@ -220,15 +222,13 @@ class Interview extends Component<Props> {
               {sections.map(section => (
                 <InterviewSectionModular
                   title={section.title}
-                  scoreOptions={section.scoreOptions}
-                  textOptions={section.textOptions}
-                  type={section.type}
                   description={section.description}
                   prompt={section.prompt}
-                  notes={section.notes}
+                  type={section.type}
+                  scoreOptions={section.scoreOptions}
+                  textOptions={section.textOptions}
                   notesPrompt={section.notesPrompt}
                   response={section.response}
-                  score={section.score}
                 />
               ))}
               <InterviewSectionCard title="General Notes">

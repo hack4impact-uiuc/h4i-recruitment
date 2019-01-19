@@ -36,7 +36,14 @@ class InterviewSectionModular extends Component {
   }
 
   onSelect = e => {
-    if (typeof e.target.value == 'number') {
+    /*
+    if (parseInt(e.target.value) == NaN) {
+      this.props.response.text = e.target.value
+    } else {
+      this.props.response.score = e.target.value
+    }
+    */
+    if (e.target.value[0] >= '0' && e.target.value <= '9') {
       this.props.response.score = e.target.value
     } else {
       this.props.response.text = e.target.value

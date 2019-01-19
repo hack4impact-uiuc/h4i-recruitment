@@ -28,22 +28,19 @@ class InterviewDetails extends Component {
         <p>
           <b>Overall Score:</b> {interview.overall_score}
         </p>
-        <p>
-          <b>Category:</b> {interview.category}
-        </p>
-        <p>
-          <b>Category Notes:</b> {interview.category_notes}
-        </p>
         <p className="textarea-input">
           <b>General Notes:</b> {interview.general_notes}
         </p>
         <ListGroup>
           {interview.sections.map(section => (
-            <ListGroupItem key={section.section_name}>
+            <ListGroupItem key={section.title}>
               <h5>
-                {section.section_name}: {section.questions[0].score}
+                {section.title}:{' '}
+                {section.response.score ? section.response.score : section.response.text}
               </h5>
-              <p className="textarea-input">Notes: {section.section_notes}</p>
+              {section.response.notes ? (
+                <p className="textarea-input">Notes: {section.response.notes}</p>
+              ) : null}
             </ListGroupItem>
           ))}
         </ListGroup>

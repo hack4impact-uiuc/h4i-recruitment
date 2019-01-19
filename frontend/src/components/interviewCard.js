@@ -45,10 +45,6 @@ class InterviewCard extends Component {
         <CardBody>
           <CardTitle>Overall Interview Score: {this.props.overallScore}</CardTitle>
           <p>
-            <b>Category: </b>
-            {this.props.category}
-          </p>
-          <p>
             <b>Interviewer: </b>
             {this.props.interviewer}
           </p>
