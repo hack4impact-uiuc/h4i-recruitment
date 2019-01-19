@@ -6,14 +6,15 @@ import { connect } from 'react-redux'
 import React, { Fragment, Component } from 'react'
 import Select from 'react-select'
 import roundData from '../../data/roundData.js'
-import { setSelectedRound } from '../actions'
+import { setSelectedRound, setValidFormat } from '../actions'
 
 const mapStateToProps = state => {}
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setSelectedRound
+      setSelectedRound,
+      setValidFormat
     },
     dispatch
   )
@@ -26,9 +27,39 @@ class RoundDropdown extends Component {
   state = {
     selectedOption: ''
   }
+
+  isFormatValid = round => {
+    if (round.type != 'interview') {
+      return true
+    } else if (round.sections === undefined) {
+      return false
+    } else {
+      let sections = round.sections
+      for (let i = 0; i < sections.length; i++) {
+        let section = sections[i]
+        if (
+          section.title === undefined ||
+          section.type === undefined ||
+          (section.scoreOptions === undefined && section.textOptions === undefined) ||
+          section.response === undefined
+        ) {
+          return false
+        } else if (
+          section.scoreOptions !== undefined &&
+          section.textOptions !== undefined &&
+          section.scoreOptions.length != section.textOptions.length
+        ) {
+          return false
+        }
+      }
+      return true
+    }
+  }
+
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
     this.props.setSelectedRound(selectedOption.value)
+    this.props.setValidFormat(this.isFormatValid(roundData.rounds[selectedOption.value]))
   }
 
   getRoundInfo = (round, index) => {

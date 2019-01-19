@@ -10,7 +10,8 @@ import { setRoundRedux } from '../actions'
 
 const mapStateToProps = state => ({
   round: state.round,
-  selectedRound: state.selectedRound
+  selectedRound: state.selectedRound,
+  validFormat: state.validFormat
 })
 
 const mapDispatchToProps = dispatch => {
@@ -29,6 +30,7 @@ class Rounds extends Component {
   state = {
     modalOpen: false
   }
+
   async changeRound() {
     const { success } = await setRound(this.props.selectedRound)
     if (success) {
@@ -67,8 +69,15 @@ class Rounds extends Component {
         <br />
         <pre>{JSON.stringify(roundData.rounds[this.props.selectedRound], null, '\t')}</pre>
         <br />
-        <Button className="mt-3" color="primary" onClick={this.changeRound.bind(this)}>
-          Change Round (Directors Only)
+        <Button
+          className="mt-3"
+          color="primary"
+          onClick={this.changeRound.bind(this)}
+          disabled={!this.props.validFormat}
+        >
+          {this.props.validFormat
+            ? 'Change Round (Directors Only)'
+            : 'Invalid round format. Please contact the directors to change roundData.js'}
         </Button>
       </div>
     )

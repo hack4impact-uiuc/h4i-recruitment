@@ -11,7 +11,8 @@ import {
   SET_STATUS,
   RESET_FILTERS,
   SET_ROUND,
-  SET_SELECTED_ROUND
+  SET_SELECTED_ROUND,
+  SET_VALID_FORMAT
 } from './actionTypes.js'
 import { getCandidates } from '../utils/api'
 // Action Creators
@@ -23,6 +24,10 @@ export const setRoundRedux = round => ({
 export const setSelectedRound = selectedRound => ({
   type: SET_SELECTED_ROUND,
   payload: selectedRound
+})
+export const setValidFormat = validFormat => ({
+  type: SET_VALID_FORMAT,
+  payload: validFormat
 })
 export const fetchCandidatesFailure = error => ({ type: FETCH_CANDIDATES_FAILURE, payload: error })
 export const fetchCandidatesBegin = () => ({ type: FETCH_CANDIDATES_BEGIN })

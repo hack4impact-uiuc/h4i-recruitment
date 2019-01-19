@@ -95,7 +95,7 @@ const roundData = {
         {
           title: 'Knowledge of Web Dev or Data (2 points)',
           type: 'multiple choice',
-          scoreOptions: [0, 1, 2, 3],
+          scoreOptions: [0, 1, 2],
           textOptions: [
             'No experience',
             'Some experience with it, has done a couple projects, knows what flask is, experience with ltk, data visualizations. etc.',
