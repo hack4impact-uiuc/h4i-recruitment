@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { Card, CardBody, CardTitle, Container, Button, ListGroup, ListGroupItem } from 'reactstrap'
+import { Container, Button, ListGroup, ListGroupItem } from 'reactstrap'
 import Router from 'next/router'
 
 const handler = (_id: string) =>

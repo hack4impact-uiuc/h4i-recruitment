@@ -140,45 +140,6 @@ const roundData = {
           response: {}
         }
       ]
-      // questions: [
-      //   [
-      //     {
-      //       type: 'title',
-      //       title: 'Time Commitment (7 Points)'
-      //     },
-      //     {
-      //       type: 'text',
-      //       body: 'some description or something'
-      //     },
-      //     {
-      //       type: 'dropdown',
-      //       prompt: 'Give them a score out of 7:',
-      //       options: ['0', '1', '2', '3', '4', '5', '6']
-      //     },
-      //     {
-      //       type: 'prompt',
-      //       prompt: 'Explain why you awarded those points:'
-      //     }
-      //   ],
-      //   [
-      //     {
-      //       type: 'title',
-      //       title: 'Time Commitment (7 Points)'
-      //     },
-      //     {
-      //       type: 'text',
-      //       body: 'A list of seven things:'
-      //     },
-      //     {
-      //       type: 'list',
-      //       items: ['0', '1', '2', '3', '4', '5', '6', '7']
-      //     },
-      //     {
-      //       type: 'prompt',
-      //       prompt: 'Explain why you awarded those points:'
-      //     }
-      //   ]
-      // ]
     }
   ]
 }
