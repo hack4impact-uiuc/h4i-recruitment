@@ -36,7 +36,7 @@ class InterviewDetails extends Component {
             <ListGroupItem key={section.title}>
               <h5>
                 {section.title}:{' '}
-                {section.response.score ? section.response.score : section.response.text}
+                {section.response.text ? section.response.text : section.response.score}
               </h5>
               {section.response.notes ? (
                 <p className="textarea-input">Notes: {section.response.notes}</p>

@@ -24,7 +24,12 @@ class InterviewSectionModular extends Component {
     return options.map(option => (
       <FormGroup check>
         <Label>
-          <Input type="radio" value={option.value} onClick={this.onSelect} name={option.name} />
+          <Input
+            type="radio"
+            value={option.value}
+            onClick={this.onSelect}
+            name={this.props.title}
+          />
           {option.name}
         </Label>
       </FormGroup>
