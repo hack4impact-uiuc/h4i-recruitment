@@ -56,6 +56,8 @@ router.post(
       .map(x => x.replace('Resume', 'resume'))
       .map(x => x.replace('Website', 'website'))
       .map(x => x.replace('LinkedIn', 'linkedIn'))
+      .map(x => x.replace('Strong Referrals', 'strongReferrals'))
+      .map(x => x.replace('Referrals', 'referrals'))
       .map(x => x.replace('Facemash Score', 'facemashRankings.elo'))
       .map(x => x.replace('Number of Matches', 'facemashRankings.numOfMatches'))
 
