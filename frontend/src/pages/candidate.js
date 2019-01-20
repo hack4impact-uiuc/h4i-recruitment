@@ -8,7 +8,14 @@ import CandidateInterviewsModal from '../components/candidates/candidateIntervie
 import AddCommentsModal from '../components/comments/addCommentsModal'
 import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
-import { getCandidateById, addCommentToCandidate, getCandidateInterviews } from '../utils/api'
+import {
+  addReferral,
+  addStrongReferral,
+  deleteReferral,
+  getCandidateById,
+  addCommentToCandidate,
+  getCandidateInterviews
+} from '../utils/api'
 import { addInterviewCandidate } from './../actions'
 import ActionButton from '../components/actionButton'
 
@@ -77,6 +84,24 @@ class CandidatePage extends Component<Props> {
     await addInterviewCandidate(candidateId, candidateName)
     Router.push('/interview')
   }
+  // adds referral
+  async handleReferral(candidateId) {
+    const { result } = await addReferral(candidateId)
+    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
+    this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
+  }
+  // adds strong referral
+  async handleStrongReferral(candidateId) {
+    const { result } = await addStrongReferral(candidateId)
+    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
+    this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
+  }
+  // removes referral
+  async handleRemoveReferral(candidateId) {
+    const { result } = await deleteReferral(candidateId)
+    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
+    this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
+  }
   exitModal = () => {
     this.setState({
       modalOpen: false
@@ -117,6 +142,24 @@ class CandidatePage extends Component<Props> {
                 onClick={() => this.handleShowAllInterviews(candidate._id)}
               >
                 Show Candidate Interviews
+              </Button>
+              <Button
+                outline
+                color="primary"
+                className="margin-sm-all"
+                onClick={() => this.handleStrongReferral(candidate._id)}
+              >
+                Strong Refer
+              </Button>
+              <Button outline color="primary" onClick={() => this.handleReferral(candidate._id)}>
+                Refer
+              </Button>
+              <Button
+                outline
+                color="primary"
+                onClick={() => this.handleRemoveReferral(candidate._id)}
+              >
+                Delete Refer
               </Button>
             </Col>
             <Col md={4}>

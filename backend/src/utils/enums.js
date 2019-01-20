@@ -26,6 +26,12 @@ const statusEnum = {
   INVALID: 'Invalid'
 }
 
+const referralEnum = {
+  STRONG_REFERRAL: 'Strong Referral',
+  REFERRAL: 'Referral',
+  NO_REFERRAL: 'No Referral'
+}
+
 const rolesEnum = {
   SWE: 'Software Developer',
   PM: 'Product Manager',
@@ -43,6 +49,7 @@ module.exports = {
   yearsEnum,
   gradEnum,
   statusEnum,
+  referralEnum,
   rolesEnum,
   enumToArray
 }

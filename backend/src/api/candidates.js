@@ -3,7 +3,14 @@ const router = express.Router()
 const mongodb = require('mongodb')
 const { errorWrap, leadsOnly } = require('../middleware')
 const { Candidate, Comment, Interview } = require('../models')
-const { statusEnum, yearsEnum, rolesEnum, gradEnum, enumToArray } = require('../utils/enums')
+const {
+  statusEnum,
+  referralEnum,
+  yearsEnum,
+  rolesEnum,
+  gradEnum,
+  enumToArray
+} = require('../utils/enums')
 const { getGithubContributions } = require('../utils/gitScraper')
 
 router.get(
@@ -30,6 +37,7 @@ router.post(
       .map(x => x.replace('Graduation Year', 'graduationDate'))
       .map(x => x.replace('Year', 'year'))
       .map(x => x.replace('Status', 'status'))
+      .map(x => x.replace('Referral', 'referral'))
       .map(x => x.replace('Facemash Score', 'facemashRankings.elo'))
     Array.from(renamedSorts).forEach(x => (sortFilters[x] = 1))
     if (sortFilters['facemashRankings.elo']) {
@@ -58,6 +66,7 @@ router.post(
     let candidates = await Candidate.find()
       .select(selectFilters)
       .find({ status: filter.status })
+      .find({ referralStatus: filter.referral })
       .find({ year: filter.year })
       .find({ graduationDate: filter.graduationDate })
       .find({ role: { $in: filter.roles } })
@@ -364,6 +373,84 @@ router.delete(
       code: 200,
       message: response,
       result: {},
+      success: true
+    })
+  })
+)
+
+router.post(
+  '/:candidateId/referrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $pull: { referrals: req._key_name, strongReferrals: req._key_name }
+    })
+    const referrals = candidate.referrals
+    if (referrals === undefined || referrals.indexOf(req._key_name) === -1) {
+      const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+        $push: { referrals: req._key_name },
+        referralStatus: referralEnum.REFERRAL
+      })
+      const updatedCandidate = await Candidate.findById(req.params.candidateId)
+      const updatedReferrals = [updatedCandidate.strongReferrals, updatedCandidate.referrals]
+      res.json({
+        result: updatedReferrals,
+        message: `Successfully referred user ${candidate._id}`,
+        status: 200,
+        success: true
+      })
+    } else {
+      res.json({
+        result: referrals,
+        message: `Already referred user`,
+        status: 400,
+        success: false
+      })
+    }
+  })
+)
+router.post(
+  '/:candidateId/strongReferrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $pull: { referrals: req._key_name, strongReferrals: req._key_name }
+    })
+    const strongReferrals = candidate.strongReferrals
+    if (strongReferrals === undefined || strongReferrals.indexOf(req._key_name) === -1) {
+      const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+        $push: { strongReferrals: req._key_name },
+        referralStatus: referralEnum.STRONG_REFERRAL
+      })
+      const updatedCandidate = await Candidate.findById(req.params.candidateId)
+      const updatedReferrals = [updatedCandidate.strongReferrals, updatedCandidate.referrals]
+      res.json({
+        result: updatedReferrals,
+        message: `Successfully strongly referred user ${candidate._id}`,
+        status: 200,
+        success: true
+      })
+    } else {
+      res.json({
+        result: strongReferrals,
+        message: `Already referred user`,
+        status: 400,
+        success: false
+      })
+    }
+  })
+)
+router.delete(
+  '/:candidateId/referrals',
+  errorWrap(async (req, res) => {
+    const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
+      $pull: { referrals: req._key_name, strongReferrals: req._key_name },
+      referralStatus: referralEnum.NO_REFERRAL
+    })
+    const updatedCandidate = await Candidate.findById(req.params.candidateId)
+    const updatedReferrals = [updatedCandidate.strongReferrals, updatedCandidate.referrals]
+    res.json({
+      result: updatedReferrals,
+      message: `Successfully deleted referral for user ${candidate._id}`,
+      status: 200,
       success: true
     })
   })

@@ -26,6 +26,12 @@ export const statusEnum = {
   INVALID: 'Invalid'
 }
 
+export const referralEnum = {
+  STRONG_REFERRAL: 'Strong Referral',
+  REFERRAL: 'Referral',
+  NO_REFERRAL: 'No Referral'
+}
+
 export const categoryEnum = {
   FRESHMAYBE: 'freshman - maybe',
   FRESHPOTENTIAL: 'freshman - with lack of experience but high potential and initiative',

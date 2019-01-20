@@ -105,6 +105,14 @@ class CandidateBox extends Component {
             <p>
               <b>Classes Taken:</b>
               {candidate.classesTaken != undefined ? candidate.classesTaken.join(', ') : null}
+            </p>{' '}
+            <p>
+              <b>Strong Referrals: </b>
+              {candidate.strongReferrals != undefined ? candidate.strongReferrals.join(', ') : null}
+            </p>
+            <p>
+              <b>Referrals: </b>
+              {candidate.referrals != undefined ? candidate.referrals.join(', ') : null}
             </p>
             <p>
               <b>How They know us:</b> {candidate.howTheyKnowUs}

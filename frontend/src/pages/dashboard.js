@@ -89,6 +89,7 @@ class Dashboard extends React.Component<Props> {
     let filteredCandidates = this.state.candidates
       .filter(x => this.state.filters.gradDates.includes(x.graduationDate))
       .filter(x => this.state.filters.statuses.includes(x.status))
+      .filter(x => this.state.filters.referrals.includes(x.referralStatus))
       .filter(x => this.state.filters.years.includes(x.year))
       .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
       .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))

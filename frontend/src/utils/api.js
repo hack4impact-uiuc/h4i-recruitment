@@ -6,7 +6,32 @@ const getKey = () => sessionStorage.getItem('interviewerKey')
 const API_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://hack4impact-recruitment-backend.now.sh'
-    : 'http://localhost:8080'
+    : 'http://localhost:8080' // make sure your backend is running on this port.
+// if your frontend can't connect, try the normal IP
+
+function addInterviewSchedule(file: File) {
+  var reader = new FileReader()
+  var scheduleString = ''
+  reader.onload = function(e) {
+    scheduleString = reader.result
+    fetch(`${API_URL}/schedule/upload/?key=${getKey()}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ schedule: scheduleString })
+    })
+      .then(res => res.json())
+      .then(success => console.log(success))
+      .catch(error => console.log(error))
+  }
+
+  reader.readAsText(file)
+}
+
+function getInterviewSchedule() {
+  return fetch(`${API_URL}/schedule?key=${getKey()}`).then(res => res.json())
+}
 
 function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
@@ -162,7 +187,33 @@ function setRound(round: number) {
   }).then(res => res.json())
 }
 
+function addReferral(candidateID: string) {
+  console.log(`Adding referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function addStrongReferral(candidateID: string) {
+  console.log(`Adding strong referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/strongReferrals?key=${getKey()}`, {
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function deleteReferral(candidateID: string) {
+  console.log(`Deleting referral for ${candidateID}`)
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+    method: 'DELETE',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
+  addInterviewSchedule,
+  getInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,
   validateKey,
@@ -181,5 +232,8 @@ export {
   getAllInterviews,
   deleteInterview,
   getRound,
-  setRound
+  setRound,
+  addReferral,
+  addStrongReferral,
+  deleteReferral
 }
