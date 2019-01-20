@@ -86,7 +86,6 @@ class Dashboard extends React.Component<Props> {
   }
 
   render() {
-    console.log(this.state.filters.referrals)
     let filteredCandidates = this.state.candidates
       .filter(x => this.state.filters.gradDates.includes(x.graduationDate))
       .filter(x => this.state.filters.statuses.includes(x.status))

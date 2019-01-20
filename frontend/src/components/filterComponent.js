@@ -73,7 +73,6 @@ class FilterComponent extends Component<Props> {
       selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
-      console.log(statusFilter)
       referralFilter = this.props.filters.referrals
       rolesFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
