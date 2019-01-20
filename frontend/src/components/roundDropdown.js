@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import React, { Fragment, Component } from 'react'
 import Select from 'react-select'
-import roundData from '../../data/roundData.js'
+import roundData from '../data/roundData.js'
 import { setSelectedRound, setValidFormat } from '../actions'
 
 const mapStateToProps = state => {}
