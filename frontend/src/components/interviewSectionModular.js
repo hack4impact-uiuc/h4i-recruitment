@@ -71,12 +71,13 @@ class InterviewSectionModular extends Component {
     }
     return (
       <InterviewSectionCard title={this.props.title}>
-        {this.props.description ? this.props.description.map(element => element) : null}
         {this.props.description ? (
           <>
+            {this.props.description}
             <br /> <br />
           </>
         ) : null}
+
         {this.props.prompt ? this.props.prompt.map(element => element) : null}
         {this.props.prompt ? (
           <>
