@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { InterviewSchema } = require('./interview')
 const { CommentSchema } = require('./comment')
-const { statusEnum } = require('../utils/enums')
+const { statusEnum, referralEnum } = require('../utils/enums')
 
 const Candidate = new mongoose.Schema(
   {
@@ -34,6 +34,7 @@ const Candidate = new mongoose.Schema(
       numOfMatches: { type: Number, default: 0 }
     },
     status: { type: String, default: statusEnum.PENDING },
+    referralStatus: { type: String, default: referralEnum.NO_REFERRAL },
     comments: [CommentSchema], // subdocument
     lastStatusChangeByUser: {
       name: { type: String },

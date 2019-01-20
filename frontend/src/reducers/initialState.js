@@ -2,6 +2,7 @@ import {
   yearsEnum,
   rolesEnum,
   statusEnum,
+  referralEnum,
   gradEnum,
   sortByEnum,
   enumToArray,
@@ -30,6 +31,7 @@ const initialState = {
     filters: {
       years: enumToArray(yearsEnum),
       statuses: enumToArray(statusEnum),
+      referrals: enumToArray(referralEnum),
       roles: enumToArray(rolesEnum),
       gradDates: enumToArray(gradEnum),
       sortBy: enumToArray(sortByEnum),

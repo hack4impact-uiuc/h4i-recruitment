@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import {
   yearsEnum,
   statusEnum,
+  referralEnum,
   rolesEnum,
   gradEnum,
   sortByEnum,
@@ -60,16 +61,20 @@ class FilterComponent extends Component<Props> {
     const years = enumToArray(yearsEnum)
     const roles = enumToArray(rolesEnum)
     const statuses = enumToArray(statusEnum)
+    const referrals = enumToArray(referralEnum)
     const gradDates = enumToArray(gradEnum)
     const sortBy = enumToArray(sortByEnum)
     const selectBy = enumToArray(selectByEnum)
     let statusFilter = [],
+      referralFilter = [],
       rolesFilter = [],
       yearFilter = [],
       gradFilter = [],
       selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
+      console.log(statusFilter)
+      referralFilter = this.props.filters.referrals
       rolesFilter = this.props.filters.roles
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
@@ -122,6 +127,30 @@ class FilterComponent extends Component<Props> {
                     name="statuses"
                     value={el}
                     checked={statusFilter.includes(el)}
+                    onChange={this.handleChange}
+                  />
+                  <div className="state">
+                    <label htmlFor={el}>{el}</label>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          <h5>Referrals</h5>
+        </div>
+        <div>
+          {referrals.map((el, idx) => {
+            return (
+              <div key={idx}>
+                <div className="pretty p-default">
+                  <input
+                    type="checkbox"
+                    id={el}
+                    name="referrals"
+                    value={el}
+                    checked={referralFilter.includes(el)}
                     onChange={this.handleChange}
                   />
                   <div className="state">
