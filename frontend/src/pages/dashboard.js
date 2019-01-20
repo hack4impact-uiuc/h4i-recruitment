@@ -155,7 +155,11 @@ class Dashboard extends React.Component<Props> {
                           {selects.includes('Major') ? <th>Major</th> : <> </>}
                           {selects.includes('Hours') ? <th>Hours</th> : <> </>}
                           {selects.includes('Links') ? <th>Links</th> : <> </>}
-                          {selects.includes('Strong Referrals') ? <th>Strong Referrals</th> : <> </>}
+                          {selects.includes('Strong Referrals') ? (
+                            <th>Strong Referrals</th>
+                          ) : (
+                            <> </>
+                          )}
                           {selects.includes('Referrals') ? <th>Referrals</th> : <> </>}
                           {selects.includes('Facemash Score') ? <th>FaceMash Score</th> : <> </>}
                           {selects.includes('Number of Matches') ? <th>Matches</th> : <> </>}
@@ -219,7 +223,7 @@ class Dashboard extends React.Component<Props> {
                                 <> </>
                               )}
 
-{selects.includes('Strong Referrals') ? (
+                              {selects.includes('Strong Referrals') ? (
                                 <td>{candidate.strongReferrals.length}</td>
                               ) : (
                                 <> </>
