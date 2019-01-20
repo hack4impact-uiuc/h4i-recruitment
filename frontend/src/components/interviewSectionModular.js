@@ -71,12 +71,14 @@ class InterviewSectionModular extends Component {
     }
     return (
       <InterviewSectionCard title={this.props.title}>
-        {this.props.description ? <pre>{this.props.description}</pre> : null}
-        {this.props.prompt ? <pre>{this.props.prompt}</pre> : null}
-        {this.props.type == 'dropdown'
-          ? this.mapOptionsDropdown(options)
-          : this.mapOptionsMultipleChoice(options)}
-        {this.props.notesPrompt ? (
+        {this.props.description ? this.props.description.map(element => element) : null}
+        {this.props.prompt ? this.props.prompt.map(element => element) : null}
+        {this.props.type == 'notes'
+          ? null
+          : this.props.type == 'dropdown'
+            ? this.mapOptionsDropdown(options)
+            : this.mapOptionsMultipleChoice(options)}
+        {this.props.notesPrompt || this.props.type == 'notes' ? (
           <>
             <br />
             <Input

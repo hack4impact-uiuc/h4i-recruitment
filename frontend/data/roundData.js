@@ -14,16 +14,29 @@ const roundData = {
       sections: [
         {
           title: 'Time Commitment (7 points)',
-          description:
-            '-1 for each:\n' +
-            '- Exec member for another org Consulting Club such as IBC, OTCR\n' +
-            '- Some other club that requires time that I can’t think of(ex: Enactus Fraternity Pledge during the same semester)\n' +
-            '- Hard/Time-consuming classes\n' +
-            '\n' +
-            '-2 for each:\n' +
-            '- Hard course-load (still take one point off for each hard class they have as described above)\n' +
-            '- Too many org obligations\n',
-          prompt: 'Give them a score out of 7:',
+          description: [
+            React.createElement('b', '-1 for each:'),
+            React.createElement('ul', [
+              React.createElement(
+                'li',
+                'Exec member for another org Consulting Club such as IBC, OTCR'
+              ),
+              React.createElement(
+                'li',
+                'Some other club that requires time that I can&#39;t think of (ex: Enactus Fraternity Pledge during the same semester)'
+              ),
+              React.createElement('li', 'Hard/Time-consuming classes')
+            ]),
+            React.createElement('b', '-2 for each:'),
+            React.createElement('ul', [
+              React.createElement(
+                'li',
+                'Hard course-load (still take one point off for each hard class they have as described above)'
+              ),
+              React.createElement('li', 'Too many org obligations')
+            ])
+          ],
+          prompt: [React.createElement('b', 'Give them a score out of 7:')],
           type: 'dropdown',
           scoreOptions: [0, 1, 2, 3, 4, 5, 6, 7],
           notesPrompt: 'Explain why you gave them those points:',
@@ -44,23 +57,41 @@ const roundData = {
         },
         {
           title: 'Community (5 points)',
-          description:
-            'Gauging Community is really hard. Fill this out in the end.\n' +
-            '\n' +
-            'Identifying those who embody Intentionality, Curiosity, and Empathy... Subtract the points from 7.\n' +
-            '\n' +
-            'Asking Questions at the end:\n' +
-            '- -2 points: Didn’t ask you any questions at end\n' +
-            '- -1 point: Asked you some BS questions. Beyond just logistical questions\n' +
-            '- Asked you solid questions and about what we do, what you do, your recommendation, etc: Great!\n' +
-            '\n' +
-            'Technical Interview Portion\n' +
-            '- -1 point: Didn’t communicate with you at all during technical interview\n' +
-            'Let you know what and why they chose to do things: Great!\n' +
-            '\n' +
-            'Subjective:\n' +
-            'No: -2 Meh: -1. Hell ya: 0 Are they someone you’d enjoy working with?\n',
-          prompt: 'Give them score out of 5:',
+          description: [
+            React.createElement('b', 'Gauging Community is really hard. Fill this out in the end.'),
+            React.createElement(
+              'p',
+              'Identifying those who embody Intentionality, Curiosity, and Empathy... Subtract the points from 7.'
+            ),
+            React.createElement('b', 'Asking Questions at the end:'),
+            React.createElement('ul', [
+              React.createElement('li', '-2 points: Didn’t ask you any questions at end'),
+              React.createElement(
+                'li',
+                '-1 point: Asked you some BS questions. Beyond just logistical question'
+              ),
+              React.createElement(
+                'li',
+                'Asked you solid questions and about what we do, what you do, your recommendation, etc: Great!'
+              )
+            ]),
+            React.createElement('b', 'Technical Interview Portion:'),
+            React.createElement('ul', [
+              React.createElement(
+                'li',
+                '-1 point: Didn’t communicate with you at all during technical interview'
+              ),
+              React.createElement('li', 'Let you know what and why they chose to do things: Great!')
+            ]),
+            React.createElement('b', 'Subjective:'),
+            React.createElement('ul', [
+              React.createElement(
+                'li',
+                'No: -2 Meh: -1. Hell ya: 0 Are they someone you’d enjoy working with?'
+              )
+            ])
+          ],
+          prompt: [React.createElement('b', 'Give them score out of 5:')],
           type: 'dropdown',
           scoreOptions: [0, 1, 2, 3, 4, 5],
           notesPrompt:
@@ -76,9 +107,15 @@ const roundData = {
       sections: [
         {
           title: 'Resume and Tech Knowledge (3 points)',
-          description:
-            'Do they have projects? Internships? Do they actually know what they are talking about? Do they understand the underlying technologies they’ve used?',
-          prompt: 'If you detect they were kind of bullshitting: -1 overall',
+          description: [
+            React.createElement(
+              'b',
+              'Do they have projects? Internships? Do they actually know what they are talking about? Do they understand the underlying technologies they’ve used?'
+            )
+          ],
+          prompt: [
+            React.createElement('b', 'If you detect they were kind of bullshitting: -1 overall')
+          ],
           type: 'multiple choice',
           scoreOptions: [0, 1, 2, 3],
           textOptions: [
@@ -116,9 +153,13 @@ const roundData = {
         },
         {
           title: 'Category',
-          description:
-            'This will be used in addition to the overall score you gave your interviewee.',
-          prompt: 'Place the candidate in a category:',
+          description: [
+            React.createElement(
+              'b',
+              'This will be used in addition to the overall score you gave your interviewee.'
+            )
+          ],
+          prompt: [React.createElement('b', 'Place the candidate in a category:')],
           type: 'dropdown',
           textOptions: [
             'Freshman - maybe',
