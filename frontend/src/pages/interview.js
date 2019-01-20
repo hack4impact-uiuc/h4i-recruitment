@@ -22,7 +22,7 @@ import InterviewSectionCard from '../components/interviewSectionCard'
 import VerificationModal from '../components/verificationModal'
 import InterviewSectionModular from '../components/interviewSectionModular'
 import { getKey, addInterview, getCandidates } from '../utils/api'
-import roundData from '../../data/roundData'
+import roundData from '../data/roundData'
 
 type Props = {
   error: boolean,
