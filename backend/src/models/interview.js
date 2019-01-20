@@ -9,12 +9,6 @@ const Response = new mongoose.Schema({
 
 const Section = new mongoose.Schema({
   title: { type: String },
-  description: { type: String },
-  prompt: { type: String },
-  type: { type: String },
-  scoreOptions: { type: [Number] },
-  textOptions: { type: [String] },
-  notesPrompt: { type: String },
   response: { type: Response }
 })
 
