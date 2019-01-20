@@ -3,7 +3,14 @@ const router = express.Router()
 const mongodb = require('mongodb')
 const { errorWrap, leadsOnly } = require('../middleware')
 const { Candidate, Comment, Interview } = require('../models')
-const { statusEnum, referralEnum, yearsEnum, rolesEnum, gradEnum, enumToArray } = require('../utils/enums')
+const {
+  statusEnum,
+  referralEnum,
+  yearsEnum,
+  rolesEnum,
+  gradEnum,
+  enumToArray
+} = require('../utils/enums')
 const { getGithubContributions } = require('../utils/gitScraper')
 
 router.get(
