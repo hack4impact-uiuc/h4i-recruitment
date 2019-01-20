@@ -77,6 +77,8 @@ export const selectByEnum = {
   GRADYR: 'Graduation Year',
   STATUS: 'Status',
   LINKS: 'Links',
+  STRONG_REFERRALS: 'Strong Referrals',
+  REFERRALS: 'Referrals',
   ELO: 'Facemash Score',
   MATCHES: 'Number of Matches'
 }
