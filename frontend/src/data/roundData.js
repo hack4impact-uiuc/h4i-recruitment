@@ -3,12 +3,10 @@ import React from 'react'
 const roundData = {
   rounds: [
     {
-      round: '0',
       type: 'faceMash',
       name: 'FaceMash'
     },
     {
-      round: '1',
       type: 'interview',
       name: 'Mass Interview',
       sections: [
@@ -117,7 +115,6 @@ const roundData = {
       ]
     },
     {
-      round: '2',
       type: 'interview',
       name: 'Individual Interview',
       sections: [
@@ -209,7 +206,6 @@ const roundData = {
       ]
     },
     {
-      round: '3',
       type: 'interview',
       name: 'Invalid Interview',
       sections: [
