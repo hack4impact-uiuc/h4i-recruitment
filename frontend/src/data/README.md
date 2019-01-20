@@ -28,6 +28,6 @@ If only `textOptions` is provided, `response.text` will be updated.
 
 ### Optional fields:
 * `notesPrompt`: The placeholder string in the notes box. Must be formatted as a string and must be present for the section to have a notes box.
-* **The following two fields, if provided, currently must be formatted as a `React.createElement()` array**
+* **The following two fields, if provided, may include JSX elements for styling on the cards.**
     * `description`: Appears just below the title
     * `prompt`: Appears below the description and above scoring/classification options
