@@ -40,7 +40,9 @@ class RoundDropdown extends Component {
         if (
           section.title === undefined ||
           section.type === undefined ||
-          (section.scoreOptions === undefined && section.textOptions === undefined) ||
+          (section.type !== 'notes' &&
+            section.scoreOptions === undefined &&
+            section.textOptions === undefined) ||
           section.response === undefined
         ) {
           return false

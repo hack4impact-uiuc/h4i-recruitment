@@ -15,28 +15,31 @@ const roundData = {
         {
           title: 'Time Commitment (7 points)',
           description: [
-            React.createElement('b', '-1 for each:'),
-            React.createElement('ul', [
+            React.createElement('b', {}, '-1 for each:'),
+            React.createElement('ul', {}, [
               React.createElement(
                 'li',
+                {},
                 'Exec member for another org Consulting Club such as IBC, OTCR'
               ),
               React.createElement(
                 'li',
+                {},
                 'Some other club that requires time that I can&#39;t think of (ex: Enactus Fraternity Pledge during the same semester)'
               ),
-              React.createElement('li', 'Hard/Time-consuming classes')
+              React.createElement('li', {}, 'Hard/Time-consuming classes')
             ]),
-            React.createElement('b', '-2 for each:'),
-            React.createElement('ul', [
+            React.createElement('b', {}, '-2 for each:'),
+            React.createElement('ul', {}, [
               React.createElement(
                 'li',
+                {},
                 'Hard course-load (still take one point off for each hard class they have as described above)'
               ),
-              React.createElement('li', 'Too many org obligations')
+              React.createElement('li', {}, 'Too many org obligations')
             ])
           ],
-          prompt: [React.createElement('b', 'Give them a score out of 7:')],
+          prompt: [React.createElement('b', {}, 'Give them a score out of 7:')],
           type: 'dropdown',
           scoreOptions: [0, 1, 2, 3, 4, 5, 6, 7],
           notesPrompt: 'Explain why you gave them those points:',
@@ -58,40 +61,53 @@ const roundData = {
         {
           title: 'Community (5 points)',
           description: [
-            React.createElement('b', 'Gauging Community is really hard. Fill this out in the end.'),
+            React.createElement(
+              'b',
+              {},
+              'Gauging Community is really hard. Fill this out in the end.'
+            ),
             React.createElement(
               'p',
+              {},
               'Identifying those who embody Intentionality, Curiosity, and Empathy... Subtract the points from 7.'
             ),
-            React.createElement('b', 'Asking Questions at the end:'),
-            React.createElement('ul', [
-              React.createElement('li', '-2 points: Didn’t ask you any questions at end'),
+            React.createElement('b', {}, 'Asking Questions at the end:'),
+            React.createElement('ul', {}, [
+              React.createElement('li', {}, '-2 points: Didn’t ask you any questions at end'),
               React.createElement(
                 'li',
+                {},
                 '-1 point: Asked you some BS questions. Beyond just logistical question'
               ),
               React.createElement(
                 'li',
+                {},
                 'Asked you solid questions and about what we do, what you do, your recommendation, etc: Great!'
               )
             ]),
-            React.createElement('b', 'Technical Interview Portion:'),
-            React.createElement('ul', [
+            React.createElement('b', {}, 'Technical Interview Portion:'),
+            React.createElement('ul', {}, [
               React.createElement(
                 'li',
+                {},
                 '-1 point: Didn’t communicate with you at all during technical interview'
               ),
-              React.createElement('li', 'Let you know what and why they chose to do things: Great!')
-            ]),
-            React.createElement('b', 'Subjective:'),
-            React.createElement('ul', [
               React.createElement(
                 'li',
+                {},
+                'Let you know what and why they chose to do things: Great!'
+              )
+            ]),
+            React.createElement('b', {}, 'Subjective:'),
+            React.createElement('ul', {}, [
+              React.createElement(
+                'li',
+                {},
                 'No: -2 Meh: -1. Hell ya: 0 Are they someone you’d enjoy working with?'
               )
             ])
           ],
-          prompt: [React.createElement('b', 'Give them score out of 5:')],
+          prompt: [React.createElement('b', {}, 'Give them score out of 5:')],
           type: 'dropdown',
           scoreOptions: [0, 1, 2, 3, 4, 5],
           notesPrompt:
@@ -110,11 +126,12 @@ const roundData = {
           description: [
             React.createElement(
               'b',
+              {},
               'Do they have projects? Internships? Do they actually know what they are talking about? Do they understand the underlying technologies they’ve used?'
             )
           ],
           prompt: [
-            React.createElement('b', 'If you detect they were kind of bullshitting: -1 overall')
+            React.createElement('b', {}, 'If you detect they were kind of bullshitting: -1 overall')
           ],
           type: 'multiple choice',
           scoreOptions: [0, 1, 2, 3],
@@ -156,10 +173,11 @@ const roundData = {
           description: [
             React.createElement(
               'b',
+              {},
               'This will be used in addition to the overall score you gave your interviewee.'
             )
           ],
-          prompt: [React.createElement('b', 'Place the candidate in a category:')],
+          prompt: [React.createElement('b', {}, 'Place the candidate in a category:')],
           type: 'dropdown',
           textOptions: [
             'Freshman - maybe',
@@ -173,6 +191,19 @@ const roundData = {
             'Upperclassman with experience but eh with everything else'
           ],
           notesPrompt: 'Explain here why you’ve categorized the applicant like this.',
+          response: {}
+        },
+        {
+          title: 'Notes',
+          description: [
+            React.createElement(
+              'b',
+              {},
+              'This is an example of what a notes-only question would look like.'
+            )
+          ],
+          type: 'notes',
+          notesPrompt: 'Put notes here.',
           response: {}
         }
       ]

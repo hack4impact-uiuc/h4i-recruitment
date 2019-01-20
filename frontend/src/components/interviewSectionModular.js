@@ -64,7 +64,7 @@ class InterviewSectionModular extends Component {
           value: Number(this.props.scoreOptions[i])
         })
       }
-    } else {
+    } else if (this.props.textOptions) {
       for (let i = 0; i < this.props.textOptions.length; i++) {
         options.push({ name: this.props.textOptions[i], value: this.props.textOptions[i] })
       }
@@ -72,25 +72,37 @@ class InterviewSectionModular extends Component {
     return (
       <InterviewSectionCard title={this.props.title}>
         {this.props.description ? this.props.description.map(element => element) : null}
+        {this.props.description ? (
+          <>
+            <br /> <br />
+          </>
+        ) : null}
         {this.props.prompt ? this.props.prompt.map(element => element) : null}
+        {this.props.prompt ? (
+          <>
+            <br /> <br />
+          </>
+        ) : null}
         {this.props.type == 'notes'
           ? null
           : this.props.type == 'dropdown'
             ? this.mapOptionsDropdown(options)
             : this.mapOptionsMultipleChoice(options)}
-        {this.props.notesPrompt || this.props.type == 'notes' ? (
+        {this.props.type != 'notes' && this.props.notesPrompt ? (
           <>
             <br />
-            <Input
-              style={{ height: '130px' }}
-              value={this.props.notes}
-              className="textarea-input"
-              onChange={this.handleNotesChange}
-              type="textarea"
-              id="time-commitment-explanation"
-              placeholder={this.props.notesPrompt}
-            />
           </>
+        ) : null}
+        {this.props.notesPrompt || this.props.type == 'notes' ? (
+          <Input
+            style={{ height: '130px' }}
+            value={this.props.notes}
+            className="textarea-input"
+            onChange={this.handleNotesChange}
+            type="textarea"
+            id="time-commitment-explanation"
+            placeholder={this.props.notesPrompt}
+          />
         ) : null}
       </InterviewSectionCard>
     )
