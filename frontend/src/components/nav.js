@@ -1,5 +1,5 @@
 // @flow
-import { Component, Fragment } from 'react'
+import { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import {
@@ -16,8 +16,8 @@ import {
   Button,
   Container
 } from 'reactstrap'
-import { validateKey, getKey, getCandidates, getRound } from '../utils/api'
-import roundData from '../../../data/roundData.js'
+import { validateKey, getKey, getRound } from '../utils/api'
+import roundData from '../../data/roundData.js'
 import { setRoundRedux } from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'

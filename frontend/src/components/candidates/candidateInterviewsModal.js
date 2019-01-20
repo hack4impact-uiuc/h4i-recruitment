@@ -52,7 +52,6 @@ class CandidateInterviewsModal extends React.Component<Props> {
                     interview={interview}
                     key={interview._id}
                     overallScore={interview.overall_score}
-                    category={interview.category}
                     interviewer={interview.interviewer_name}
                   />
                 )

@@ -6,8 +6,8 @@
     "dev": "next src",
     "build": "next build src",
     "start": "next start src",
-    "format": "prettier --write '{src,test}/**/*.{js,jsx,json,css}'",
-    "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
+    "format": "prettier --write '{src,test,data}/**/*.{js,jsx,json,css}'",
+    "format:check": "prettier --list-different \"{src,test,data}/**/*.js\"",
     "flow": "flow"
   },
   "dependencies": {
@@ -17,7 +17,7 @@
     "next-page-transitions": "^1.0.0-alpha.4",
     "next-redux-wrapper": "^2.0.0",
     "pretty-checkbox": "^3.0.3",
-    "react": "^16.3.0",
+    "react": "^16.7.0",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.0.0",
     "react-loading": "^2.0.3",
