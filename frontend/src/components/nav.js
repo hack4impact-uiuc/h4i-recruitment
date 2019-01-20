@@ -1,5 +1,5 @@
 // @flow
-import { Component, Fragment } from 'react'
+import { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import {
@@ -14,11 +14,26 @@ import {
   ModalBody,
   Input,
   Button,
-  NavLink,
   Container
 } from 'reactstrap'
-import { validateKey, getKey } from '../utils/api'
+import { validateKey, getKey, getRound } from '../utils/api'
+import roundData from '../../data/roundData.js'
+import { setRoundRedux } from '../actions'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
+const mapStateToProps = state => ({
+  round: state.round
+})
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      setRoundRedux
+    },
+    dispatch
+  )
+}
 class NavigationBar extends Component {
   constructor(props) {
     super(props)
@@ -58,12 +73,18 @@ class NavigationBar extends Component {
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }
-  componentDidMount() {
+  async componentDidMount() {
     if (getKey() != undefined) {
       this.setState({
         loggedIn: true,
         username: sessionStorage.getItem('interviewerName')
       })
+    }
+    const res = await getRound()
+    if (res.result) {
+      this.props.setRoundRedux(res.result.round)
+    } else {
+      this.props.setRoundRedux(0)
     }
   }
   // handles when user presses "Enter" when input is focused
@@ -96,11 +117,15 @@ class NavigationBar extends Component {
               <Link prefetch href="/analytics">
                 <a className="nav-bar-link pl-3">Analytics</a>
               </Link>
-              <Link prefetch href="/facemash">
-                <a className="nav-bar-link pl-3">Facemash</a>
-              </Link>
-              <Link prefetch href="/interviewportal">
-                <a className="nav-bar-link pl-3">Interview Portal</a>
+              <Link
+                prefetch
+                href={
+                  roundData.rounds[this.props.round].type == 'interview'
+                    ? '/interviewportal'
+                    : '/facemash'
+                }
+              >
+                <a className="nav-bar-link pl-3">{roundData.rounds[this.props.round].name}</a>
               </Link>
               <Link prefetch href="/interviewschedule">
                 <a className="nav-bar-link pl-3">Interview Schedule</a>
@@ -113,6 +138,11 @@ class NavigationBar extends Component {
               <Nav navbar>
                 <Link prefetch href="/stats">
                   <a className="nav-bar-link pl-3">Emails/Stats</a>
+                </Link>
+              </Nav>
+              <Nav navbar>
+                <Link prefetch href="/rounds">
+                  <a className="nav-bar-link pl-3">Rounds</a>
                 </Link>
               </Nav>
               <Nav navbar>
@@ -164,4 +194,7 @@ class NavigationBar extends Component {
   }
 }
 
-export default NavigationBar
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavigationBar)

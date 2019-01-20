@@ -10,11 +10,30 @@ import {
   ADD_FILTER,
   REMOVE_FILTER,
   SET_STATUS,
-  RESET_FILTERS
+  RESET_FILTERS,
+  SET_ROUND,
+  SET_SELECTED_ROUND,
+  SET_VALID_FORMAT
 } from '../actions/actionTypes'
 
 export default function recruitmentApp(state = initialState, action) {
   switch (action.type) {
+    case SET_ROUND:
+      return {
+        ...state,
+        round: action.payload,
+        selectedRound: action.payload
+      }
+    case SET_SELECTED_ROUND:
+      return {
+        ...state,
+        selectedRound: action.payload
+      }
+    case SET_VALID_FORMAT:
+      return {
+        ...state,
+        validFormat: action.payload
+      }
     case EDIT_INTERVIEW:
       console.log('ACTION INTERVIEW', action.payload.interview)
       return {

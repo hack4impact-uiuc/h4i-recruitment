@@ -128,10 +128,6 @@ class CandidateBox extends Component {
               <p key={interview._id}>
                 <b>Interviewer: </b>
                 {interview.interviewer_name}
-                <br />
-                <b> Category: </b> {interview.category}
-                <br />
-                <b> Reason: </b> {interview.category_notes}
               </p>
             ))}
           </Col>

@@ -1,6 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const { interview, futureInterview, candidates, matchCandidates, matches } = require('./api')
+const {
+  interview,
+  futureInterview,
+  candidates,
+  matchCandidates,
+  matches,
+  structure
+} = require('./api')
 var XLSX = require('xlsx')
 
 // mydomain.com/
@@ -14,5 +21,6 @@ router.use('/schedule', futureInterview)
 router.use('/candidates', candidates)
 router.use('/matchCandidates', matchCandidates)
 router.use('/matches', matches)
+router.use('/structure', structure)
 
 module.exports = router

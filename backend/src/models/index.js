@@ -5,12 +5,14 @@ const FutureInterview = require('./futureInterview')
 const Stats = require('./stats')
 const Match = require('./match')
 const Comment = require('./comment').CommentModel
+const Structure = require('./structure')
 
 module.exports = {
   Candidate,
   Stats,
   Match,
   Interview,
-  FutureInterview,
-  Comment
+  Comment,
+  Structure,
+  FutureInterview
 }

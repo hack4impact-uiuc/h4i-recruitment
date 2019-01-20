@@ -14,6 +14,9 @@ const selectList = enumToArray(selectByEnum)
 selectList.splice(selectList.indexOf('Hours'), 1)
 
 const initialState = {
+  round: 0,
+  selectedRound: 0,
+  validFormat: true,
   facemash: {
     candidates: null,
     matchID: null

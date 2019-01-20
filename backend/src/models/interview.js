@@ -1,16 +1,21 @@
 // Subdocument to Candidates
 const mongoose = require('mongoose')
 
-const Question = new mongoose.Schema({
-  question_text: { type: String },
-  score: { type: Number }
+const Response = new mongoose.Schema({
+  text: { type: String },
+  score: { type: Number },
+  notes: { type: String }
 })
 
 const Section = new mongoose.Schema({
-  section_name: { type: String },
+  title: { type: String },
   description: { type: String },
-  questions: { type: [Question] },
-  section_notes: { type: String }
+  prompt: { type: String },
+  type: { type: String },
+  scoreOptions: { type: [Number] },
+  textOptions: { type: [String] },
+  notesPrompt: { type: String },
+  response: { type: Response }
 })
 
 const Interview = new mongoose.Schema({
@@ -20,8 +25,6 @@ const Interview = new mongoose.Schema({
   interviewer_name: { type: String },
   overall_score: { type: Number },
   general_notes: { type: String },
-  category_notes: { type: String },
-  category: { type: String },
   sections: { type: [Section] }
 })
 

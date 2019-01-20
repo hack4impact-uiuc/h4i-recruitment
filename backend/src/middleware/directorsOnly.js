@@ -1,9 +1,9 @@
 /* router middleware to only allow
- * keys with the leads/director suffix to access the endpoint
+ * keys with the director suffix to access the endpoint
  * must be called AFTER the auth middleware
  */
-const leadsOnly = (req, res, next) => {
-  if (!req._is_lead) {
+const directorsOnly = (req, res, next) => {
+  if (!req._is_director) {
     const msg = `The key '${
       req._key
     }' doesn't have the correct privileges. Please contact the admin.`
@@ -17,4 +17,4 @@ const leadsOnly = (req, res, next) => {
   }
   next()
 }
-module.exports = leadsOnly
+module.exports = directorsOnly

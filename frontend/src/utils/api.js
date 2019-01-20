@@ -118,8 +118,6 @@ function addInterview(
   candidateName: string,
   overallScore: number,
   generalNotes: string,
-  categoryNotes: string,
-  category: string,
   sections: Array
 ) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`, {
@@ -129,8 +127,6 @@ function addInterview(
       candidateName,
       overallScore,
       generalNotes,
-      categoryNotes,
-      category,
       sections
     }),
     headers: {
@@ -168,6 +164,25 @@ function getAllInterviews() {
 function deleteInterview(candidateId: string, interviewId: string) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}?key=${getKey()}`, {
     method: 'DELETE',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function getRound() {
+  return fetch(`${API_URL}/structure?key=${getKey()}`, {
+    method: 'GET'
+  }).then(res => res.json())
+}
+
+function setRound(round: number) {
+  return fetch(`${API_URL}/structure?key=${getKey()}`, {
+    body: JSON.stringify({
+      round
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
     mode: 'cors'
   }).then(res => res.json())
 }
@@ -216,6 +231,8 @@ export {
   getInterviewingCandidates,
   getAllInterviews,
   deleteInterview,
+  getRound,
+  setRound,
   addReferral,
   addStrongReferral,
   deleteReferral

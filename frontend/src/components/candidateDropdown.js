@@ -1,11 +1,8 @@
 // @flow
 // This Component is used in the interview page
 // to choose a candidate to add an interview for
-import withRedux from 'next-redux-wrapper'
-import configureStore from './../store/appStore'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Row } from 'reactstrap'
 import React, { Fragment, Component } from 'react'
 import Select from 'react-select'
 import { addInterviewCandidate } from '../actions'
