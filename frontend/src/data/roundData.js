@@ -14,11 +14,11 @@ const roundData = {
           title: 'General',
           description: (
             <b>
-              Please write down your `Set` and the questions you asked as well as the notes you took
-              from their answer and your thoughts.
+              Please write down your `Set` and the Set's title (`Set 1 openness/not a dick`) and the
+              questions you asked as well as the notes you took from their answer and your thoughts.
             </b>
           ),
-          prompt: [React.createElement('b', {}, 'Give them a score out of 5:')],
+          prompt: <b>Give them a score out of 5:</b>,
           type: 'dropdown',
           scoreOptions: [0, 1, 2, 3, 4, 5],
           notesPrompt:
@@ -36,9 +36,8 @@ const roundData = {
           description: (
             <b>Do they have the time to be able to make a worthwile contribution to Hack4Impact?</b>
           ),
-          prompt: [React.createElement('b', {}, 'Give them a score out of 7:')],
-          type: 'dropdown',
-          scoreOptions: [0, 1, 2, 3, 4, 5, 6, 7],
+          notesPrompt:
+            'Write down your notes for their response and your thoughts. Were they hesitant? Did they answer like they were fine? Or was there a tone of precariousness. ',
           response: {}
         },
         {
@@ -49,10 +48,7 @@ const roundData = {
               Do they understand the underlying technologies they’ve used?
             </b>
           ),
-
-          prompt: [
-            React.createElement('b', {}, 'If you detect they were kind of bullshitting: -1 overall')
-          ],
+          prompt: <b>If you detect they were kind of bullshitting: -1 overall</b>,
           type: 'multiple choice',
           scoreOptions: [0, 1, 2, 3],
           textOptions: [
@@ -93,7 +89,7 @@ const roundData = {
           description: [
             <b>This will be used in addition to the overall score you gave your interviewee.</b>
           ],
-          prompt: [React.createElement('b', {}, 'Place the candidate in a category:')],
+          prompt: <b>'Place the candidate in a category:</b>,
           type: 'dropdown',
           textOptions: [
             'Freshman - maybe',
@@ -111,13 +107,7 @@ const roundData = {
         },
         {
           title: 'Notes',
-          description: [
-            React.createElement(
-              'b',
-              {},
-              'This is an example of what a notes-only question would look like.'
-            )
-          ],
+          description: <b>This is an example of what a notes-only question would look like.</b>,
           type: 'notes',
           notesPrompt: 'Put notes here.',
           response: {}
