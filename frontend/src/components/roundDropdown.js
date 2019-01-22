@@ -9,7 +9,7 @@ import roundData from '../data/roundData.js'
 import { setViewedRound, setValidFormat } from '../actions'
 
 const mapStateToProps = state => ({
-    viewedRound: state.viewedRound
+  viewedRound: state.viewedRound
 })
 
 const mapDispatchToProps = dispatch => {

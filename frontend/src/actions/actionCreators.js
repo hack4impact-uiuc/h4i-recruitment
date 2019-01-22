@@ -21,7 +21,8 @@ export const setRoundRedux = round => ({
   type: SET_ROUND,
   payload: round
 })
-export const setViewedRound = viewedRound => ({ //for setting the viewed round structure in the Rounds page
+export const setViewedRound = viewedRound => ({
+  //for setting the viewed round structure in the Rounds page
   type: SET_VIEWED_ROUND,
   payload: viewedRound
 })
