@@ -10,7 +10,9 @@ const savePersistedState = store => () => {
     facemash: {
       candidates: store.getState().facemash.candidates,
       matchID: store.getState().facemash.matchID
-    }
+    },
+    round: store.getState().round,
+    viewedRound: store.getState().viewedRound
   })
 }
 

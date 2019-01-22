@@ -10,7 +10,7 @@ import { setRoundRedux } from '../actions'
 
 const mapStateToProps = state => ({
   round: state.round,
-  selectedRound: state.selectedRound,
+  viewedRound: state.viewedRound,
   validFormat: state.validFormat
 })
 
@@ -32,10 +32,10 @@ class Rounds extends Component {
   }
 
   async changeRound() {
-    const { success } = await setRound(this.props.selectedRound)
+    const { success } = await setRound(this.props.viewedRound)
     if (success) {
-      this.props.setRoundRedux(this.props.selectedRound)
-      sessionStorage.setItem('currentRound', this.props.selectedRound)
+      this.props.setRoundRedux(this.props.viewedRound)
+      sessionStorage.setItem('currentRound', this.props.viewedRound)
       Router.push('/dashboard')
     } else {
       this.setState({ modalOpen: true })
@@ -67,7 +67,7 @@ class Rounds extends Component {
         <br />
         <RoundDropdown />
         <br />
-        <pre>{JSON.stringify(roundData.rounds[this.props.selectedRound], null, '\t')}</pre>
+        <pre>{JSON.stringify(roundData.rounds[this.props.viewedRound], null, '\t')}</pre>
         <br />
         <Button
           className="mt-3"
