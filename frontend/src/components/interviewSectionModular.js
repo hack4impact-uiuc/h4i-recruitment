@@ -83,7 +83,6 @@ class InterviewSectionModular extends Component {
 
         {this.props.prompt ? (
           <>
-            {' '}
             {this.props.prompt} <br /> <br />
           </>
         ) : null}
