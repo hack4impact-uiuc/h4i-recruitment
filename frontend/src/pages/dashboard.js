@@ -10,6 +10,8 @@ import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 import FilterComponent from '../components/filterComponent'
 import ChangeStatus from '../components/changeStatus'
+import ErrorMessage from '../components/errorMessage'
+
 type Props = {}
 
 const mapDispatchToProps = dispatch => {
@@ -86,6 +88,9 @@ class Dashboard extends React.Component<Props> {
   }
 
   render() {
+    if (this.state.candidates === undefined) {
+      return <ErrorMessage code="404" message="Candidates is undefined. Check backend." />
+    }
     let filteredCandidates = this.state.candidates
       .filter(x => this.state.filters.gradDates.includes(x.graduationDate))
       .filter(x => this.state.filters.statuses.includes(x.status))

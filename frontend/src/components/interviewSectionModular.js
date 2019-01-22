@@ -49,6 +49,9 @@ class InterviewSectionModular extends Component {
   }
 
   render() {
+    if (this.props.response === undefined) {
+      return <p>This section needs a response field. Check `roundData.js`</p>
+    }
     let options = []
     if (this.props.scoreOptions && this.props.textOptions) {
       for (let i = 0; i < this.props.scoreOptions.length; i++) {
@@ -78,12 +81,13 @@ class InterviewSectionModular extends Component {
           </>
         ) : null}
 
-        {this.props.prompt ? this.props.prompt.map(element => element) : null}
         {this.props.prompt ? (
           <>
-            <br /> <br />
+            {' '}
+            {this.props.prompt} <br /> <br />
           </>
         ) : null}
+
         {this.props.type == 'notes'
           ? null
           : this.props.type == 'dropdown'
