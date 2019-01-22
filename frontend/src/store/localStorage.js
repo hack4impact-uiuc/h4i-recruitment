@@ -12,6 +12,9 @@ export const loadState = () => {
     let savedState = JSON.parse(serializedState)
     initialState.facemash.candidates = savedState.facemash.candidates
     initialState.facemash.matchID = savedState.facemash.matchID
+    if (savedState.round) {
+      initialState.round = savedState.round
+    }
   } catch (err) {
     console.log('Unable to load data from Local Storage')
     return initialState
