@@ -120,7 +120,8 @@ class NavigationBar extends Component {
               <Link
                 prefetch
                 href={
-                  roundData.rounds[this.props.round].type == 'interview'
+                  roundData.rounds[this.props.round].type == 'interview' ||
+                  !roundData.rounds[this.props.round].type
                     ? '/interviewportal'
                     : '/facemash'
                 }
