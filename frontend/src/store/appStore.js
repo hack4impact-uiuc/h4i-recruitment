@@ -11,7 +11,8 @@ const savePersistedState = store => () => {
       candidates: store.getState().facemash.candidates,
       matchID: store.getState().facemash.matchID
     },
-    round: store.getState().round
+    round: store.getState().round,
+    viewedRound: store.getState().viewedRound
   })
 }
 

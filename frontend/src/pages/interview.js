@@ -216,7 +216,8 @@ class Interview extends Component<Props> {
         <Row>
           <Col>
             <Form>
-              {this.props.sections.map(section => (
+              {this.state.sections
+                ? this.state.sections.map(section => (
                     <InterviewSectionModular
                       title={section.title}
                       description={section.description}
@@ -227,7 +228,8 @@ class Interview extends Component<Props> {
                       notesPrompt={section.notesPrompt}
                       response={section.response}
                     />
-                  ))}
+                  ))
+                : null}
               <InterviewSectionCard title="General Notes">
                 <Label>
                   <b>

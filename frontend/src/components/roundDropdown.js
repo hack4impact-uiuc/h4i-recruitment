@@ -6,14 +6,16 @@ import { connect } from 'react-redux'
 import React, { Fragment, Component } from 'react'
 import Select from 'react-select'
 import roundData from '../data/roundData.js'
-import { setSelectedRound, setValidFormat } from '../actions'
+import { setViewedRound, setValidFormat } from '../actions'
 
-const mapStateToProps = state => {}
+const mapStateToProps = state => ({
+    viewedRound: state.viewedRound
+})
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setSelectedRound,
+      setViewedRound,
       setValidFormat
     },
     dispatch
@@ -60,7 +62,7 @@ class RoundDropdown extends Component {
 
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
-    this.props.setSelectedRound(selectedOption.value)
+    this.props.setViewedRound(selectedOption.value)
     this.props.setValidFormat(this.isFormatValid(roundData.rounds[selectedOption.value]))
   }
 
@@ -77,7 +79,7 @@ class RoundDropdown extends Component {
           placeholder="View round structure..."
           options={round_names}
           onChange={this.handleChange}
-          value={this.state.selectedOption}
+          value={round_names[this.props.viewedRound]}
         />
       </Fragment>
     )

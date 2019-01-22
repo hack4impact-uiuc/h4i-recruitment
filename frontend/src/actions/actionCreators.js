@@ -11,7 +11,7 @@ import {
   SET_STATUS,
   RESET_FILTERS,
   SET_ROUND,
-  SET_SELECTED_ROUND,
+  SET_VIEWED_ROUND,
   SET_VALID_FORMAT
 } from './actionTypes.js'
 import { getCandidates } from '../utils/api'
@@ -21,9 +21,9 @@ export const setRoundRedux = round => ({
   type: SET_ROUND,
   payload: round
 })
-export const setSelectedRound = selectedRound => ({
-  type: SET_SELECTED_ROUND,
-  payload: selectedRound
+export const setViewedRound = viewedRound => ({ //for setting the viewed round structure in the Rounds page
+  type: SET_VIEWED_ROUND,
+  payload: viewedRound
 })
 export const setValidFormat = validFormat => ({
   type: SET_VALID_FORMAT,
