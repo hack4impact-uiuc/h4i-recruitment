@@ -42,7 +42,7 @@ class CandidateBox extends Component {
   }
   async componentDidMount() {
     const { interviews } = this.props.candidate
-    console.log(interviews);
+    console.log(interviews)
     this.setState({
       interviews: interviews,
       avgInterviewScore: avgInterviewScore(interviews)
@@ -143,8 +143,8 @@ class CandidateBox extends Component {
                     <b>Major:</b> {candidate.major}
                   </p>
                 ) : (
-                    <p> </p>
-                  )}
+                  <p> </p>
+                )}
                 <p>
                   <b>Minor:</b> {candidate.minor}
                 </p>
