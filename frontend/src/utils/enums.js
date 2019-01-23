@@ -58,7 +58,8 @@ export const sortByEnum = {
   GRADYR: 'Graduation Year',
   STATUS: 'Status',
   ELO: 'Facemash Score',
-  MATCHES: 'Number of Matches'
+  MATCHES: 'Number of Matches',
+  AVG_INTERVIEW_SCORE: 'Avg Interview Score'
 }
 
 export const compareByEnum = {
@@ -79,6 +80,8 @@ export const selectByEnum = {
   LINKS: 'Links',
   STRONG_REFERRALS: 'Strong Referrals',
   REFERRALS: 'Referrals',
+  AVG_INTERVIEW_SCORE: 'Avg Interview Score',
+  NUM_INTERVIEWS: 'Number of Interviews',
   ELO: 'Facemash Score',
   MATCHES: 'Number of Matches'
 }
