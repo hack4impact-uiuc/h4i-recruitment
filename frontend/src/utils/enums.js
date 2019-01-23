@@ -79,6 +79,7 @@ export const selectByEnum = {
   LINKS: 'Links',
   STRONG_REFERRALS: 'Strong Referrals',
   REFERRALS: 'Referrals',
+  AVG_INTERVIEW_SCORE: 'Avg Interview Score',
   ELO: 'Facemash Score',
   MATCHES: 'Number of Matches'
 }

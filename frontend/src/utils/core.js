@@ -17,11 +17,19 @@ const avgInterviewScore = interviews => {
   }
 
   let avgs = 0
+  let good_interviews = interviews.length // to prevent bad interviews from affecting it.
   for (var i = 0; i < interviews.length; i++) {
-    avgs += interviews[i].overall_score
+    if (
+      interviews[i].overall_score !== undefined ||
+      typeof interviews[i].overall_score === 'number'
+    ) {
+      avgs += interviews[i].overall_score
+    } else {
+      good_interviews -= 1
+    }
   }
-  if (interviews.length != 0) {
-    avgs = avgs / interviews.length
+  if (good_interviews != 0) {
+    avgs = avgs / good_interviews
   }
   return avgs
 }

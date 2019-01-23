@@ -45,7 +45,7 @@ class CandidateBox extends Component {
     console.log(interviews)
     this.setState({
       interviews: interviews,
-      avgInterviewScore: avgInterviewScore(interviews)
+      avgInterviewScore: avgInterviewScore(interviews).toFixed(3)
     })
   }
   render() {
