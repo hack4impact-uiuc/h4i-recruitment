@@ -11,7 +11,8 @@ import CandidateLinksBadge from '../components/candidateLinksBadge'
 import FilterComponent from '../components/filterComponent'
 import ChangeStatus from '../components/changeStatus'
 import ErrorMessage from '../components/errorMessage'
-import { avgInterviewScore } from '../utils/core'
+import { avgInterviewScore, compareByAvgInterviewScore, getNumOfInterviews } from '../utils/core'
+import { selectByEnum } from '../utils/enums'
 
 type Props = {}
 
@@ -99,7 +100,7 @@ class Dashboard extends React.Component<Props> {
       .filter(x => this.state.filters.years.includes(x.year))
       .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
       .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))
-    console.log(filteredCandidates)
+    // TODO: Convert these cases into enum comparisons
     switch (this.state.filters.sortBy[0]) {
       case 'Name':
         filteredCandidates = filteredCandidates.sort(sortByProperty('name'))
@@ -122,6 +123,9 @@ class Dashboard extends React.Component<Props> {
         filteredCandidates = filteredCandidates
           .sort(sortByMultipleProperties('facemashRankings', 'numOfMatches'))
           .reverse()
+        break
+      case 'Avg Interview Score':
+        filteredCandidates = filteredCandidates.sort(compareByAvgInterviewScore)
         break
     }
     let selects = this.state.filters.selectBy
@@ -170,6 +174,11 @@ class Dashboard extends React.Component<Props> {
                           {selects.includes('Referrals') ? <th>Referrals</th> : <> </>}
                           {selects.includes('Avg Interview Score') ? (
                             <th>Avg Interview Score</th>
+                          ) : (
+                            <></>
+                          )}
+                          {selects.includes('Number of Interviews') ? (
+                            <th>Number of Interviews</th>
                           ) : (
                             <></>
                           )}
@@ -249,6 +258,12 @@ class Dashboard extends React.Component<Props> {
 
                               {selects.includes('Avg Interview Score') ? (
                                 <td> {avgInterviewScore(candidate.interviews)}</td>
+                              ) : (
+                                <> </>
+                              )}
+
+                              {selects.includes(selectByEnum.NUM_INTERVIEWS) ? (
+                                <td> {getNumOfInterviews(candidate.interviews)}</td>
                               ) : (
                                 <> </>
                               )}
