@@ -12,7 +12,7 @@ import {
   SET_STATUS,
   RESET_FILTERS,
   SET_ROUND,
-  SET_VIEWED_ROUND,
+  SET_SELECTED_ROUND,
   SET_VALID_FORMAT
 } from '../actions/actionTypes'
 
@@ -22,12 +22,12 @@ export default function recruitmentApp(state = initialState, action) {
       return {
         ...state,
         round: action.payload,
-        viewedRound: action.payload
+        selectedRound: action.payload
       }
-    case SET_VIEWED_ROUND:
+    case SET_SELECTED_ROUND:
       return {
         ...state,
-        viewedRound: action.payload
+        selectedRound: action.payload
       }
     case SET_VALID_FORMAT:
       return {

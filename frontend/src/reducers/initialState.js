@@ -12,12 +12,10 @@ import {
 
 const selectList = enumToArray(selectByEnum)
 selectList.splice(selectList.indexOf('Hours'), 1)
-selectList.splice(selectList.indexOf('Facemash Score'), 1)
-selectList.splice(selectList.indexOf('Number of Matches'), 1)
 
 const initialState = {
   round: 0,
-  viewedRound: 0, //For viewing round structure on the Rounds page
+  selectedRound: 0,
   validFormat: true,
   facemash: {
     candidates: null,

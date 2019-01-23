@@ -12,7 +12,7 @@ import {
   removeFilter,
   resetFilters,
   setRoundRedux,
-  setViewedRound,
+  setSelectedRound,
   setValidFormat
 } from './actionCreators.js'
 
@@ -30,6 +30,6 @@ export {
   resetFilters,
   fetchAllCandidates,
   setRoundRedux,
-  setViewedRound,
+  setSelectedRound,
   setValidFormat
 }

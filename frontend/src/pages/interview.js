@@ -91,6 +91,7 @@ class Interview extends Component<Props> {
     })
     console.log('Adding Interview....')
     let overallScore = 0
+    const sections = this.state.sections
     for (let idx in sections) {
       if (sections[idx].response.score) {
         overallScore += parseInt(sections[idx].response.score)
@@ -216,20 +217,18 @@ class Interview extends Component<Props> {
         <Row>
           <Col>
             <Form>
-              {this.state.sections
-                ? this.state.sections.map(section => (
-                    <InterviewSectionModular
-                      title={section.title}
-                      description={section.description}
-                      prompt={section.prompt}
-                      type={section.type}
-                      scoreOptions={section.scoreOptions}
-                      textOptions={section.textOptions}
-                      notesPrompt={section.notesPrompt}
-                      response={section.response}
-                    />
-                  ))
-                : null}
+              {sections.map(section => (
+                <InterviewSectionModular
+                  title={section.title}
+                  description={section.description}
+                  prompt={section.prompt}
+                  type={section.type}
+                  scoreOptions={section.scoreOptions}
+                  textOptions={section.textOptions}
+                  notesPrompt={section.notesPrompt}
+                  response={section.response}
+                />
+              ))}
               <InterviewSectionCard title="General Notes">
                 <Label>
                   <b>
