@@ -17,7 +17,7 @@ selectList.splice(selectList.indexOf('Number of Matches'), 1)
 
 const initialState = {
   round: 0,
-  selectedRound: 0,
+  viewedRound: 0, //For viewing round structure on the Rounds page
   validFormat: true,
   facemash: {
     candidates: null,

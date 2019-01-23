@@ -83,8 +83,6 @@ class NavigationBar extends Component {
     const res = await getRound()
     if (res.result) {
       this.props.setRoundRedux(res.result.round)
-    } else {
-      this.props.setRoundRedux(0)
     }
   }
   // handles when user presses "Enter" when input is focused
