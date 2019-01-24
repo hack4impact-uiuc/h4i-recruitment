@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
+import Link from 'next/link'
 import { getInterviewSchedule, addInterviewSchedule } from '../utils/api'
 
 type Props = {}
@@ -34,20 +35,22 @@ class InterviewSchedule extends Component<Props> {
     }
     //return populated interview card
     return (
-      <div className="interview-card future-interview">
-        <p>
-          <b>Time:</b> {interview.time}
-        </p>
-        <p>
-          <b>Room:</b> {interview.room}
-        </p>
-        <p>
-          <b>Interviewers:</b> {interview.interviewers.join(', ')}
-        </p>
-        <p>
-          <b>Candidates:</b> {interview.candidates.join(', ')}
-        </p>
-      </div>
+      <Link href="/interview">
+        <div className="interview-card future-interview">
+          <p>
+            <b>Time:</b> {interview.time}
+          </p>
+          <p>
+            <b>Room:</b> {interview.room}
+          </p>
+          <p>
+            <b>Interviewers:</b> {interview.interviewers.join(', ')}
+          </p>
+          <p>
+            <b>Candidates:</b> {interview.candidates.join(', ')}
+          </p>
+        </div>
+      </Link>
     )
   }
 
@@ -102,7 +105,6 @@ class InterviewSchedule extends Component<Props> {
   async componentDidMount() {
     const res = await getInterviewSchedule()
     var interviewList = res.result.interviews
-    console.log(interviewList)
     this.setState({
       interviews: interviewList === undefined ? [] : interviewList,
       interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList)
@@ -128,7 +130,7 @@ class InterviewSchedule extends Component<Props> {
                 type="file"
               />
             </div>
-            <button type="submit">Parse Schedule</button>
+            <Button type="submit">Parse Schedule</Button>
           </form>
           <br />
         </Container>

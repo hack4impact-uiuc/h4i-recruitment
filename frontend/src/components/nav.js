@@ -14,7 +14,8 @@ import {
   ModalBody,
   Input,
   Button,
-  Container
+  Container,
+  NavItem
 } from 'reactstrap'
 import { validateKey, getKey, getRound } from '../utils/api'
 import roundData from '../data/roundData.js'
@@ -103,49 +104,60 @@ class NavigationBar extends Component {
               <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
             </NavbarBrand>
           </Link>
-          <NavbarToggler onClick={() => this.toggle()} />
+          <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar className="ml-auto">
               {this.state.loggedIn ? (
-                <div className="nav-bar-name pr-3">
-                  Welcome {this.state.username ? this.state.username : null}!
-                </div>
+                <NavItem>
+                  <div className="nav-bar-name pr-3">
+                    Welcome {this.state.username ? this.state.username : null}!
+                  </div>
+                </NavItem>
               ) : null}
-              <Link prefetch href="/dashboard">
-                <a className="nav-bar-link pl-3">Dashboard</a>
-              </Link>
-              <Link prefetch href="/analytics">
-                <a className="nav-bar-link pl-3">Analytics</a>
-              </Link>
-              <Link
-                prefetch
-                href={
-                  roundData.rounds[this.props.round].type == 'interview'
-                    ? '/interviewportal'
-                    : '/facemash'
-                }
-              >
-                <a className="nav-bar-link pl-3">{roundData.rounds[this.props.round].name}</a>
-              </Link>
-              <Link prefetch href="/interviewschedule">
-                <a className="nav-bar-link pl-3">Interview Schedule</a>
-              </Link>
-              <Nav navbar>
+              <NavItem>
+                <Link prefetch href="/dashboard">
+                  <a className="nav-bar-link pl-3">Dashboard</a>
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link prefetch href="/analytics">
+                  <a className="nav-bar-link pl-3">Analytics</a>
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link
+                  prefetch
+                  href={
+                    roundData.rounds[this.props.round].type == 'interview'
+                      ? '/interviewportal'
+                      : '/facemash'
+                  }
+                >
+                  <a className="nav-bar-link pl-3">{roundData.rounds[this.props.round].name}</a>
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link prefetch href="/interviewschedule">
+                  <a className="nav-bar-link pl-3">Interview Schedule</a>
+                </Link>
+              </NavItem>
+
+              <NavItem>
                 <Link prefetch href="/table">
                   <a className="nav-bar-link pl-3">Table View</a>
                 </Link>
-              </Nav>
-              <Nav navbar>
+              </NavItem>
+              <NavItem>
                 <Link prefetch href="/stats">
                   <a className="nav-bar-link pl-3">Emails/Stats</a>
                 </Link>
-              </Nav>
-              <Nav navbar>
+              </NavItem>
+              <NavItem>
                 <Link prefetch href="/rounds">
                   <a className="nav-bar-link pl-3">Rounds</a>
                 </Link>
-              </Nav>
-              <Nav navbar>
+              </NavItem>
+              <NavItem>
                 {!this.state.loggedIn ? (
                   <a className="nav-bar-link pl-3" href="#" onClick={this.toggle}>
                     Login
@@ -155,7 +167,7 @@ class NavigationBar extends Component {
                     Logout
                   </a>
                 )}
-              </Nav>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
