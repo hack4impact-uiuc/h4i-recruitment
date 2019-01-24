@@ -14,6 +14,7 @@ const selectList = enumToArray(selectByEnum)
 selectList.splice(selectList.indexOf('Hours'), 1)
 selectList.splice(selectList.indexOf('Facemash Score'), 1)
 selectList.splice(selectList.indexOf('Number of Matches'), 1)
+selectList.splice(selectList.indexOf(selectByEnum.EMAIL), 1)
 
 const initialState = {
   round: 0,

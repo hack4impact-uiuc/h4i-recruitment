@@ -71,6 +71,7 @@ export const compareByEnum = {
 
 export const selectByEnum = {
   NAME: 'Name',
+  EMAIL: 'Email',
   MAJOR: 'Major',
   HOURS: 'Hours',
   ROLES: 'Roles',

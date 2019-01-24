@@ -4,7 +4,6 @@
   "features": {
     "cloud": "v2"
   },
-  "type": "docker",
   "alias": "hack4impact-recruitment-backend.now.sh",
   "env": {
     "MONGO_URL": "@h4i-recruitment-mongo-uri",
