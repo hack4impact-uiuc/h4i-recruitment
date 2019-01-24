@@ -159,6 +159,11 @@ class Dashboard extends React.Component<Props> {
                         <tr>
                           <th>#</th>
                           {selects.includes('Name') ? <th>Name</th> : <> </>}
+                          {selects.includes(selectByEnum.EMAIL) ? (
+                            <th>{selectByEnum.EMAIL}</th>
+                          ) : (
+                            <></>
+                          )}
                           {selects.includes('Status') ? <th>Status</th> : <> </>}
                           {selects.includes('Year') ? <th>Year</th> : <> </>}
                           {selects.includes('Graduation Year') ? <th>Graduation Date</th> : <> </>}
@@ -204,7 +209,13 @@ class Dashboard extends React.Component<Props> {
                               ) : (
                                 <> </>
                               )}
-
+                              {selects.includes(selectByEnum.EMAIL) ? (
+                                <td>
+                                  <span>{candidate.email}</span>
+                                </td>
+                              ) : (
+                                <> </>
+                              )}
                               {selects.includes('Status') ? (
                                 <td>
                                   <h6>

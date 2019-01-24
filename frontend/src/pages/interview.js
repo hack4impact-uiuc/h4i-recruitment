@@ -187,7 +187,7 @@ class Interview extends Component<Props> {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://docs.google.com/document/d/1S-rDqfEOWVCQImTQ8zIu_Aj4L-YBi5aCjlawvQrQJ6A/edit#"
+                  href={roundData.rounds[this.props.round].interviewGuide}
                 >
                   Interview Guide
                 </a>

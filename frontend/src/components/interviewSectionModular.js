@@ -50,7 +50,11 @@ class InterviewSectionModular extends Component {
 
   render() {
     if (this.props.response === undefined) {
-      return <p>This section needs a response field. Check `roundData.js`</p>
+      return (
+        <p>
+          This section <b>{this.props.title}</b> needs a response field. Check `roundData.js`
+        </p>
+      )
     }
     let options = []
     if (this.props.scoreOptions && this.props.textOptions) {
