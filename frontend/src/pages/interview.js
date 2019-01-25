@@ -91,11 +91,17 @@ class Interview extends Component<Props> {
     })
     console.log('Adding Interview....')
     let overallScore = 0
+    let scoreInSectionFlag = false
     const sections = this.state.sections
     for (let idx in sections) {
-      if (sections[idx].response.score) {
+      if (sections[idx].response.score !== undefined) {
         overallScore += parseInt(sections[idx].response.score)
+        scoreInSectionFlag = true
       }
+    }
+    // if all sections don't have a score section
+    if (!scoreInSectionFlag) {
+      overallScore = null
     }
     if (this.props.candidateName === '' || this.props.candidateId === '') {
       const msg = 'Interview does not have a Candidate. Please put down a candidate.'

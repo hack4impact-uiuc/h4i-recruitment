@@ -4,6 +4,7 @@ Information for round configuration is stored in `roundData.js` inside the `roun
 Each round is stored in the `rounds` array, and must have the following fields:
 * `type`: Whether the round is a FaceMash round (`'faceMash'`) or an interview round (`'interview'`).
 * `name`: The name of the round (e.g. `'FaceMash'` or `'Mass Interview'`)
+* `scored`: Whether sections in the interview would be scored.
 
 ## FaceMash
 No additional information is required for FaceMash round configuration.
