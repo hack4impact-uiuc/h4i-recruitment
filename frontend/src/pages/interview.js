@@ -68,6 +68,8 @@ class Interview extends Component<Props> {
       overallScore: 0,
       generalNotes: '',
       sections: roundData.rounds[this.props.round].sections,
+      interviewName: roundData.rounds[this.props.round].name,
+      interviewScored: roundData.rounds[this.props.round].scored,
       verificationModalOpen: false
     }
   }
@@ -108,8 +110,8 @@ class Interview extends Component<Props> {
         overallScore,
         this.state.generalNotes,
         this.state.sections,
-        roundData.rounds[this.props.round].name,
-        roundData.rounds[this.props.round].scored
+        this.state.interviewName,
+        this.state.interviewScored
       )
       alert('Successfully added interview')
       Router.push({ pathname: '/candidate', query: { id: this.props.candidateId } })
