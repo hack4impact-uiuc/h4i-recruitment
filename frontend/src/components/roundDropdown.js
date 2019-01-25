@@ -31,7 +31,7 @@ class RoundDropdown extends Component {
   isFormatValid = round => {
     if (round.type != 'interview') {
       return true
-    } else if (round.sections === undefined) {
+    } else if (round.sections === undefined || round.scored === undefined) {
       return false
     } else {
       let sections = round.sections

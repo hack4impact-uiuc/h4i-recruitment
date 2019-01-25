@@ -14,6 +14,7 @@ const roundData = {
       type: 'interview',
       name: 'Mass Interview',
       interviewGuide: firstRoundInterviewGuide,
+      scored: true,
       sections: [
         {
           title: 'General',
@@ -36,6 +37,7 @@ const roundData = {
       type: 'interview',
       name: 'Individual Interview',
       interviewGuide: secondRoundInterviewGuide,
+      scored: false,
       sections: [
         {
           title: 'Time Commitment',

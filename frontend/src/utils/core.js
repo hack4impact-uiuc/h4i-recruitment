@@ -46,7 +46,7 @@ const avgInterviewScore = interviews => {
   for (var i = 0; i < interviews.length; i++) {
     if (
       interviews[i].overall_score !== undefined ||
-      typeof interviews[i].overall_score === 'number'
+      (typeof interviews[i].overall_score === 'number' && interviews[i].scored)
     ) {
       avgs += interviews[i].overall_score
     } else {

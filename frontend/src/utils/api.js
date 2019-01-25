@@ -119,7 +119,8 @@ function addInterview(
   overallScore: number,
   generalNotes: string,
   sections: Array,
-  round: string
+  round: string,
+  scored: boolean
 ) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`, {
     body: JSON.stringify({
@@ -129,7 +130,8 @@ function addInterview(
       overallScore,
       generalNotes,
       sections,
-      round
+      round,
+      scored
     }),
     headers: {
       'content-type': 'application/json'

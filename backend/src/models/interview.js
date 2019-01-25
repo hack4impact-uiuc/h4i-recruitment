@@ -20,7 +20,8 @@ const Interview = new mongoose.Schema({
   overall_score: { type: Number },
   general_notes: { type: String },
   sections: { type: [Section] },
-  round: { type: String }
+  round: { type: String },
+  scored: { type: Boolean }
 })
 
 module.exports.InterviewSchema = Interview

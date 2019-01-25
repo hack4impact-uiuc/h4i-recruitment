@@ -149,6 +149,7 @@ router.post(
     let score = data.overallScore
     let genNotes = data.generalNotes
     let reqRound = data.round
+    let reqScored = data.scored
 
     if (interviewerKey == undefined) {
       response = 'Invalid interviewerKey'
@@ -164,6 +165,8 @@ router.post(
       response = 'Invalid notes'
     } else if (reqRound == undefined) {
       response = 'Invalid round'
+    } else if (reqScored == undefined) {
+      response = 'Invalid scored'
     } else {
       // await Candidate.findByIdAndUpdate(candidateId, { status: 'interviewing' })
       const interview = new Interview({
@@ -174,7 +177,8 @@ router.post(
         candidate_name: candidateName,
         general_notes: genNotes,
         sections: reqSections,
-        round: reqRound
+        round: reqRound,
+        scored: reqScored
       })
       await interview.save()
       code = 200

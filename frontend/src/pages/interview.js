@@ -108,7 +108,8 @@ class Interview extends Component<Props> {
         overallScore,
         this.state.generalNotes,
         this.state.sections,
-        roundData.rounds[this.props.round].name
+        roundData.rounds[this.props.round].name,
+        roundData.rounds[this.props.round].scored
       )
       alert('Successfully added interview')
       Router.push({ pathname: '/candidate', query: { id: this.props.candidateId } })
