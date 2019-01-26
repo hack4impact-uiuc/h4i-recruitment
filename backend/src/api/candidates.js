@@ -270,6 +270,8 @@ router.post(
     let genNotes = data.generalNotes
     let catNotes = data.categoryNotes
     let givenCategory = data.category
+    let round = data.round
+    let scored = data.scored
 
     if (interviewerKey === undefined) {
       response = 'Invalid interviewerKey'
@@ -294,7 +296,9 @@ router.post(
         general_notes: genNotes,
         category_notes: catNotes,
         sections: reqSections,
-        category: givenCategory
+        category: givenCategory,
+        round: round,
+        scored: scored
       })
       await Candidate.findByIdAndUpdate(candidateId, {
         $push: { interviews: interview }

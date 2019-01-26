@@ -29,6 +29,9 @@ class InterviewCard extends Component {
         <CardBody>
           <CardTitle>Overall Interview Score: {this.props.overallScore}</CardTitle>
           <p>
+            <b>Round: </b> {this.props.interview.round}
+          </p>
+          <p>
             <b>Interviewer: </b>
             {this.props.interviewer}
           </p>

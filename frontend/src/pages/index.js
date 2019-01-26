@@ -3,6 +3,7 @@ import Router from 'next/router'
 import { Button, Container, Input, Row, Col } from 'reactstrap'
 import { validateKey } from '../utils/api'
 import ReactLoading from 'react-loading'
+import Nav from '../components/nav'
 
 type Props = {}
 
@@ -44,32 +45,35 @@ class LoginPage extends React.Component<Props> {
   }
   render() {
     return (
-      <Container>
-        {this.state.loading ? (
-          <Row className="login-loading-box">
-            <Col md="4" />
-            <Col md="2">
-              <ReactLoading className="login-box" type="spinningBubbles" color="#000" />
-            </Col>
-          </Row>
-        ) : (
-          <div className="align-middle login-box">
-            <h4>Enter Key:</h4>
-            <Input
-              autoFocus={true}
-              type="text"
-              value={this.state.currentKey}
-              onChange={this.onTextChange}
-              name="Input Key"
-              placeholder="Input Your Key"
-              onKeyPress={this._handleKeyPress}
-            />
-            <Button className="mt-3" color="primary" onClick={this.handleSubmit}>
-              Login
-            </Button>
-          </div>
-        )}
-      </Container>
+      <>
+        <Nav />
+        <Container>
+          {this.state.loading ? (
+            <Row className="login-loading-box">
+              <Col md="4" />
+              <Col md="2">
+                <ReactLoading className="login-box" type="spinningBubbles" color="#000" />
+              </Col>
+            </Row>
+          ) : (
+            <div className="align-middle login-box">
+              <h4>Enter Key:</h4>
+              <Input
+                autoFocus={true}
+                type="text"
+                value={this.state.currentKey}
+                onChange={this.onTextChange}
+                name="Input Key"
+                placeholder="Input Your Key"
+                onKeyPress={this._handleKeyPress}
+              />
+              <Button className="mt-3" color="primary" onClick={this.handleSubmit}>
+                Login
+              </Button>
+            </div>
+          )}
+        </Container>
+      </>
     )
   }
 }

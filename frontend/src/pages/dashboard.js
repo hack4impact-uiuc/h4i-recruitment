@@ -13,6 +13,7 @@ import ChangeStatus from '../components/changeStatus'
 import ErrorMessage from '../components/errorMessage'
 import { avgInterviewScore, compareByAvgInterviewScore, getNumOfInterviews } from '../utils/core'
 import { selectByEnum } from '../utils/enums'
+import Nav from '../components/nav'
 
 type Props = {}
 
@@ -131,6 +132,7 @@ class Dashboard extends React.Component<Props> {
     let selects = this.state.filters.selectBy
     return (
       <>
+        <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
             <Row>

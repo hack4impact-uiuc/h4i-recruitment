@@ -10,7 +10,7 @@ import ErrorMessage from '../errorMessage'
 import CandidateStatus from '../candidateStatus'
 import CandidateLinks from '../candidateLinks'
 import ChangeStatus from '../changeStatus'
-import { avgInterviewScore } from '../../utils/core'
+import { avgInterviewScore, interviewGetCategorySection } from '../../utils/core'
 
 type Props = {
   candidate: {},
@@ -129,6 +129,11 @@ class CandidateBox extends Component {
               <p key={interview._id}>
                 <b>Interviewer: </b>
                 {interview.interviewer_name}
+                {interviewGetCategorySection(interview) !== null ? (
+                  <p>
+                    <b>Category given:</b> {interviewGetCategorySection(interview).response.text}
+                  </p>
+                ) : null}
               </p>
             ))}
           </Col>

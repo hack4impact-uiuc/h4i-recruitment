@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container } from 'reactstrap'
 import { getCandidates } from '../utils/api'
 import { statusEnum, yearsEnum } from '../utils/enums'
+import Nav from '../components/nav'
 
 type Props = {}
 
@@ -31,6 +32,7 @@ class StatsPage extends Component<Props> {
     )
     return (
       <>
+        <Nav />
         <Container>
           <h1>Statistics</h1>
           <p>This is a place for a bunch of unorganized stats</p>
