@@ -23,6 +23,7 @@ import VerificationModal from '../components/verificationModal'
 import InterviewSectionModular from '../components/interviewSectionModular'
 import { getKey, addInterview, getCandidates } from '../utils/api'
 import roundData from '../data/roundData'
+import Nav from '../components/nav'
 
 type Props = {
   error: boolean,
@@ -145,10 +146,13 @@ class Interview extends Component<Props> {
     if (error) {
       console.error(error)
       return (
-        <ErrorMessage
-          code="404"
-          message={`Bad Fetch with ${error}. Candidates may be empty. Check if you are logged in.`}
-        />
+        <>
+          <Nav />
+          <ErrorMessage
+            code="404"
+            message={`Bad Fetch with ${error}. Candidates may be empty. Check if you are logged in.`}
+          />
+        </>
       )
     }
     const statusFilter = filters.statuses
@@ -168,112 +172,114 @@ class Interview extends Component<Props> {
       candidates = []
     }
     return (
-      <Container>
-        <Row style={{ marginTop: '20px' }}>
-          <Col md="2" />
-          <Col md="2">
-            <h3>Interviewing</h3>
-          </Col>
-          <Col md="4">
-            <CandidateDropdown candidates={candidates} />
-          </Col>
-        </Row>
-        <Row>
-          <Col md="6">
-            Some quick links:
-            <ul>
-              {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
+      <>
+        <Nav />
+        <Container>
+          <Row style={{ marginTop: '20px' }}>
+            <Col md="2" />
+            <Col md="2">
+              <h3>Interviewing</h3>
+            </Col>
+            <Col md="4">
+              <CandidateDropdown candidates={candidates} />
+            </Col>
+          </Row>
+          <Row>
+            <Col md="6">
+              Some quick links:
+              <ul>
+                {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
+                  <li>
+                    <a
+                      href={`/candidate?id=${this.props.candidateId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {this.props.candidateName}&#39;s Page
+                    </a>
+                  </li>
+                ) : null}
                 <li>
                   <a
-                    href={`/candidate?id=${this.props.candidateId}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    href={roundData.rounds[this.props.round].interviewGuide}
                   >
-                    {this.props.candidateName}&#39;s Page
+                    Interview Guide
                   </a>
                 </li>
-              ) : null}
-              <li>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={roundData.rounds[this.props.round].interviewGuide}
-                >
-                  Interview Guide
-                </a>
-              </li>
-              <li>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://docs.google.com/document/d/1119YvTWvh58L7eOy-FvVvLyb9wLzZLImQSPBO3yPszI/edit"
-                >
-                  Interview Tips
-                </a>
-              </li>
-            </ul>
-          </Col>
-        </Row>
-        <VerificationModal
-          loading={this.state.loading}
-          open={this.state.verificationModalOpen}
-          cancelAction={this.toggle}
-          submitAction={this.submit}
-          header="Are you sure you want to submit? Have you filled out everything?"
-          body="There&#39;s no turning back... Everything is immutable :) The backend often goes
-                  to sleep. Wait a bit before you click 'Submit' again."
-        />
-
-        <Row>
-          <Col>
-            <Form>
-              {sections.map(section => (
-                <InterviewSectionModular
-                  title={section.title}
-                  description={section.description}
-                  prompt={section.prompt}
-                  type={section.type}
-                  scoreOptions={section.scoreOptions}
-                  textOptions={section.textOptions}
-                  notesPrompt={section.notesPrompt}
-                  response={section.response}
-                />
-              ))}
-              <InterviewSectionCard title="General Notes">
-                <Label>
-                  <b>
-                    Any other notes that the rubric didn&#39;t cover or emphasis you&#39;d like to
-                    make? Any general thoughts about this Candidate?
-                  </b>
-                </Label>
-                <Input
-                  style={{ height: '150px' }}
-                  type="textarea"
-                  className="textarea-input"
-                  name="generalNotes"
-                  value={this.state.generalNotes}
-                  onChange={this.handleChange}
-                  placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
-                  invalid={this.state.generalNotes === ''}
-                />
-                <FormFeedback>
-                  Please fill in your general thoughts about this candidate!
-                </FormFeedback>
-              </InterviewSectionCard>
-              <FormGroup>
-                <Link prefetch href="/interviewportal">
-                  <Button
-                    disabled={this.state.generalNotes === ''}
-                    color="primary"
-                    onClick={this.handleSubmitClick}
+                <li>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://docs.google.com/document/d/1119YvTWvh58L7eOy-FvVvLyb9wLzZLImQSPBO3yPszI/edit"
                   >
-                    Submit
-                  </Button>
-                </Link>
-              </FormGroup>
-            </Form>
-          </Col>
-          {/* <Col md="6">
+                    Interview Tips
+                  </a>
+                </li>
+              </ul>
+            </Col>
+          </Row>
+          <VerificationModal
+            loading={this.state.loading}
+            open={this.state.verificationModalOpen}
+            cancelAction={this.toggle}
+            submitAction={this.submit}
+            header="Are you sure you want to submit? Have you filled out everything?"
+            body="There&#39;s no turning back... Everything is immutable :) The backend often goes
+                  to sleep. Wait a bit before you click 'Submit' again."
+          />
+
+          <Row>
+            <Col>
+              <Form>
+                {sections.map(section => (
+                  <InterviewSectionModular
+                    title={section.title}
+                    description={section.description}
+                    prompt={section.prompt}
+                    type={section.type}
+                    scoreOptions={section.scoreOptions}
+                    textOptions={section.textOptions}
+                    notesPrompt={section.notesPrompt}
+                    response={section.response}
+                  />
+                ))}
+                <InterviewSectionCard title="General Notes">
+                  <Label>
+                    <b>
+                      Any other notes that the rubric didn&#39;t cover or emphasis you&#39;d like to
+                      make? Any general thoughts about this Candidate?
+                    </b>
+                  </Label>
+                  <Input
+                    style={{ height: '150px' }}
+                    type="textarea"
+                    className="textarea-input"
+                    name="generalNotes"
+                    value={this.state.generalNotes}
+                    onChange={this.handleChange}
+                    placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
+                    invalid={this.state.generalNotes === ''}
+                  />
+                  <FormFeedback>
+                    Please fill in your general thoughts about this candidate!
+                  </FormFeedback>
+                </InterviewSectionCard>
+                <FormGroup>
+                  <Link prefetch href="/interviewportal">
+                    <Button
+                      disabled={this.state.generalNotes === ''}
+                      color="primary"
+                      onClick={this.handleSubmitClick}
+                    >
+                      Submit
+                    </Button>
+                  </Link>
+                </FormGroup>
+              </Form>
+            </Col>
+            {/* <Col md="6">
             {candidate != undefined ? (
               <FacemashProfile showFacemash={true} candidate={candidate} />
             ) : (
@@ -286,8 +292,9 @@ class Interview extends Component<Props> {
               src="https://docs.google.com/a/illinois.edu/document/d/e/2PACX-1vRISnK6xFN-_10jJWyORT-xvp8KGPNSi0YOkHNvN8PlMaHc-U-DAjssfDe1T4SFHhUQpxyPCQk--nP2/pub?embedded=true"
             />
           </Col> */}
-        </Row>
-      </Container>
+          </Row>
+        </Container>
+      </>
     )
   }
 }

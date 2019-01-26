@@ -7,6 +7,7 @@ import { setRound } from '../utils/api'
 import RoundDropdown from '../components/roundDropdown'
 import roundData from '../data/roundData.js'
 import { setRoundRedux } from '../actions'
+import Nav from '../components/nav'
 
 const mapStateToProps = state => ({
   round: state.round,
@@ -54,32 +55,35 @@ class Rounds extends Component {
 
   render() {
     return (
-      <div className="align-middle round-box">
-        <Modal isOpen={this.state.modalOpen} autoFocus={false}>
-          <ModalBody>User doesn&#39;t have the privileges to change rounds.</ModalBody>
-          <ModalFooter>
-            <Button onClick={this.closeModal} color="primary">
-              Return
-            </Button>
-          </ModalFooter>
-        </Modal>
-        <h3>Current Round: {roundData.rounds[this.props.round].name}</h3>
-        <br />
-        <RoundDropdown />
-        <br />
-        <pre>{JSON.stringify(roundData.rounds[this.props.selectedRound], null, '\t')}</pre>
-        <br />
-        <Button
-          className="mt-3"
-          color="primary"
-          onClick={this.changeRound.bind(this)}
-          disabled={!this.props.validFormat}
-        >
-          {this.props.validFormat
-            ? 'Change Round (Directors Only)'
-            : 'Invalid round format. Please contact the directors to change roundData.js'}
-        </Button>
-      </div>
+      <>
+        <Nav />
+        <div className="align-middle round-box">
+          <Modal isOpen={this.state.modalOpen} autoFocus={false}>
+            <ModalBody>User doesn&#39;t have the privileges to change rounds.</ModalBody>
+            <ModalFooter>
+              <Button onClick={this.closeModal} color="primary">
+                Return
+              </Button>
+            </ModalFooter>
+          </Modal>
+          <h3>Current Round: {roundData.rounds[this.props.round].name}</h3>
+          <br />
+          <RoundDropdown />
+          <br />
+          <pre>{JSON.stringify(roundData.rounds[this.props.selectedRound], null, '\t')}</pre>
+          <br />
+          <Button
+            className="mt-3"
+            color="primary"
+            onClick={this.changeRound.bind(this)}
+            disabled={!this.props.validFormat}
+          >
+            {this.props.validFormat
+              ? 'Change Round (Directors Only)'
+              : 'Invalid round format. Please contact the directors to change roundData.js'}
+          </Button>
+        </div>
+      </>
     )
   }
 }

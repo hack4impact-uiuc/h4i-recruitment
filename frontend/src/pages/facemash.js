@@ -8,6 +8,7 @@ import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/facemashProfile'
 import ErrorMessage from '../components/errorMessage'
+import Nav from '../components/nav'
 
 type Props = {
   candidates: Array<any>,
@@ -105,15 +106,19 @@ class FaceMash extends Component<Props> {
     const { candidates } = this.props
     if (candidates == undefined || candidates[0] == undefined || candidates[1] == undefined) {
       return (
-        <ErrorMessage
-          code="404"
-          message="Match was not correctly retrieved. Check if you are logged in."
-        />
+        <>
+          <Nav />
+          <ErrorMessage
+            code="404"
+            message="Match was not correctly retrieved. Check if you are logged in."
+          />
+        </>
       )
     }
 
     return candidates && candidates.length == 2 ? (
       <div>
+        <Nav />
         <Container>
           <div className="mt-5" style={{ color: '#7f8e9e' }}>
             <h4>Decide impartially on who you think would be more successful at Hack4Impact.</h4>

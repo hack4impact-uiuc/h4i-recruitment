@@ -13,6 +13,8 @@ import ChangeStatus from '../components/changeStatus'
 import ErrorMessage from '../components/errorMessage'
 import { avgInterviewScore, compareByAvgInterviewScore, getNumOfInterviews } from '../utils/core'
 import { selectByEnum } from '../utils/enums'
+import Nav from '../components/nav'
+
 
 type Props = {}
 
@@ -34,14 +36,14 @@ const mapStateToProps = state => ({
   sort: state.candidateListPage.sort
 })
 
-var sortByProperty = function(property) {
-  return function(x, y) {
+var sortByProperty = function (property) {
+  return function (x, y) {
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
   }
 }
 
-var sortByMultipleProperties = function(property1, property2) {
-  return function(x, y) {
+var sortByMultipleProperties = function (property1, property2) {
+  return function (x, y) {
     return x[property1][property2] === y[property1][property2]
       ? 0
       : x[property1][property2] > y[property1][property2]
@@ -131,6 +133,7 @@ class Dashboard extends React.Component<Props> {
     let selects = this.state.filters.selectBy
     return (
       <>
+        <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
             <Row>
@@ -162,8 +165,8 @@ class Dashboard extends React.Component<Props> {
                           {selects.includes(selectByEnum.EMAIL) ? (
                             <th>{selectByEnum.EMAIL}</th>
                           ) : (
-                            <></>
-                          )}
+                              <></>
+                            )}
                           {selects.includes('Status') ? <th>Status</th> : <> </>}
                           {selects.includes('Year') ? <th>Year</th> : <> </>}
                           {selects.includes('Graduation Year') ? <th>Graduation Date</th> : <> </>}
@@ -174,19 +177,19 @@ class Dashboard extends React.Component<Props> {
                           {selects.includes('Strong Referrals') ? (
                             <th>Strong Referrals</th>
                           ) : (
-                            <> </>
-                          )}
+                              <> </>
+                            )}
                           {selects.includes('Referrals') ? <th>Referrals</th> : <> </>}
                           {selects.includes('Avg Interview Score') ? (
                             <th>Avg Interview Score</th>
                           ) : (
-                            <></>
-                          )}
+                              <></>
+                            )}
                           {selects.includes('Number of Interviews') ? (
                             <th>Number of Interviews</th>
                           ) : (
-                            <></>
-                          )}
+                              <></>
+                            )}
                           {selects.includes('Facemash Score') ? <th>FaceMash Score</th> : <> </>}
                           {selects.includes('Number of Matches') ? <th>Matches</th> : <> </>}
                           <th>Change Status</th>
@@ -207,15 +210,15 @@ class Dashboard extends React.Component<Props> {
                                   </Link>
                                 </td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
                               {selects.includes(selectByEnum.EMAIL) ? (
                                 <td>
                                   <span>{candidate.email}</span>
                                 </td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
                               {selects.includes('Status') ? (
                                 <td>
                                   <h6>
@@ -223,26 +226,26 @@ class Dashboard extends React.Component<Props> {
                                   </h6>
                                 </td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes('Year') ? <td>{candidate.year}</td> : <> </>}
                               {selects.includes('Graduation Year') ? (
                                 <td>{candidate.graduationDate}</td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
                               {selects.includes('Roles') ? (
                                 <td>{candidate.role.join(' ')}</td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
                               {selects.includes('Major') ? <td>{candidate.major}</td> : <> </>}
                               {selects.includes('Hours') ? (
                                 <td>{candidate.timeCommitment}</td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes('Links') ? (
                                 <td>
@@ -252,32 +255,32 @@ class Dashboard extends React.Component<Props> {
                                   <CandidateLinksBadge link={candidate.website} text="Website" />
                                 </td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes('Strong Referrals') ? (
                                 <td>{candidate.strongReferrals.length}</td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes('Referrals') ? (
                                 <td>{candidate.referrals.length}</td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes('Avg Interview Score') ? (
                                 <td> {avgInterviewScore(candidate.interviews)}</td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes(selectByEnum.NUM_INTERVIEWS) ? (
                                 <td> {getNumOfInterviews(candidate.interviews)}</td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes('Facemash Score') ? (
                                 <td>
@@ -286,8 +289,8 @@ class Dashboard extends React.Component<Props> {
                                     : null}
                                 </td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               {selects.includes('Number of Matches') ? (
                                 <td>
@@ -296,8 +299,8 @@ class Dashboard extends React.Component<Props> {
                                     : null}
                                 </td>
                               ) : (
-                                <> </>
-                              )}
+                                  <> </>
+                                )}
 
                               <td>
                                 <ChangeStatus
@@ -317,10 +320,10 @@ class Dashboard extends React.Component<Props> {
                             </tr>
                           ))
                         ) : (
-                          <div className="center">
-                            <p>No Candidates exist given the filters.</p>
-                          </div>
-                        )}
+                            <div className="center">
+                              <p>No Candidates exist given the filters.</p>
+                            </div>
+                          )}
                       </tbody>
                     </Table>
                   </Row>

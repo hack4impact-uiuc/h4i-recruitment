@@ -7,6 +7,7 @@ import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
 import Link from 'next/link'
 import { getInterviewSchedule, addInterviewSchedule } from '../utils/api'
+import Nav from '../components/nav'
 
 type Props = {}
 
@@ -114,6 +115,7 @@ class InterviewSchedule extends Component<Props> {
   render() {
     return (
       <div>
+        <Nav />
         <Container style={{ overflow: 'hidden' }}>
           <h1>Upcoming Interviews</h1>
           {this.state.interviewCards}

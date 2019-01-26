@@ -18,6 +18,7 @@ import {
 } from '../utils/api'
 import { addInterviewCandidate } from './../actions'
 import ActionButton from '../components/actionButton'
+import Nav from '../components/nav'
 
 type Props = {}
 const mapDispatchToProps = dispatch => {
@@ -117,6 +118,7 @@ class CandidatePage extends Component<Props> {
     const { candidate } = this.state
     return (
       <>
+        <Nav />
         <Container className="mt-5">
           <Row>
             <Col md={12}>

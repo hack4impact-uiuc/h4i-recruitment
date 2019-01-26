@@ -58,4 +58,19 @@ const avgInterviewScore = interviews => {
   }
   return avgs.toFixed(3)
 }
-export { compareByFacemashScore, avgInterviewScore, compareByAvgInterviewScore, getNumOfInterviews }
+
+const interviewGetCategorySection = interview => {
+  for (var i = 0; i < interview.sections.length; i++) {
+    if (interview.sections[i].title == 'Category') {
+      return interview.sections[i]
+    }
+  }
+  return null
+}
+export {
+  compareByFacemashScore,
+  avgInterviewScore,
+  compareByAvgInterviewScore,
+  getNumOfInterviews,
+  interviewGetCategorySection
+}
