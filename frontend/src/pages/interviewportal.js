@@ -5,7 +5,12 @@ import Link from 'next/link'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { editInterview, newInterview } from '../actions'
-import { getKey, getPastInterviews, deleteInterview } from '../utils/api'
+import {
+  getKey,
+  getPastInterviews,
+  deleteInterview,
+  getAllInterviewingCandidateInterviews
+} from '../utils/api'
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'

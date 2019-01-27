@@ -1,7 +1,7 @@
 //@flow
 import fetch from 'isomorphic-unfetch'
 
-const getKey = () => sessionStorage.getItem('interviewerKey')
+const getKey = () => localStorage.getItem('interviewerKey')
 
 const API_URL =
   process.env.NODE_ENV === 'production'
@@ -165,6 +165,10 @@ function getAllInterviews() {
   return fetch(`${API_URL}/interviews?key=${getKey()}`).then(res => res.json())
 }
 
+function getAllInterviewingCandidateInterviews() {
+  return fetch(`${API_URL}/interviews?notRejected=True&&key=${getKey()}`).then(res => res.json())
+}
+
 function deleteInterview(candidateId: string, interviewId: string) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}?key=${getKey()}`, {
     method: 'DELETE',
@@ -239,5 +243,6 @@ export {
   setRound,
   addReferral,
   addStrongReferral,
-  deleteReferral
+  deleteReferral,
+  getAllInterviewingCandidateInterviews
 }

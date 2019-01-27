@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 import { Pie } from 'react-chartjs-2'
 import { addFilter, removeFilter } from '../actions'
 import PieComponent from '../components/pieComponent'
+import Nav from '../components/nav'
 
 type Props = {}
 
@@ -117,6 +118,7 @@ class Analytics extends React.Component<Props> {
     }
     return (
       <>
+        <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
             <Row>

@@ -5,6 +5,7 @@ const { Interview, Candidate } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
+const { statusEnum } = require('../utils/enums')
 
 const router = express.Router()
 
@@ -31,7 +32,21 @@ router.get(
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const candidates = await Candidate.find()
+    let candidates
+    if (req.query.notRejected) {
+      // finds candidates with a matching status in the array. gets interviews from candidates
+      // that either have ACCEPTED, INTERVIEWING or DONE_INTERVIEW statuses
+      candidates = await Candidate.find({
+        status: {
+          $in: [statusEnum.ACCEPTED, statusEnum.INTERVIEWING, statusEnum.DONE_INTERVIEWING]
+        }
+      })
+    } else if (req.query.status) {
+      // filters candidates with matching status
+      candidates = await Candidate.find({ status: req.query.status })
+    } else {
+      candidates = await Candidate.find()
+    }
     let interviews = []
     for (var idx = 0; idx < candidates.length; idx++) {
       if (candidates[idx].interviews.length !== 0) {
