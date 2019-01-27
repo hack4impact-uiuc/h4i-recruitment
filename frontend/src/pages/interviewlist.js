@@ -103,7 +103,7 @@ class InterviewListPage extends React.Component<Props> {
                               interviewGetCategorySection(interview) !== null &&
                               interviewGetCategorySection(interview).response.text === category ? (
                                 <li>
-                                  <Link href={`/candidates?id=${interview.candidate_id}`}>
+                                  <Link href={`/candidate?id=${interview.candidate_id}`}>
                                     {interview.candidate_name}
                                   </Link>
                                 </li>
