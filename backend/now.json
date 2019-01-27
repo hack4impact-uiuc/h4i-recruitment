@@ -8,6 +8,7 @@
   "env": {
     "MONGO_URL": "@h4i-recruitment-mongo-uri",
     "KEY_JSON": "../../keys.json",
-    "LEAD_SUFFIX": "@h4i-recruitment-lead-suffix"
+    "LEAD_SUFFIX": "@h4i-recruitment-lead-suffix",
+    "DIRECTOR_SUFFIX": "@h4i-recruitment-director-suffix"
   }
 }

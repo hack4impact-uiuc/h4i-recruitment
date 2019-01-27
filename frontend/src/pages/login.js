@@ -17,7 +17,7 @@ class Login extends Component<Props> {
   async handleSubmit() {
     const { success } = await validateKey(this.state.currentKey)
     if (success) {
-      sessionStorage.setItem('interviewerKey', this.state.currentKey)
+      localStorage.setItem('interviewerKey', this.state.currentKey)
       Router.push('/facemash')
     }
   }

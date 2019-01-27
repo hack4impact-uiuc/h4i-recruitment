@@ -2,12 +2,17 @@ import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
-import { getInterviewingCandidates, getAllInterviews } from '../utils/api'
+import {
+  getInterviewingCandidates,
+  getAllInterviews,
+  getAllInterviewingCandidateInterviews
+} from '../utils/api'
 import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
-import { avgInterviewScore } from '../utils/core'
+import { avgInterviewScore, interviewGetCategorySection } from '../utils/core'
 import ActionLink from '../components/actionLink'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
+import roundData from '../data/roundData'
 
 const CardCol = ({ children, ...rest }) => (
   // This handles the size of each card - lg size 3 causes 4 cards/row
@@ -29,7 +34,9 @@ class InterviewListPage extends React.Component<Props> {
       candidates: [],
       interviews: [],
       modalOpen: false,
-      currentCandidateId: ''
+      currentCandidateId: '',
+      byCategory: false,
+      interviewingInterviews: []
     }
   }
   async componentDidMount() {
@@ -37,16 +44,26 @@ class InterviewListPage extends React.Component<Props> {
     const candidates = res.result
     const interviewres = await getAllInterviews()
     const interviews = interviewres.result
+    const interviewingInterviews = await getAllInterviewingCandidateInterviews()
+    const interviewingInterviewsres = interviewingInterviews.result
     this.setState({
       candidates:
         candidates == undefined ? [] : candidates.sort(sortByProperty('graduationDate')).reverse(),
-      interviews: interviews == undefined ? [] : interviews
+      interviews: interviews == undefined ? [] : interviews,
+      interviewingInterviews:
+        interviewingInterviewsres == undefined ? [] : interviewingInterviewsres
     })
   }
   toggleModal = candidateId => {
     this.setState({
       currentCandidateId: candidateId,
       modalOpen: !this.state.modalOpen
+    })
+  }
+
+  toggleShowByCategory = () => {
+    this.setState({
+      byCategory: !this.state.byCategory
     })
   }
   render() {
@@ -59,71 +76,109 @@ class InterviewListPage extends React.Component<Props> {
         <Nav />
         <Container>
           <Row>
-            <h4 className="mt-3">Candidates who interviewed</h4>
+            <h3 className="mt-3">Candidates who interviewed</h3>
           </Row>
           <ActionButton text="Back" onClick={Router.back} />
-          <Row className="candidate-list-box">
-            {candidates.map(
-              candidate =>
-                candidate.interviews.length === 0 ? null : (
-                  <CardCol key={candidate._id}>
-                    <Card className="candidate-card h-100">
-                      <CardTitle style={{ margin: '15px 0 0 0' }}>
-                        {candidate.name ? (
-                          <>
-                            <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
-                              <a className="m-3 card-title inline">{candidate.name}</a>
-                            </Link>
-                            <p
-                              className="text-muted"
-                              style={{
-                                float: 'right',
-                                marginBottom: 0,
-                                paddingRight: '5px',
-                                fontSize: '12px'
-                              }}
-                            >
-                              Avg Score: {avgInterviewScore(candidate.interviews)}
-                              <br />
-                              interviews: {candidate.interviews.length}
-                            </p>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </CardTitle>
-                      <CardBody>
-                        <p>
-                          <b>Graduating: </b>
-                          {candidate.graduationDate}
-                        </p>
-                        {this.state.interviews
-                          .filter(interview => interview.candidate_id == candidate._id)
-                          .map(interview => (
-                            <div className="pb-1">
-                              <p className="no-buffer">
-                                <b>Interviewer: </b>
-                                {interview.interviewer_name}
+          <ActionButton
+            style={{ marginLeft: '10px' }}
+            text="Show by Category"
+            onClick={this.toggleShowByCategory}
+          />
+
+          {this.state.byCategory ? (
+            <Row className="mt-4">
+              <Container>
+                {roundData.rounds[2].sections
+                  .slice(-1)[0]
+                  .textOptions.reverse()
+                  .map(category => (
+                    <Row>
+                      <Container>
+                        <Row>
+                          <h5 style={{ display: 'block' }}>Candidates in {category}</h5>
+                        </Row>
+                        <div className="m-2">
+                          {this.state.interviewingInterviews.map(
+                            interview =>
+                              interviewGetCategorySection(interview) !== null &&
+                              interviewGetCategorySection(interview).response.text === category ? (
+                                <li>
+                                  <Link href={`/candidates?id=${interview.candidate_id}`}>
+                                    {interview.candidate_name}
+                                  </Link>
+                                </li>
+                              ) : null
+                          )}
+                        </div>
+                      </Container>
+                    </Row>
+                  ))}
+              </Container>
+            </Row>
+          ) : (
+            <Row className="candidate-list-box">
+              {candidates.map(
+                candidate =>
+                  candidate.interviews.length === 0 ? null : (
+                    <CardCol key={candidate._id}>
+                      <Card className="candidate-card h-100">
+                        <CardTitle style={{ margin: '15px 0 0 0' }}>
+                          {candidate.name ? (
+                            <>
+                              <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                                <a className="m-3 card-title inline">{candidate.name}</a>
+                              </Link>
+                              <p
+                                className="text-muted"
+                                style={{
+                                  float: 'right',
+                                  marginBottom: 0,
+                                  paddingRight: '5px',
+                                  fontSize: '12px'
+                                }}
+                              >
+                                Avg Score: {avgInterviewScore(candidate.interviews)}
+                                <br />
+                                interviews: {candidate.interviews.length}
                               </p>
-                              <div style={{ paddingLeft: '5px' }}>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </CardTitle>
+                        <CardBody>
+                          <p>
+                            <b>Graduating: </b>
+                            {candidate.graduationDate}
+                          </p>
+                          {this.state.interviews
+                            .filter(interview => interview.candidate_id == candidate._id)
+                            .map(interview => (
+                              <div className="pb-1">
                                 <p className="no-buffer">
-                                  <i>Category: </i> {interview.category}
-                                  <br />
-                                  <i>Score: </i> {interview.overall_score}
+                                  <b>Interviewer: </b>
+                                  {interview.interviewer_name}
                                 </p>
+                                <div style={{ paddingLeft: '5px' }}>
+                                  <p className="no-buffer">
+                                    <i>Category: </i> {interview.category}
+                                    <br />
+                                    <i>Score: </i> {interview.overall_score}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        <ActionLink
-                          text="View interviews"
-                          onClick={() => this.toggleModal(candidate._id)}
-                        />
-                      </CardBody>
-                    </Card>
-                  </CardCol>
-                )
-            )}
-          </Row>
+                            ))}
+                          <ActionLink
+                            text="View interviews"
+                            onClick={() => this.toggleModal(candidate._id)}
+                          />
+                        </CardBody>
+                      </Card>
+                    </CardCol>
+                  )
+              )}
+            </Row>
+          )}
           <CandidateInterviewsModal
             isOpen={this.state.modalOpen}
             candidateId={this.state.currentCandidateId}

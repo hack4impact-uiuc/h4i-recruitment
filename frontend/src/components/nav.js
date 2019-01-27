@@ -51,7 +51,7 @@ class NavigationBar extends Component {
     })
   }
   logout = () => {
-    sessionStorage.removeItem('interviewerKey')
+    localStorage.removeItem('interviewerKey')
     this.setState({ loggedIn: false })
     alert('Logged Out!')
     Router.push('/')
@@ -62,8 +62,8 @@ class NavigationBar extends Component {
     })
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
-      sessionStorage.setItem('interviewerKey', this.state.currentKey)
-      sessionStorage.setItem('interviewerName', result.name)
+      localStorage.setItem('interviewerKey', this.state.currentKey)
+      localStorage.setItem('interviewerName', result.name)
       Router.push('/dashboard')
     }
     this.setState({
@@ -78,7 +78,7 @@ class NavigationBar extends Component {
     if (getKey() != undefined) {
       this.setState({
         loggedIn: true,
-        username: sessionStorage.getItem('interviewerName')
+        username: localStorage.getItem('interviewerName')
       })
     }
     const res = await getRound()

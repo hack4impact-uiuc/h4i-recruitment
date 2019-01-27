@@ -21,8 +21,8 @@ class LoginPage extends React.Component<Props> {
     })
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
-      sessionStorage.setItem('interviewerKey', this.state.currentKey)
-      sessionStorage.setItem('interviewerName', result.name)
+      localStorage.setItem('interviewerKey', this.state.currentKey)
+      localStorage.setItem('interviewerName', result.name)
       this.setState({
         loading: false
       })
