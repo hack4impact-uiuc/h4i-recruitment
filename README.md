@@ -8,5 +8,10 @@ This application uses [Next.js](https://github.com/zeit/next.js), an incredible 
 ## Setup
 Backend and Frontend setup are in the README of their respective folders.
 
+
+## A peek
+A full fledged platform for managing candidates, their application, interviews, and notes that's catered towards our recruitment process.
+<img width="1821" alt="Screen Shot 2019-04-30 at 11 55 34 PM" src="https://user-images.githubusercontent.com/27740557/57006158-25882a00-6ba4-11e9-9e4b-6ada50bdf2c9.png">
+
 ## Contributing
 Please read the [Contributing Guidelines](./contributing.md).
