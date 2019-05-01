@@ -17,7 +17,7 @@ router.post(
     let response = 'Schedule Adding Failed'
     let code = 404
 
-    //TODO: parse schedule
+    // TODO: parse schedule
     var arr = data.split('\n').map(function(e) {
       return e.split(',')
     })
@@ -100,8 +100,8 @@ router.get(
     const futureInterviews = await FutureInterview.find()
     let interviews = []
     let code = 500
-    //TODO: do stuff
-    //retrieve list of FutureInterviews and return them
+    // TODO: do stuff
+    // retrieve list of FutureInterviews and return them
 
     /*
     for (var idx = 0; idx < futureInterviews.length; idx++) {
@@ -111,7 +111,7 @@ router.get(
     }
     */
 
-    //for now we'll do:
+    // for now we'll do:
     interviews = futureInterviews
     code = 200
     res.json({
@@ -123,5 +123,5 @@ router.get(
   })
 )
 
-//END
+// END
 module.exports = router
