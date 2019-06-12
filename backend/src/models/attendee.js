@@ -5,7 +5,8 @@ const Attendee = new mongoose.Schema(
     name: { type: String, required: true },
     netid: { type: String, required: true },
     year: { type: Number },
-    isCandidate: { type: Boolean }
+    isCandidate: { type: Boolean },
+    eventsAttended: { type: [String]}
   }
 )
 
