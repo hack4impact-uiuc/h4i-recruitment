@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const mongodb = require('mongodb')
 const { errorWrap } = require('../middleware')
 const { Event } = require('../models')
 
@@ -20,6 +19,7 @@ router.post(
     const data = req.body
     let response = 'Event Created Successfully'
     let code = 404
+    let success = false
     let eventName = data.name
     let eventDate = data.date
     let eventStartTime = data.startTime
@@ -41,15 +41,15 @@ router.post(
         endTime: eventEndTime,
         attendees: []
       });
-
       await newEvent.save()
       code = 200
+      success = true
     }
     res.json({
       code,
       message: response,
       result: {},
-      success: true
+      success
     })
   })
 )
