@@ -9,11 +9,12 @@ router.get(
   '/',
   errorWrap(async (req, res) => {
     let events = await Event.find()
-    res.json({ 
+    res.json({
       code: 200,
       message: '',
       result: events,
-      success: true })
+      success: true
+    })
   })
 )
 
@@ -67,7 +68,7 @@ router.post(
         location: eventLocation,
         description: eventDescription,
         attendees: []
-      });
+      })
       await newEvent.save()
       code = 200
       success = true
@@ -113,7 +114,7 @@ router.put(
           { new: true },
           function(err, doc) {}
         )
-      } 
+      }
       if (newStartTime != undefined) {
         Event.findOneAndUpdate(
           { _id: new mongodb.ObjectId(eventId) },
@@ -164,7 +165,7 @@ router.delete(
     let id = req.params.event_id
     const event = await Event.findById(id)
     if (event === undefined) {
-      response = 'Invalid Delete Event request'
+      response = 'Invalid Delete Event Request'
     } else {
       await Event.deleteOne({ _id: new mongodb.ObjectId(id) })
     }
@@ -193,4 +194,3 @@ router.delete(
 )
 
 module.exports = router
-
