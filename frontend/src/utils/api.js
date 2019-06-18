@@ -228,7 +228,6 @@ export {
   addInterview,
   editInterview,
   getCandidateById,
-  getAllCandidates,
   getCandidateMatch,
   setMatchWinner,
   setCandidateStatus,
