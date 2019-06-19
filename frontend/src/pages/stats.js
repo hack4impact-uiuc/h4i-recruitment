@@ -70,14 +70,12 @@ class StatsPage extends Component<Props> {
             {candidates.filter(candidate => candidate.year === yearsEnum.FRESHMAN).length}
           </p>
           <p>
-            # of Sophomores Applied:{
-              candidates.filter(candidate => candidate.year === yearsEnum.SOPHOMORE).length
-            }
+            # of Sophomores Applied:
+            {candidates.filter(candidate => candidate.year === yearsEnum.SOPHOMORE).length}
           </p>
           <p>
-            # of Juniors Applied:{
-              candidates.filter(candidate => candidate.year === yearsEnum.JUNIOR).length
-            }
+            # of Juniors Applied:
+            {candidates.filter(candidate => candidate.year === yearsEnum.JUNIOR).length}
           </p>
           <p>
             # of Seniors Applied:
