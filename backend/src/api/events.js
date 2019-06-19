@@ -11,7 +11,6 @@ router.get(
     const events = await Event.find()
     res.json({
       code: 200,
-      message: '',
       result: events,
       success: true
     })
@@ -26,7 +25,6 @@ router.get(
     const event = await Event.findById(eventId)
     res.json({
       code: 200,
-      message: '',
       result: event,
       success: true
     })
@@ -86,26 +84,22 @@ router.put(
       fieldsToUpdate['description'] = data.description
     }
 
-    const event = await Event.updateOne(
-      { _id: new mongodb.ObjectId(eventId) },
+    const event = await Event.findByIdAndUpdate(
+      eventId,
       { $set: fieldsToUpdate },
-      { new: true },
-      function(err, doc) {}
+      { new: true }
     )
-
-    if (event.n === 0) {
+    if (event === null) {
       code = 404
       message = 'Event Not Found'
       success = false
     }
-
     res.json({
       code,
       message,
-      result: {},
       success
     })
-  })
+  })   
 )
 
 // delete an event
@@ -116,14 +110,13 @@ router.delete(
     let code = 200
     let message = 'Event Deleted Successfully'
     let success = true
-
-    const event = await Event.deleteOne({ _id: new mongodb.ObjectId(eventId) })
-    if (event.n === 0) {
+    
+    const event = await Event.findByIdAndRemove(eventId)
+    if (event === null) {
       code = 404
       message = 'Event Not Found'
       success = false
     }
-
     res.json({
       code,
       message,
