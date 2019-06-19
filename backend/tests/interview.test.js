@@ -81,7 +81,9 @@ describe('POST /candidates/:candidateId/interviews', () => {
     const candidate = new Candidate({
       name: 'TimInterview1',
       email: 'someemailunique',
-      resumeID: 'some resume link unique'
+      major: 'Computer Engineering',
+      resumeID: 'some resume link unique',
+      role: []
     })
     await candidate.save()
 
