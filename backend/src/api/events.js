@@ -84,11 +84,7 @@ router.put(
       fieldsToUpdate['description'] = data.description
     }
 
-    const event = await Event.findByIdAndUpdate(
-      eventId,
-      { $set: fieldsToUpdate },
-      { new: true }
-    )
+    const event = await Event.findByIdAndUpdate(eventId, { $set: fieldsToUpdate }, { new: true })
     if (event === null) {
       code = 404
       message = 'Event Not Found'
@@ -99,7 +95,7 @@ router.put(
       message,
       success
     })
-  })   
+  })
 )
 
 // delete an event
@@ -110,7 +106,7 @@ router.delete(
     let code = 200
     let message = 'Event Deleted Successfully'
     let success = true
-    
+
     const event = await Event.findByIdAndRemove(eventId)
     if (event === null) {
       code = 404
