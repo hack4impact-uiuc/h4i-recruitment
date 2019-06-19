@@ -62,6 +62,9 @@ router.put(
   errorWrap(async (req, res) => {
     const data = req.body
     const eventId = req.params.event_id
+    let code = 200
+    let message = 'Event Updated Successfully'
+    let success = true
     let fieldsToUpdate = {}
 
     if (data.name !== undefined) {
@@ -83,18 +86,24 @@ router.put(
       fieldsToUpdate['description'] = data.description
     }
 
-    Event.findOneAndUpdate(
+    const event = await Event.updateOne(
       { _id: new mongodb.ObjectId(eventId) },
       { $set: fieldsToUpdate },
       { new: true },
       function(err, doc) {}
     )
 
+    if (event.n === 0) {
+      code = 404
+      message = 'Event Not Found'
+      success = false
+    }
+
     res.json({
-      code: 200,
-      message: 'Event Successfully Updated',
+      code,
+      message,
       result: {},
-      success: true
+      success
     })
   })
 )
@@ -104,11 +113,21 @@ router.delete(
   '/:event_id',
   errorWrap(async (req, res) => {
     const eventId = req.params.event_id
-    await Event.deleteOne({ _id: new mongodb.ObjectId(eventId) })
+    let code = 200
+    let message = 'Event Deleted Successfully'
+    let success = true
+
+    const event = await Event.deleteOne({ _id: new mongodb.ObjectId(eventId) })
+    if (event.n === 0) {
+      code = 404
+      message = 'Event Not Found'
+      success = false
+    }
+    
     res.json({
-      code: 200,
-      message: 'Event Deleted Successfully',
-      success: true
+      code,
+      message,
+      success
     })
   })
 )
