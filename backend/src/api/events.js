@@ -123,7 +123,7 @@ router.delete(
       message = 'Event Not Found'
       success = false
     }
-    
+
     res.json({
       code,
       message,
