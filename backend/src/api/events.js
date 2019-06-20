@@ -8,7 +8,7 @@ const { Event } = require('../models')
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const events = await Event.find()
+    const events = await Event.find({})
     res.json({
       code: 200,
       result: events,
@@ -60,9 +60,6 @@ router.put(
   errorWrap(async (req, res) => {
     const data = req.body
     const eventId = req.params.event_id
-    let code = 200
-    let message = 'Event Updated Successfully'
-    let success = true
     let fieldsToUpdate = {}
 
     if (data.name !== undefined) {
@@ -85,16 +82,18 @@ router.put(
     }
 
     const event = await Event.findByIdAndUpdate(eventId, { $set: fieldsToUpdate }, { new: true })
-    if (event === null) {
-      code = 404
-      message = 'Event Not Found'
-      success = false
-    }
-    res.json({
-      code,
-      message,
-      success
-    })
+    const ret = event
+      ? {
+          code: 200,
+          message: 'Event Updated Successfully',
+          success: true
+        }
+      : {
+          code: 404,
+          message: 'Event Not Found',
+          success: false
+        }
+    res.json(ret)
   })
 )
 
@@ -103,21 +102,19 @@ router.delete(
   '/:event_id',
   errorWrap(async (req, res) => {
     const eventId = req.params.event_id
-    let code = 200
-    let message = 'Event Deleted Successfully'
-    let success = true
-
     const event = await Event.findByIdAndRemove(eventId)
-    if (event === null) {
-      code = 404
-      message = 'Event Not Found'
-      success = false
-    }
-    res.json({
-      code,
-      message,
-      success
-    })
+    const ret = event
+      ? {
+          code: 200,
+          message: 'Event Deleted Successfully',
+          success: true
+        }
+      : {
+          code: 404,
+          message: 'Event Not Found',
+          success: false
+        }
+    res.json(ret)
   })
 )
 
