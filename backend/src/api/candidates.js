@@ -13,6 +13,7 @@ const {
 } = require('../utils/enums')
 const { getGithubContributions } = require('../utils/gitScraper')
 
+// Get all candidates
 router.get(
   '/',
   [leadsOnly],
@@ -27,6 +28,7 @@ router.get(
   })
 )
 
+// Adding a filter? I have no clue
 router.post(
   '/query',
   [leadsOnly],
@@ -77,6 +79,7 @@ router.post(
   })
 )
 
+// Set status of a candidate given their ID
 router.post(
   '/:candidateId/status',
   [leadsOnly],
@@ -143,6 +146,7 @@ router.post(
   })
 )
 
+// Get candidate by ID
 router.get(
   '/:candidateId',
   [leadsOnly],
@@ -152,6 +156,7 @@ router.get(
   })
 )
 
+// Post comment to candidate
 router.post(
   '/:candidateId/comments',
   [leadsOnly],
@@ -182,6 +187,7 @@ router.post(
   })
 )
 
+// Post an interview for a candidate given ID
 router.post(
   '/:candidateId/interviews',
   [leadsOnly],
@@ -241,6 +247,7 @@ router.post(
   })
 )
 
+// Get interviews of a candidate given ID
 router.get(
   '/:candidateId/interviews',
   [leadsOnly],
@@ -254,6 +261,7 @@ router.get(
   })
 )
 
+// Update interview of a candidate given ID
 router.put(
   '/:candidateId/interviews',
   [leadsOnly],
@@ -294,6 +302,8 @@ router.put(
     })
   })
 )
+
+// Delete interview given candidate ID, interview ID
 router.delete(
   '/:candidateId/interviews/:interviewId',
   [leadsOnly],
@@ -311,6 +321,7 @@ router.delete(
   })
 )
 
+// Post a referral for a candidate given ID
 router.post(
   '/:candidateId/referrals',
   errorWrap(async (req, res) => {
@@ -341,6 +352,8 @@ router.post(
     }
   })
 )
+
+// Post a strong referral for a candidate given ID
 router.post(
   '/:candidateId/strongReferrals',
   errorWrap(async (req, res) => {
@@ -371,6 +384,8 @@ router.post(
     }
   })
 )
+
+// Delete a referral for a candidate given ID
 router.delete(
   '/:candidateId/referrals',
   errorWrap(async (req, res) => {
