@@ -120,7 +120,7 @@ class NavigationBar extends Component {
                 </Link>
               </NavItem>
               <NavItem>
-                <Link prefetch href="/event">
+                <Link prefetch href="/eventoverview">
                   <a className="nav-bar-link pl-3">Events</a>
                 </Link>
               </NavItem>
