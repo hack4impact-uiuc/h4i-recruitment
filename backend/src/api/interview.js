@@ -239,4 +239,25 @@ router.put(
   })
 )
 
+// delete interview given interview id
+router.delete(
+  '/:interview_id',
+  errorWrap(async (req, res) => {
+    let response = 'Interview Deleted Sucessfully'
+    let id = req.params.interview_id
+    const retInterview = await Interview.findById(id)
+    if (retInterview === undefined) {
+      response = 'Invalid Delete Interview request'
+    } else {
+      await Interview.deleteOne({ _id: new mongodb.ObjectId(id) })
+    }
+    res.json({
+      code: 200,
+      message: response,
+      result: {},
+      success: true
+    })
+  })
+)
+
 module.exports = router
