@@ -35,6 +35,7 @@ function createEvent(event) {
 function addInterviewSchedule(file: File) {
   var reader = new FileReader()
   var scheduleString = ''
+  
   reader.onload = function(e) {
     scheduleString = reader.result
     fetch(`${API_URL}/schedule/upload/?key=${getKey()}`, {
@@ -42,14 +43,14 @@ function addInterviewSchedule(file: File) {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({ schedule: scheduleString })
+      body: JSON.stringify({"data": scheduleString})
     })
       .then(res => res.json())
       .then(success => console.log(success))
       .catch(error => console.log(error))
   }
 
-  reader.readAsText(file)
+  reader.readAsBinaryString(file)
 }
 
 function getInterviewSchedule() {

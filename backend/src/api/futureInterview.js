@@ -1,5 +1,6 @@
 const express = require('express')
 var mongodb = require('mongodb')
+const XLSX = require('xlsx')
 const csv = require('csv-array')
 const { errorWrap, leadsOnly } = require('../middleware')
 const { FutureInterview } = require('../models')
@@ -10,7 +11,7 @@ const keyData = require(keyPath)
 const router = express.Router()
 
 router.post(
-  '/upload',
+  '/uploadOld',
   [leadsOnly],
   errorWrap(async (req, res) => {
     const data = req.body['schedule']
@@ -84,6 +85,31 @@ router.post(
 
     await newInterview.save()
 
+    res.json({
+      code: 200,
+      message: 'Populated.',
+      result: {},
+      success: true
+    })
+  })
+)
+
+
+// This endpoint is an example
+router.post(
+  '/upload',
+  errorWrap(async (req, res) => {
+   var workbook = XLSX.read(req.body["data"],{type:"binary"});
+   console.log(workbook)
+   var a = workbook["Sheets"]["Sheet1"]
+   console.log(a)
+    var newInterview = new FutureInterview({
+      candidates: ['Steve Jobs'],
+      interviewers: ['Tim Ko'],
+      room: 'Room A',
+      date: '01/24/2019',
+      time: '10:00AM'
+    })
     res.json({
       code: 200,
       message: 'Populated.',
