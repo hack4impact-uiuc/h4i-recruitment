@@ -128,7 +128,7 @@ router.get(
   '/:interview_id',
   [leadsOnly],
   errorWrap(async (req, res) => {
-    const retInterview = await Interview.findById(new mongodb.ObjectId(req.params.interview_id))
+    const retInterview = await Interview.findById(req.params.interview_id)
     res.json({
       code: 200,
       message: '',
