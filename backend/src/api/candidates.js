@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongodb = require('mongodb')
-const { errorWrap, leadsOnly } = require('../middleware')
+const { errorWrap, leadsOnly, directorsOnly } = require('../middleware')
 const { Candidate, Comment, Interview } = require('../models')
 const {
   statusEnum,
@@ -296,16 +296,16 @@ router.put(
 )
 router.delete(
   '/:candidateId/interviews/:interviewId',
-  [leadsOnly],
+  [directorsOnly],
   errorWrap(async (req, res) => {
     let response = 'Interview Deleted Sucessfully'
     const candidate = await Candidate.findById(req.params.candidateId)
-    await candidate.interviews.id(req.params.interviewId).remove()
+    const result = await candidate.interviews.id(req.params.interviewId).remove()
     await candidate.save() // save cascades down to subdocument
     res.json({
       code: 200,
       message: response,
-      result: {},
+      result: result,
       success: true
     })
   })

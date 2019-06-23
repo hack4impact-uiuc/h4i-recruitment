@@ -128,23 +128,11 @@ router.get(
   '/:interview_id',
   [leadsOnly],
   errorWrap(async (req, res) => {
-    const retInterview = await Interview.findById(req.params.interview_id)
+    const retInterview = await Interview.findById(new mongodb.ObjectId(req.params.interview_id))
     res.json({
       code: 200,
       message: '',
       result: retInterview,
-      success: true
-    })
-  })
-)
-router.get(
-  '/:interview_id',
-  errorWrap(async (req, res) => {
-    const retInterview = await Interview.findById(req.params.interview_id)
-    res.json({
-      code: 200,
-      message: '',
-      result: { retInterview },
       success: true
     })
   })
@@ -255,17 +243,18 @@ router.delete(
   '/:interview_id',
   errorWrap(async (req, res) => {
     let response = 'Interview Deleted Sucessfully'
-    let id = req.params.interview_id
-    const retInterview = await Interview.findById(id)
-    if (retInterview === undefined) {
-      response = 'Invalid Delete Interview request'
+    let result = {}
+    const id = req.params.interview_id
+    const retInterview = await Interview.findById(new mongodb.ObjectId(id))
+    if (!retInterview) {
+      response = 'Invalid Delete Interview Request'
     } else {
-      await Interview.deleteOne({ _id: new mongodb.ObjectId(id) })
+      result = await Interview.findByIdAndRemove(new mongodb.ObjectId(id))
     }
     res.json({
       code: 200,
       message: response,
-      result: {},
+      result: result,
       success: true
     })
   })
