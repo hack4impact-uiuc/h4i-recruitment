@@ -21,7 +21,8 @@ function createEvent(event) {
       startTime: event.startTime,
       endTime: event.endTime,
       location: event.location,
-      description: event.description
+      description: event.description,
+      fbLink: event.fbLink
     }),
     headers: {
       'content-type': 'application/json'
