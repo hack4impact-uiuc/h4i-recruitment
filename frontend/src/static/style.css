@@ -247,3 +247,8 @@ p > b {
   padding: 0;
   margin: 0 !important;
 }
+
+.button-margin {
+  margin-bottom: 15px;
+  margin-right: 20px;
+}

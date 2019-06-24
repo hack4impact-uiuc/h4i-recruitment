@@ -176,8 +176,8 @@ class EventOverview extends React.Component<Props> {
               </ModalFooter>
             </Modal>
             <ActionButton
+              className="button-margin"
               text="Add New Event"
-              style={{ marginBottom: 15 }}
               onClick={this.toggleModal}
             />
             <Table>
