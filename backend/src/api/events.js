@@ -46,7 +46,6 @@ router.post(
       attendees: [],
       fbLink: data.fbLink
     })
-    console.log(newEvent)
     await newEvent.save()
     res.json({
       code: 200,
