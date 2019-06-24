@@ -29,7 +29,7 @@ function createEvent(event) {
     },
     method: 'POST',
     mode: 'cors'
-  }).then(res => res.json)
+  }).then(res => res.json())
 }
 
 function addInterviewSchedule(file: File) {
@@ -83,7 +83,7 @@ function setCandidateStatus(id: string, status: string) {
     },
     method: 'POST',
     mode: 'cors'
-  }).then(res => res.json)
+  }).then(res => res.json())
 }
 
 function getCandidatesByStatus(status: string) {

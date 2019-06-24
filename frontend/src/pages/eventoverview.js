@@ -13,7 +13,8 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Alert
 } from 'reactstrap'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
@@ -31,7 +32,8 @@ class EventOverview extends React.Component<Props> {
       endTime: '',
       location: '',
       description: '',
-      fbLink: ''
+      fbLink: '',
+      alert: ''
     }
   }
 
@@ -56,9 +58,9 @@ class EventOverview extends React.Component<Props> {
     })
   }
 
-  handleKeyPress = event => {
+  handleKeyPress = async event => {
     if (event.key === 'Enter') {
-      this.addEvent()
+      await this.addEvent()
     }
   }
 
@@ -72,12 +74,21 @@ class EventOverview extends React.Component<Props> {
       description: this.state.description,
       fbLink: this.state.fbLink
     }
-    await createEvent(event)
-    // TODO: check validation errors? or just check if any field is empty
-    Router.push({ pathname: '/eventoverview' })
+    const { code } = await createEvent(event)
+    if (code === 500) {
+      this.setState({
+        alert: 'All fields are required.'
+      })
+    } else {
+      Router.push({ pathname: '/eventoverview' })
+    }
   }
 
   render() {
+    let alert
+    if (this.state.alert) {
+      alert = <Alert color="danger">{this.state.alert}</Alert>
+    }
     return (
       <>
         <Nav />
@@ -86,6 +97,7 @@ class EventOverview extends React.Component<Props> {
             <Modal isOpen={this.state.modal}>
               <ModalHeader>Add New Event</ModalHeader>
               <ModalBody>
+                {alert}
                 <Form>
                   <FormGroup>
                     <Label>Name</Label>
@@ -98,19 +110,39 @@ class EventOverview extends React.Component<Props> {
                   </FormGroup>
                   <FormGroup>
                     <Label>Date</Label>
-                    <Input name="date" type="date" onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+                    <Input
+                      name="date"
+                      type="date"
+                      onChange={this.handleChange}
+                      onKeyPress={this.handleKeyPress}
+                    />
                   </FormGroup>
                   <FormGroup>
                     <Label>Start Time</Label>
-                    <Input name="startTime" type="time" onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+                    <Input
+                      name="startTime"
+                      type="time"
+                      onChange={this.handleChange}
+                      onKeyPress={this.handleKeyPress}
+                    />
                   </FormGroup>
                   <FormGroup>
                     <Label>End Time</Label>
-                    <Input name="endTime" type="time" onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+                    <Input
+                      name="endTime"
+                      type="time"
+                      onChange={this.handleChange}
+                      onKeyPress={this.handleKeyPress}
+                    />
                   </FormGroup>
                   <FormGroup>
                     <Label>Location</Label>
-                    <Input name="location" placeholder="i.e. ECEB" onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+                    <Input
+                      name="location"
+                      placeholder="i.e. ECEB"
+                      onChange={this.handleChange}
+                      onKeyPress={this.handleKeyPress}
+                    />
                   </FormGroup>
                   <FormGroup>
                     <Label>Description</Label>
@@ -143,13 +175,13 @@ class EventOverview extends React.Component<Props> {
                 </Button>
               </ModalFooter>
             </Modal>
+            <ActionButton
+              text="Add New Event"
+              style={{ marginBottom: 15 }}
+              onClick={this.toggleModal}
+            />
             <Table>
               <thead>
-                <ActionButton
-                  style={{ marginBottom: 15 }}
-                  text="Add New Event"
-                  onClick={this.toggleModal}
-                />
                 <tr>
                   <th>Name</th>
                   <th>Date</th>
@@ -162,7 +194,7 @@ class EventOverview extends React.Component<Props> {
               </thead>
               <tbody>
                 {this.state.events.map(event => (
-                  <tr>
+                  <tr key={event._id}>
                     <td>{event.name}</td>
                     <td>{event.date}</td>
                     <td>{`${event.startTime} - ${event.endTime}`}</td>
