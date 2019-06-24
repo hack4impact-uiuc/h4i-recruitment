@@ -1,6 +1,7 @@
 const express = require('express')
 var mongodb = require('mongodb')
 const XLSX = require('xlsx')
+const moment = require('moment')
 const csv = require('csv-array')
 const { errorWrap, leadsOnly } = require('../middleware')
 const { FutureInterview } = require('../models')
@@ -94,15 +95,16 @@ router.post(
   })
 )
 
-
 // This endpoint is an example
 router.post(
   '/upload',
   errorWrap(async (req, res) => {
-   var workbook = XLSX.read(req.body["data"],{type:"binary"});
-   console.log(workbook)
-   var a = workbook["Sheets"]["Sheet1"]
-   console.log(a)
+    var workbook = XLSX.read(req.body['data'], { type: 'binary' })
+    const sheetName = workbook.SheetNames
+    var sheet = workbook['Sheets'][sheetName]
+    var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
+    unmergeColumns(arr)
+    getTimesFromArray(arr)
     var newInterview = new FutureInterview({
       candidates: ['Steve Jobs'],
       interviewers: ['Tim Ko'],
@@ -119,6 +121,35 @@ router.post(
   })
 )
 
+// since the first 3 rows have merged cells for the month and date,
+// we want to "unmerge" so there are no null cells in the month and date rows
+function unmergeColumns(arr) {
+  let valueToFill
+  for (var i = 0; i < 2; i++) {
+    for (var j = 1; j < arr[i].length; j++) {
+      if (arr[i][j] !== null) {
+        valueToFill = arr[i][j]
+      } else {
+        arr[i][j] = valueToFill
+      }
+    }
+  }
+}
+
+function getTimesFromArray(arr) {
+  for (var row = 3; row < arr.length; row++) {
+    personObj = {}
+    personObj["name"] = arr[row][0]
+    personObj["availableTimes"] = []
+    for (var col = 1; col < arr[row].length-1; col++) {
+      if(arr[row][col] === "OK"){
+        datetimeStr = `${arr[0][col]} ${arr[1][col]} ${arr[2][col]}`
+        personObj["availableTimes"].push(moment(datetimeStr, "MMMM YYYY ddd DD hh:mm a").toDate())
+      }
+    }
+    console.log(personObj)
+  }
+}
 router.get(
   '/',
   [leadsOnly],
