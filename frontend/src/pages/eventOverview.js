@@ -80,15 +80,12 @@ class EventOverview extends React.Component<Props> {
         alert: 'All fields are required.'
       })
     } else {
-      Router.push({ pathname: '/eventoverview' })
+      Router.push({ pathname: '/eventOverview' })
     }
   }
 
   render() {
-    let alert
-    if (this.state.alert) {
-      alert = <Alert color="danger">{this.state.alert}</Alert>
-    }
+    const alert = this.state.alert ? (<Alert color='danger'>{this.state.alert}</Alert>) : null
     return (
       <>
         <Nav />
