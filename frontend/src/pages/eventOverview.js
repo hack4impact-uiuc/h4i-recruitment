@@ -85,7 +85,7 @@ class EventOverview extends React.Component<Props> {
   }
 
   render() {
-    const alert = this.state.alert ? (<Alert color='danger'>{this.state.alert}</Alert>) : null
+    const alert = this.state.alert ? <Alert color="danger">{this.state.alert}</Alert> : null
     return (
       <>
         <Nav />
