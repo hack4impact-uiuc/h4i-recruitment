@@ -9,6 +9,29 @@ const API_URL =
     : 'http://localhost:8080' // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
+function getAllEvents() {
+  return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
+}
+
+function createEvent(event) {
+  return fetch(`${API_URL}/events?key=${getKey()}`, {
+    body: JSON.stringify({
+      name: event.name,
+      date: event.date,
+      startTime: event.startTime,
+      endTime: event.endTime,
+      location: event.location,
+      description: event.description,
+      fbLink: event.fbLink
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 function addInterviewSchedule(file: File) {
   var reader = new FileReader()
   var scheduleString = ''
@@ -60,7 +83,7 @@ function setCandidateStatus(id: string, status: string) {
     },
     method: 'POST',
     mode: 'cors'
-  }).then(res => res.json)
+  }).then(res => res.json())
 }
 
 function getCandidatesByStatus(status: string) {
@@ -220,6 +243,8 @@ function deleteReferral(candidateID: string) {
 }
 
 export {
+  getAllEvents,
+  createEvent,
   addInterviewSchedule,
   getInterviewSchedule,
   getPastInterviews,

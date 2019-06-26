@@ -43,7 +43,8 @@ router.post(
       endTime: data.endTime,
       location: data.location,
       description: data.description,
-      attendees: []
+      attendees: [],
+      fbLink: data.fbLink
     })
     await newEvent.save()
     res.json({
@@ -80,7 +81,9 @@ router.put(
     if (data.description !== undefined) {
       fieldsToUpdate['description'] = data.description
     }
-
+    if (data.fbLink !== undefined) {
+      fieldsToUpdate['fbLink'] = data.fbLink
+    }
     const event = await Event.findByIdAndUpdate(eventId, { $set: fieldsToUpdate }, { new: true })
     const ret = event
       ? {

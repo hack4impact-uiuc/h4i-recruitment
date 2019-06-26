@@ -19,10 +19,9 @@ class CandidateInterviewsModal extends React.Component<Props> {
 
   async componentDidMount() {
     const interviews = await getCandidateInterviews(this.props.candidateId)
-    interviews &&
-      this.setState({
-        interviews: interviews.result || []
-      })
+    this.setState({
+      interviews: interviews ? interviews.result : []
+    })
   }
 
   handleViewDetails = interview => {
