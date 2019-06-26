@@ -4,7 +4,7 @@ import React from 'react'
 import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
-import { getCandidateInterviews } from '../../utils/api'
+import { getCandidateInterviews, deleteInterview } from '../../utils/api'
 type Props = {}
 
 class CandidateInterviewsModal extends React.Component<Props> {
@@ -13,17 +13,16 @@ class CandidateInterviewsModal extends React.Component<Props> {
     this.state = {
       viewDetails: false,
       currentInterview: null,
-      verificationModalOpen: false,
-      interviewToDelete: null,
       interviews: []
     }
   }
 
   async componentDidMount() {
     const interviews = await getCandidateInterviews(this.props.candidateId)
-    this.setState({
-      interviews: interviews.result || []
-    })
+    interviews &&
+      this.setState({
+        interviews: interviews.result || []
+      })
   }
 
   handleViewDetails = interview => {
@@ -38,23 +37,14 @@ class CandidateInterviewsModal extends React.Component<Props> {
       currentInterview: null
     })
   }
-  handleDeleteClick = (interviewId, candidateId) => {
-    this.setState({
-      verificationModalOpen: true,
-      interviewToDelete: { interviewId, candidateId }
-    })
-  }
-  delete = async () => {
+  delete = async interview => {
     this.setState({
       loading: true
     })
-    const interview = this.state.interviewToDelete
-    await deleteInterview(this.props.candidateId, interview.interviewId)
+    await deleteInterview(this.props.candidateId, interview._id)
     const newInterviews = await getCandidateInterviews(this.props.candidateId)
     this.setState({
-      interviews: newInterviews,
-      verificationModalOpen: false,
-      interviewToDelete: null,
+      interviews: newInterviews ? newInterviews.result : [],
       loading: false
     })
   }
@@ -91,6 +81,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
                     key={interview._id}
                     overallScore={interview.overall_score}
                     interviewer={interview.interviewer_name}
+                    handleDelete={() => this.delete(interview)}
                   />
                 )
               })
