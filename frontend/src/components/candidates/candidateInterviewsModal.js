@@ -4,6 +4,7 @@ import React from 'react'
 import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
+import { getCandidateInterviews } from '../../utils/api'
 type Props = {}
 
 class CandidateInterviewsModal extends React.Component<Props> {
@@ -11,9 +12,20 @@ class CandidateInterviewsModal extends React.Component<Props> {
     super(props)
     this.state = {
       viewDetails: false,
-      currentInterview: null
+      currentInterview: null,
+      verificationModalOpen: false,
+      interviewToDelete: null,
+      interviews: []
     }
   }
+
+  async componentDidMount() {
+    const interviews = await getCandidateInterviews(this.props.candidateId)
+    this.setState({
+      interviews: interviews.result || []
+    })
+  }
+
   handleViewDetails = interview => {
     this.setState({
       viewDetails: true,
@@ -24,6 +36,32 @@ class CandidateInterviewsModal extends React.Component<Props> {
     this.setState({
       viewDetails: false,
       currentInterview: null
+    })
+  }
+  handleDeleteClick = (interviewId, candidateId) => {
+    this.setState({
+      verificationModalOpen: true,
+      interviewToDelete: { interviewId, candidateId }
+    })
+  }
+  delete = async () => {
+    this.setState({
+      loading: true
+    })
+    const interview = this.state.interviewToDelete
+    await deleteInterview(this.props.candidateId, interview.interviewId)
+    const newInterviews = await getCandidateInterviews(this.props.candidateId)
+    this.setState({
+      interviews: newInterviews,
+      verificationModalOpen: false,
+      interviewToDelete: null,
+      loading: false
+    })
+  }
+  toggle = () => {
+    this.setState({
+      interviewToDelete: null,
+      verificationModalOpen: false
     })
   }
 
@@ -44,8 +82,8 @@ class CandidateInterviewsModal extends React.Component<Props> {
                 onExitDetails={this.handleExitDetails}
                 interview={this.state.currentInterview}
               />
-            ) : this.props.interviews ? (
-              this.props.interviews.map(interview => {
+            ) : this.state.interviews ? (
+              this.state.interviews.map(interview => {
                 return (
                   <InterviewCard
                     onViewDetails={this.handleViewDetails}
