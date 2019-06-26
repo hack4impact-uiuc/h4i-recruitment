@@ -37,14 +37,10 @@ class CandidateInterviewsModal extends React.Component<Props> {
     })
   }
   delete = async interview => {
-    this.setState({
-      loading: true
-    })
     await deleteInterview(this.props.candidateId, interview._id)
     const newInterviews = await getCandidateInterviews(this.props.candidateId)
     this.setState({
-      interviews: newInterviews ? newInterviews.result : [],
-      loading: false
+      interviews: newInterviews ? newInterviews.result : []
     })
   }
   toggle = () => {
