@@ -20,7 +20,6 @@ class InterviewCard extends Component {
     this.state = {
       modal: false
     }
-    this.toggle = this.toggle.bind(this)
     this.handleDeleteClick = this.handleDeleteClick.bind(this)
   }
 
@@ -42,12 +41,12 @@ class InterviewCard extends Component {
   render() {
     return (
       <>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.state.modal} toggle={() => this.toggle()}>
           <ModalHeader>
             Are you sure you want to delete this interview? You won't be able to get it back.
           </ModalHeader>
           <ModalFooter>
-            <Button onCLick={this.toggle}>Return</Button>
+            <Button onClick={() => this.toggle()}>Return</Button>
             <Button onClick={this.handleDeleteClick}>Delete</Button>
           </ModalFooter>
         </Modal>
@@ -63,7 +62,7 @@ class InterviewCard extends Component {
             </p>
             <div>
               <Button onClick={() => this.handleViewDetails()}>View Details</Button>
-              <Button onClick={this.toggle}>Delete (Directors Only)</Button>
+              <Button onClick={() => this.toggle()}>Delete (Directors Only)</Button>
             </div>
           </CardBody>
         </Card>

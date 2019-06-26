@@ -298,14 +298,14 @@ router.delete(
   '/:candidateId/interviews/:interviewId',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    let response = 'Interview Deleted Sucessfully'
+    const response = 'Interview Deleted Sucessfully'
     const candidate = await Candidate.findById(req.params.candidateId)
-    const result = await candidate.interviews.id(req.params.interviewId).remove()
+    await candidate.interviews.id(req.params.interviewId).remove()
     await candidate.save() // save cascades down to subdocument
     res.json({
       code: 200,
       message: response,
-      result: result,
+      result: {},
       success: true
     })
   })
