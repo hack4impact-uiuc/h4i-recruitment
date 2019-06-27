@@ -137,18 +137,6 @@ router.get(
     })
   })
 )
-router.get(
-  '/:interview_id',
-  errorWrap(async (req, res) => {
-    const retInterview = await Interview.findById(req.params.interview_id)
-    res.json({
-      code: 200,
-      message: '',
-      result: { retInterview },
-      success: true
-    })
-  })
-)
 
 router.post(
   '/',
@@ -250,6 +238,7 @@ router.put(
     })
   })
 )
+
 // delete interview given interview id
 router.delete(
   '/:interview_id',
