@@ -178,7 +178,6 @@ class CandidatePage extends Component<Props> {
                 candidateId={candidate._id}
                 exitModal={this.exitModal}
                 candidateName={candidate.name}
-                interviews={candidate.interviews}
               />
               <AddCommentsModal
                 submit={this.submitComment}

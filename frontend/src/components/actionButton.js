@@ -1,10 +1,9 @@
 import { Component } from 'react'
 import Link from 'next/link'
 
-const ActionButton = ({ link, text, style, white, onClick }) => (
+const ActionButton = ({ className, link, text, white, onClick }) => (
   <button
-    style={style}
-    className={white ? 'white-button' : 'action-button'}
+    className={white ? 'white-button ' + className : 'action-button ' + className}
     onClick={onClick === undefined && link !== undefined ? null : onClick}
   >
     {link !== undefined ? (

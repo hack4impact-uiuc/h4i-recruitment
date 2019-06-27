@@ -96,11 +96,11 @@ class InterviewPortal extends Component<Props> {
           <h1>Interviews</h1>
           <Row style={{ marginBottom: '30px' }}>
             <ActionButton
+              className="button-margin"
               text="New Interview"
               onClick={this.handleNewInterview}
-              style={{ marginRight: '20px' }}
             />
-            <ActionButton text="All Interviews" link="/interviewlist" />
+            <ActionButton className="button-margin" text="All Interviews" link="/interviewlist" />
           </Row>
           <VerificationModal
             open={this.state.verificationModalOpen}

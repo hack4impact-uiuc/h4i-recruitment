@@ -98,16 +98,15 @@ class InterviewListPage extends React.Component<Props> {
                           <h5 style={{ display: 'block' }}>Candidates in {category}</h5>
                         </Row>
                         <div className="m-2">
-                          {this.state.interviewingInterviews.map(
-                            interview =>
-                              interviewGetCategorySection(interview) !== null &&
-                              interviewGetCategorySection(interview).response.text === category ? (
-                                <li>
-                                  <Link href={`/candidate?id=${interview.candidate_id}`}>
-                                    {interview.candidate_name}
-                                  </Link>
-                                </li>
-                              ) : null
+                          {this.state.interviewingInterviews.map(interview =>
+                            interviewGetCategorySection(interview) !== null &&
+                            interviewGetCategorySection(interview).response.text === category ? (
+                              <li>
+                                <Link href={`/candidate?id=${interview.candidate_id}`}>
+                                  {interview.candidate_name}
+                                </Link>
+                              </li>
+                            ) : null
                           )}
                         </div>
                       </Container>
@@ -117,9 +116,15 @@ class InterviewListPage extends React.Component<Props> {
             </Row>
           ) : (
             <Row className="candidate-list-box">
-              {candidates.map(
-                candidate =>
-                  candidate.interviews.length === 0 ? null : (
+              {candidates.map(candidate =>
+                candidate.interviews.length === 0 ? null : (
+                  <>
+                    <CandidateInterviewsModal
+                      isOpen={this.state.modalOpen}
+                      candidateId={candidate._id}
+                      exitModal={this.toggleModal}
+                      candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
+                    />
                     <CardCol key={candidate._id}>
                       <Card className="candidate-card h-100">
                         <CardTitle style={{ margin: '15px 0 0 0' }}>
@@ -175,17 +180,11 @@ class InterviewListPage extends React.Component<Props> {
                         </CardBody>
                       </Card>
                     </CardCol>
-                  )
+                  </>
+                )
               )}
             </Row>
           )}
-          <CandidateInterviewsModal
-            isOpen={this.state.modalOpen}
-            candidateId={this.state.currentCandidateId}
-            exitModal={this.toggleModal}
-            candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
-            interviews={currentCandidate === undefined ? '' : currentCandidate.interviews}
-          />
         </Container>
       </>
     )

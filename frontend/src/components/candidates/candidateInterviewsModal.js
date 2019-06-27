@@ -4,6 +4,7 @@ import React from 'react'
 import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
+import { getCandidateInterviews, deleteInterview } from '../../utils/api'
 type Props = {}
 
 class CandidateInterviewsModal extends React.Component<Props> {
@@ -11,9 +12,18 @@ class CandidateInterviewsModal extends React.Component<Props> {
     super(props)
     this.state = {
       viewDetails: false,
-      currentInterview: null
+      currentInterview: null,
+      interviews: []
     }
   }
+
+  async componentDidMount() {
+    const interviews = await getCandidateInterviews(this.props.candidateId)
+    this.setState({
+      interviews: interviews ? interviews.result : []
+    })
+  }
+
   handleViewDetails = interview => {
     this.setState({
       viewDetails: true,
@@ -24,6 +34,19 @@ class CandidateInterviewsModal extends React.Component<Props> {
     this.setState({
       viewDetails: false,
       currentInterview: null
+    })
+  }
+  delete = async interview => {
+    await deleteInterview(this.props.candidateId, interview._id)
+    const newInterviews = await getCandidateInterviews(this.props.candidateId)
+    this.setState({
+      interviews: newInterviews ? newInterviews.result : []
+    })
+  }
+  toggle = () => {
+    this.setState({
+      interviewToDelete: null,
+      verificationModalOpen: false
     })
   }
 
@@ -44,8 +67,8 @@ class CandidateInterviewsModal extends React.Component<Props> {
                 onExitDetails={this.handleExitDetails}
                 interview={this.state.currentInterview}
               />
-            ) : this.props.interviews ? (
-              this.props.interviews.map(interview => {
+            ) : this.state.interviews ? (
+              this.state.interviews.map(interview => {
                 return (
                   <InterviewCard
                     onViewDetails={this.handleViewDetails}
@@ -53,6 +76,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
                     key={interview._id}
                     overallScore={interview.overall_score}
                     interviewer={interview.interviewer_name}
+                    handleDelete={() => this.delete(interview)}
                   />
                 )
               })
