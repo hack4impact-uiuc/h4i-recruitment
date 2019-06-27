@@ -6,6 +6,7 @@ const Stats = require('./stats')
 const Match = require('./match')
 const Comment = require('./comment').CommentModel
 const Structure = require('./structure')
+const Cycle = require('./cycle')
 
 module.exports = {
   Candidate,
@@ -14,5 +15,6 @@ module.exports = {
   Interview,
   Comment,
   Structure,
-  FutureInterview
+  FutureInterview,
+  Cycle
 }
