@@ -1,7 +1,7 @@
 const request = require('supertest')
 const { expect } = require('chai')
 const mongoose = require('mongoose')
-const Mockgoose = require('mockgoose').Mockgoose
+const Mockgoose = require('mockgoose-fix').Mockgoose
 const app = require('../src/app')
 const { Candidate, Match } = require('../src/models')
 const { candidateIds, createCandidates, createMatches, matchIds, KEY } = require('./utils.js')
