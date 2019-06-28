@@ -1,7 +1,7 @@
 const request = require('supertest')
 const { expect, assert } = require('chai')
 const mongoose = require('mongoose')
-const Mockgoose = require('mockgoose-fix').Mockgoose
+const Mockgoose = require('mockgoose').Mockgoose
 const app = require('../src/app')
 const { KEY } = require('./utils')
 const { Interview, Candidate } = require('../src/models')
