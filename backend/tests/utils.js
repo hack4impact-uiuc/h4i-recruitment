@@ -32,6 +32,7 @@ const createCandidates = async (numOfMatches, elos) => {
       }
     })
   }
+  print(query)
   await Candidate.insertMany(query)
 }
 
