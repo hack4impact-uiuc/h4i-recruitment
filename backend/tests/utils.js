@@ -22,10 +22,10 @@ const createCandidates = async (numOfMatches, elos) => {
     query.push({
       _id: candidateIds(i),
       name: 'Candidate ' + i,
-      email: candidateIds(i),
+      email: 'Email ' + i,
       major: 'Major ' + i,
       role: [],
-      resumeID: candidateIds(i),
+      resumeID: 'Resume ' + i,
       facemashRankings: {
         numOfMatches: numOfMatches[i],
         elo: elos[i]
