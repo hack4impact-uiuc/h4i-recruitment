@@ -35,7 +35,7 @@ describe('GET /matchCandidates', () => {
   })
 
   it('should return json with 2 candidates and matchID when exactly 2 candidates have min', async () => {
-    await createCandidates([5], [0] // [5, 5, 6, 6, 6], [0, 0, 0, 0, 0])
+    await createCandidates([5], [0]) // [5, 5, 6, 6, 6], [0, 0, 0, 0, 0])
     // const res = await request(app)
     //   .get(`/matchCandidates?key=${KEY}`)
     //   .expect(200)
