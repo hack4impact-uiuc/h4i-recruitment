@@ -54,7 +54,6 @@ class NavigationBar extends Component {
 
   logout = () => {
     localStorage.removeItem('interviewerKey')
-    localStorage.removeItem('interviewerRoleIsLead')
     localStorage.removeItem('interviewerName')
 
     this.setState({ loggedIn: false })
@@ -69,12 +68,11 @@ class NavigationBar extends Component {
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
       localStorage.setItem('interviewerKey', this.state.currentKey)
-      localStorage.setItem('interviewerRoleIsLead', result.is_lead)
       localStorage.setItem('interviewerName', result.name)
       Router.push('/dashboard')
 
       this.setState({
-        isLead: result.is_lead === 'true',
+        isLead: result.is_lead,
         loggedIn: true,
         username: result.name
       })
@@ -87,11 +85,14 @@ class NavigationBar extends Component {
 
   async componentDidMount() {
     if (getKey() != undefined) {
-      this.setState({
-        isLead: localStorage.getItem('interviewerRoleIsLead') === 'true',
-        loggedIn: true,
-        username: localStorage.getItem('interviewerName')
-      })
+      const { success, result } = await validateKey(getKey())
+      if (success) {
+        this.setState({
+          isLead: result.is_lead,
+          loggedIn: true,
+          username: result.name
+        })
+      }
     }
     const res = await getRound()
     if (res.result) {
