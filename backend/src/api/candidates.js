@@ -255,36 +255,38 @@ router.get(
 )
 
 router.put(
-  '/:candidateId/interviews',
-  [leadsOnly],
+  '/:candidateId/interviews/:interviewId',
   errorWrap(async (req, res) => {
     const data = req.body
     let response = 'Interview Edited Sucessfully'
-    let interviewId = req.params.interview_id
-    let reqSections = data.sections
-    let overallScore = data.overall_score
-    let genNotes = data.general_notes
+    const interviewId = req.params.interviewId
+    const reqSections = data.sections
+    const overallScore = data.overall_score
+    const genNotes = data.general_notes
 
     if (interviewId === undefined) {
-      response = 'Invalid Edit Interview request'
-    } else if (reqSections !== undefined) {
-      Interview.findOneAndUpdate(
-        { _id: new mongodb.ObjectId(interviewId) },
-        { $set: { sections: reqSections } },
-        { new: true }
-      )
-    } else if (overallScore !== undefined) {
-      Interview.findOneAndUpdate(
-        { _id: new mongodb.ObjectId(interviewId) },
-        { $set: { overall_score: overallScore } },
-        { new: true }
-      )
-    } else if (genNotes !== undefined) {
-      Interview.findOneAndUpdate(
-        { _id: new mongodb.ObjectId(interviewId) },
-        { $set: { general_notes: genNotes } },
-        { new: true }
-      )
+      response = 'Interview ID not provided'
+    } else {
+      const candidate = Candidate.findById(req.params.candidateId)
+      if (candidate) {
+        let interview = candidate.interviews.id(interviewId)
+        if (interview) {
+          if (reqSections !== undefined) {
+            interview.sections = reqSections
+          }
+          if (overallScore !== undefined) {
+            interview.overall_score = overallScore
+          }
+          if (genNotes !== undefined) {
+            interview.general_notes = genNotes
+          }
+          Candidate.findByIdAndUpdate(interviewId, interview)
+        } else {
+          response = 'Interview not found'
+        }
+      } else {
+        response = 'Candidate not found'
+      }
     }
     res.json({
       code: 200,

@@ -172,14 +172,14 @@ function editInterview(
 ) {
   return fetch(`${API_URL}/interviews/${interviewId}?key=${getKey()}`, {
     body: JSON.stringify({
-      sections,
       overallScore,
-      generalNotes
+      generalNotes,
+      sections
     }),
     headers: {
       'content-type': 'application/json'
     },
-    method: 'POST',
+    method: 'PUT',
     mode: 'cors'
   }).then(res => res.json())
 }
