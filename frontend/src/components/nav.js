@@ -39,47 +39,60 @@ class NavigationBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: false,
+      isLead: false,
       loggedIn: false,
+      showLoginModal: false,
       username: null
     }
   }
 
   toggle = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      showLoginModal: !this.state.showLoginModal
     })
   }
+
   logout = () => {
     localStorage.removeItem('interviewerKey')
+    localStorage.removeItem('interviewerName')
+
     this.setState({ loggedIn: false })
     alert('Logged Out!')
     Router.push('/')
   }
+
   async handleSubmit() {
     this.setState({
-      isOpen: false
+      showLoginModal: false
     })
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
       localStorage.setItem('interviewerKey', this.state.currentKey)
       localStorage.setItem('interviewerName', result.name)
       Router.push('/dashboard')
+
+      this.setState({
+        isLead: result.is_lead,
+        loggedIn: true,
+        username: result.name
+      })
     }
-    this.setState({
-      loggedIn: true,
-      username: result.name
-    })
   }
+
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }
+
   async componentDidMount() {
     if (getKey() != undefined) {
-      this.setState({
-        loggedIn: true,
-        username: localStorage.getItem('interviewerName')
-      })
+      const { success, result } = await validateKey(getKey())
+      if (success) {
+        this.setState({
+          isLead: result.is_lead,
+          loggedIn: true,
+          username: result.name
+        })
+      }
     }
     const res = await getRound()
     if (res.result) {
@@ -88,6 +101,7 @@ class NavigationBar extends Component {
       this.props.setRoundRedux(0)
     }
   }
+
   // handles when user presses "Enter" when input is focused
   _handleKeyPress = e => {
     if (e.key === 'Enter') {
@@ -105,63 +119,66 @@ class NavigationBar extends Component {
             </NavbarBrand>
           </Link>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse isOpen={this.state.showLoginModal} navbar>
             <Nav navbar className="ml-auto">
-              {this.state.loggedIn ? (
+              {this.state.loggedIn && (
                 <NavItem>
                   <div className="nav-bar-name pr-3">
                     Welcome {this.state.username ? this.state.username : null}!
                   </div>
                 </NavItem>
-              ) : null}
+              )}
               <NavItem>
                 <Link prefetch href="/dashboard">
                   <a className="nav-bar-link pl-3">Dashboard</a>
                 </Link>
               </NavItem>
-              <NavItem>
-                <Link prefetch href="/eventOverview">
-                  <a className="nav-bar-link pl-3">Events</a>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link prefetch href="/analytics">
-                  <a className="nav-bar-link pl-3">Analytics</a>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link
-                  prefetch
-                  href={
-                    roundData.rounds[this.props.round].type == 'interview'
-                      ? '/interviewportal'
-                      : '/facemash'
-                  }
-                >
-                  <a className="nav-bar-link pl-3">{roundData.rounds[this.props.round].name}</a>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link prefetch href="/interviewschedule">
-                  <a className="nav-bar-link pl-3">Interview Schedule</a>
-                </Link>
-              </NavItem>
-
-              <NavItem>
-                <Link prefetch href="/table">
-                  <a className="nav-bar-link pl-3">Table View</a>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link prefetch href="/stats">
-                  <a className="nav-bar-link pl-3">Emails/Stats</a>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link prefetch href="/rounds">
-                  <a className="nav-bar-link pl-3">Rounds</a>
-                </Link>
-              </NavItem>
+              {this.state.isLead && (
+                <>
+                  <NavItem>
+                    <Link prefetch href="/eventOverview">
+                      <a className="nav-bar-link pl-3">Events</a>
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link prefetch href="/analytics">
+                      <a className="nav-bar-link pl-3">Analytics</a>
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link
+                      prefetch
+                      href={
+                        roundData.rounds[this.props.round].type == 'interview'
+                          ? '/interviewportal'
+                          : '/facemash'
+                      }
+                    >
+                      <a className="nav-bar-link pl-3">{roundData.rounds[this.props.round].name}</a>
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link prefetch href="/interviewschedule">
+                      <a className="nav-bar-link pl-3">Interview Schedule</a>
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link prefetch href="/table">
+                      <a className="nav-bar-link pl-3">Table View</a>
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link prefetch href="/stats">
+                      <a className="nav-bar-link pl-3">Emails/Stats</a>
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link prefetch href="/rounds">
+                      <a className="nav-bar-link pl-3">Rounds</a>
+                    </Link>
+                  </NavItem>
+                </>
+              )}
               <NavItem>
                 {!this.state.loggedIn ? (
                   <a className="nav-bar-link pl-3" href="#" onClick={this.toggle}>
@@ -177,7 +194,7 @@ class NavigationBar extends Component {
           </Collapse>
         </Navbar>
         <Container>
-          <Modal autoFocus={false} isOpen={this.state.isOpen}>
+          <Modal autoFocus={false} isOpen={this.state.showLoginModal}>
             <ModalHeader>Login to Your Interview Portal</ModalHeader>
             <ModalBody>
               <Input
