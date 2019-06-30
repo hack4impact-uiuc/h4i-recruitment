@@ -121,4 +121,4 @@ describe('POST /matchCandidates', () => {
     expect(match.submittedByKey).to.eq(KEY)
   })
 })
-// // TODO: test utility functions
+// TODO: test utility functions
