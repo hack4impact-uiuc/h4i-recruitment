@@ -170,7 +170,7 @@ function editInterview(
   overallScore: number,
   generalNotes: string
 ) {
-  return fetch(`${API_URL}/interviews/${interviewId}?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/interviews/${interviewId}?key=${getKey()}`, {
     body: JSON.stringify({
       overallScore,
       generalNotes,

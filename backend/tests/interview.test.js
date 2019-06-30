@@ -125,44 +125,44 @@ describe('GET /interviews', () => {
   // })
 })
 
-describe('PUT /interviews', () => {
-  it('should edit an interview', async () => {
-    let interview = new Interview({
-      interviewer_key: 'CaptainMeg',
-      sections: [],
-      candidate_id: '5769',
-      overall_score: 3,
-      general_notes: 'some notes here'
-    })
-    await interview.save()
+// describe('PUT /interviews', () => {
+//   it('should edit an interview', async () => {
+//     let interview = new Interview({
+//       interviewer_key: 'CaptainMeg',
+//       sections: [],
+//       candidate_id: '5769',
+//       overall_score: 3,
+//       general_notes: 'some notes here'
+//     })
+//     await interview.save()
 
-    body_params = {
-      general_notes: 'Candidate is amazing'
-    }
-    const res = await request(app)
-      .put(`/interviews/${interview._id}?key=${KEY}`)
-      .send(body_params)
-      .expect(200)
+//     body_params = {
+//       general_notes: 'Candidate is amazing'
+//     }
+//     const res = await request(app)
+//       .put(`/interviews/${interview._id}?key=${KEY}`)
+//       .send(body_params)
+//       .expect(200)
 
-    const changed_interview = await Interview.findById(interview._id)
-    expect(changed_interview.general_notes).to.eq('Candidate is amazing')
-  })
-})
+//     const changed_interview = await Interview.findById(interview._id)
+//     expect(changed_interview.general_notes).to.eq('Candidate is amazing')
+//   })
+// })
 
-describe('DELETE /interviews', () => {
-  it('delete an interview', async () => {
-    let interview = new Interview({
-      interviewer_key: 'CaptainMeg',
-      sections: [],
-      candidate_id: '5555',
-      overall_score: 4,
-      general_notes: 'some notes here'
-    })
-    await interview.save()
+// describe('DELETE /interviews', () => {
+//   it('delete an interview', async () => {
+//     let interview = new Interview({
+//       interviewer_key: 'CaptainMeg',
+//       sections: [],
+//       candidate_id: '5555',
+//       overall_score: 4,
+//       general_notes: 'some notes here'
+//     })
+//     await interview.save()
 
-    await request(app)
-      .delete(`/interviews/${interview._id}/?key=${KEY}`)
-      .expect(200)
-    const deleted_candidate = await Interview.findById(interview._id)
-  })
-})
+//     await request(app)
+//       .delete(`/interviews/${interview._id}/?key=${KEY}`)
+//       .expect(200)
+//     const deleted_candidate = await Interview.findById(interview._id)
+//   })
+// })
