@@ -271,16 +271,20 @@ router.put(
       if (candidate) {
         let interview = candidate.interviews.id(interviewId)
         if (interview) {
-          if (reqSections !== undefined) {
-            interview.sections = reqSections
+          if ((interview.interviewer_key = req._key)) {
+            if (reqSections !== undefined) {
+              interview.sections = reqSections
+            }
+            if (overallScore !== undefined) {
+              interview.overall_score = overallScore
+            }
+            if (genNotes !== undefined) {
+              interview.general_notes = genNotes
+            }
+            Candidate.findByIdAndUpdate(interviewId, interview)
+          } else {
+            response = 'Not authorized'
           }
-          if (overallScore !== undefined) {
-            interview.overall_score = overallScore
-          }
-          if (genNotes !== undefined) {
-            interview.general_notes = genNotes
-          }
-          Candidate.findByIdAndUpdate(interviewId, interview)
         } else {
           response = 'Interview not found'
         }
