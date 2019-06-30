@@ -5,6 +5,7 @@ const app = require('../src/app')
 const { Candidate } = require('../src/models')
 const { KEY, NONLEAD_KEY } = require('./utils')
 const { statusEnums } = require('../src/utils/enums')
+require('./mongo_utils')
 
 // for expects/assertions, look at chai
 // for different ways to stub/mock/spy on functions, look into sinon
@@ -94,7 +95,7 @@ describe('GET /candidates/:candidateId', async () => {
 // })
 
 describe('POST /candidates/:id/comments', async () => {
-  const candidate = new Candidate({ name: 'Tim' })
+  const candidate = new Candidate({ name: 'Tim', resumeID: 'a', email: 'a', major: 'a' })
   await candidate.save()
   it('should add a comment', async () => {
     const res = await request(app)
@@ -114,7 +115,8 @@ describe('POST /candidates/:id/status', async () => {
   const candidateStatus = new Candidate({
     name: 'TimChangeStatus',
     email: 'someemail',
-    resumeID: 'some resume link'
+    resumeID: 'some resume link',
+    major: 'ce'
   })
   await candidateStatus.save()
   it('should change the status', async () => {
