@@ -1,8 +1,16 @@
 const request = require('supertest')
-const { expect, assert } = require('chai')
+const {
+  expect,
+  assert
+} = require('chai')
 const app = require('../src/app')
-const { KEY } = require('./utils')
-const { Interview, Candidate } = require('../src/models')
+const {
+  KEY
+} = require('./utils')
+const {
+  Interview,
+  Candidate
+} = require('../src/models')
 require('./mongo_utils')
 
 var chai = require('chai')
@@ -39,7 +47,10 @@ describe('GET verify_interviewer/:key', () => {
       code: 200,
       message: 'key is verified',
       success: true,
-      result: { name: 'Test Key', is_lead: true }
+      result: {
+        name: 'Test Key',
+        is_lead: true
+      }
     })
     const res = await request(app).get(`/interviews/verify_interviewer?key=${KEY}`)
     expect(200).to.eq(res.status)
@@ -70,11 +81,9 @@ describe('POST /candidates/:candidateId/interviews', () => {
 
     let interview = {
       interviewer_key: 'CaptainMeg',
-      sections: [
-        {
+      sections: [{
           description: 'Time commitment',
-          questions: [
-            {
+          questions: [{
               question_text: 'How many commitments does this person have?',
               score: '3'
             },
@@ -87,12 +96,10 @@ describe('POST /candidates/:candidateId/interviews', () => {
         },
         {
           description: 'Abilities',
-          questions: [
-            {
-              question_text: 'Web Dev Experience?',
-              score: '2'
-            }
-          ],
+          questions: [{
+            question_text: 'Web Dev Experience?',
+            score: '2'
+          }],
           section_notes: 'experience is limited'
         }
       ],

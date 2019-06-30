@@ -1,9 +1,22 @@
 const request = require('supertest')
-const { expect } = require('chai')
+const {
+  expect
+} = require('chai')
 const app = require('../src/app')
-const { Candidate, Match } = require('../src/models')
-const { candidateIds, createCandidates, createMatches, matchIds, KEY } = require('./utils.js')
-const { statusEnum } = require('../src/utils/enums')
+const {
+  Candidate,
+  Match
+} = require('../src/models')
+const {
+  candidateIds,
+  createCandidates,
+  createMatches,
+  matchIds,
+  KEY
+} = require('./utils.js')
+const {
+  statusEnum
+} = require('../src/utils/enums')
 require('./mongo_utils')
 
 beforeEach(async () => {
@@ -21,7 +34,9 @@ describe('GET /matchCandidates', () => {
     expect(matched_candidates).to.contain.members([res.body.result.candidate1._id])
     expect(matched_candidates).to.contain.members([res.body.result.candidate2._id])
     expect(res.body.result.candidate1._id).to.not.equal(res.body.result.candidate2._id)
-    const match = await Match.find({ _id: res.body.result.matchID })
+    const match = await Match.find({
+      _id: res.body.result.matchID
+    })
     expect(match).to.have.lengthOf(1)
   })
 
@@ -32,20 +47,26 @@ describe('GET /matchCandidates', () => {
       .expect(200)
     expect(res.body.result.candidate1._id).to.eq(candidateIds(0))
     expect(res.body.result.candidate2._id).to.eq(candidateIds(1))
-    const match = await Match.find({ _id: res.body.result.matchID })
+    const match = await Match.find({
+      _id: res.body.result.matchID
+    })
     expect(match).to.have.lengthOf(1)
   })
 
   it('should not pick an existing match', async () => {
     await createCandidates([5, 5, 6, 7, 7], [0, 0, 0, 0, 0])
-    await createMatches([[0, 1]])
+    await createMatches([
+      [0, 1]
+    ])
     const res = await request(app)
       .get(`/matchCandidates?key=${KEY}`)
       .expect(200)
     const matched_candidates = [candidateIds(0), candidateIds(1)]
     expect(matched_candidates).to.contain.members([res.body.result.candidate1._id])
     expect(res.body.result.candidate2._id).to.eq(candidateIds(2))
-    const match = await Match.find({ _id: res.body.result.matchID })
+    const match = await Match.find({
+      _id: res.body.result.matchID
+    })
     expect(match).to.have.lengthOf(1)
   })
   // it('should not pick a rejected candidate for a match', async () => {
@@ -67,7 +88,9 @@ describe('GET /matchCandidates', () => {
 describe('POST /matchCandidates', () => {
   it('should raise candidate1 elo and lower candidate2 elo', async () => {
     await createCandidates([1, 1], [1200, 1000])
-    await createMatches([[0, 1]])
+    await createMatches([
+      [0, 1]
+    ])
     const frontend_payload = {
       candidate1: candidateIds(0),
       candidate2: candidateIds(1),
@@ -86,7 +109,9 @@ describe('POST /matchCandidates', () => {
 
   it('should raise candidate2 elo and lower candidate1 elo', async () => {
     await createCandidates([1, 1], [1200, 1000])
-    await createMatches([[0, 1]])
+    await createMatches([
+      [0, 1]
+    ])
     const frontend_payload = {
       candidate1: candidateIds(0),
       candidate2: candidateIds(1),
@@ -105,7 +130,9 @@ describe('POST /matchCandidates', () => {
 
   it('should save person who saved the match', async () => {
     await createCandidates([1, 1], [1200, 1000])
-    await createMatches([[0, 1]])
+    await createMatches([
+      [0, 1]
+    ])
     const frontend_payload = {
       candidate1: candidateIds(0),
       candidate2: candidateIds(1),
