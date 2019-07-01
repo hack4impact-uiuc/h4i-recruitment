@@ -21,7 +21,9 @@ describe('GET /matchCandidates', () => {
     expect(matched_candidates).to.contain.members([res.body.result.candidate1._id])
     expect(matched_candidates).to.contain.members([res.body.result.candidate2._id])
     expect(res.body.result.candidate1._id).to.not.equal(res.body.result.candidate2._id)
-    const match = await Match.find({ _id: res.body.result.matchID })
+    const match = await Match.find({
+      _id: res.body.result.matchID
+    })
     expect(match).to.have.lengthOf(1)
   })
 
@@ -32,7 +34,9 @@ describe('GET /matchCandidates', () => {
       .expect(200)
     expect(res.body.result.candidate1._id).to.eq(candidateIds(0))
     expect(res.body.result.candidate2._id).to.eq(candidateIds(1))
-    const match = await Match.find({ _id: res.body.result.matchID })
+    const match = await Match.find({
+      _id: res.body.result.matchID
+    })
     expect(match).to.have.lengthOf(1)
   })
 
@@ -45,7 +49,9 @@ describe('GET /matchCandidates', () => {
     const matched_candidates = [candidateIds(0), candidateIds(1)]
     expect(matched_candidates).to.contain.members([res.body.result.candidate1._id])
     expect(res.body.result.candidate2._id).to.eq(candidateIds(2))
-    const match = await Match.find({ _id: res.body.result.matchID })
+    const match = await Match.find({
+      _id: res.body.result.matchID
+    })
     expect(match).to.have.lengthOf(1)
   })
   // it('should not pick a rejected candidate for a match', async () => {

@@ -23,7 +23,14 @@ describe('GET /candidates', done => {
   })
   it('should return array of Objects', async () => {
     // stub the find() function of Candidates and make it return a Promise that resolves to the array specified inside
-    sinon.stub(Candidate, 'find').resolves([{ name: 'Tim' }, { name: 'Tim2' }])
+    sinon.stub(Candidate, 'find').resolves([
+      {
+        name: 'Tim'
+      },
+      {
+        name: 'Tim2'
+      }
+    ])
 
     const res = await request(app)
       .get(`/candidates?key=${KEY}`)
@@ -42,22 +49,31 @@ describe('GET /candidates', done => {
   })
 
   it('should call Candidate.find() with status parameters when `status` args is passed in', async () => {
-    const candidateFindStub = sinon
-      .stub(Candidate, 'find')
-      .resolves([{ name: 'Tim', status: 'pending' }])
+    const candidateFindStub = sinon.stub(Candidate, 'find').resolves([
+      {
+        name: 'Tim',
+        status: 'pending'
+      }
+    ])
 
     const res = await request(app)
       .get(`/candidates?status=pending&&key=${KEY}`)
       .expect(200)
     // checks whether Candidate.find() was called with arguments {status: 'pending}
-    expect(candidateFindStub.getCall(0).args).to.deep.include({ status: 'pending' })
+    expect(candidateFindStub.getCall(0).args).to.deep.include({
+      status: 'pending'
+    })
   })
   // TODO: Test whether it returns status 500 if error
 })
 
 describe('GET /candidates/:candidateId', async () => {
   // setup
-  const expected = Candidate({ name: 'Tim', status: 'pending', _id: '5abf3dcf1d567955609d2bd4' })
+  const expected = Candidate({
+    name: 'Tim',
+    status: 'pending',
+    _id: '5abf3dcf1d567955609d2bd4'
+  })
 
   it('should call findById with the correct Parameters', async () => {
     const candidateFindStub = sinon.stub(Candidate, 'findById').resolves(expected)
@@ -95,12 +111,19 @@ describe('GET /candidates/:candidateId', async () => {
 // })
 
 describe('POST /candidates/:id/comments', async () => {
-  const candidate = new Candidate({ name: 'Tim', resumeID: 'a', email: 'a', major: 'a' })
+  const candidate = new Candidate({
+    name: 'Tim',
+    resumeID: 'a',
+    email: 'a',
+    major: 'a'
+  })
   await candidate.save()
   it('should add a comment', async () => {
     const res = await request(app)
       .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
-      .send({ comment: 'test comment' })
+      .send({
+        comment: 'test comment'
+      })
       .expect(200)
   })
 
@@ -122,21 +145,27 @@ describe('POST /candidates/:id/status', async () => {
   it('should change the status', async () => {
     const res = await request(app)
       .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)
-      .send({ status: 'Accepted' })
+      .send({
+        status: 'Accepted'
+      })
       .expect(200)
   })
 
   it('should return 403 if key does not end in lead suffix', async () => {
     const res = await request(app)
       .post(`/candidates/${candidateStatus._id}/status?key=${NONLEAD_KEY}`)
-      .send({ status: 'Accepted' })
+      .send({
+        status: 'Accepted'
+      })
       .expect(403)
   })
 
   it('should return 400 if status is not an accepted Status', async () => {
     const res = await request(app)
       .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)
-      .send({ status: 'Weird Status' })
+      .send({
+        status: 'Weird Status'
+      })
       .expect(400)
   })
 })

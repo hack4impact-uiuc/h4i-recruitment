@@ -39,7 +39,10 @@ describe('GET verify_interviewer/:key', () => {
       code: 200,
       message: 'key is verified',
       success: true,
-      result: { name: 'Test Key', is_lead: true }
+      result: {
+        name: 'Test Key',
+        is_lead: true
+      }
     })
     const res = await request(app).get(`/interviews/verify_interviewer?key=${KEY}`)
     expect(200).to.eq(res.status)
