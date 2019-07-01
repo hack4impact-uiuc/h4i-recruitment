@@ -1,19 +1,10 @@
 const request = require('supertest')
 const sinon = require('sinon')
-const {
-  expect
-} = require('chai')
+const { expect } = require('chai')
 const app = require('../src/app')
-const {
-  Candidate
-} = require('../src/models')
-const {
-  KEY,
-  NONLEAD_KEY
-} = require('./utils')
-const {
-  statusEnums
-} = require('../src/utils/enums')
+const { Candidate } = require('../src/models')
+const { KEY, NONLEAD_KEY } = require('./utils')
+const { statusEnums } = require('../src/utils/enums')
 require('./mongo_utils')
 
 // for expects/assertions, look at chai
@@ -32,11 +23,14 @@ describe('GET /candidates', done => {
   })
   it('should return array of Objects', async () => {
     // stub the find() function of Candidates and make it return a Promise that resolves to the array specified inside
-    sinon.stub(Candidate, 'find').resolves([{
-      name: 'Tim'
-    }, {
-      name: 'Tim2'
-    }])
+    sinon.stub(Candidate, 'find').resolves([
+      {
+        name: 'Tim'
+      },
+      {
+        name: 'Tim2'
+      }
+    ])
 
     const res = await request(app)
       .get(`/candidates?key=${KEY}`)
@@ -55,12 +49,12 @@ describe('GET /candidates', done => {
   })
 
   it('should call Candidate.find() with status parameters when `status` args is passed in', async () => {
-    const candidateFindStub = sinon
-      .stub(Candidate, 'find')
-      .resolves([{
+    const candidateFindStub = sinon.stub(Candidate, 'find').resolves([
+      {
         name: 'Tim',
         status: 'pending'
-      }])
+      }
+    ])
 
     const res = await request(app)
       .get(`/candidates?status=pending&&key=${KEY}`)

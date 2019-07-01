@@ -5,13 +5,20 @@ let mongoServer
 
 before(done => {
   mongoServer = new MongoMemoryServer()
-  mongoServer.getConnectionString().then(mongoUri => {
-    return mongoose.connect(mongoUri, {}, err => {
-      if (err) {
-        done(err)
-      }
+  mongoServer
+    .getConnectionString()
+    .then(mongoUri => {
+      return mongoose.connect(
+        mongoUri,
+        {},
+        err => {
+          if (err) {
+            done(err)
+          }
+        }
+      )
     })
-  }).then(() => done())
+    .then(() => done())
 })
 
 after(() => {
