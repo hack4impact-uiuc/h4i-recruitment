@@ -9,6 +9,7 @@ const Event = new mongoose.Schema({
   location: { type: String, required: true },
   description: { type: String, required: true },
   attendees: { type: [AttendeeSchema], required: true }, // subdocument
+  lateAttendees: { type: [mongoose.Schema.Types.ObjectId], required: true },
   fbLink: { type: String, required: true },
   workspaceId: { type: String }
 })
