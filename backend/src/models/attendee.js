@@ -6,7 +6,7 @@ const Attendee = new mongoose.Schema({
   year: { type: Number, required: true },
   candidate_id: { type: mongoose.Schema.Types.ObjectId, required: true },
   eventsAttended: { type: [String], required: true },
-  workspaceId: { type: String },
+  workspaceId: { type: String }
 })
 
 module.exports.AttendeeSchema = Attendee
