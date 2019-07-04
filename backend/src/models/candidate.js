@@ -39,7 +39,8 @@ const Candidate = new mongoose.Schema(
     lastStatusChangeByUser: {
       name: { type: String },
       key: { type: String }
-    }
+    },
+    workspaceId: { type: String }
   },
   { timestamps: true }
 )
