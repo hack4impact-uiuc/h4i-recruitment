@@ -43,7 +43,6 @@ router.post(
       endTime: data.endTime,
       location: data.location,
       description: data.description,
-      attendees: [],
       fbLink: data.fbLink
     })
     await newEvent.save()
