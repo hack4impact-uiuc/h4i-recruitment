@@ -5,6 +5,7 @@ const matchCandidates = require('./matchCandidates')
 const matches = require('./matches')
 const structure = require('./structure')
 const events = require('./events')
+const attendees = require('./attendees')
 
 module.exports = {
   candidates,
@@ -13,5 +14,6 @@ module.exports = {
   matchCandidates,
   matches,
   structure,
-  events
+  events,
+  attendees
 }

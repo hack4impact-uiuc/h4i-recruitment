@@ -7,6 +7,7 @@ const Match = require('./match')
 const Comment = require('./comment').CommentModel
 const Structure = require('./structure')
 const Event = require('./event')
+const Attendee = require('./attendee')
 
 module.exports = {
   Candidate,
@@ -16,5 +17,6 @@ module.exports = {
   Comment,
   Structure,
   FutureInterview,
-  Event
+  Event,
+  Attendee
 }
