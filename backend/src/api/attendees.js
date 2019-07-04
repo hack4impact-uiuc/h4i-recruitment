@@ -22,7 +22,7 @@ router.get(
   '/:netId',
   errorWrap(async (req, res) => {
     const netId = req.params.netId
-    const attendee = await Attendee.find({netId})
+    const attendee = await Attendee.find({ netId })
     res.json({
       code: 200,
       result: attendee,
@@ -37,10 +37,10 @@ router.post(
   errorWrap(async (req, res) => {
     const data = req.body
     const newAttendee = new Attendee({
-        name: data.name,
-        netId: data.netId,
-        email: data.netId + "@illinois.edu",
-        year: data.year
+      name: data.name,
+      netId: data.netId,
+      email: data.netId + '@illinois.edu',
+      year: data.year
     })
 
     await newAttendee.save()
@@ -71,7 +71,11 @@ router.put(
       fieldsToUpdate['year'] = data.year
     }
 
-    const attendee = await Attendee.findOneAndUpdate({netId}, { $set: fieldsToUpdate }, { new: true })
+    const attendee = await Attendee.findOneAndUpdate(
+      { netId },
+      { $set: fieldsToUpdate },
+      { new: true }
+    )
     const ret = attendee
       ? {
           code: 200,
@@ -92,7 +96,7 @@ router.delete(
   '/:netId',
   errorWrap(async (req, res) => {
     const netId = req.params.netId
-    const attendee = await Attendee.findOneAndRemove({netId})
+    const attendee = await Attendee.findOneAndRemove({ netId })
     const ret = attendee
       ? {
           code: 200,
