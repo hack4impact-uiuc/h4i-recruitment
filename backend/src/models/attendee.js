@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 
 const Attendee = new mongoose.Schema({
   name: { type: String, required: true },
-  netId: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   year: { type: String, required: true },
   attendedEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },

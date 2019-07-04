@@ -8,8 +8,8 @@ const Event = new mongoose.Schema({
   endTime: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String, required: true },
-  attendees: { type: [AttendeeSchema], required: true }, // subdocument
-  lateAttendees: { type: [mongoose.Schema.Types.ObjectId], required: true },
+  attendees: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  lateAttendees: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   fbLink: { type: String, required: true },
   workspaceId: { type: String }
 })

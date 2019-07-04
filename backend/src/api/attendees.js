@@ -19,10 +19,10 @@ router.get(
 
 // get one attendee
 router.get(
-  '/:netId',
+  '/:attendeeId',
   errorWrap(async (req, res) => {
-    const netId = req.params.netId
-    const attendee = await Attendee.find({ netId })
+    const attendeeId = req.params.attendeeId
+    const attendee = await Attendee.findById(attendeeId)
     res.json({
       code: 200,
       result: attendee,
@@ -38,8 +38,7 @@ router.post(
     const data = req.body
     const newAttendee = new Attendee({
       name: data.name,
-      netId: data.netId,
-      email: data.netId + '@illinois.edu',
+      email: data.email,
       year: data.year
     })
 
@@ -54,25 +53,24 @@ router.post(
 
 // update an attendee
 router.put(
-  '/:netId',
+  '/:attendeeId',
   errorWrap(async (req, res) => {
     const data = req.body
-    const netId = req.params.netId
+    const attendeeId = req.params.attendeeId
     let fieldsToUpdate = {}
 
     if (data.name !== undefined) {
       fieldsToUpdate['name'] = data.name
     }
-    if (data.netId !== undefined) {
-      fieldsToUpdate['netId'] = data.netId
-      fieldsToUpdate['email'] = data.netId + '@illinois.edu'
+    if (data.email !== undefined) {
+      fieldsToUpdate['email'] = data.email
     }
     if (data.year !== undefined) {
       fieldsToUpdate['year'] = data.year
     }
 
-    const attendee = await Attendee.findOneAndUpdate(
-      { netId },
+    const attendee = await Attendee.findByIdAndUpdate(
+      attendeeId,
       { $set: fieldsToUpdate },
       { new: true }
     )
@@ -93,10 +91,10 @@ router.put(
 
 // delete an attendee
 router.delete(
-  '/:netId',
+  '/:attendeeId',
   errorWrap(async (req, res) => {
-    const netId = req.params.netId
-    const attendee = await Attendee.findOneAndRemove({ netId })
+    const attendeeId = req.params.attendeeId
+    const attendee = await Attendee.findByIdAndRemove(attendeeId)
     const ret = attendee
       ? {
           code: 200,
