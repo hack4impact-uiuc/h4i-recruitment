@@ -8,6 +8,7 @@ const Comment = require('./comment').CommentModel
 const Structure = require('./structure')
 const Cycle = require('./cycle')
 const Event = require('./event')
+const Attendee = require('./attendee')
 
 module.exports = {
   Candidate,
@@ -18,5 +19,6 @@ module.exports = {
   Structure,
   FutureInterview,
   Cycle,
-  Event
+  Event,
+  Attendee
 }

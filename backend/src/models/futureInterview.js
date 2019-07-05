@@ -10,7 +10,8 @@ const FutureInterview = new mongoose.Schema({
   interviewers: [{ type: String }],
   room: { type: String },
   date: { type: String },
-  time: { type: String }
+  time: { type: String },
+  workspaceId: { type: String }
 })
 
 module.exports = mongoose.model('FutureInterview', FutureInterview)

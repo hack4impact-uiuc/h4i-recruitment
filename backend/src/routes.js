@@ -7,7 +7,8 @@ const {
   matchCandidates,
   matches,
   structure,
-  events
+  events,
+  attendees
 } = require('./api')
 var XLSX = require('xlsx')
 
@@ -24,5 +25,6 @@ router.use('/matchCandidates', matchCandidates)
 router.use('/matches', matches)
 router.use('/structure', structure)
 router.use('/events', events)
+router.use('/attendees', attendees)
 
 module.exports = router

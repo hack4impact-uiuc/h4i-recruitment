@@ -1,3 +1,4 @@
+## Setup
 ```
 yarn global add dotenv-cli
 ```
@@ -19,6 +20,8 @@ yarn
 dotenv yarn run dev
 ```
 
+### Local Mongo Setup
+
 For development, you would need docker, or you must spin up a mongodb instance locally. Then make a `.env` file in the `/backend` folder with the following contents:
 ```
 MONGO_URL=mongodb://mongoadmin:secret@localhost:27017/admin
@@ -31,6 +34,14 @@ Afterwards, run `recreate_db.sh`:
 $ ./recreate_db.sh
 ```
 Note: it will not run if you don't have docker running. If you don't have docker, startup mongodb running on `localhost` port `27017` and create a user: `mongoadmin` with password: `secret` with the authentication db as `admin`. Then, run `yarn populatedb` to populate the database (it connects to the database specified under `MONGO_URL` in the `.env` file).
+
+### MLab Mongo Setup
+
+If the mongo url is an MLab url, you don't need to do any setup.
+
+## Testing
+
+All the tests are in the `tests/` directory. To run them, simply run `npm run test` in the `backend/` directory.
 
 ## Deployment
 

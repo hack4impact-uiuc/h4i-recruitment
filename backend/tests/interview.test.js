@@ -1,35 +1,16 @@
 const request = require('supertest')
 const { expect, assert } = require('chai')
-const mongoose = require('mongoose')
-const Mockgoose = require('mockgoose-fix').Mockgoose
 const app = require('../src/app')
 const { KEY } = require('./utils')
 const { Interview, Candidate } = require('../src/models')
-
-const mockgoose = new Mockgoose(mongoose)
+require('./mongo_utils')
 
 var chai = require('chai')
 let should = chai.should()
 
-before(done => {
-  // Tests might not run on some computers without the following line
-  // mockgoose.helper.setDbVersion('3.2.1')
-  mockgoose.prepareStorage().then(() => {
-    mongoose.connect(
-      '',
-      function(err) {
-        done(err)
-      }
-    )
-  })
-})
-
-// This after block is necessary because tests dont terminate when run
-// Link to issue: https://github.com/Mockgoose/Mockgoose/issues/71
-after(async () => {
-  await mockgoose.helper.reset()
-  await mongoose.disconnect()
-  mockgoose.mongodHelper.mongoBin.childProcess.kill('SIGTERM')
+beforeEach(async () => {
+  await Candidate.deleteMany()
+  await Interview.deleteMany()
 })
 
 describe('GET verify_interviewer/:key', () => {
@@ -58,7 +39,10 @@ describe('GET verify_interviewer/:key', () => {
       code: 200,
       message: 'key is verified',
       success: true,
-      result: { name: 'Test Key', is_lead: true }
+      result: {
+        name: 'Test Key',
+        is_lead: true
+      }
     })
     const res = await request(app).get(`/interviews/verify_interviewer?key=${KEY}`)
     expect(200).to.eq(res.status)

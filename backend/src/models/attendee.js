@@ -2,11 +2,12 @@ const mongoose = require('mongoose')
 
 const Attendee = new mongoose.Schema({
   name: { type: String, required: true },
-  netid: { type: String, required: true },
-  year: { type: Number, required: true },
-  candidate_id: { type: mongoose.Schema.Types.ObjectId, required: true },
-  eventsAttended: { type: [String], required: true }
+  email: { type: String, required: true, unique: true },
+  year: { type: String, required: true },
+  attendedEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  lateEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  candidateId: { type: mongoose.Schema.Types.ObjectId, default: null },
+  workspaceId: { type: String }
 })
 
-module.exports.AttendeeSchema = Attendee
-module.exports.AttendeeModel = mongoose.model('Attendee', Attendee)
+module.exports = mongoose.model('Attendee', Attendee)

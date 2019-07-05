@@ -57,7 +57,7 @@ If your branch was already pushed to github, do this as well:
 git push --force-with-lease origin my-branch
 ```
 ### Step 5: Test
-A test suite will be coming soon :) You must always write tests for your features and changes.
+We have tests setup for our backend. In the `backend/` directory, run `npm run test` to run the tests. To write tests, add your tests to the `backend/tests/` directory. See other files there for examples.
 
 ### Step 6: Opening your PR
 Push your branch to github and open a PR! From there, reference the issues related to your PR just like you did in your commits in the description section. Add the collaborators as reviewers, especially including the owner of the issue (unless it's yourself). Please fill out as many details and include Screenshots if your work is on the frontend. Then, add a `In Review` Label and add in into the relevant Projects Board.

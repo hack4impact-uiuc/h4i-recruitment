@@ -482,8 +482,8 @@ const populateDB = async () => {
   await newCandidate.save()
 
   newCandidate = new Candidate({
-    name: 'Ashank Verma',
-    email: 'ashank.verma@gmail.com',
+    name: 'Alan Fang',
+    email: 'alanfang@gmail.com',
     graduationDate: 'Spring 2022',
     status: 'Pending',
     major: 'Computer Science and Statistics',
