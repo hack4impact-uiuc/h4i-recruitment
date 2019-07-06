@@ -1,16 +1,23 @@
 const express = require('express')
+const mongodb = require('mongodb')
 const { Cycle } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
+// Get all cycles (previous and current)
 router.get(
   '/',
   errorWrap(async (req, res) => {
     const cycle = await Cycle.find()
-    res.send({ result: cycle })
+    res.json({
+      code: 200,
+      result: cycle,
+      success: true
+    })
   })
 )
 
+// Create a new cycle
 router.post(
   '/',
   [directorsOnly],
@@ -23,10 +30,10 @@ router.post(
     const newChapter = req.body.chapter
 
     if (!newTerm) {
-        response = 'Invalid term'
+      response = 'Invalid term'
     }
     if (!newChapter) {
-        response = 'Invalid chapter'
+      response = 'Invalid chapter'
     }
 
     const cycle = new Cycle({

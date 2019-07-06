@@ -28,7 +28,7 @@ router.get(
   })
 )
 
-// Adding a filter? I have no clue
+// Adding a filter to view candidates through
 router.post(
   '/query',
   [leadsOnly],
