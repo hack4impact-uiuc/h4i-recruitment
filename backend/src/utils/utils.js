@@ -12,10 +12,10 @@ const getStats = async () => {
   return newStats
 }
 
-const attendeeIsLate = (event) => {
+const attendeeIsLate = event => {
   const curMoment = moment()
   const startMoment = moment(`${event.date} ${event.startTime}`)
-  
+
   if (curMoment.isAfter(startMoment)) {
     return true
   }

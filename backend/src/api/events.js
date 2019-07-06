@@ -107,10 +107,10 @@ router.put(
     const data = req.body
     const eventId = req.params.eventId
     const attendeeEmail = data.email
-    
+
     const event = await Event.findById(eventId)
     if (event) {
-      let attendee = await Attendee.findOne({email: attendeeEmail})
+      let attendee = await Attendee.findOne({ email: attendeeEmail })
 
       // create new attendee if not in db
       if (!attendee) {
@@ -131,7 +131,7 @@ router.put(
           success: true
         })
       }
-      
+
       // update event attendees and attendee events
       event.attendees.push(attendeeEmail)
       attendee.attendedEvents.push(eventId)
@@ -147,8 +147,8 @@ router.put(
 
       res.json({
         code: 200,
-        message: "Successfully Checked In",
-        success: true,
+        message: 'Successfully Checked In',
+        success: true
       })
     } else {
       res.json({
