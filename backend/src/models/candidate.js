@@ -23,6 +23,7 @@ const Candidate = new mongoose.Schema(
     timeCommitment: { type: String },
     timeCanDevote: { type: String },
     techExperience: { type: String },
+    attendedEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
     howTheyKnowUs: { type: String },
     classesTaken: [String],
     referrals: [String],

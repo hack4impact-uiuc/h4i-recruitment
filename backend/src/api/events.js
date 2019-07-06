@@ -2,13 +2,14 @@ const express = require('express')
 const mongodb = require('mongodb')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
-const { Event } = require('../models')
+const { Attendee, Event } = require('../models')
+const { attendeeIsLate } = require('../utils/utils.js')
 
 // get all events
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const events = await Event.find({})
+    const events = await Event.find()
     res.json({
       code: 200,
       result: events,
@@ -96,6 +97,66 @@ router.put(
           success: false
         }
     res.json(ret)
+  })
+)
+
+// check in to an event
+router.put(
+  '/:eventId/attendees',
+  errorWrap(async (req, res) => {
+    const data = req.body
+    const eventId = req.params.eventId
+    const attendeeEmail = data.email
+    
+    const event = await Event.findById(eventId)
+    if (event) {
+      let attendee = await Attendee.findOne({email: attendeeEmail})
+
+      // create new attendee if not in db
+      if (!attendee) {
+        const newAttendee = new Attendee({
+          name: data.name,
+          email: attendeeEmail,
+          year: data.year
+        })
+        await newAttendee.save()
+        attendee = newAttendee
+      }
+
+      // prevent duplicate check-ins
+      if (event.attendees.includes(attendeeEmail)) {
+        res.json({
+          code: 200,
+          message: 'Already Checked In',
+          success: true
+        })
+      }
+      
+      // update event attendees and attendee events
+      event.attendees.push(attendeeEmail)
+      attendee.attendedEvents.push(eventId)
+
+      // handle tardiness
+      if (attendeeIsLate(event)) {
+        event.lateAttendees.push(attendeeEmail)
+        attendee.lateEvents.push(eventId)
+      }
+
+      await event.save()
+      await attendee.save()
+
+      res.json({
+        code: 200,
+        message: "Successfully Checked In",
+        success: true,
+      })
+    } else {
+      res.json({
+        code: 404,
+        message: 'Event Not Found',
+        success: false
+      })
+    }
   })
 )
 
