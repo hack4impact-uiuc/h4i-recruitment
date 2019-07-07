@@ -1,5 +1,4 @@
 const express = require('express')
-const mongodb = require('mongodb')
 const { Cycle } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
@@ -8,7 +7,22 @@ const router = express.Router()
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const cycle = await Cycle.find()
+    const cycles = await Cycle.find()
+    res.json({
+      code: 200,
+      result: cycles,
+      success: true
+    })
+  })
+)
+
+// Get a cycle by ID
+router.get(
+  '/:cycle_id',
+  [directorsOnly],
+  errorWrap(async (req, res) => {
+    const cycleId = req.params.cycle_id
+    const cycle = await Cycle.findById(cycleId)
     res.json({
       code: 200,
       result: cycle,
