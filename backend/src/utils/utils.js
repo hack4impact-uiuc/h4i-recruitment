@@ -16,10 +16,7 @@ const attendeeIsLate = event => {
   const curMoment = moment()
   const startMoment = moment(`${event.date} ${event.startTime}`)
 
-  if (curMoment.isAfter(startMoment)) {
-    return true
-  }
-  return false
+  return curMoment.isAfter(startMoment)
 }
 
 module.exports = {

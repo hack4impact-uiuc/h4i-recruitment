@@ -109,18 +109,24 @@ router.put(
     const attendeeEmail = data.email
 
     const event = await Event.findById(eventId)
-    if (event) {
+
+    if (!event) {
+      res.json({
+        code: 404,
+        message: 'Event Not Found',
+        success: false
+      })
+    } else {
       let attendee = await Attendee.findOne({ email: attendeeEmail })
 
       // create new attendee if not in db
       if (!attendee) {
-        const newAttendee = new Attendee({
+        attendee = new Attendee({
           name: data.name,
           email: attendeeEmail,
           year: data.year
         })
-        await newAttendee.save()
-        attendee = newAttendee
+        await attendee.save()
       }
 
       // prevent duplicate check-ins
@@ -149,12 +155,6 @@ router.put(
         code: 200,
         message: 'Successfully Checked In',
         success: true
-      })
-    } else {
-      res.json({
-        code: 404,
-        message: 'Event Not Found',
-        success: false
       })
     }
   })

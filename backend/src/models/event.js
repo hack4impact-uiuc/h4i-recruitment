@@ -7,8 +7,8 @@ const Event = new mongoose.Schema({
   endTime: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String, required: true },
-  attendees: { type: [String], default: [] },
-  lateAttendees: { type: [String], default: [] },
+  attendeeEmails: { type: [String], default: [] },
+  lateAttendeeEmails: { type: [String], default: [] },
   fbLink: { type: String, required: true },
   workspaceId: { type: String }
 })
