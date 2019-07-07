@@ -1,4 +1,5 @@
 const { Stats } = require('../models')
+const moment = require('moment')
 
 const getStats = async () => {
   const res = await Stats.find()
@@ -11,6 +12,14 @@ const getStats = async () => {
   return newStats
 }
 
+const attendeeIsLate = event => {
+  const curMoment = moment()
+  const startMoment = moment(`${event.date} ${event.startTime}`)
+
+  return curMoment.isAfter(startMoment)
+}
+
 module.exports = {
-  getStats
+  getStats,
+  attendeeIsLate
 }
