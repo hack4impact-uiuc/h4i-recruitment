@@ -6,6 +6,7 @@ const router = express.Router()
 // Get all cycles (previous and current)
 router.get(
   '/',
+  [directorsOnly],
   errorWrap(async (req, res) => {
     const cycles = await Cycle.find()
     res.json({
@@ -37,8 +38,7 @@ router.post(
   [directorsOnly],
   errorWrap(async (req, res) => {
     let response = 'Cycle Created Successfully'
-    let code = 404
-    // TODO: not sure if this should be 404 here
+    let code = 400
 
     const newTerm = req.body.term
     const newChapter = req.body.chapter
