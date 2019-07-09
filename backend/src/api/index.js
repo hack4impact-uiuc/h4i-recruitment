@@ -4,6 +4,7 @@ const futureInterview = require('./futureInterview')
 const matchCandidates = require('./matchCandidates')
 const matches = require('./matches')
 const structure = require('./structure')
+const cycle = require('./cycle')
 const events = require('./events')
 const attendees = require('./attendees')
 
@@ -14,6 +15,7 @@ module.exports = {
   matchCandidates,
   matches,
   structure,
+  cycle,
   events,
   attendees
 }

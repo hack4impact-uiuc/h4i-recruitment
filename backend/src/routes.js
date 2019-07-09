@@ -7,6 +7,7 @@ const {
   matchCandidates,
   matches,
   structure,
+  cycle,
   events,
   attendees
 } = require('./api')
@@ -24,6 +25,7 @@ router.use('/candidates', candidates)
 router.use('/matchCandidates', matchCandidates)
 router.use('/matches', matches)
 router.use('/structure', structure)
+router.use('/cycle', cycle)
 router.use('/events', events)
 router.use('/attendees', attendees)
 
