@@ -67,10 +67,17 @@ const interviewGetCategorySection = interview => {
   }
   return null
 }
+
+const convertUTCToLocal = utcStr => {
+  const newDate = new Date(Date.parse(utcStr))
+  return newDate.toLocaleString()
+}
+
 export {
-  compareByFacemashScore,
   avgInterviewScore,
+  compareByFacemashScore,
   compareByAvgInterviewScore,
+  convertUTCToLocal,
   getNumOfInterviews,
   interviewGetCategorySection
 }

@@ -143,7 +143,7 @@ class CandidatePage extends Component<Props> {
                 color="primary"
                 onClick={() => this.handleShowAllInterviews(candidate._id)}
               >
-                Show Candidate Interviews
+                Show Interviews
               </Button>
               <Button
                 outline
@@ -159,6 +159,7 @@ class CandidatePage extends Component<Props> {
               <Button
                 outline
                 color="primary"
+                className="ml-3"
                 onClick={() => this.handleRemoveReferral(candidate._id)}
               >
                 Delete Refer
@@ -184,6 +185,7 @@ class CandidatePage extends Component<Props> {
                 isOpen={this.state.addNotesModal}
                 toggle={this.toggle}
               />
+              <hr />
               <CommentBox comments={candidate.comments} />
             </Col>
           </Row>
