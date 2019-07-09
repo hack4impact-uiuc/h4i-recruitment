@@ -138,9 +138,9 @@ p > b {
   width: 200px;
 }
 .comment-header {
-  background-color: #d6ebf0;
+  background-color: #f6f8fa;
   padding: 15px 20px;
-  color: #616870;
+  color: #d1d5da;
 }
 .comment-header p {
   margin: 0px !important;

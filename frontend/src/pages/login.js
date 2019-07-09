@@ -18,7 +18,7 @@ class Login extends Component<Props> {
     const { success } = await validateKey(this.state.currentKey)
     if (success) {
       localStorage.setItem('interviewerKey', this.state.currentKey)
-      Router.push('/facemash')
+      Router.push('/dashboard')
     }
   }
   onTextChange = e => {
