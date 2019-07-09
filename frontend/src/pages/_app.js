@@ -34,7 +34,6 @@ export default withRedux(configureStore, { debug: true })(
         <Container>
           <Provider store={store}>
             <div>
-              <Head />
               {this.state.hasError ? (
                 <ErrorMessage
                   code="404"

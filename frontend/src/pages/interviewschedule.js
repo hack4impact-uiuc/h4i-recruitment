@@ -8,6 +8,7 @@ import ActionButton from '../components/actionButton'
 import Link from 'next/link'
 import { getInterviewSchedule, addInterviewSchedule } from '../utils/api'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 type Props = {}
 
@@ -115,6 +116,7 @@ class InterviewSchedule extends Component<Props> {
   render() {
     return (
       <div>
+        <Head title="Interview Schedule" />
         <Nav />
         <Container style={{ overflow: 'hidden' }}>
           <h1>Upcoming Interviews</h1>

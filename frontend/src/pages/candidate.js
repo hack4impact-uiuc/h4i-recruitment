@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Container, Button, Alert, Row, Col } from 'reactstrap'
+import { Container, Button, Row, Col } from 'reactstrap'
 import Router from 'next/router'
+import Head from '../components/head'
 import { bindActionCreators } from 'redux'
 import Candidate from '../components/candidates/candidateBox'
 import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
@@ -118,6 +119,7 @@ class CandidatePage extends Component<Props> {
     const { candidate } = this.state
     return (
       <>
+        <Head title={candidate.name} />
         <Nav />
         <Container className="mt-5">
           <Row>

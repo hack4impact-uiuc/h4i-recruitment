@@ -9,6 +9,7 @@ import CandidateLinksBadge from '../components/candidateLinksBadge'
 import { compareByFacemashScore } from '../utils/core'
 import ChangeStatus from '../components/changeStatus'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 type Props = {}
 
@@ -46,6 +47,7 @@ class TablePage extends React.Component<Props> {
     filteredCandidates.sort(compareByFacemashScore)
     return (
       <>
+        <Head title="Table View" />
         <Nav />
         <Container>
           <Row>

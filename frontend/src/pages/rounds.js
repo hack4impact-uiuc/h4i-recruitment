@@ -8,6 +8,7 @@ import RoundDropdown from '../components/roundDropdown'
 import roundData from '../data/roundData.js'
 import { setRoundRedux } from '../actions'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 const mapStateToProps = state => ({
   round: state.round,
@@ -56,6 +57,7 @@ class Rounds extends Component {
   render() {
     return (
       <>
+        <Head title="Interview Rounds" />
         <Nav />
         <div className="align-middle round-box">
           <Modal isOpen={this.state.modalOpen} autoFocus={false}>

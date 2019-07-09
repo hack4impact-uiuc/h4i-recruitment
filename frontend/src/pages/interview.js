@@ -8,7 +8,10 @@ import {
   Container,
   Col,
   Row,
-  FormFeedback
+  FormFeedback,
+  Toast,
+  ToastHeader,
+  ToastBody
 } from 'reactstrap'
 import Link from 'next/link'
 import React from 'react'
@@ -24,6 +27,7 @@ import InterviewSectionModular from '../components/interviewSectionModular'
 import { getKey, addInterview, getCandidates } from '../utils/api'
 import roundData from '../data/roundData'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 type Props = {
   error: boolean,
@@ -173,6 +177,7 @@ class Interview extends Component<Props> {
     }
     return (
       <>
+        <Head title={`Adding ${this.props.candidateName} Interview`} />
         <Nav />
         <Container>
           <Row style={{ marginTop: '20px' }}>
@@ -182,6 +187,14 @@ class Interview extends Component<Props> {
             </Col>
             <Col md="4">
               <CandidateDropdown candidates={candidates} />
+            </Col>
+            <Col md="4">
+              <Toast>
+                <ToastHeader icon="warning">
+                  Write your notes somewhere else & copy it over afterwards!
+                </ToastHeader>
+                <ToastBody>Just in case, so you won't lose any of your notes.</ToastBody>
+              </Toast>
             </Col>
           </Row>
           <Row>

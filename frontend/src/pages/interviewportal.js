@@ -14,6 +14,7 @@ import {
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 type Props = {}
 
@@ -91,6 +92,7 @@ class InterviewPortal extends Component<Props> {
     const { interviews } = this.state
     return (
       <>
+        <Head title="Interviews" />
         <Nav />
         <Container>
           <h1>Interviews</h1>
@@ -152,8 +154,8 @@ class InterviewPortal extends Component<Props> {
                   ]
                 })
               ) : (
-                <tr>No Interviews</tr>
-              )}
+                  <tr>No Interviews</tr>
+                )}
             </tbody>
           </Table>
         </Container>

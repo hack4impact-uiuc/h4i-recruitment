@@ -24,7 +24,7 @@
     "react-minimal-pie-chart": "^3.3.0",
     "react-redux": "^5.0.7",
     "react-select": "^2.0.0",
-    "reactstrap": "^6.1.0",
+    "reactstrap": "^8.0.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
     "sort-json-array": "^0.1.7"

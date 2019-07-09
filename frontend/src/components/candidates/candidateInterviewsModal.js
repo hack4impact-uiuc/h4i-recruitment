@@ -67,7 +67,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
                 onExitDetails={this.handleExitDetails}
                 interview={this.state.currentInterview}
               />
-            ) : this.state.interviews ? (
+            ) : this.state.interviews && this.state.interviews.length > 0 ? (
               this.state.interviews.map(interview => {
                 return (
                   <InterviewCard
@@ -81,7 +81,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
                 )
               })
             ) : (
-              <h1> No Interviews Have Been Recorded So Far </h1>
+              <p> No interviews for {this.props.candidateName} have been recorded so far </p>
             )}
           </ModalBody>
           <ModalFooter>

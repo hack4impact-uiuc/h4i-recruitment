@@ -12,6 +12,7 @@ import { avgInterviewScore, interviewGetCategorySection } from '../utils/core'
 import ActionLink from '../components/actionLink'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
+import Head from '../components/head'
 import roundData from '../data/roundData'
 
 const CardCol = ({ children, ...rest }) => (
@@ -73,6 +74,7 @@ class InterviewListPage extends React.Component<Props> {
     )
     return (
       <>
+        <Head title="My Interviews" />
         <Nav />
         <Container>
           <Row>

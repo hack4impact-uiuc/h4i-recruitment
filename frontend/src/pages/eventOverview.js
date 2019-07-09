@@ -19,6 +19,7 @@ import {
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import { getAllEvents, createEvent } from '../utils/api'
+import Head from '../components/head'
 
 class EventOverview extends React.Component<Props> {
   constructor(props) {
@@ -88,6 +89,7 @@ class EventOverview extends React.Component<Props> {
     const alert = this.state.alert ? <Alert color="danger">{this.state.alert}</Alert> : null
     return (
       <>
+        <Head title="Events" />
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
