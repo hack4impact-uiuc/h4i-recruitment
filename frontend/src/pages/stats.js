@@ -3,6 +3,7 @@ import { Container } from 'reactstrap'
 import { getCandidates } from '../utils/api'
 import { statusEnum, yearsEnum } from '../utils/enums'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 type Props = {}
 
@@ -32,6 +33,7 @@ class StatsPage extends Component<Props> {
     )
     return (
       <>
+        <Head title="Email & Stats" />
         <Nav />
         <Container>
           <h1>Statistics</h1>

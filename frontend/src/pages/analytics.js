@@ -8,6 +8,7 @@ import { Pie } from 'react-chartjs-2'
 import { addFilter, removeFilter } from '../actions'
 import PieComponent from '../components/pieComponent'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 type Props = {}
 
@@ -118,6 +119,7 @@ class Analytics extends React.Component<Props> {
     }
     return (
       <>
+        <Head title="Analytics" />
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>

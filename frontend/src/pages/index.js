@@ -4,7 +4,7 @@ import { Button, Container, Input, Row, Col } from 'reactstrap'
 import { validateKey } from '../utils/api'
 import ReactLoading from 'react-loading'
 import Nav from '../components/nav'
-
+import Head from '../components/head'
 type Props = {}
 
 class LoginPage extends React.Component<Props> {
@@ -46,6 +46,7 @@ class LoginPage extends React.Component<Props> {
   render() {
     return (
       <>
+        <Head />
         <Nav />
         <Container>
           {this.state.loading ? (

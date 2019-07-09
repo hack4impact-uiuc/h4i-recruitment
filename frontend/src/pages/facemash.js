@@ -9,6 +9,7 @@ import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/facemashProfile'
 import ErrorMessage from '../components/errorMessage'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
 type Props = {
   candidates: Array<any>,
@@ -118,6 +119,7 @@ class FaceMash extends Component<Props> {
 
     return candidates && candidates.length == 2 ? (
       <div>
+        <Head title="Facemash" />
         <Nav />
         <Container>
           <div className="mt-5" style={{ color: '#7f8e9e' }}>

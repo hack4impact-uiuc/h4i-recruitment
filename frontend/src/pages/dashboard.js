@@ -3,6 +3,7 @@ import React from 'react'
 import { Container, Row, Table, Col, FormGroup, Label, Input } from 'reactstrap'
 import Link from 'next/link'
 import { connect } from 'react-redux'
+import Head from '../components/head'
 import { bindActionCreators } from 'redux'
 import { addFilter, removeFilter } from '../actions'
 import { getCandidates, setCandidateStatus } from '../utils/api'
@@ -132,6 +133,7 @@ class Dashboard extends React.Component<Props> {
     let selects = this.state.filters.selectBy
     return (
       <>
+        <Head title="Home" />
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
@@ -235,7 +237,7 @@ class Dashboard extends React.Component<Props> {
                                 <> </>
                               )}
                               {selects.includes('Roles') ? (
-                                <td>{candidate.role.join(' ')}</td>
+                                <td>{candidate.role.join(', ')}</td>
                               ) : (
                                 <> </>
                               )}
