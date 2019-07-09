@@ -130,7 +130,7 @@ router.put(
       }
 
       // prevent duplicate check-ins
-      if (event.attendees.includes(attendeeEmail)) {
+      if (event.attendeeEmails.includes(attendeeEmail)) {
         res.json({
           code: 200,
           message: 'Already Checked In',
@@ -139,12 +139,12 @@ router.put(
       }
 
       // update event attendees and attendee events
-      event.attendees.push(attendeeEmail)
+      event.attendeeEmails.push(attendeeEmail)
       attendee.attendedEvents.push(eventId)
 
       // handle tardiness
       if (attendeeIsLate(event)) {
-        event.lateAttendees.push(attendeeEmail)
+        event.lateAttendeeEmails.push(attendeeEmail)
         attendee.lateEvents.push(eventId)
       }
 
