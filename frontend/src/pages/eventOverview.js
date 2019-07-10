@@ -198,7 +198,7 @@ class EventOverview extends React.Component<Props> {
                     <td>{event.date}</td>
                     <td>{`${event.startTime} - ${event.endTime}`}</td>
                     <td>{event.location}</td>
-                    <td>{event.attendees.length}</td>
+                    <td>{event.attendeeEmails.length}</td>
                     <td>{event.fbLink}</td>
                     <td />
                   </tr>

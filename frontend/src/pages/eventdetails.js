@@ -2,8 +2,9 @@ import React from 'react'
 import { Table, Row, Button, Col, FormGroup, Label, Input, Container } from 'reactstrap'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
+import Head from '../components/head'
 
-class Events extends React.Component<Props> {
+class EventDetails extends React.Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,6 +38,7 @@ class Events extends React.Component<Props> {
   render() {
     return (
       <>
+        <Head />
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
@@ -106,4 +108,4 @@ class Events extends React.Component<Props> {
   }
 }
 
-export default Events
+export default EventDetails
