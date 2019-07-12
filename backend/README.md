@@ -10,7 +10,7 @@ npm install -g dotenv-cli
 ```
 
 Note: `yarn global add` will default to adding packages to `~/.yarn/bin` so by default, your terminal will not be able to locate the executable. See the [docs](https://yarnpkg.com/lang/en/docs/cli/global/) for more info. There's a couple ways to get past this, listed below:
-1) You can add yarn's default installation location to your `$PATH` environment variable, so that your terminal knows where to look for the executables. You can do this by adding `export PATH="$(yarn global bin):$PATH"` as a line in your `~/.bashrc`. Then simply quit your terminal and reopen it and everything should work.
+1) You can add yarn's default installation location to your `$PATH` environment variable, so that your terminal knows where to look for the executables. You can do this by adding `export PATH="$(yarn global bin):$PATH"` as a line in your `~/.bashrc`. Then simply quit your terminal and reopen it (or run source ~/.bashrc) and everything should work.
 2) Alternatively, you can change the default global location for yarn (`yarn config set prefix <filepath>`) and set `filepath` to something like `/usr/local` or `/usr` (or anything else in your `$PATH` that makes sense). This second method will require you to re-run the above global add command.
 
 Then, you must copy a `.env` file and a `keys.json` file to this folder.
