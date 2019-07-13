@@ -178,7 +178,7 @@ class NavigationBar extends Component {
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link prefetch href="/adminRoles"> 
+                    <Link prefetch href="/adminRoles">
                       <a className="nav-bar-link pl-3">Admin</a>
                     </Link>
                   </NavItem>
