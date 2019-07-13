@@ -1,23 +1,11 @@
 import React from 'react'
-import Router from 'next/router'
 import {
-  Table,
-  Row,
   Button,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Container,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Alert
+  Table,
 } from 'reactstrap'
+import ChangeRole from '../components/changeRole';
 
-class AdminRoles extends React.Component<Props> {
+class AdminRoles extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -51,7 +39,7 @@ class AdminRoles extends React.Component<Props> {
                 </Dropdown.Item>
               </DropdownButton>
           </Table.Cell>
-        ) 
+        ) }
         <Table.Column header="Delete" accessor="deleteButton" />
       </Table>
     )
@@ -59,22 +47,14 @@ class AdminRoles extends React.Component<Props> {
 
   editButton() {
     return (
-      <Button onClick={this.handleEditClick()}/> 
+      <Button onClick={() => this.setState({ isEditing: true })}/> 
     )
   }
 
   saveButton() {
     return (
-      <Button onClick={this.handleSaveClick()}/> 
+      <Button onClick={() => this.setState({ isEditing: false })}/> 
     )
-  }
-
-  handleSaveClick() {
-    this.setState({ isEditing: false }); 
-  }
-
-  handleEditClick() {
-    this.setState({ isEditing: true }); 
   }
 
   render() {
@@ -89,10 +69,45 @@ class AdminRoles extends React.Component<Props> {
     }
 
     return (
-      <div>
-        {table}
-        {button}
-      </div>
+      // <div>
+      //   {this.editingTable()}
+      //   {/* {button} */}
+      // </div>
+      // <div>hello</div>
+      <Table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Year</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                <td>
+                                <ChangeRole
+                                  candidateID={1}
+                                  handleChange={this.handleChange}
+                                />
+                              </td>
+                              <td>
+                                <ChangeRole
+                                  candidateID={1}
+                                  handleChange={this.handleChange}
+                                />
+                              </td>
+                              <td>
+                                <ChangeRole
+                                  candidateID={1}
+                                  handleChange={this.handleChange}
+                                />
+                              </td>
+                </tr>
+              </tbody>
+              
+            </Table>
     )
   }
 }
+
+export default AdminRoles
