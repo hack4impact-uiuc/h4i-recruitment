@@ -137,18 +137,29 @@ function unmergeColumns(arr) {
 }
 
 function getTimesFromArray(arr) {
-  for (var row = 3; row < arr.length; row++) {
-    personObj = {}
-    personObj["name"] = arr[row][0]
-    personObj["availableTimes"] = []
-    for (var col = 1; col < arr[row].length-1; col++) {
-      if(arr[row][col] === "OK"){
-        datetimeStr = `${arr[0][col]} ${arr[1][col]} ${arr[2][col]}`
-        personObj["availableTimes"].push(moment(datetimeStr, "MMMM YYYY ddd DD hh:mm a").toDate())
+  let summaryDict = {}
+  let timeArray = []
+  for (var row = 3; row < arr.length - 1; row++) {
+    let personObj = {}
+    personObj['name'] = arr[row][0]
+    personObj['availableTimes'] = []
+    for (var col = 1; col < arr[row].length; col++) {
+      if (arr[row][col] === 'OK') {
+        // grab the date from the first few rows, concatenate and parse that date
+        let datetimeStr = `${arr[0][col]} ${arr[1][col]} ${arr[2][col]}`
+        personObj['availableTimes'].push(moment(datetimeStr, 'MMMM YYYY ddd DD hh:mm a').toDate())
       }
     }
-    console.log(personObj)
+    timeArray.push(personObj)
   }
+  summaryDict['times'] = timeArray
+  summaryDict['allTimes'] = []
+  for (var col = 1; col < arr[0].length; col++) {
+    let datetimeStr = `${arr[0][col]} ${arr[1][col]} ${arr[2][col]}`
+    summaryDict['allTimes'].push(moment(datetimeStr, 'MMMM YYYY ddd DD hh:mm a').toDate())
+  }
+  console.log(JSON.stringify(summaryDict))
+  return summaryDict
 }
 router.get(
   '/',
