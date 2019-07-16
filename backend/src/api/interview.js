@@ -24,7 +24,7 @@ router.get(
       code: statusCode,
       message: message,
       success: keyVerified,
-      result: { name: req._key_name, is_lead: req._is_lead }
+      result: { name: req._key_name, is_lead: req._is_lead, is_director: req._is_director }
     })
   })
 )
