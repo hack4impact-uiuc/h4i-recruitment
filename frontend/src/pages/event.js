@@ -10,7 +10,14 @@ class Event extends React.Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      event: null
+      name: '',
+      date: '',
+      startTime: '',
+      endTime: '',
+      location: '',
+      description: '',
+      fbLink: '',
+      attendeeEmails: []
     }
   }
 
@@ -18,12 +25,19 @@ class Event extends React.Component<Props> {
     const { query } = Router
     const { result } = await getEventById(query.id)
     this.setState({
-      event: result
+      name: result.name,
+      date: result.date,
+      startTime: result.startTime,
+      endTime: result.endTime,
+      location: result.location,
+      description: result.description,
+      fbLink: result.fbLink,
+      attendeeEmails: result.attendeeEmails
     })
   }
 
   render() {
-    return this.state.event ? (
+    return (
       <>
         <Head />
         <Nav />
@@ -31,7 +45,7 @@ class Event extends React.Component<Props> {
           <Container fluid>
             <Table>
               <thead>
-                <h2>{this.state.event.name}</h2>
+                <h2>{this.state.name}</h2>
                 <tr>
                   <th>Date</th>
                   <th>Start Time</th>
@@ -44,12 +58,12 @@ class Event extends React.Component<Props> {
               </thead>
               <tbody>
                   <tr>
-                    <td>{this.state.event.date}</td>
-                    <td>{this.state.event.startTime}</td>
-                    <td>{this.state.event.endTime}</td>
-                    <td>{this.state.event.location}</td>
-                    <td>{this.state.event.attendees.length}</td>
-                    <td>{this.state.event.fbLink}</td>
+                    <td>{this.state.date}</td>
+                    <td>{this.state.startTime}</td>
+                    <td>{this.state.endTime}</td>
+                    <td>{this.state.location}</td>
+                    <td>{this.state.attendeeEmails.length}</td>
+                    <td>{this.state.fbLink}</td>
                     <td />
                   </tr>
               </tbody>
@@ -89,8 +103,6 @@ class Event extends React.Component<Props> {
           </Container>
         </div>
       </>
-    ) : (
-      <></>
     )
   }
 }
