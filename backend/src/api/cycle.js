@@ -41,18 +41,21 @@ router.post(
     let code = 400
 
     const newTerm = req.body.term
-    const newChapter = req.body.chapter
+    const workspace = req.body.workspaceName
 
     if (!newTerm) {
       response = 'Invalid term'
     }
-    if (!newChapter) {
-      response = 'Invalid chapter'
+    if (!workspace) {
+      response = 'Invalid workspace'
     }
+
+    // TODO: ensure that given workspaces matches one in the database
+    // created by the director
 
     const cycle = new Cycle({
       term: newTerm,
-      chapter: newChapter
+      workspaceName: workspace
     })
 
     await cycle.save()

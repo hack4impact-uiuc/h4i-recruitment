@@ -30,7 +30,7 @@ describe('GET /cycle/:cycleId', () => {
   it('should get a cycle by ID', async () => {
     const cycle = new Cycle({
       term: 'FA19',
-      chapter: 'University of Illinois at Urbana-Champaign'
+      workspaceName: 'University of Illinois at Urbana-Champaign'
     })
     await cycle.save()
     const res = await request(app)
@@ -44,7 +44,7 @@ describe('POST /cycle', () => {
   it('should create a cycle', async () => {
     const cycle = new Cycle({
       term: 'FA19',
-      chapter: 'University of Illinois at Urbana-Champaign'
+      workspaceName: 'University of Illinois at Urbana-Champaign'
     })
     await cycle.save()
 
