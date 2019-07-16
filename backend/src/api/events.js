@@ -32,6 +32,32 @@ router.get(
   })
 )
 
+// get event attendees
+router.get(
+  '/:event_id/attendees',
+  errorWrap(async (req, res) => {
+    const eventId = req.params.event_id
+    const event = await Event.findById(eventId)
+    if (!event) {
+      res.json({
+        code: 404,
+        message: "Invalid Event",
+        success: false
+      })
+    }
+    attendees = []
+    event.attendeeEmails.forEach(email => {
+      attendees.append(Attendee.findById(email))
+    });
+    res.json({
+      code: 200,
+      message: "Attendees Retrieved Successfully",
+      result: attendees,
+      success: true
+    })
+  })
+)
+
 // create a new event
 router.post(
   '/',
