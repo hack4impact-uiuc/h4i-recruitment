@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Table, Row, Button, Col, FormGroup, Label, Input, Container } from 'reactstrap'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { getEventById } from '../utils/api'
+import Router from 'next/router'
 
 class Event extends React.Component<Props> {
   constructor(props) {
@@ -16,14 +17,13 @@ class Event extends React.Component<Props> {
   async componentDidMount() {
     const { query } = Router
     const { result } = await getEventById(query.id)
-    console.log(result)
     this.setState({
       event: result
     })
   }
 
   render() {
-    return (
+    return this.state.event ? (
       <>
         <Head />
         <Nav />
@@ -48,7 +48,7 @@ class Event extends React.Component<Props> {
                     <td>{this.state.event.startTime}</td>
                     <td>{this.state.event.endTime}</td>
                     <td>{this.state.event.location}</td>
-                    <td>{this.state.event.attendees.length()}</td>
+                    <td>{this.state.event.attendees.length}</td>
                     <td>{this.state.event.fbLink}</td>
                     <td />
                   </tr>
@@ -89,6 +89,8 @@ class Event extends React.Component<Props> {
           </Container>
         </div>
       </>
+    ) : (
+      <></>
     )
   }
 }
