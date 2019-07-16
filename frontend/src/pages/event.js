@@ -3,35 +3,22 @@ import { Table, Row, Button, Col, FormGroup, Label, Input, Container } from 'rea
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import Head from '../components/head'
+import { getEventById } from '../utils/api'
 
-class EventDetails extends React.Component<Props> {
+class Event extends React.Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      events: []
+      event: null
     }
   }
 
   async componentDidMount() {
-    //   const events = await getEvents() // api call
-    //   if (events !== undefined) {
-    //       this.setState({
-    //           events
-    //       });
-    //     }
-    //   }
+    const { query } = Router
+    const { result } = await getEventById(query.id)
+    console.log(result)
     this.setState({
-      events: [
-        {
-          name: "Alice's Event",
-          date: 'July 1',
-          startTime: 5,
-          endTime: 7,
-          location: 'Brew Lab',
-          attendees: 30,
-          fbLink: 'https://www.brewlab.coffee/'
-        }
-      ]
+      event: result
     })
   }
 
@@ -44,7 +31,7 @@ class EventDetails extends React.Component<Props> {
           <Container fluid>
             <Table>
               <thead>
-                <h2>Event Name</h2>
+                <h2>{this.state.event.name}</h2>
                 <tr>
                   <th>Date</th>
                   <th>Start Time</th>
@@ -56,17 +43,15 @@ class EventDetails extends React.Component<Props> {
                 </tr>
               </thead>
               <tbody>
-                {this.state.events.map(event => (
                   <tr>
-                    <td>{event.date}</td>
-                    <td>{event.startTime}</td>
-                    <td>{event.endTime}</td>
-                    <td>{event.location}</td>
-                    <td>{event.attendees}</td>
-                    <td>{event.fbLink}</td>
+                    <td>{this.state.event.date}</td>
+                    <td>{this.state.event.startTime}</td>
+                    <td>{this.state.event.endTime}</td>
+                    <td>{this.state.event.location}</td>
+                    <td>{this.state.event.attendees.length()}</td>
+                    <td>{this.state.event.fbLink}</td>
                     <td />
                   </tr>
-                ))}
               </tbody>
             </Table>
             <Table>
@@ -108,4 +93,4 @@ class EventDetails extends React.Component<Props> {
   }
 }
 
-export default EventDetails
+export default Event

@@ -32,6 +32,10 @@ function createEvent(event) {
   }).then(res => res.json())
 }
 
+function getEventById(id: string) {
+  return fetch(`${API_URL}/events/${id}?key=${getKey()}`).then(res => res.json())
+}
+
 function addInterviewSchedule(file: File) {
   var reader = new FileReader()
   var scheduleString = ''
@@ -245,6 +249,7 @@ function deleteReferral(candidateID: string) {
 export {
   getAllEvents,
   createEvent,
+  getEventById,
   addInterviewSchedule,
   getInterviewSchedule,
   getPastInterviews,

@@ -20,6 +20,7 @@ import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import { getAllEvents, createEvent } from '../utils/api'
 import Head from '../components/head'
+import Link from 'next/link'
 
 class EventOverview extends React.Component<Props> {
   constructor(props) {
@@ -194,7 +195,11 @@ class EventOverview extends React.Component<Props> {
               <tbody>
                 {this.state.events.map(event => (
                   <tr key={event._id}>
-                    <td>{event.name}</td>
+                    <td>
+                      <Link href={{ pathname: '/event', query: { id: event._id } }}>
+                        <a className="regular-anchor">{event.name}</a>
+                      </Link>
+                    </td>
                     <td>{event.date}</td>
                     <td>{`${event.startTime} - ${event.endTime}`}</td>
                     <td>{event.location}</td>
