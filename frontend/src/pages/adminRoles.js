@@ -15,11 +15,27 @@ class AdminRoles extends React.Component {
   }
 
   editButton() {
-    return <Button onClick={() => this.setState({ isEditing: true })}>Edit</Button>
+    return (
+      <Button
+        variant="primary"
+        disabled={this.state.isEditing}
+        onClick={() => this.setState({ isEditing: true })}
+      >
+        Edit
+      </Button>
+    )
   }
 
   saveButton() {
-    return <Button onClick={() => this.setState({ isEditing: false })}>Save</Button>
+    return (
+      <Button
+        variant="info"
+        disabled={!this.state.isEditing}
+        onClick={() => this.setState({ isEditing: false })}
+      >
+        Save
+      </Button>
+    )
   }
 
   render() {
@@ -37,9 +53,7 @@ class AdminRoles extends React.Component {
           </thead>
           <tbody>
             <tr>
-              <td>
-                {'Insert Name Here'}
-              </td>
+              <td>{'Insert Name Here'}</td>
               <td>
                 <ChangeYear memberID={1} handleChange={this.handleChange} />
               </td>
@@ -47,9 +61,9 @@ class AdminRoles extends React.Component {
                 <ChangeRole memberID={1} handleChange={this.handleChange} />
               </td>
               {this.state.isEditing && (
-              <td>
-                <Button>Remove</Button>
-              </td>
+                <td>
+                  <Button>Remove</Button>
+                </td>
               )}
             </tr>
           </tbody>
