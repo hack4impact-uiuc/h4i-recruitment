@@ -1,10 +1,10 @@
-// Change Status dropdown
+// Change Role dropdown
 // handler function must be included for logic
 import React from 'react'
 import { permissionRolesEnum } from '../utils/enums'
 
-const ChangeRole = ({ candidateID, status, handleChange }) => (
-  <select name={candidateID} value={status} onChange={handleChange}>
+const ChangeRole = ({ memberID, role, handleChange }) => (
+  <select name={memberID} value={role} onChange={handleChange}>
     <option selected disabled hidden>
       Change Permission Role
     </option>

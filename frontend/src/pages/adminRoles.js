@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Table } from 'reactstrap'
 import ChangeRole from '../components/changeRole'
+import ChangeYear from '../components/changeYear'
 import Head from '../components/head'
 
 import Nav from '../components/nav'
@@ -37,14 +38,19 @@ class AdminRoles extends React.Component {
           <tbody>
             <tr>
               <td>
-                <ChangeRole candidateID={1} handleChange={this.handleChange} />
+                {'Insert Name Here'}
               </td>
               <td>
-                <ChangeRole candidateID={1} handleChange={this.handleChange} />
+                <ChangeYear memberID={1} handleChange={this.handleChange} />
               </td>
               <td>
-                <ChangeRole candidateID={1} handleChange={this.handleChange} />
+                <ChangeRole memberID={1} handleChange={this.handleChange} />
               </td>
+              {this.state.isEditing && (
+              <td>
+                <Button>Remove</Button>
+              </td>
+              )}
             </tr>
           </tbody>
         </Table>
