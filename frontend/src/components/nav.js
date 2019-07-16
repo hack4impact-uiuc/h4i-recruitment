@@ -137,8 +137,8 @@ class NavigationBar extends Component {
               {this.state.isDirector && (
                 <>
                   <NavItem>
-                  <Link prefetch href="/workspaces">
-                        <a className="nav-bar-link pl-3">Workspaces</a>
+                    <Link prefetch href="/workspaces">
+                      <a className="nav-bar-link pl-3">Workspaces</a>
                     </Link>
                   </NavItem>
                 </>
