@@ -41,7 +41,8 @@ describe('GET verify_interviewer/:key', () => {
       success: true,
       result: {
         name: 'Test Key',
-        is_lead: true
+        is_lead: true,
+        is_director: true
       }
     })
     const res = await request(app).get(`/interviews/verify_interviewer?key=${KEY}`)
