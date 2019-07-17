@@ -3,7 +3,7 @@ import { Table, Row, Button, Col, FormGroup, Label, Input, Container } from 'rea
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import Head from '../components/head'
-import { getEventById } from '../utils/api'
+import { getEventById, getEventAttendees } from '../utils/api'
 import Router from 'next/router'
 
 class Event extends React.Component<Props> {
@@ -17,7 +17,8 @@ class Event extends React.Component<Props> {
       location: '',
       description: '',
       fbLink: '',
-      attendeeEmails: []
+      attendeeEmails: [],
+      attendees: []
     }
   }
 
@@ -34,6 +35,11 @@ class Event extends React.Component<Props> {
       fbLink: result.fbLink,
       attendeeEmails: result.attendeeEmails
     })
+
+    const res = await getEventAttendees(query.id)
+    this.setState({
+      attendees: res.result
+    })
   }
 
   render() {
@@ -43,9 +49,9 @@ class Event extends React.Component<Props> {
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
+            <h2>{this.state.name}</h2>
             <Table>
               <thead>
-                <h2>{this.state.name}</h2>
                 <tr>
                   <th>Date</th>
                   <th>Start Time</th>
@@ -68,38 +74,29 @@ class Event extends React.Component<Props> {
                   </tr>
               </tbody>
             </Table>
+            <div className="attendee-list">
+              <h3>Attendees List</h3>
             <Table>
               <thead>
-                <h4> Attendees List </h4>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Year</th>
+                  <th>Candidate Status</th>
+                </tr>
               </thead>
               <tbody>
-                <Row style={{ marginBottom: '25px', marginTop: '30px' }}>
-                  <ActionButton text="Strawberry" link="/interviewlist" />
-                  <ActionButton text="Peach" link="/interviewlist" />
-                  <ActionButton text="Mango" link="/interviewlist" />
-                  <ActionButton text="Boba" link="/interviewlist" />
-                  <ActionButton text="Pizza" link="/interviewlist" />
-                  <ActionButton text="Snow" link="/interviewlist" />
-                  <ActionButton text="Mango" link="/interviewlist" />
-                </Row>
-                <Row style={{ marginBottom: '25px', marginTop: '30px' }}>
-                  <ActionButton text="Lime" link="/interviewlist" />
-                  <ActionButton text="Orange" link="/interviewlist" />
-                  <ActionButton text="Blueberry" link="/interviewlist" />
-                  <ActionButton text="Hotdog" link="/interviewlist" />
-                  <ActionButton text="Ice Cream" link="/interviewlist" />
-                  <ActionButton text="Sorbet" link="/interviewlist" />
-                </Row>
-                <Row style={{ marginBottom: '25px', marginTop: '30px' }}>
-                  <ActionButton text="Durian" link="/interviewlist" />
-                  <ActionButton text="Strawberry" link="/interviewlist" />
-                  <ActionButton text="Raspberry" link="/interviewlist" />
-                  <ActionButton text="Pineapple" link="/interviewlist" />
-                  <ActionButton text="Grapes" link="/interviewlist" />
-                  <ActionButton text="Tomato" link="/interviewlist" />
-                </Row>
+                  {this.state.attendees.map(attendee => (
+                    <tr key={attendee._id}>
+                      <td>{attendee.name}</td>
+                      <td>{attendee.email}</td>
+                      <td>{attendee.year}</td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
+              
+            </div>
           </Container>
         </div>
       </>

@@ -36,10 +36,13 @@ router.post(
   '/',
   errorWrap(async (req, res) => {
     const data = req.body
+    const candidate = await Candidate.findOne({email: data.email})
+    const isCandidate = candidate ? true : false
     const newAttendee = new Attendee({
       name: data.name,
       email: data.email,
-      year: data.year
+      year: data.year,
+      isCandidate
     })
 
     await newAttendee.save()

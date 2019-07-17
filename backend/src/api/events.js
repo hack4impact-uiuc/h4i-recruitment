@@ -2,7 +2,7 @@ const express = require('express')
 const mongodb = require('mongodb')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
-const { Attendee, Event } = require('../models')
+const { Attendee, Candidate, Event } = require('../models')
 const { attendeeIsLate } = require('../utils/utils.js')
 
 // get all events
@@ -52,6 +52,7 @@ router.get(
         attendees.push(attendee)
       }
     }
+
     res.json({
       code: 200,
       message: "Attendees Retrieved Successfully",
@@ -135,7 +136,6 @@ router.put(
   errorWrap(async (req, res) => {
     const data = req.body
     const eventId = req.params.eventId
-    const attendeeEmail = data.email
 
     const event = await Event.findById(eventId)
 
@@ -146,20 +146,24 @@ router.put(
         success: false
       })
     } else {
-      let attendee = await Attendee.findOne({ email: attendeeEmail })
+      let attendee = await Attendee.findOne({ email: data.email })
 
       // create new attendee if not in db
       if (!attendee) {
+        const candidate = await Candidate.findOne({email: data.email})
+        const isCandidate = candidate ? true : false
+        
         attendee = new Attendee({
           name: data.name,
-          email: attendeeEmail,
-          year: data.year
+          email: data.email,
+          year: data.year,
+          isCandidate
         })
         await attendee.save()
       }
 
       // prevent duplicate check-ins
-      if (event.attendeeEmails.includes(attendeeEmail)) {
+      if (event.attendeeEmails.includes(data.email)) {
         res.json({
           code: 200,
           message: 'Already Checked In',
@@ -168,12 +172,12 @@ router.put(
       }
 
       // update event attendees and attendee events
-      event.attendeeEmails.push(attendeeEmail)
+      event.attendeeEmails.push(data.email)
       attendee.attendedEvents.push(eventId)
 
       // handle tardiness
       if (attendeeIsLate(event)) {
-        event.lateAttendeeEmails.push(attendeeEmail)
+        event.lateAttendeeEmails.push(data.email)
         attendee.lateEvents.push(eventId)
       }
 

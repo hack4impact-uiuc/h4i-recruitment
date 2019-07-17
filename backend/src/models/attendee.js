@@ -6,6 +6,7 @@ const Attendee = new mongoose.Schema({
   year: { type: String, required: true },
   attendedEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   lateEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  isCandidate: { type: Boolean, required: true },
   workspaceId: { type: String }
 })
 
