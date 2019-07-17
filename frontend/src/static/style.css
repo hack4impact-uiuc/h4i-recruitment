@@ -252,3 +252,7 @@ p > b {
   margin-bottom: 15px;
   margin-right: 20px;
 }
+
+.event-details {
+  text-align: center;
+}

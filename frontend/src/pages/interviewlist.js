@@ -100,16 +100,15 @@ class InterviewListPage extends React.Component<Props> {
                           <h5 style={{ display: 'block' }}>Candidates in {category}</h5>
                         </Row>
                         <div className="m-2">
-                          {this.state.interviewingInterviews.map(
-                            interview =>
-                              interviewGetCategorySection(interview) !== null &&
-                              interviewGetCategorySection(interview).response.text === category ? (
-                                <li>
-                                  <Link href={`/candidate?id=${interview.candidate_id}`}>
-                                    {interview.candidate_name}
-                                  </Link>
-                                </li>
-                              ) : null
+                          {this.state.interviewingInterviews.map(interview =>
+                            interviewGetCategorySection(interview) !== null &&
+                            interviewGetCategorySection(interview).response.text === category ? (
+                              <li>
+                                <Link href={`/candidate?id=${interview.candidate_id}`}>
+                                  {interview.candidate_name}
+                                </Link>
+                              </li>
+                            ) : null
                           )}
                         </div>
                       </Container>
@@ -119,75 +118,72 @@ class InterviewListPage extends React.Component<Props> {
             </Row>
           ) : (
             <Row className="candidate-list-box">
-              {candidates.map(
-                candidate =>
-                  candidate.interviews.length === 0 ? null : (
-                    <>
-                      <CandidateInterviewsModal
-                        isOpen={this.state.modalOpen}
-                        candidateId={candidate._id}
-                        exitModal={this.toggleModal}
-                        candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
-                      />
-                      <CardCol key={candidate._id}>
-                        <Card className="candidate-card h-100">
-                          <CardTitle style={{ margin: '15px 0 0 0' }}>
-                            {candidate.name ? (
-                              <>
-                                <Link
-                                  href={{ pathname: '/candidate', query: { id: candidate._id } }}
-                                >
-                                  <a className="m-3 card-title inline">{candidate.name}</a>
-                                </Link>
-                                <p
-                                  className="text-muted"
-                                  style={{
-                                    float: 'right',
-                                    marginBottom: 0,
-                                    paddingRight: '5px',
-                                    fontSize: '12px'
-                                  }}
-                                >
-                                  Avg Score: {avgInterviewScore(candidate.interviews)}
-                                  <br />
-                                  interviews: {candidate.interviews.length}
+              {candidates.map(candidate =>
+                candidate.interviews.length === 0 ? null : (
+                  <>
+                    <CandidateInterviewsModal
+                      isOpen={this.state.modalOpen}
+                      candidateId={candidate._id}
+                      exitModal={this.toggleModal}
+                      candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
+                    />
+                    <CardCol key={candidate._id}>
+                      <Card className="candidate-card h-100">
+                        <CardTitle style={{ margin: '15px 0 0 0' }}>
+                          {candidate.name ? (
+                            <>
+                              <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                                <a className="m-3 card-title inline">{candidate.name}</a>
+                              </Link>
+                              <p
+                                className="text-muted"
+                                style={{
+                                  float: 'right',
+                                  marginBottom: 0,
+                                  paddingRight: '5px',
+                                  fontSize: '12px'
+                                }}
+                              >
+                                Avg Score: {avgInterviewScore(candidate.interviews)}
+                                <br />
+                                interviews: {candidate.interviews.length}
+                              </p>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </CardTitle>
+                        <CardBody>
+                          <p>
+                            <b>Graduating: </b>
+                            {candidate.graduationDate}
+                          </p>
+                          {this.state.interviews
+                            .filter(interview => interview.candidate_id == candidate._id)
+                            .map(interview => (
+                              <div className="pb-1">
+                                <p className="no-buffer">
+                                  <b>Interviewer: </b>
+                                  {interview.interviewer_name}
                                 </p>
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </CardTitle>
-                          <CardBody>
-                            <p>
-                              <b>Graduating: </b>
-                              {candidate.graduationDate}
-                            </p>
-                            {this.state.interviews
-                              .filter(interview => interview.candidate_id == candidate._id)
-                              .map(interview => (
-                                <div className="pb-1">
+                                <div style={{ paddingLeft: '5px' }}>
                                   <p className="no-buffer">
-                                    <b>Interviewer: </b>
-                                    {interview.interviewer_name}
+                                    <i>Category: </i> {interview.category}
+                                    <br />
+                                    <i>Score: </i> {interview.overall_score}
                                   </p>
-                                  <div style={{ paddingLeft: '5px' }}>
-                                    <p className="no-buffer">
-                                      <i>Category: </i> {interview.category}
-                                      <br />
-                                      <i>Score: </i> {interview.overall_score}
-                                    </p>
-                                  </div>
                                 </div>
-                              ))}
-                            <ActionLink
-                              text="View interviews"
-                              onClick={() => this.toggleModal(candidate._id)}
-                            />
-                          </CardBody>
-                        </Card>
-                      </CardCol>
-                    </>
-                  )
+                              </div>
+                            ))}
+                          <ActionLink
+                            text="View interviews"
+                            onClick={() => this.toggleModal(candidate._id)}
+                          />
+                        </CardBody>
+                      </Card>
+                    </CardCol>
+                  </>
+                )
               )}
             </Row>
           )}

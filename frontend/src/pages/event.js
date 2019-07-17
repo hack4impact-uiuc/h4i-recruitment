@@ -41,7 +41,6 @@ class Event extends React.Component<Props> {
     this.setState({
       attendees: res.result
     })
-    console.log(this.state.attendees)
   }
 
   render() {
@@ -51,68 +50,59 @@ class Event extends React.Component<Props> {
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
-            <h2>{this.state.name}</h2>
-            <Table>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Start Time</th>
-                  <th>End Time</th>
-                  <th>Location</th>
-                  <th>Total Attendees</th>
-                  <th>Facebook Event Page</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                    <td>{this.state.date}</td>
-                    <td>{this.state.startTime}</td>
-                    <td>{this.state.endTime}</td>
-                    <td>{this.state.location}</td>
-                    <td>{this.state.attendeeEmails.length}</td>
-                    <td>{this.state.fbLink}</td>
-                    <td />
-                  </tr>
-              </tbody>
-            </Table>
+            <h1 className="event-details">{this.state.name}</h1>
+            <h5 className="event-details">
+              <b>Date: </b>
+              {this.state.date}
+            </h5>
+            <h5 className="event-details">
+              <b>Time: </b>
+              {`${this.state.startTime}-${this.state.endTime}`}
+            </h5>
+            <h5 className="event-details">
+              <b>Location: </b>
+              {this.state.location}
+            </h5>
+            <h5 className="event-details">
+              <b>Facebook Link: </b>
+              {this.state.fbLink}
+            </h5>
+            <h6 className="event-details">{this.state.description}</h6>
+
             <div className="attendee-list">
               <h3>Attendees List</h3>
-            <Table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Year</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {this.state.attendees.map(attendee => 
-                  attendee.isCandidate ? 
-                  (
-                    <tr key={attendee._id}>
-                      <td>
-                      <Link href={{ pathname: '/candidate', query: { id: attendee.candidateId} }}>
-                        <a className="regular-anchor">{attendee.name}</a>
-                      </Link>
-                      </td>
-                      <td>{attendee.email}</td>
-                      <td>{attendee.year}</td>
-                    </tr>
-                  ):
-                    <tr key={attendee._id}>
-                      <td>
-                      <Link href={{ pathname: '/attendee', query: { email: attendee.email } }}>
-                        <a className="regular-anchor">{attendee.name}</a>
-                      </Link>
-                      </td>
-                      <td>{attendee.email}</td>
-                      <td>{attendee.year}</td>
-                    </tr>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Year</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.attendees.map(attendee =>
+                    attendee.candidateId ? (
+                      <tr key={attendee._id}>
+                        <td>
+                          <Link
+                            href={{ pathname: '/candidate', query: { id: attendee.candidateId } }}
+                          >
+                            <a className="regular-anchor">{attendee.name}</a>
+                          </Link>
+                        </td>
+                        <td>{attendee.email}</td>
+                        <td>{attendee.year}</td>
+                      </tr>
+                    ) : (
+                      <tr key={attendee._id}>
+                        <td>{attendee.name}</td>
+                        <td>{attendee.email}</td>
+                        <td>{attendee.year}</td>
+                      </tr>
+                    )
                   )}
-              </tbody>
-            </Table>
-              
+                </tbody>
+              </Table>
             </div>
           </Container>
         </div>
