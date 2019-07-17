@@ -1,5 +1,6 @@
 const express = require('express')
 const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Attendee, Candidate } = require('../models')
@@ -37,12 +38,12 @@ router.post(
   errorWrap(async (req, res) => {
     const data = req.body
     const candidate = await Candidate.findOne({email: data.email})
-    const isCandidate = candidate ? true : false
+    const candidateId = candidate ? candidate._id : null
     const newAttendee = new Attendee({
       name: data.name,
       email: data.email,
       year: data.year,
-      isCandidate
+      candidateId
     })
 
     await newAttendee.save()

@@ -5,6 +5,7 @@ import Nav from '../components/nav'
 import Head from '../components/head'
 import { getEventById, getEventAttendees } from '../utils/api'
 import Router from 'next/router'
+import Link from 'next/link'
 
 class Event extends React.Component<Props> {
   constructor(props) {
@@ -40,6 +41,7 @@ class Event extends React.Component<Props> {
     this.setState({
       attendees: res.result
     })
+    console.log(this.state.attendees)
   }
 
   render() {
@@ -82,17 +84,32 @@ class Event extends React.Component<Props> {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Year</th>
-                  <th>Candidate Status</th>
                 </tr>
               </thead>
               <tbody>
-                  {this.state.attendees.map(attendee => (
+                  {this.state.attendees.map(attendee => 
+                  attendee.isCandidate ? 
+                  (
                     <tr key={attendee._id}>
-                      <td>{attendee.name}</td>
+                      <td>
+                      <Link href={{ pathname: '/candidate', query: { id: attendee.candidateId} }}>
+                        <a className="regular-anchor">{attendee.name}</a>
+                      </Link>
+                      </td>
                       <td>{attendee.email}</td>
                       <td>{attendee.year}</td>
                     </tr>
-                  ))}
+                  ):
+                    <tr key={attendee._id}>
+                      <td>
+                      <Link href={{ pathname: '/attendee', query: { email: attendee.email } }}>
+                        <a className="regular-anchor">{attendee.name}</a>
+                      </Link>
+                      </td>
+                      <td>{attendee.email}</td>
+                      <td>{attendee.year}</td>
+                    </tr>
+                  )}
               </tbody>
             </Table>
               

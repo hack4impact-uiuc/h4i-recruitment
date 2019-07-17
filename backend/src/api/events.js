@@ -151,13 +151,13 @@ router.put(
       // create new attendee if not in db
       if (!attendee) {
         const candidate = await Candidate.findOne({email: data.email})
-        const isCandidate = candidate ? true : false
+        const candidateId = candidate ? candidate._id : null
         
         attendee = new Attendee({
           name: data.name,
           email: data.email,
           year: data.year,
-          isCandidate
+          candidateId
         })
         await attendee.save()
       }
