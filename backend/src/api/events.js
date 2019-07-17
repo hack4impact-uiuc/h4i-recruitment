@@ -45,10 +45,13 @@ router.get(
         success: false
       })
     }
-    attendees = []
-    event.attendeeEmails.forEach(email => {
-      attendees.append(Attendee.findById(email))
-    });
+    let attendees = []
+    for (email of event.attendeeEmails) {
+      const attendee = await Attendee.findOne({email})
+      if (attendee) {
+        attendees.push(attendee)
+      }
+    }
     res.json({
       code: 200,
       message: "Attendees Retrieved Successfully",
