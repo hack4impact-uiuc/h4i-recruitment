@@ -41,13 +41,13 @@ router.get(
     if (!event) {
       res.json({
         code: 404,
-        message: "Invalid Event",
+        message: 'Invalid Event',
         success: false
       })
     }
     let attendees = []
     for (email of event.attendeeEmails) {
-      const attendee = await Attendee.findOne({email})
+      const attendee = await Attendee.findOne({ email })
       if (attendee) {
         attendees.push(attendee)
       }
@@ -55,7 +55,7 @@ router.get(
 
     res.json({
       code: 200,
-      message: "Attendees Retrieved Successfully",
+      message: 'Attendees Retrieved Successfully',
       result: attendees,
       success: true
     })
@@ -150,9 +150,9 @@ router.put(
 
       // create new attendee if not in db
       if (!attendee) {
-        const candidate = await Candidate.findOne({email: data.email})
+        const candidate = await Candidate.findOne({ email: data.email })
         const candidateId = candidate ? candidate._id : null
-        
+
         attendee = new Attendee({
           name: data.name,
           email: data.email,

@@ -37,7 +37,7 @@ router.post(
   '/',
   errorWrap(async (req, res) => {
     const data = req.body
-    const candidate = await Candidate.findOne({email: data.email})
+    const candidate = await Candidate.findOne({ email: data.email })
     const candidateId = candidate ? candidate._id : null
     const newAttendee = new Attendee({
       name: data.name,
