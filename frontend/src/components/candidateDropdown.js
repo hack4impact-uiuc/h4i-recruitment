@@ -74,14 +74,12 @@ class CandidateDropdown extends Component<Props, State> {
     }
 
     return (
-      <>
-        <Select
-          defaultValue={candidate_names[0]}
-          options={candidate_names}
-          onChange={this.handleChange}
-          value={selectedOption}
-        />
-      </>
+      <Select
+        defaultValue={candidate_names[0]}
+        options={candidate_names}
+        onChange={this.handleChange}
+        value={selectedOption}
+      />
     )
   }
 }
