@@ -7,16 +7,18 @@ var mongoose = require('mongoose')
 var Candidate = require('../models/candidate')
 var { statusEnum, yearsEnum, gradEnum } = require('./enums')
 var { getGithubContributions } = require('./gitScraper')
+var readline = require('readline');
 
 // mongoose.connect(process.env.MONGO_URL)
 // mongoose.Promise = global.Promise
 // mongoose.connection
 //   .once('open', () => console.log('Connected to MongoLab instance.'))
-//   .on('error', error => console.log('Error connecting to MongoLab:', error))
+//   .on('error', error => console.log('Error connecting to MongoLab:', error)
 
-const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
-const ws = wb.Sheets[wb.SheetNames[0]]
-const jsonSheet = XLSX.utils.sheet_to_json(ws)
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 const gradToYear = {
   'Fall 2019': yearsEnum.SENIOR,
@@ -28,6 +30,11 @@ const gradToYear = {
   'Fall 2022': yearsEnum.SOPHOMORE,
   'Spring 2023': yearsEnum.FRESHMAN
 }
+
+const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
+const ws = wb.Sheets[wb.SheetNames[0]]
+const jsonSheet = XLSX.utils.sheet_to_json(ws)
+
 
 function sleep(ms) {
   return new Promise(resolve => {
@@ -43,6 +50,13 @@ async function parseStuff() {
   }
 
   let keys = Object.keys(jsonSheet[0])
+  let keymap = {}
+  keys.forEach(key => {
+    // kind of tedious to ask for user input - maybe input a json file
+    rl.question('Key for [' + key + ']', (input) => {
+      keymap[key] = input
+    })
+  })
 
   for (let i = 0; i < jsonSheet.length; i++) {
     let candidate = jsonSheet[i]
@@ -52,13 +66,6 @@ async function parseStuff() {
     //   githubContributions = await getGithubContributions(candidate['Github Link'])
     // }
     let year = gradToYear[candidate['Graduation Date']]
-
-    // Might throw error here?
-    // idk if this one even works
-
-    // get all the questions and then make an input name them
-    // then create a string to string map and make those columns in the candidate field
-    //
     if (year == null) {
       console.log(`WEIRD GRAD DATE ${candidate.Name}`)
     }
@@ -68,12 +75,21 @@ async function parseStuff() {
      * And then you can add the extra keys on top
      * Loop through and add them all unless there's specifics for them, which we can't support dynamics for
      */
+    let candidateObj = {}
+    // Make sure to not deal with the ones that are going to be hardcoded
+    // How to deal with the interviews field?
+    candidate.status = statusEnum.PENDING
+
+    keys.forEach(key => {
+      if (!candidateObj[keymap[key]]) {
+        candidateObj[keymap[key]] = candidate[key]
+      }
+    })
 
     // let newCandidate = new Candidate({
     //   name: candidate.Name,
     //   email: candidate['Email Address'],
     //   graduationDate: candidate['Graduation Date'],
-    //   status: statusEnum.PENDING,
     //   major: candidate.Major,
     //   minor: candidate['Minor(s)'],
     //   resumeID: candidate.Resume,
