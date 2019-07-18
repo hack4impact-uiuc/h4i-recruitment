@@ -8,11 +8,11 @@ var Candidate = require('../models/candidate')
 var { statusEnum, yearsEnum, gradEnum } = require('./enums')
 var { getGithubContributions } = require('./gitScraper')
 
-mongoose.connect(process.env.MONGO_URL)
-mongoose.Promise = global.Promise
-mongoose.connection
-  .once('open', () => console.log('Connected to MongoLab instance.'))
-  .on('error', error => console.log('Error connecting to MongoLab:', error))
+// mongoose.connect(process.env.MONGO_URL)
+// mongoose.Promise = global.Promise
+// mongoose.connection
+//   .once('open', () => console.log('Connected to MongoLab instance.'))
+//   .on('error', error => console.log('Error connecting to MongoLab:', error))
 
 const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
 const ws = wb.Sheets[wb.SheetNames[0]]
@@ -36,7 +36,14 @@ function sleep(ms) {
 }
 
 async function parseStuff() {
-  await sleep(3000)
+  // await sleep(3000)
+  if (jsonSheet.length === 0) {
+    console.log("Why'd you input an empty sheet?")
+    return
+  }
+
+  let keys = Object.keys(jsonSheet[0])
+
   for (let i = 0; i < jsonSheet.length; i++) {
     let candidate = jsonSheet[i]
     // console.log(candidate.Name)
@@ -44,10 +51,7 @@ async function parseStuff() {
     // if (candidate['Github Link']) {
     //   githubContributions = await getGithubContributions(candidate['Github Link'])
     // }
-    // let year = gradToYear[candidate['Graduation Date']]
-    let keys = Object.keys(candidate)
-    console.log(keys) // making sure keys works
-    console.log(year) // making sure the enum works
+    let year = gradToYear[candidate['Graduation Date']]
 
     // Might throw error here?
     // idk if this one even works
@@ -108,9 +112,9 @@ async function parseStuff() {
     // })
     // save errors out if candidate doesn't match the schema
     // Make this a promise? I really don't like any of the manual sleep stuff going on
-    const res = await newCandidate.save()
-    console.log(res)
-    await sleep(500)
+    // const res = await newCandidate.save()
+    // console.log(res)
+    // await sleep(500)
   }
 }
 
