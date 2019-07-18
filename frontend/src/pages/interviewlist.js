@@ -134,7 +134,7 @@ class InterviewListPage extends Component {
                     <CardCol key={candidate._id}>
                       <Card className="candidate-card h-100">
                         <CardTitle style={{ margin: '15px 0 0 0' }}>
-                          {candidate.name ? (
+                          {candidate.name && (
                             <>
                               <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
                                 <a className="m-3 card-title inline">{candidate.name}</a>
@@ -153,8 +153,6 @@ class InterviewListPage extends Component {
                                 interviews: {candidate.interviews.length}
                               </p>
                             </>
-                          ) : (
-                            <></>
                           )}
                         </CardTitle>
                         <CardBody>

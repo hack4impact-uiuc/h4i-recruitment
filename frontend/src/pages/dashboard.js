@@ -164,37 +164,23 @@ class Dashboard extends Component {
                       <thead>
                         <tr>
                           <th>#</th>
-                          {selects.includes('Name') ? <th>Name</th> : <> </>}
-                          {selects.includes(selectByEnum.EMAIL) ? (
-                            <th>{selectByEnum.EMAIL}</th>
-                          ) : (
-                            <></>
-                          )}
-                          {selects.includes('Status') ? <th>Status</th> : <> </>}
-                          {selects.includes('Year') ? <th>Year</th> : <> </>}
-                          {selects.includes('Graduation Year') ? <th>Graduation Date</th> : <> </>}
-                          {selects.includes('Roles') ? <th>Roles</th> : <> </>}
-                          {selects.includes('Major') ? <th>Major</th> : <> </>}
-                          {selects.includes('Hours') ? <th>Hours</th> : <> </>}
-                          {selects.includes('Links') ? <th>Links</th> : <> </>}
-                          {selects.includes('Strong Referrals') ? (
-                            <th>Strong Referrals</th>
-                          ) : (
-                            <> </>
-                          )}
-                          {selects.includes('Referrals') ? <th>Referrals</th> : <> </>}
-                          {selects.includes('Avg Interview Score') ? (
-                            <th>Avg Interview Score</th>
-                          ) : (
-                            <></>
-                          )}
-                          {selects.includes('Number of Interviews') ? (
+                          {selects.includes('Name') && <th>Name</th>}
+                          {selects.includes(selectByEnum.EMAIL) && <th>{selectByEnum.EMAIL}</th>}
+                          {selects.includes('Status') && <th>Status</th>}
+                          {selects.includes('Year') && <th>Year</th>}
+                          {selects.includes('Graduation Year') && <th>Graduation Date</th>}
+                          {selects.includes('Roles') && <th>Roles</th>}
+                          {selects.includes('Major') && <th>Major</th>}
+                          {selects.includes('Hours') && <th>Hours</th>}
+                          {selects.includes('Links') && <th>Links</th>}
+                          {selects.includes('Strong Referrals') && <th>Strong Referrals</th>}
+                          {selects.includes('Referrals') && <th>Referrals</th>}
+                          {selects.includes('Avg Interview Score') && <th>Avg Interview Score</th>}
+                          {selects.includes('Number of Interviews') && (
                             <th>Number of Interviews</th>
-                          ) : (
-                            <></>
                           )}
-                          {selects.includes('Facemash Score') ? <th>FaceMash Score</th> : <> </>}
-                          {selects.includes('Number of Matches') ? <th>Matches</th> : <> </>}
+                          {selects.includes('Facemash Score') && <th>FaceMash Score</th>}
+                          {selects.includes('Number of Matches') && <th>Matches</th>}
                           <th>Change Status</th>
                           <th />
                         </tr>
@@ -204,7 +190,7 @@ class Dashboard extends Component {
                           filteredCandidates.map((candidate, key) => (
                             <tr key={candidate._id}>
                               <th scope="row">{key + 1}</th>
-                              {selects.includes('Name') ? (
+                              {selects.includes('Name') && (
                                 <td>
                                   <Link
                                     href={{ pathname: '/candidate', query: { id: candidate._id } }}
@@ -212,97 +198,67 @@ class Dashboard extends Component {
                                     <a className="regular-anchor">{candidate.name}</a>
                                   </Link>
                                 </td>
-                              ) : (
-                                <> </>
                               )}
-                              {selects.includes(selectByEnum.EMAIL) ? (
+                              {selects.includes(selectByEnum.EMAIL) && (
                                 <td>
                                   <span>{candidate.email}</span>
                                 </td>
-                              ) : (
-                                <> </>
                               )}
-                              {selects.includes('Status') ? (
+                              {selects.includes('Status') && (
                                 <td>
                                   <h6>
                                     <CandidateStatus status={candidate.status} />
                                   </h6>
                                 </td>
-                              ) : (
-                                <> </>
                               )}
 
-                              {selects.includes('Year') ? <td>{candidate.year}</td> : <> </>}
-                              {selects.includes('Graduation Year') ? (
+                              {selects.includes('Year') && <td>{candidate.year}</td>}
+                              {selects.includes('Graduation Year') && (
                                 <td>{candidate.graduationDate}</td>
-                              ) : (
-                                <> </>
                               )}
-                              {selects.includes('Roles') ? (
-                                <td>{candidate.role.join(', ')}</td>
-                              ) : (
-                                <> </>
-                              )}
-                              {selects.includes('Major') ? <td>{candidate.major}</td> : <> </>}
-                              {selects.includes('Hours') ? (
-                                <td>{candidate.timeCommitment}</td>
-                              ) : (
-                                <> </>
-                              )}
+                              {selects.includes('Roles') && <td>{candidate.role.join(', ')}</td>}
+                              {selects.includes('Major') && <td>{candidate.major}</td>}
+                              {selects.includes('Hours') && <td>{candidate.timeCommitment}</td>}
 
-                              {selects.includes('Links') ? (
+                              {selects.includes('Links') && (
                                 <td>
                                   <CandidateLinksBadge link={candidate.resumeID} text="Resume" />
                                   <CandidateLinksBadge link={candidate.linkedIn} text="LinkedIn" />
                                   <CandidateLinksBadge link={candidate.github} text="Github" />
                                   <CandidateLinksBadge link={candidate.website} text="Website" />
                                 </td>
-                              ) : (
-                                <> </>
                               )}
 
-                              {selects.includes('Strong Referrals') ? (
+                              {selects.includes('Strong Referrals') && (
                                 <td>{candidate.strongReferrals.length}</td>
-                              ) : (
-                                <> </>
                               )}
 
-                              {selects.includes('Referrals') ? (
+                              {selects.includes('Referrals') && (
                                 <td>{candidate.referrals.length}</td>
-                              ) : (
-                                <> </>
                               )}
 
-                              {selects.includes('Avg Interview Score') ? (
+                              {selects.includes('Avg Interview Score') && (
                                 <td> {avgInterviewScore(candidate.interviews)}</td>
-                              ) : (
-                                <> </>
                               )}
 
-                              {selects.includes(selectByEnum.NUM_INTERVIEWS) ? (
+                              {selects.includes(selectByEnum.NUM_INTERVIEWS) && (
                                 <td> {getNumOfInterviews(candidate.interviews)}</td>
-                              ) : (
-                                <> </>
                               )}
 
-                              {selects.includes('Facemash Score') ? (
+                              {selects.includes('Facemash Score') && (
                                 <td>
                                   {candidate.facemashRankings != undefined
                                     ? candidate.facemashRankings.elo
                                     : null}
                                 </td>
-                              ) : (
-                                <> </>
                               )}
 
-                              {selects.includes('Number of Matches') ? (
+                              {selects.includes('Number of Matches') && (
                                 <td>
                                   {candidate.facemashRankings != undefined
                                     ? candidate.facemashRankings.numOfMatches
                                     : null}
                                 </td>
-                              ) : (
-                                <> </>
                               )}
 
                               <td>
