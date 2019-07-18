@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Router from 'next/router'
 import { Button, Container, Input, Row, Col } from 'reactstrap'
 import { validateKey } from '../utils/api'
 import ReactLoading from 'react-loading'
 import Nav from '../components/nav'
 import Head from '../components/head'
-type Props = {}
 
-class LoginPage extends React.Component<Props> {
+class LoginPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,6 +14,7 @@ class LoginPage extends React.Component<Props> {
       loading: false
     }
   }
+
   handleSubmit = async () => {
     this.setState({
       loading: true
@@ -34,15 +34,18 @@ class LoginPage extends React.Component<Props> {
       alert("Couldn't log in. Is your key correct?")
     }
   }
+
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }
+
   // handles when user presses "Enter" when input is focused
   _handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.handleSubmit()
     }
   }
+
   render() {
     return (
       <>

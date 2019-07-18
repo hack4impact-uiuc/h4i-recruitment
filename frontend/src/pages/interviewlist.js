@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
@@ -21,14 +21,14 @@ const CardCol = ({ children, ...rest }) => (
     {children}
   </Col>
 )
+
 const sortByProperty = function(property) {
   return function(x, y) {
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
   }
 }
-type Props = {}
 
-class InterviewListPage extends React.Component<Props> {
+class InterviewListPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,6 +40,7 @@ class InterviewListPage extends React.Component<Props> {
       interviewingInterviews: []
     }
   }
+
   async componentDidMount() {
     const res = await getInterviewingCandidates()
     const candidates = res.result
@@ -55,6 +56,7 @@ class InterviewListPage extends React.Component<Props> {
         interviewingInterviewsres == undefined ? [] : interviewingInterviewsres
     })
   }
+
   toggleModal = candidateId => {
     this.setState({
       currentCandidateId: candidateId,
@@ -67,11 +69,13 @@ class InterviewListPage extends React.Component<Props> {
       byCategory: !this.state.byCategory
     })
   }
+
   render() {
-    const { candidates, interviews } = this.state
+    const { candidates } = this.state
     const currentCandidate = candidates.find(
       candidate => candidate._id === this.state.currentCandidateId
     )
+
     return (
       <>
         <Head title="My Interviews" />
@@ -130,7 +134,7 @@ class InterviewListPage extends React.Component<Props> {
                     <CardCol key={candidate._id}>
                       <Card className="candidate-card h-100">
                         <CardTitle style={{ margin: '15px 0 0 0' }}>
-                          {candidate.name ? (
+                          {candidate.name && (
                             <>
                               <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
                                 <a className="m-3 card-title inline">{candidate.name}</a>
@@ -149,8 +153,6 @@ class InterviewListPage extends React.Component<Props> {
                                 interviews: {candidate.interviews.length}
                               </p>
                             </>
-                          ) : (
-                            <></>
                           )}
                         </CardTitle>
                         <CardBody>

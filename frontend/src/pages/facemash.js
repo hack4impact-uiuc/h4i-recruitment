@@ -118,7 +118,7 @@ class FaceMash extends Component<Props> {
     }
 
     return candidates && candidates.length == 2 ? (
-      <div>
+      <>
         <Head title="Facemash" />
         <Nav />
         <Container>
@@ -162,7 +162,7 @@ class FaceMash extends Component<Props> {
             <ReactLoading className="loader-box" type="spinningBubbles" color="#000" />
           )}
         </Container>
-      </div>
+      </>
     ) : (
       <ErrorMessage>Error: Couldn&#39;t get new FaceMash match. Please refresh page.</ErrorMessage>
     )

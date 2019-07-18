@@ -35,6 +35,7 @@ const mapDispatchToProps = dispatch => {
     dispatch
   )
 }
+
 class NavigationBar extends Component {
   constructor(props) {
     super(props)

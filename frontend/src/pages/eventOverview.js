@@ -1,10 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Router from 'next/router'
 import {
   Table,
-  Row,
   Button,
-  Col,
   Form,
   FormGroup,
   Label,
@@ -21,7 +19,7 @@ import Nav from '../components/nav'
 import { getAllEvents, createEvent } from '../utils/api'
 import Head from '../components/head'
 
-class EventOverview extends React.Component<Props> {
+class EventOverview extends Component {
   constructor(props) {
     super(props)
     this.state = {

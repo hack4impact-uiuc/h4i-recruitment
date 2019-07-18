@@ -1,13 +1,12 @@
 // This is a Modal that opens up, showing a
 // list of interviews a candidate
-import React from 'react'
+import React, { Component } from 'react'
 import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
-type Props = {}
 
-class CandidateInterviewsModal extends React.Component<Props> {
+class CandidateInterviewsModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -30,12 +29,14 @@ class CandidateInterviewsModal extends React.Component<Props> {
       currentInterview: interview
     })
   }
+
   handleExitDetails = e => {
     this.setState({
       viewDetails: false,
       currentInterview: null
     })
   }
+
   delete = async interview => {
     await deleteInterview(this.props.candidateId, interview._id)
     const newInterviews = await getCandidateInterviews(this.props.candidateId)
@@ -43,6 +44,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
       interviews: newInterviews ? newInterviews.result : []
     })
   }
+
   toggle = () => {
     this.setState({
       interviewToDelete: null,

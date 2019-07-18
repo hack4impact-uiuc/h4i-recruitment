@@ -5,32 +5,34 @@ import { statusEnum, yearsEnum } from '../utils/enums'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
-type Props = {}
-
-class StatsPage extends Component<Props> {
+class StatsPage extends Component {
   constructor() {
     super()
     this.state = {
       candidates: []
     }
   }
+
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
       candidates: res.result
     })
   }
+
   getInterviewingEmails = () => {
     let filtered = this.state.candidates.filter(
       candidate => candidate.status === statusEnum.INTERVIEWING
     )
     return filtered.map(candidate => candidate.email)
   }
+
   render() {
     const { candidates } = this.state
     const interviewingCandidates = candidates.filter(
       candidate => candidate.status === statusEnum.INTERVIEWING
     )
+
     return (
       <>
         <Head title="Email & Stats" />
