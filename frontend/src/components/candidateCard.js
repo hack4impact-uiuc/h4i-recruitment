@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Link from 'next/link'
-import { Card, CardBody, CardTitle, Button, Badge, Row, Col } from 'reactstrap'
+import { Card, CardBody, CardTitle, Badge, Row, Col } from 'reactstrap'
 import Router from 'next/router'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
@@ -13,17 +13,13 @@ import CandidateLinksBadge from '../components/candidateLinksBadge'
 const handler = (_id: string) =>
   Router.push({
     pathname: '/candidate',
-    query: { id: _id }
+    query: { id: _id },
   })
-
-type Props = {
-  candidate: Array<mixed> // TODO: make this more specific
-}
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setStatus
+      setStatus,
     },
     dispatch
   )
@@ -33,14 +29,16 @@ class CandidateCardComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate.status
+      status: this.props.candidate.status,
     }
   }
+
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
+
   render() {
     const { candidate } = this.props
     return (

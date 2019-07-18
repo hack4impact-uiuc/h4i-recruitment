@@ -15,13 +15,14 @@ class TablePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      candidates: []
+      candidates: [],
     }
   }
+
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
-      candidates: res.result == undefined ? [] : res.result
+      candidates: res.result == undefined ? [] : res.result,
     })
   }
 
@@ -43,6 +44,7 @@ class TablePage extends Component {
         candidate.status !== statusEnum.REJECTED && candidate.status !== statusEnum.INVALID
     )
     filteredCandidates.sort(compareByFacemashScore)
+
     return (
       <>
         <Head title="Table View" />

@@ -11,7 +11,7 @@ import {
   FormFeedback,
   Toast,
   ToastHeader,
-  ToastBody
+  ToastBody,
 } from 'reactstrap'
 import Link from 'next/link'
 import React from 'react'
@@ -34,7 +34,7 @@ type Props = {
   filters: Object,
   sort: Object,
   candidateId: String,
-  candidateName: String
+  candidateName: String,
 }
 
 const mapDispatchToProps = dispatch => {
@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => {
     {
       fetchAllCandidates,
       addFilter,
-      removeFilter
+      removeFilter,
     },
     dispatch
   )
@@ -56,7 +56,7 @@ const mapStateToProps = state => ({
   sort: state.candidateListPage.sort,
   candidateId: state.interview.candidateId,
   candidateName: state.interview.candidateName,
-  round: state.round
+  round: state.round,
 })
 
 class Interview extends Component<Props> {
@@ -75,26 +75,26 @@ class Interview extends Component<Props> {
       sections: roundData.rounds[this.props.round].sections,
       interviewName: roundData.rounds[this.props.round].name,
       interviewScored: roundData.rounds[this.props.round].scored,
-      verificationModalOpen: false
+      verificationModalOpen: false,
     }
   }
 
   handleSubmitClick = e => {
     e.preventDefault()
     this.setState({
-      verificationModalOpen: true
+      verificationModalOpen: true,
     })
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
   submit = async e => {
     this.setState({
-      loading: true
+      loading: true,
     })
     console.log('Adding Interview....')
     let overallScore = 0
@@ -114,7 +114,7 @@ class Interview extends Component<Props> {
       const msg = 'Interview does not have a Candidate. Please put down a candidate.'
       alert(msg)
     } else {
-      const res = await addInterview(
+      await addInterview(
         getKey(),
         this.props.candidateId,
         this.props.candidateName,
@@ -128,24 +128,25 @@ class Interview extends Component<Props> {
       Router.push({ pathname: '/candidate', query: { id: this.props.candidateId } })
     }
     this.setState({
-      loading: false
+      loading: false,
     })
   }
+
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
-      candidates: res.result
+      candidates: res.result,
     })
   }
 
   toggle = () => {
     this.setState({
-      verificationModalOpen: !this.state.verificationModalOpen
+      verificationModalOpen: !this.state.verificationModalOpen,
     })
   }
 
   render() {
-    let { error, filters, sort } = this.props
+    let { error, filters } = this.props
     let { candidates } = this.state
     if (error) {
       console.error(error)
@@ -175,6 +176,7 @@ class Interview extends Component<Props> {
     } else {
       candidates = []
     }
+
     return (
       <>
         <Head title={`Adding ${this.props.candidateName} Interview`} />
@@ -311,6 +313,7 @@ class Interview extends Component<Props> {
     )
   }
 }
+
 // export default Interview
 export default connect(
   mapStateToProps,

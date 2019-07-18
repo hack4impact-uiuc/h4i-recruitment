@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Badge } from 'reactstrap'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
@@ -10,15 +9,10 @@ import ErrorMessage from '../components/errorMessage'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinks from '../components/candidateLinks'
 
-type Props = {
-  candidate: {},
-  hideStatus?: boolean
-}
-
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setStatus
+      setStatus,
     },
     dispatch
   )
@@ -28,14 +22,16 @@ class FacemashProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate != undefined ? this.props.candidate.status : null
+      status: this.props.candidate != undefined ? this.props.candidate.status : null,
     }
   }
+
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
+
   render() {
     const { candidate } = this.props
     if (!this.props.candidate || candidate == undefined) {
@@ -43,6 +39,7 @@ class FacemashProfile extends Component {
         <ErrorMessage message="User doesn&#39;t exist or cannot be queried. Check if you are logged In" />
       )
     }
+
     return (
       <div className="rounded-lightblue-border">
         <div className="lightblue-section padded-all-sm">

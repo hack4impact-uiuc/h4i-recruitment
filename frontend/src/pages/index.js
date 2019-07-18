@@ -11,37 +11,41 @@ class LoginPage extends Component {
     super(props)
     this.state = {
       currentKey: '',
-      loading: false
+      loading: false,
     }
   }
+
   handleSubmit = async () => {
     this.setState({
-      loading: true
+      loading: true,
     })
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
       localStorage.setItem('interviewerKey', this.state.currentKey)
       localStorage.setItem('interviewerName', result.name)
       this.setState({
-        loading: false
+        loading: false,
       })
       Router.push('/dashboard')
     } else {
       this.setState({
-        loading: false
+        loading: false,
       })
       alert("Couldn't log in. Is your key correct?")
     }
   }
+
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }
+
   // handles when user presses "Enter" when input is focused
   _handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.handleSubmit()
     }
   }
+
   render() {
     return (
       <>

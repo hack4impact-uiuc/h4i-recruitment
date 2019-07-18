@@ -5,11 +5,7 @@ import Link from 'next/link'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { editInterview, newInterview } from '../actions'
-import {
-  getKey,
-  getPastInterviews,
-  deleteInterview,
-} from '../utils/api'
+import { getKey, getPastInterviews, deleteInterview } from '../utils/api'
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
@@ -21,7 +17,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       editInterview,
-      newInterview
+      newInterview,
     },
     dispatch
   )
@@ -35,7 +31,7 @@ class InterviewPortal extends Component {
       interviews: [],
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false
+      loading: false,
     }
   }
 
@@ -45,6 +41,7 @@ class InterviewPortal extends Component {
       this.setState({ interviews: result })
     }
   }
+
   handleNewInterview = e => {
     const { newInterview } = this.props
     newInterview()
@@ -58,21 +55,24 @@ class InterviewPortal extends Component {
       Router.push('/interview')
     }
   }
+
   toggle = () => {
     this.setState({
       interviewToDelete: null,
-      verificationModalOpen: false
+      verificationModalOpen: false,
     })
   }
+
   handleDeleteClick = (interviewId, candidateId) => {
     this.setState({
       verificationModalOpen: true,
-      interviewToDelete: { interviewId, candidateId }
+      interviewToDelete: { interviewId, candidateId },
     })
   }
+
   delete = async () => {
     this.setState({
-      loading: true
+      loading: true,
     })
     const interview = this.state.interviewToDelete
     await deleteInterview(interview.candidateId, interview.interviewId)
@@ -81,12 +81,13 @@ class InterviewPortal extends Component {
       interviews: newInterviews,
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false
+      loading: false,
     })
   }
 
   render() {
     const { interviews } = this.state
+
     return (
       <>
         <Head title="Interviews" />
@@ -147,7 +148,7 @@ class InterviewPortal extends Component {
                           Delete
                         </Button>
                       </td>
-                    </tr>
+                    </tr>,
                   ]
                 })
               ) : (

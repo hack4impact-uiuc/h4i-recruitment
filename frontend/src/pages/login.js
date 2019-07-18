@@ -9,9 +9,10 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentKey: ''
+      currentKey: '',
     }
   }
+
   async handleSubmit() {
     const { success } = await validateKey(this.state.currentKey)
     if (success) {
@@ -19,6 +20,7 @@ class Login extends Component {
       Router.push('/dashboard')
     }
   }
+
   onTextChange = e => {
     this.setState({ currentKey: e.target.value })
   }

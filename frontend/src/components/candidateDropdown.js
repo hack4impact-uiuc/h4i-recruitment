@@ -8,39 +8,41 @@ import Select from 'react-select'
 import { addInterviewCandidate } from '../actions'
 
 type Props = {
-  candidates: Array<mixed>
+  candidates: Array<mixed>,
+}
+
+type State = {
+  isClearable: boolean,
+  isSearchable: boolean,
 }
 
 const mapStateToProps = state => ({
   loading: state.candidateListPage.candidatesLoading,
   candidateId: state.interview.candidateId,
-  candidateName: state.interview.candidateName
+  candidateName: state.interview.candidateName,
 })
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addInterviewCandidate
+      addInterviewCandidate,
     },
     dispatch
   )
 }
 
-type State = {
-  isClearable: boolean,
-  isSearchable: boolean
-}
-
 // this component is used in the interview page for the user to choose candidate
 class CandidateDropdown extends Component<Props, State> {
-  constructor(props) {
-    super(props)
-  }
   state = {
     isClearable: false,
     isSearchable: true,
-    selectedOption: null
+    selectedOption: null,
   }
+
+  constructor(props) {
+    super(props)
+  }
+
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
     let chosenCandidate = null
@@ -60,8 +62,9 @@ class CandidateDropdown extends Component<Props, State> {
       this.setState({ selectedOption: newSelectedOption })
     }
   }
+
   render() {
-    const { isClearable, isSearchable, selectedOption } = this.state
+    const { selectedOption } = this.state
     const { candidates } = this.props
     var candidate_names = []
     for (var i = 0; i < candidates.length; i++) {
@@ -69,6 +72,7 @@ class CandidateDropdown extends Component<Props, State> {
       let curr_name_label = { value: curr_cand.name.toString(), label: curr_cand.name.toString() }
       candidate_names.push(curr_name_label)
     }
+
     return (
       <Fragment>
         <Select

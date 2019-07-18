@@ -4,6 +4,10 @@ import CandidateCardComponent from './candidateCard'
 import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
 import { connect } from 'react-redux'
 
+type Props = {
+  candidates: Array<mixed>,
+}
+
 const CardCol = ({ children, ...rest }) => (
   // This handles the size of each card - lg size 3 causes 4 cards/row
   <Col xs={{ size: 12 }} md={{ size: 6 }} lg={{ size: 3 }} className="mb-3" {...rest}>
@@ -11,25 +15,24 @@ const CardCol = ({ children, ...rest }) => (
   </Col>
 )
 
-type Props = {
-  candidates: Array<mixed>
-}
-
 const mapStateToProps = state => ({
-  loading: state.candidateListPage.candidatesLoading
+  loading: state.candidateListPage.candidatesLoading,
 })
+
 // component that destructs Props - Props would look like this { candidates: {} }
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
 class CandidateListComponent extends Component<Props> {
   constructor() {
     super()
     this.state = {
-      search: ''
+      search: '',
     }
   }
+
   handleChange = event => {
     this.setState({ [event.target.id]: event.target.value })
   }
+
   render() {
     const { search } = this.state
     const { candidates } = this.props

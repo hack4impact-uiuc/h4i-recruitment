@@ -7,7 +7,7 @@ import {
   sortByEnum,
   enumToArray,
   selectByEnum,
-  compareByEnum
+  compareByEnum,
 } from '../utils/enums'
 
 const selectList = enumToArray(selectByEnum)
@@ -22,13 +22,13 @@ const initialState = {
   validFormat: true,
   facemash: {
     candidates: null,
-    matchID: null
+    matchID: null,
   },
   interview: {
     editInterview: false,
     interviewObj: null,
     candidateId: '',
-    candidateName: ''
+    candidateName: '',
   },
   candidateListPage: {
     candidates: [],
@@ -42,14 +42,14 @@ const initialState = {
       gradDates: enumToArray(gradEnum),
       sortBy: enumToArray(sortByEnum),
       compareBy: enumToArray(compareByEnum),
-      selectBy: selectList
+      selectBy: selectList,
     },
     sort: {
       age: false,
       facesmashScore: false,
-      interviewScore: false
-    }
-  }
+      interviewScore: false,
+    },
+  },
 }
 
 export default initialState

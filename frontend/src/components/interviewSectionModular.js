@@ -58,19 +58,20 @@ class InterviewSectionModular extends Component {
         </p>
       )
     }
+
     let options = []
     if (this.props.scoreOptions && this.props.textOptions) {
       for (let i = 0; i < this.props.scoreOptions.length; i++) {
         options.push({
           name: this.props.scoreOptions[i] + ' - ' + this.props.textOptions[i],
-          value: Number(this.props.scoreOptions[i])
+          value: Number(this.props.scoreOptions[i]),
         })
       }
     } else if (this.props.scoreOptions) {
       for (let i = 0; i < this.props.scoreOptions.length; i++) {
         options.push({
           name: this.props.scoreOptions[i],
-          value: Number(this.props.scoreOptions[i])
+          value: Number(this.props.scoreOptions[i]),
         })
       }
     } else if (this.props.textOptions) {
@@ -78,6 +79,7 @@ class InterviewSectionModular extends Component {
         options.push({ name: this.props.textOptions[i], value: this.props.textOptions[i] })
       }
     }
+
     return (
       <InterviewSectionCard title={this.props.title}>
         {this.props.description ? (

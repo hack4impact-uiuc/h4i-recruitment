@@ -9,26 +9,30 @@ class StatsPage extends Component {
   constructor() {
     super()
     this.state = {
-      candidates: []
+      candidates: [],
     }
   }
+
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
-      candidates: res.result
+      candidates: res.result,
     })
   }
+
   getInterviewingEmails = () => {
     let filtered = this.state.candidates.filter(
       candidate => candidate.status === statusEnum.INTERVIEWING
     )
     return filtered.map(candidate => candidate.email)
   }
+
   render() {
     const { candidates } = this.state
     const interviewingCandidates = candidates.filter(
       candidate => candidate.status === statusEnum.INTERVIEWING
     )
+
     return (
       <>
         <Head title="Email & Stats" />

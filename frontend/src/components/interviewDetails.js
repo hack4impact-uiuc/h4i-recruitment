@@ -1,17 +1,6 @@
 // @flow
 import React, { Component } from 'react'
 import { Container, Button, ListGroup, ListGroupItem } from 'reactstrap'
-import Router from 'next/router'
-
-const handler = (_id: string) =>
-  Router.push({
-    pathname: '/candidate',
-    query: { id: _id }
-  })
-
-type Props = {
-  candidate: Array<mixed> // TODO: make this more specific
-}
 
 class InterviewDetails extends Component {
   constructor(props) {
@@ -21,8 +10,10 @@ class InterviewDetails extends Component {
   handleExitDetails() {
     this.props.onExitDetails()
   }
+
   render() {
     let interview = this.props.interview
+
     return (
       <Container fluid>
         <p>

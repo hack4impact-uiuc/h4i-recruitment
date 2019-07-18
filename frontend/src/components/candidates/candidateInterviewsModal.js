@@ -6,47 +6,49 @@ import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
 
-
 class CandidateInterviewsModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
       viewDetails: false,
       currentInterview: null,
-      interviews: []
+      interviews: [],
     }
   }
 
   async componentDidMount() {
     const interviews = await getCandidateInterviews(this.props.candidateId)
     this.setState({
-      interviews: interviews ? interviews.result : []
+      interviews: interviews ? interviews.result : [],
     })
   }
 
   handleViewDetails = interview => {
     this.setState({
       viewDetails: true,
-      currentInterview: interview
+      currentInterview: interview,
     })
   }
+
   handleExitDetails = e => {
     this.setState({
       viewDetails: false,
-      currentInterview: null
+      currentInterview: null,
     })
   }
+
   delete = async interview => {
     await deleteInterview(this.props.candidateId, interview._id)
     const newInterviews = await getCandidateInterviews(this.props.candidateId)
     this.setState({
-      interviews: newInterviews ? newInterviews.result : []
+      interviews: newInterviews ? newInterviews.result : [],
     })
   }
+
   toggle = () => {
     this.setState({
       interviewToDelete: null,
-      verificationModalOpen: false
+      verificationModalOpen: false,
     })
   }
 

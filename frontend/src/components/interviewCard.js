@@ -1,24 +1,12 @@
 // @flow
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { Card, CardBody, CardTitle, Button, Modal, ModalHeader, ModalFooter } from 'reactstrap'
-import Router from 'next/router'
-
-const handler = (_id: string) =>
-  Router.push({
-    pathname: '/candidate',
-    query: { id: _id }
-  })
-
-type Props = {
-  candidate: Array<mixed> // TODO: make this more specific
-}
 
 class InterviewCard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      modal: false
+      modal: false,
     }
     this.handleDeleteClick = this.handleDeleteClick.bind(this)
   }
@@ -34,7 +22,7 @@ class InterviewCard extends Component {
 
   toggle() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     })
   }
 

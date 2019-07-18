@@ -9,22 +9,21 @@ import CandidateInterviewsModal from '../components/candidates/candidateIntervie
 import AddCommentsModal from '../components/comments/addCommentsModal'
 import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
+import Nav from '../components/nav'
 import {
   addReferral,
   addStrongReferral,
   deleteReferral,
   getCandidateById,
   addCommentToCandidate,
-  getCandidateInterviews
+  getCandidateInterviews,
 } from '../utils/api'
 import { addInterviewCandidate } from './../actions'
-import ActionButton from '../components/actionButton'
-import Nav from '../components/nav'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addInterviewCandidate
+      addInterviewCandidate,
     },
     dispatch
   )
@@ -41,71 +40,81 @@ class CandidatePage extends Component {
       addNotesModal: false,
       candidate: null,
       modalOpen: false,
-      comments: []
+      comments: [],
     }
   }
+
   async componentDidMount() {
     const { query } = Router
     const { result } = await getCandidateById(query.id)
     this.setState({
       candidate: result,
-      comments: result != undefined ? result.comments : []
+      comments: result != undefined ? result.comments : [],
     })
   }
+
   toggle = () => {
     this.setState({
-      addNotesModal: !this.state.addNotesModal
+      addNotesModal: !this.state.addNotesModal,
     })
   }
+
   submitComment = comment => {
-    const res = addCommentToCandidate(this.state.candidate._id, comment)
+    addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
-      addNotesModal: !this.state.addNotesModal
+      addNotesModal: !this.state.addNotesModal,
     })
     let commentsState = this.state.comments
     commentsState.push({ writerName: 'You', text: comment, created_at: 'Now' })
     this.setState({
-      comments: commentsState
+      comments: commentsState,
     })
   }
+
   goBack = () => {
     Router.back()
   }
+
   // handles the click to show all interviews. Modal pops up
   async handleShowAllInterviews(id) {
     const { result } = await getCandidateInterviews(id)
     this.setState({
       interviews: result,
-      modalOpen: true
+      modalOpen: true,
     })
   }
+
   // goes to add the interview
   async handleAddInterview(candidateId, candidateName) {
     const { addInterviewCandidate } = this.props
     await addInterviewCandidate(candidateId, candidateName)
     Router.push('/interview')
   }
+
   // adds referral
   async handleReferral(candidateId) {
     const { result } = await addReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   // adds strong referral
   async handleStrongReferral(candidateId) {
     const { result } = await addStrongReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   // removes referral
   async handleRemoveReferral(candidateId) {
     const { result } = await deleteReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   exitModal = () => {
     this.setState({
-      modalOpen: false
+      modalOpen: false,
     })
   }
 
@@ -116,6 +125,7 @@ class CandidatePage extends Component {
       )
     }
     const { candidate } = this.state
+
     return (
       <>
         <Head title={candidate.name} />

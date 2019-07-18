@@ -5,7 +5,7 @@ import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
 import {
   getInterviewingCandidates,
   getAllInterviews,
-  getAllInterviewingCandidateInterviews
+  getAllInterviewingCandidateInterviews,
 } from '../utils/api'
 import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
 import { avgInterviewScore, interviewGetCategorySection } from '../utils/core'
@@ -21,6 +21,7 @@ const CardCol = ({ children, ...rest }) => (
     {children}
   </Col>
 )
+
 const sortByProperty = function(property) {
   return function(x, y) {
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
@@ -36,9 +37,10 @@ class InterviewListPage extends Component {
       modalOpen: false,
       currentCandidateId: '',
       byCategory: false,
-      interviewingInterviews: []
+      interviewingInterviews: [],
     }
   }
+
   async componentDidMount() {
     const res = await getInterviewingCandidates()
     const candidates = res.result
@@ -51,26 +53,29 @@ class InterviewListPage extends Component {
         candidates == undefined ? [] : candidates.sort(sortByProperty('graduationDate')).reverse(),
       interviews: interviews == undefined ? [] : interviews,
       interviewingInterviews:
-        interviewingInterviewsres == undefined ? [] : interviewingInterviewsres
+        interviewingInterviewsres == undefined ? [] : interviewingInterviewsres,
     })
   }
+
   toggleModal = candidateId => {
     this.setState({
       currentCandidateId: candidateId,
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     })
   }
 
   toggleShowByCategory = () => {
     this.setState({
-      byCategory: !this.state.byCategory
+      byCategory: !this.state.byCategory,
     })
   }
+
   render() {
-    const { candidates, interviews } = this.state
+    const { candidates } = this.state
     const currentCandidate = candidates.find(
       candidate => candidate._id === this.state.currentCandidateId
     )
+
     return (
       <>
         <Head title="My Interviews" />
@@ -140,7 +145,7 @@ class InterviewListPage extends Component {
                                   float: 'right',
                                   marginBottom: 0,
                                   paddingRight: '5px',
-                                  fontSize: '12px'
+                                  fontSize: '12px',
                                 }}
                               >
                                 Avg Score: {avgInterviewScore(candidate.interviews)}
