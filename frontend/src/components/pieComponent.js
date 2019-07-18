@@ -8,7 +8,7 @@ import {
   rolesEnum,
   gradEnum,
   compareByEnum,
-  enumToArray,
+  enumToArray
 } from '../utils/enums'
 import { Button } from 'reactstrap'
 
@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => {
     {
       addFilter,
       removeFilter,
-      resetFilters,
+      resetFilters
     },
     dispatch
   )
@@ -25,12 +25,12 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    filters: state.candidateListPage.filters,
+    filters: state.candidateListPage.filters
   }
 }
 
 type Props = {
-  filters: Object,
+  filters: Object
 }
 
 class PieComponent extends Component<Props> {

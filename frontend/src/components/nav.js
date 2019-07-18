@@ -15,7 +15,7 @@ import {
   Input,
   Button,
   Container,
-  NavItem,
+  NavItem
 } from 'reactstrap'
 import { validateKey, getKey, getRound } from '../utils/api'
 import roundData from '../data/roundData.js'
@@ -24,13 +24,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
-  round: state.round,
+  round: state.round
 })
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setRoundRedux,
+      setRoundRedux
     },
     dispatch
   )
@@ -43,13 +43,13 @@ class NavigationBar extends Component {
       isLead: false,
       loggedIn: false,
       showLoginModal: false,
-      username: null,
+      username: null
     }
   }
 
   toggle = () => {
     this.setState({
-      showLoginModal: !this.state.showLoginModal,
+      showLoginModal: !this.state.showLoginModal
     })
   }
 
@@ -64,7 +64,7 @@ class NavigationBar extends Component {
 
   async handleSubmit() {
     this.setState({
-      showLoginModal: false,
+      showLoginModal: false
     })
     const { success, result } = await validateKey(this.state.currentKey)
     if (success) {
@@ -75,7 +75,7 @@ class NavigationBar extends Component {
       this.setState({
         isLead: result.is_lead,
         loggedIn: true,
-        username: result.name,
+        username: result.name
       })
     }
   }
@@ -92,7 +92,7 @@ class NavigationBar extends Component {
           isLead: result.is_lead,
           isDirector: result.is_director,
           loggedIn: true,
-          username: result.name,
+          username: result.name
         })
       }
     }

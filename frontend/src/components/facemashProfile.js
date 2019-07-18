@@ -12,7 +12,7 @@ import CandidateLinks from '../components/candidateLinks'
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setStatus,
+      setStatus
     },
     dispatch
   )
@@ -22,7 +22,7 @@ class FacemashProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate != undefined ? this.props.candidate.status : null,
+      status: this.props.candidate != undefined ? this.props.candidate.status : null
     }
   }
 

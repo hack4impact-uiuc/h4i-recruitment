@@ -64,14 +64,14 @@ class InterviewSectionModular extends Component {
       for (let i = 0; i < this.props.scoreOptions.length; i++) {
         options.push({
           name: this.props.scoreOptions[i] + ' - ' + this.props.textOptions[i],
-          value: Number(this.props.scoreOptions[i]),
+          value: Number(this.props.scoreOptions[i])
         })
       }
     } else if (this.props.scoreOptions) {
       for (let i = 0; i < this.props.scoreOptions.length; i++) {
         options.push({
           name: this.props.scoreOptions[i],
-          value: Number(this.props.scoreOptions[i]),
+          value: Number(this.props.scoreOptions[i])
         })
       }
     } else if (this.props.textOptions) {

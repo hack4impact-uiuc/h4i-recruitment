@@ -20,7 +20,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       addFilter,
-      removeFilter,
+      removeFilter
     },
     dispatch
   )
@@ -31,7 +31,7 @@ const mapStateToProps = state => ({
   loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
   filters: state.candidateListPage.filters,
-  sort: state.candidateListPage.sort,
+  sort: state.candidateListPage.sort
 })
 
 var sortByProperty = function(property) {
@@ -58,26 +58,26 @@ class Dashboard extends Component {
       error: this.props.error,
       loading: this.props.loading,
       filters: this.props.filters,
-      search: '',
+      search: ''
     }
   }
 
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
-      candidates: res.result === undefined ? [] : res.result,
+      candidates: res.result === undefined ? [] : res.result
     })
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      filters: nextProps.filters,
+      filters: nextProps.filters
     })
   }
 
   handleSearchInput = e => {
     this.setState({
-      search: e.target.value,
+      search: e.target.value
     })
   }
 

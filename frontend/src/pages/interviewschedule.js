@@ -15,7 +15,7 @@ class InterviewSchedule extends Component {
 
     this.state = {
       interviews: this.props.interviews,
-      interviewCards: this.props.interviewCards,
+      interviewCards: this.props.interviewCards
     }
   }
 
@@ -103,7 +103,7 @@ class InterviewSchedule extends Component {
     var interviewList = res.result.interviews
     this.setState({
       interviews: interviewList === undefined ? [] : interviewList,
-      interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList),
+      interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList)
     })
   }
 

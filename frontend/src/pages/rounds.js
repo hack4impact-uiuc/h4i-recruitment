@@ -13,13 +13,13 @@ import Head from '../components/head'
 const mapStateToProps = state => ({
   round: state.round,
   selectedRound: state.selectedRound,
-  validFormat: state.validFormat,
+  validFormat: state.validFormat
 })
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setRoundRedux,
+      setRoundRedux
     },
     dispatch
   )
@@ -27,7 +27,7 @@ const mapDispatchToProps = dispatch => {
 
 class Rounds extends Component {
   state = {
-    modalOpen: false,
+    modalOpen: false
   }
 
   constructor(props) {

@@ -5,7 +5,7 @@ import { Col, Form, FormGroup, Label, Input, Row } from 'reactstrap'
 import { connect } from 'react-redux'
 
 type Props = {
-  candidates: Array<mixed>,
+  candidates: Array<mixed>
 }
 
 const CardCol = ({ children, ...rest }) => (
@@ -16,7 +16,7 @@ const CardCol = ({ children, ...rest }) => (
 )
 
 const mapStateToProps = state => ({
-  loading: state.candidateListPage.candidatesLoading,
+  loading: state.candidateListPage.candidatesLoading
 })
 
 // component that destructs Props - Props would look like this { candidates: {} }
@@ -25,7 +25,7 @@ class CandidateListComponent extends Component<Props> {
   constructor() {
     super()
     this.state = {
-      search: '',
+      search: ''
     }
   }
 

@@ -17,7 +17,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       editInterview,
-      newInterview,
+      newInterview
     },
     dispatch
   )
@@ -31,7 +31,7 @@ class InterviewPortal extends Component {
       interviews: [],
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false,
+      loading: false
     }
   }
 
@@ -59,20 +59,20 @@ class InterviewPortal extends Component {
   toggle = () => {
     this.setState({
       interviewToDelete: null,
-      verificationModalOpen: false,
+      verificationModalOpen: false
     })
   }
 
   handleDeleteClick = (interviewId, candidateId) => {
     this.setState({
       verificationModalOpen: true,
-      interviewToDelete: { interviewId, candidateId },
+      interviewToDelete: { interviewId, candidateId }
     })
   }
 
   delete = async () => {
     this.setState({
-      loading: true,
+      loading: true
     })
     const interview = this.state.interviewToDelete
     await deleteInterview(interview.candidateId, interview.interviewId)
@@ -81,7 +81,7 @@ class InterviewPortal extends Component {
       interviews: newInterviews,
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false,
+      loading: false
     })
   }
 
@@ -148,7 +148,7 @@ class InterviewPortal extends Component {
                           Delete
                         </Button>
                       </td>
-                    </tr>,
+                    </tr>
                   ]
                 })
               ) : (
