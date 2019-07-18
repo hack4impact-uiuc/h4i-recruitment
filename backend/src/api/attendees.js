@@ -1,6 +1,4 @@
 const express = require('express')
-const mongodb = require('mongodb')
-const mongoose = require('mongoose')
 const router = express.Router()
 const { errorWrap } = require('../middleware')
 const { Attendee, Candidate } = require('../models')
