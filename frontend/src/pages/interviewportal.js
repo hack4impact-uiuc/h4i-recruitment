@@ -9,14 +9,11 @@ import {
   getKey,
   getPastInterviews,
   deleteInterview,
-  getAllInterviewingCandidateInterviews
 } from '../utils/api'
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import Head from '../components/head'
-
-type Props = {}
 
 const mapStateToProps = state => ({})
 
@@ -31,7 +28,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Main app
-class InterviewPortal extends Component<Props> {
+class InterviewPortal extends Component {
   constructor(props) {
     super(props)
     this.state = {

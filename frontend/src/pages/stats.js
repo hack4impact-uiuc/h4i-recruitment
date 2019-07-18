@@ -5,9 +5,7 @@ import { statusEnum, yearsEnum } from '../utils/enums'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
-type Props = {}
-
-class StatsPage extends Component<Props> {
+class StatsPage extends Component {
   constructor() {
     super()
     this.state = {

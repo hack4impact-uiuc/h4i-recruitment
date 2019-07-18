@@ -1,5 +1,5 @@
 //@flow
-import React from 'react'
+import React, { Component } from 'react'
 import { Container, Row, Col } from 'reactstrap'
 import { getCandidates, setCandidateStatus } from '../utils/api'
 import { connect } from 'react-redux'
@@ -9,8 +9,6 @@ import { addFilter, removeFilter } from '../actions'
 import PieComponent from '../components/pieComponent'
 import Nav from '../components/nav'
 import Head from '../components/head'
-
-type Props = {}
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -29,7 +27,7 @@ const mapStateToProps = state => ({
   filters: state.candidateListPage.filters
 })
 
-class Analytics extends React.Component<Props> {
+class Analytics extends Component {
   constructor(props) {
     super(props)
     this.state = {

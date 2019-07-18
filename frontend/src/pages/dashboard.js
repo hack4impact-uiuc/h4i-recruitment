@@ -1,5 +1,5 @@
 //@flow
-import React from 'react'
+import React, { Component } from 'react'
 import { Container, Row, Table, Col, FormGroup, Label, Input } from 'reactstrap'
 import Link from 'next/link'
 import { connect } from 'react-redux'
@@ -15,8 +15,6 @@ import ErrorMessage from '../components/errorMessage'
 import { avgInterviewScore, compareByAvgInterviewScore, getNumOfInterviews } from '../utils/core'
 import { selectByEnum } from '../utils/enums'
 import Nav from '../components/nav'
-
-type Props = {}
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -52,7 +50,7 @@ var sortByMultipleProperties = function(property1, property2) {
   }
 }
 
-class Dashboard extends React.Component<Props> {
+class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {

@@ -21,7 +21,6 @@ import { addInterviewCandidate } from './../actions'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 
-type Props = {}
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
@@ -33,7 +32,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => ({})
 
-class CandidatePage extends Component<Props> {
+class CandidatePage extends Component {
   constructor(props) {
     super(props)
     this.state = {

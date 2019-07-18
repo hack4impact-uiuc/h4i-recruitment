@@ -4,10 +4,8 @@ import Router from 'next/router'
 import Link from 'next/link'
 import { validateKey } from '../utils/api'
 
-type Props = {}
-
 // Main app
-class Login extends Component<Props> {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {

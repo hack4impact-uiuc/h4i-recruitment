@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
@@ -26,9 +26,8 @@ const sortByProperty = function(property) {
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
   }
 }
-type Props = {}
 
-class InterviewListPage extends React.Component<Props> {
+class InterviewListPage extends Component {
   constructor(props) {
     super(props)
     this.state = {

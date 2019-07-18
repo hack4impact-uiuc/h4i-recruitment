@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Badge } from 'reactstrap'
 import { statusEnum } from '../utils/enums'
 
 // a Bootstrap badge that changes colors depending on the status
-class CandidateStatus extends React.Component {
+class CandidateStatus extends Component {
   render() {
     const { status } = this.props
     return (

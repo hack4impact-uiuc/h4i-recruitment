@@ -1,13 +1,13 @@
 // This is a Modal that opens up, showing a
 // list of interviews a candidate
-import React from 'react'
+import React, { Component } from 'react'
 import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
 import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
-type Props = {}
 
-class CandidateInterviewsModal extends React.Component<Props> {
+
+class CandidateInterviewsModal extends Component {
   constructor(props) {
     super(props)
     this.state = {

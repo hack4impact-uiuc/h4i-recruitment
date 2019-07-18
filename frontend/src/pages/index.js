@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Router from 'next/router'
 import { Button, Container, Input, Row, Col } from 'reactstrap'
 import { validateKey } from '../utils/api'
 import ReactLoading from 'react-loading'
 import Nav from '../components/nav'
 import Head from '../components/head'
-type Props = {}
 
-class LoginPage extends React.Component<Props> {
+class LoginPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
