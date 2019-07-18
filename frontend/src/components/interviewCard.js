@@ -48,10 +48,10 @@ class InterviewCard extends Component {
               <b>Interviewer: </b>
               {this.props.interviewer}
             </p>
-            <div>
+            <>
               <Button onClick={() => this.handleViewDetails()}>View Details</Button>
               <Button onClick={() => this.toggle()}>Delete (Directors Only)</Button>
-            </div>
+            </>
           </CardBody>
         </Card>
       </>

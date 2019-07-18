@@ -35,7 +35,7 @@ class InterviewDetails extends Component {
             </ListGroupItem>
           ))}
         </ListGroup>
-        <div>
+        <>
           <Button
             style={{ marginTop: 5 }}
             value={this.props.interview}
@@ -43,7 +43,7 @@ class InterviewDetails extends Component {
           >
             Exit Details
           </Button>
-        </div>
+        </>
       </Container>
     )
   }

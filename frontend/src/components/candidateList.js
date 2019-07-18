@@ -37,7 +37,7 @@ class CandidateListComponent extends Component<Props> {
     const { search } = this.state
     const { candidates } = this.props
     return (
-      <div>
+      <>
         <Row>
           <Col sm="12">
             <Form onSubmit={this.handleSubmit}>
@@ -71,10 +71,10 @@ class CandidateListComponent extends Component<Props> {
                 )
               })
           ) : (
-            <div>Loading</div>
+            <>Loading</>
           )}
         </Row>
-      </div>
+      </>
     )
   }
 }

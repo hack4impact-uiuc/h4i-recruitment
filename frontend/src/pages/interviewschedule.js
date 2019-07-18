@@ -109,7 +109,7 @@ class InterviewSchedule extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <Head title="Interview Schedule" />
         <Nav />
         <Container style={{ overflow: 'hidden' }}>
@@ -119,7 +119,7 @@ class InterviewSchedule extends Component {
         <hr />
         <Container>
           <form onSubmit={this.uploadSchedule}>
-            <div>
+            <>
               <h2>Upload a New Schedule</h2>
               <input
                 ref={ref => {
@@ -127,12 +127,12 @@ class InterviewSchedule extends Component {
                 }}
                 type="file"
               />
-            </div>
+            </>
             <Button type="submit">Parse Schedule</Button>
           </form>
           <br />
         </Container>
-      </div>
+      </>
     )
   }
 }

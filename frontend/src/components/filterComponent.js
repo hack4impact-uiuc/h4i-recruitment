@@ -82,13 +82,9 @@ class FilterComponent extends Component<Props> {
 
     return (
       <div className="filter-box">
-        <div>
-          <h3>Query Panel</h3>
-        </div>
-        <div>
-          <h5>Selects</h5>
-        </div>
-        <div>
+        <h3>Query Panel</h3>
+        <h5>Selects</h5>
+        <>
           {selectBy.map((el, idx) => {
             return (
               <div key={idx}>
@@ -108,14 +104,10 @@ class FilterComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h4>Filters</h4>
-        </div>
-        <div>
-          <h5>Status</h5>
-        </div>
-        <div>
+        </>
+        <h4>Filters</h4>
+        <h5>Status</h5>
+        <>
           {statuses.map((el, idx) => {
             return (
               <div key={idx}>
@@ -135,11 +127,10 @@ class FilterComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h5>Referrals</h5>
-        </div>
-        <div>
+        </>
+
+        <h5>Referrals</h5>
+        <>
           {referrals.map((el, idx) => {
             return (
               <div key={idx}>
@@ -159,11 +150,9 @@ class FilterComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h5>Year</h5>
-        </div>
-        <div>
+        </>
+        <h5>Year</h5>
+        <>
           {years.map((el, idx) => {
             return (
               <div key={idx}>
@@ -183,11 +172,9 @@ class FilterComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h5>Roles</h5>
-        </div>
-        <div>
+        </>
+        <h5>Roles</h5>
+        <>
           {roles.map((el, idx) => {
             return (
               <div key={idx}>
@@ -207,11 +194,9 @@ class FilterComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h5>Graduation Date:</h5>
-        </div>
-        <div>
+        </>
+        <h5>Graduation Date:</h5>
+        <>
           {gradDates.map((el, idx) => {
             return (
               <div key={idx}>
@@ -231,12 +216,9 @@ class FilterComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-
-        <div>
-          <h4>Sorts</h4>
-        </div>
-        <div>
+        </>
+        <h4>Sorts</h4>
+        <>
           {sortBy.map((el, idx) => {
             return (
               <div key={idx}>
@@ -256,11 +238,11 @@ class FilterComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
+        </>
+        <>
           <p> </p>
           <Button onClick={this.handleClick}>Reset Filters</Button>
-        </div>
+        </>
       </div>
     )
   }

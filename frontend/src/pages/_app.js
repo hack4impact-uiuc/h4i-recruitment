@@ -32,7 +32,7 @@ export default withRedux(configureStore, { debug: true })(
       return (
         <Container>
           <Provider store={store}>
-            <div>
+            <>
               {this.state.hasError ? (
                 <ErrorMessage
                   code="404"
@@ -43,7 +43,7 @@ export default withRedux(configureStore, { debug: true })(
                   <Component {...pageProps} />
                 </PageTransition>
               )}
-            </div>
+            </>
           </Provider>
           <style jsx global>
             {`
