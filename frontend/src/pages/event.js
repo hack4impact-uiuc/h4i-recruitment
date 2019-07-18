@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { Table, Row, Button, Col, FormGroup, Label, Input, Container } from 'reactstrap'
-import ActionButton from '../components/actionButton'
+import { Container, Table } from 'reactstrap'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { getEventById, getEventAttendees } from '../utils/api'
 import Router from 'next/router'
 import Link from 'next/link'
 
-class Event extends React.Component<Props> {
+class Event extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,20 +25,21 @@ class Event extends React.Component<Props> {
   async componentDidMount() {
     const { query } = Router
     const { result } = await getEventById(query.id)
-    this.setState({
-      name: result.name,
-      date: result.date,
-      startTime: result.startTime,
-      endTime: result.endTime,
-      location: result.location,
-      description: result.description,
-      fbLink: result.fbLink,
-      attendeeEmails: result.attendeeEmails
-    })
+    result &&
+      this.setState({
+        name: result.name,
+        date: result.date,
+        startTime: result.startTime,
+        endTime: result.endTime,
+        location: result.location,
+        description: result.description,
+        fbLink: result.fbLink,
+        attendeeEmails: result.attendeeEmails
+      })
 
-    const res = await getEventAttendees(query.id)
+    const { result: res } = await getEventAttendees(query.id)
     this.setState({
-      attendees: res.result
+      attendees: res != undefined ? res : []
     })
   }
 
@@ -80,27 +80,23 @@ class Event extends React.Component<Props> {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.attendees.map(attendee =>
-                    attendee.candidateId ? (
-                      <tr key={attendee._id}>
-                        <td>
+                  {this.state.attendees.map(attendee => (
+                    <tr key={attendee._id}>
+                      <td>
+                        {attendee.candidateId ? (
                           <Link
                             href={{ pathname: '/candidate', query: { id: attendee.candidateId } }}
                           >
                             <a className="regular-anchor">{attendee.name}</a>
                           </Link>
-                        </td>
-                        <td>{attendee.email}</td>
-                        <td>{attendee.year}</td>
-                      </tr>
-                    ) : (
-                      <tr key={attendee._id}>
-                        <td>{attendee.name}</td>
-                        <td>{attendee.email}</td>
-                        <td>{attendee.year}</td>
-                      </tr>
-                    )
-                  )}
+                        ) : (
+                          attendee.name
+                        )}
+                      </td>
+                      <td>{attendee.email}</td>
+                      <td>{attendee.year}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </div>
