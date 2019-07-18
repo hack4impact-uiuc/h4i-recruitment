@@ -18,6 +18,7 @@ import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import { getAllEvents, createEvent } from '../utils/api'
 import Head from '../components/head'
+import Link from 'next/link'
 
 class EventOverview extends Component {
   constructor(props) {
@@ -192,11 +193,15 @@ class EventOverview extends Component {
               <tbody>
                 {this.state.events.map(event => (
                   <tr key={event._id}>
-                    <td>{event.name}</td>
+                    <td>
+                      <Link href={{ pathname: '/event', query: { id: event._id } }}>
+                        <a className="regular-anchor">{event.name}</a>
+                      </Link>
+                    </td>
                     <td>{event.date}</td>
                     <td>{`${event.startTime} - ${event.endTime}`}</td>
                     <td>{event.location}</td>
-                    <td>{event.attendees.length}</td>
+                    <td>{event.attendeeEmails.length}</td>
                     <td>{event.fbLink}</td>
                     <td />
                   </tr>
