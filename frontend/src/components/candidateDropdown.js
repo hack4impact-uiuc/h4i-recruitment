@@ -47,7 +47,7 @@ class CandidateDropdown extends Component<Props, State> {
     this.setState({ selectedOption: selectedOption })
     let chosenCandidate = null
     for (var i = 0; i < this.props.candidates.length; i++) {
-      if (this.props.candidates[i].name == selectedOption.value) {
+      if (this.props.candidates[i].name === selectedOption.value) {
         chosenCandidate = this.props.candidates[i]
       }
     }
