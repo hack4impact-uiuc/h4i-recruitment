@@ -51,15 +51,6 @@ router.get(
         ? await Cycle.find({ workspaceName, current })
         : await Cycle.find({ workspaceName })
 
-    if (cycles.length === 0) {
-      res.json({
-        code: 404,
-        result: {},
-        success: false
-      })
-      return
-    }
-
     res.json({
       code: 200,
       result: cycles,
