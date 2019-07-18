@@ -48,7 +48,7 @@ router.get(
 
     const cycles =
       current !== null
-        ? await Cycle.find({ workspaceName, current: req.body.current })
+        ? await Cycle.find({ workspaceName, current })
         : await Cycle.find({ workspaceName })
 
     if (cycles.length === 0) {
