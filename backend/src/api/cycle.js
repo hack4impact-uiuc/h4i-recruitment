@@ -46,6 +46,14 @@ router.get(
     const workspaceName = req.params.workspaceName
     const current = req.body.current
 
+    if (!workspaceName) {
+      res.json({
+        code: 400,
+        message: 'malformed request',
+        success: false
+      })
+    }
+
     const cycles =
       current !== null
         ? await Cycle.find({ workspaceName, current })
