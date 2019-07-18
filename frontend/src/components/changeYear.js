@@ -6,7 +6,7 @@ import { yearsEnum } from '../utils/enums'
 const ChangeYear = ({ memberID, year, handleChange }) => (
   <select name={memberID} value={year} onChange={handleChange}>
     <option selected disabled hidden>
-      Change Permission Role
+      Change Year
     </option>
     <option value={yearsEnum.FRESHMAN}>Freshman</option>
     <option value={yearsEnum.SOPHOMORE}>Sophomore</option>

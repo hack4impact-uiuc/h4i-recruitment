@@ -43,7 +43,7 @@ class AdminRoles extends React.Component {
       <>
         <Head title="Home" />
         <Nav />
-        <Table className="candidate-table">
+        <Table size="sm" hover className="candidate-table">
           <thead>
             <tr>
               <th>Name</th>
