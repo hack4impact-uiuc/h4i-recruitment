@@ -8,19 +8,19 @@ import Select from 'react-select'
 import { addInterviewCandidate } from '../actions'
 
 type Props = {
-  candidates: Array<mixed>
+  candidates: Array<mixed>,
 }
 
 const mapStateToProps = state => ({
   loading: state.candidateListPage.candidatesLoading,
   candidateId: state.interview.candidateId,
-  candidateName: state.interview.candidateName
+  candidateName: state.interview.candidateName,
 })
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addInterviewCandidate
+      addInterviewCandidate,
     },
     dispatch
   )
@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => {
 
 type State = {
   isClearable: boolean,
-  isSearchable: boolean
+  isSearchable: boolean,
 }
 
 // this component is used in the interview page for the user to choose candidate
@@ -39,7 +39,7 @@ class CandidateDropdown extends Component<Props, State> {
   state = {
     isClearable: false,
     isSearchable: true,
-    selectedOption: null
+    selectedOption: null,
   }
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })

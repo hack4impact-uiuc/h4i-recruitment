@@ -9,7 +9,7 @@ import {
   getKey,
   getPastInterviews,
   deleteInterview,
-  getAllInterviewingCandidateInterviews
+  getAllInterviewingCandidateInterviews,
 } from '../utils/api'
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
@@ -24,7 +24,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       editInterview,
-      newInterview
+      newInterview,
     },
     dispatch
   )
@@ -38,7 +38,7 @@ class InterviewPortal extends Component<Props> {
       interviews: [],
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false
+      loading: false,
     }
   }
 
@@ -64,18 +64,18 @@ class InterviewPortal extends Component<Props> {
   toggle = () => {
     this.setState({
       interviewToDelete: null,
-      verificationModalOpen: false
+      verificationModalOpen: false,
     })
   }
   handleDeleteClick = (interviewId, candidateId) => {
     this.setState({
       verificationModalOpen: true,
-      interviewToDelete: { interviewId, candidateId }
+      interviewToDelete: { interviewId, candidateId },
     })
   }
   delete = async () => {
     this.setState({
-      loading: true
+      loading: true,
     })
     const interview = this.state.interviewToDelete
     await deleteInterview(interview.candidateId, interview.interviewId)
@@ -84,7 +84,7 @@ class InterviewPortal extends Component<Props> {
       interviews: newInterviews,
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false
+      loading: false,
     })
   }
 
@@ -150,7 +150,7 @@ class InterviewPortal extends Component<Props> {
                           Delete
                         </Button>
                       </td>
-                    </tr>
+                    </tr>,
                   ]
                 })
               ) : (

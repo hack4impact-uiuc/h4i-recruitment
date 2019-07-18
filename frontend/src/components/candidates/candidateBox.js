@@ -14,13 +14,13 @@ import { avgInterviewScore, interviewGetCategorySection } from '../../utils/core
 
 type Props = {
   candidate: {},
-  hideStatus?: boolean
+  hideStatus?: boolean,
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setStatus
+      setStatus,
     },
     dispatch
   )
@@ -32,7 +32,7 @@ class CandidateBox extends Component {
     this.state = {
       status: this.props.candidate == undefined ? '' : this.props.candidate.status,
       interviews: [],
-      avgInterviewScore: null
+      avgInterviewScore: null,
     }
   }
   handleChange = e => {
@@ -44,7 +44,7 @@ class CandidateBox extends Component {
     const { interviews } = this.props.candidate
     this.setState({
       interviews: interviews,
-      avgInterviewScore: avgInterviewScore(interviews)
+      avgInterviewScore: avgInterviewScore(interviews),
     })
   }
   render() {

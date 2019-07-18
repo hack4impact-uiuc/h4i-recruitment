@@ -9,8 +9,8 @@ const savePersistedState = store => () => {
   saveState({
     facemash: {
       candidates: store.getState().facemash.candidates,
-      matchID: store.getState().facemash.matchID
-    }
+      matchID: store.getState().facemash.matchID,
+    },
   })
 }
 

@@ -8,7 +8,7 @@ const roundData = {
   rounds: [
     {
       type: 'faceMash',
-      name: 'FaceMash'
+      name: 'FaceMash',
     },
     {
       type: 'interview',
@@ -29,9 +29,9 @@ const roundData = {
           scoreOptions: [0, 1, 2, 3, 4, 5],
           notesPrompt:
             'Please write down your `Set` and the questions you asked as well as the notes you took from their answer and your thoughts.',
-          response: {}
-        }
-      ]
+          response: {},
+        },
+      ],
     },
     {
       type: 'interview',
@@ -50,7 +50,7 @@ const roundData = {
           ),
           type: 'notes',
           notesPrompt: 'Write down your notes for their response and your thoughts.',
-          response: {}
+          response: {},
         },
         {
           title: 'Initiative and Passion',
@@ -65,7 +65,7 @@ const roundData = {
           type: 'notes',
           notesPrompt:
             'Write down their response to Why Hack4Impact? As well as any other thoughts. Are they using this as a resume booster?',
-          response: {}
+          response: {},
         },
         {
           title: 'Community and Culture Fit',
@@ -79,7 +79,7 @@ const roundData = {
           type: 'notes',
           notesPrompt:
             'Write down their behavior and what you saw in them, if they embodied specific values of our organization. Write down the questions they asked. Were they really interested in joining our community or was it fake?',
-          response: {}
+          response: {},
         },
         {
           title: 'Resume and Tech Knowledge (3 points)',
@@ -92,7 +92,7 @@ const roundData = {
           type: 'notes',
           notesPrompt:
             "Note down if you think they were kind of bullshitting their responses and thus don't really know what they are doing.",
-          response: {}
+          response: {},
         },
         {
           title: 'Technical Challenge (5 points)',
@@ -107,7 +107,7 @@ const roundData = {
           type: 'notes',
           notesPrompt:
             'Which part did they end in? Did they give the optimal solutions? Were they communicative and sensible with data structures and functions they use?',
-          response: {}
+          response: {},
         },
         {
           title: 'Category',
@@ -116,7 +116,7 @@ const roundData = {
               This will be used in addition to the notes about the different aspects that you wrote
               about your interviewee. This category will be used heavily compared to the other
               sections. Be careful.
-            </b>
+            </b>,
           ],
           prompt: <b>Place the candidate in a category:</b>,
           type: 'dropdown',
@@ -129,23 +129,23 @@ const roundData = {
             'Maybe ( I wouldn’t necessarily accept this candidate, but I’m open to if others are)',
             'Strong Maybe (I wouldn’t fight to accept this candidate, but I think they would be a good addition to the team)',
             'Strongly Vouch for this candidate',
-            'Upperclassman with experience but eh with everything else'
+            'Upperclassman with experience but eh with everything else',
           ],
           notesPrompt: 'Explain here why you’ve categorized the applicant like this.',
-          response: {}
-        }
-      ]
+          response: {},
+        },
+      ],
     },
     {
       type: 'interview',
       name: 'Invalid Interview',
       sections: [
         {
-          title: 'This should result in a message that the format is invalid'
-        }
-      ]
-    }
-  ]
+          title: 'This should result in a message that the format is invalid',
+        },
+      ],
+    },
+  ],
 }
 
 export default roundData

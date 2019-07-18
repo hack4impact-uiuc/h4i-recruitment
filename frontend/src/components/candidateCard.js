@@ -13,17 +13,17 @@ import CandidateLinksBadge from '../components/candidateLinksBadge'
 const handler = (_id: string) =>
   Router.push({
     pathname: '/candidate',
-    query: { id: _id }
+    query: { id: _id },
   })
 
 type Props = {
-  candidate: Array<mixed> // TODO: make this more specific
+  candidate: Array<mixed>, // TODO: make this more specific
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setStatus
+      setStatus,
     },
     dispatch
   )
@@ -33,7 +33,7 @@ class CandidateCardComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate.status
+      status: this.props.candidate.status,
     }
   }
   handleChange = e => {

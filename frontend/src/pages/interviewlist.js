@@ -5,7 +5,7 @@ import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
 import {
   getInterviewingCandidates,
   getAllInterviews,
-  getAllInterviewingCandidateInterviews
+  getAllInterviewingCandidateInterviews,
 } from '../utils/api'
 import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
 import { avgInterviewScore, interviewGetCategorySection } from '../utils/core'
@@ -37,7 +37,7 @@ class InterviewListPage extends React.Component<Props> {
       modalOpen: false,
       currentCandidateId: '',
       byCategory: false,
-      interviewingInterviews: []
+      interviewingInterviews: [],
     }
   }
   async componentDidMount() {
@@ -52,19 +52,19 @@ class InterviewListPage extends React.Component<Props> {
         candidates == undefined ? [] : candidates.sort(sortByProperty('graduationDate')).reverse(),
       interviews: interviews == undefined ? [] : interviews,
       interviewingInterviews:
-        interviewingInterviewsres == undefined ? [] : interviewingInterviewsres
+        interviewingInterviewsres == undefined ? [] : interviewingInterviewsres,
     })
   }
   toggleModal = candidateId => {
     this.setState({
       currentCandidateId: candidateId,
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     })
   }
 
   toggleShowByCategory = () => {
     this.setState({
-      byCategory: !this.state.byCategory
+      byCategory: !this.state.byCategory,
     })
   }
   render() {
@@ -141,7 +141,7 @@ class InterviewListPage extends React.Component<Props> {
                                   float: 'right',
                                   marginBottom: 0,
                                   paddingRight: '5px',
-                                  fontSize: '12px'
+                                  fontSize: '12px',
                                 }}
                               >
                                 Avg Score: {avgInterviewScore(candidate.interviews)}

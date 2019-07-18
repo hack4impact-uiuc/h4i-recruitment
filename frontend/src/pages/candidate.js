@@ -15,7 +15,7 @@ import {
   deleteReferral,
   getCandidateById,
   addCommentToCandidate,
-  getCandidateInterviews
+  getCandidateInterviews,
 } from '../utils/api'
 import { addInterviewCandidate } from './../actions'
 import ActionButton from '../components/actionButton'
@@ -25,7 +25,7 @@ type Props = {}
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addInterviewCandidate
+      addInterviewCandidate,
     },
     dispatch
   )
@@ -42,7 +42,7 @@ class CandidatePage extends Component<Props> {
       addNotesModal: false,
       candidate: null,
       modalOpen: false,
-      comments: []
+      comments: [],
     }
   }
   async componentDidMount() {
@@ -50,23 +50,23 @@ class CandidatePage extends Component<Props> {
     const { result } = await getCandidateById(query.id)
     this.setState({
       candidate: result,
-      comments: result != undefined ? result.comments : []
+      comments: result != undefined ? result.comments : [],
     })
   }
   toggle = () => {
     this.setState({
-      addNotesModal: !this.state.addNotesModal
+      addNotesModal: !this.state.addNotesModal,
     })
   }
   submitComment = comment => {
     const res = addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
-      addNotesModal: !this.state.addNotesModal
+      addNotesModal: !this.state.addNotesModal,
     })
     let commentsState = this.state.comments
     commentsState.push({ writerName: 'You', text: comment, created_at: 'Now' })
     this.setState({
-      comments: commentsState
+      comments: commentsState,
     })
   }
   goBack = () => {
@@ -77,7 +77,7 @@ class CandidatePage extends Component<Props> {
     const { result } = await getCandidateInterviews(id)
     this.setState({
       interviews: result,
-      modalOpen: true
+      modalOpen: true,
     })
   }
   // goes to add the interview
@@ -106,7 +106,7 @@ class CandidatePage extends Component<Props> {
   }
   exitModal = () => {
     this.setState({
-      modalOpen: false
+      modalOpen: false,
     })
   }
 

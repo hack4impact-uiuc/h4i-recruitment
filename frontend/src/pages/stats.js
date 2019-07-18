@@ -11,13 +11,13 @@ class StatsPage extends Component<Props> {
   constructor() {
     super()
     this.state = {
-      candidates: []
+      candidates: [],
     }
   }
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
-      candidates: res.result
+      candidates: res.result,
     })
   }
   getInterviewingEmails = () => {

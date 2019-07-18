@@ -12,7 +12,7 @@ const VerificationModalComponent = ({
   cancelAction,
   submitAction,
   header,
-  body
+  body,
 }) => (
   <Modal isOpen={open}>
     <ModalHeader>{header}</ModalHeader>

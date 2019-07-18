@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       setSelectedRound,
-      setValidFormat
+      setValidFormat,
     },
     dispatch
   )
@@ -25,7 +25,7 @@ class RoundDropdown extends Component {
     super(props)
   }
   state = {
-    selectedOption: ''
+    selectedOption: '',
   }
 
   isFormatValid = round => {
