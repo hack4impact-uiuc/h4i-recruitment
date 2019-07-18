@@ -59,9 +59,8 @@ describe('POST /events/:eventId', () => {
       attendees: [],
       fbLink: 'link'
     })
-    await event.save()
 
-    const res = await request(app)
+    await request(app)
       .post(`/events?key=${KEY}`)
       .send(event)
       .expect(200)
@@ -85,7 +84,7 @@ describe('PUT /events', () => {
     body_params = {
       description: 'its not lit'
     }
-    const res = await request(app)
+    await request(app)
       .put(`/events/${event._id}?key=${KEY}`)
       .send(body_params)
       .expect(200)

@@ -46,11 +46,52 @@ describe('POST /cycle', () => {
       term: 'FA19',
       workspaceName: 'Hack4Impact University of Illinois at Urbana-Champaign'
     })
-    await cycle.save()
 
-    const res = await request(app)
+    await request(app)
       .post(`/cycle?key=${KEY}`)
       .send(cycle)
       .expect(200)
+  })
+})
+
+describe('POST /cycle more than once', () => {
+  it('should update the current flag to when a new cycle is created', async () => {
+    const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
+
+    await request(app)
+      .post(`/cycle?key=${KEY}`)
+      .send(
+        new Cycle({
+          term: 'FA18',
+          workspaceName
+        })
+      )
+
+    await request(app)
+      .post(`/cycle?key=${KEY}`)
+      .send(
+        new Cycle({
+          term: 'SP19',
+          workspaceName
+        })
+      )
+
+    const newCycle = await request(app)
+      .get(`/cycle/workspace/${workspaceName}?key=${KEY}`)
+      .send({ current: true })
+
+    newCycleId = newCycle.body.result[0]._id
+
+    const res = await request(app)
+      .get(`/cycle/${newCycleId}?key=${KEY}`)
+      .expect(200)
+
+    expect(res.body.result.current).to.eq(true)
+    expect(res.body.result.term).to.eq('SP19')
+
+    const oldCycle = await request(app)
+      .get(`/cycle/workspace/${workspaceName}?key=${KEY}`)
+      .send({ current: false })
+    expect(oldCycle.body.result[0].term).to.eq('FA18')
   })
 })

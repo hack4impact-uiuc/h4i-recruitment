@@ -4,6 +4,8 @@ const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
 // Get all cycles (previous and current)
+// TODO: when authentication server is integrated, only show the cycles that
+// belong to the caller of this endpoint.
 router.get(
   '/',
   [directorsOnly],
@@ -18,6 +20,8 @@ router.get(
 )
 
 // Get a cycle by ID
+// TODO: when authentication server is integrated, only show the cycle id if it belongs
+// to the workspace owned by the caller. Otherwise, 404.
 router.get(
   '/:cycle_id',
   [directorsOnly],
@@ -27,6 +31,33 @@ router.get(
     res.json({
       code: 200,
       result: cycle,
+      success: true
+    })
+  })
+)
+
+// get all cycles belonging to a workspace (either current or current + outdated)
+// TODO: when authentication server is integrated, only show the cycles
+// to the workspace's owner. Otherwise, 404.
+router.get(
+  '/workspace/:workspaceName',
+  [directorsOnly],
+  errorWrap(async (req, res) => {
+    const workspaceName = req.params.workspaceName
+    const cycles = await Cycle.find({ workspaceName, current: req.body.current })
+
+    if (cycles.length === 0) {
+      res.json({
+        code: 404,
+        result: {},
+        success: false
+      })
+      return
+    }
+
+    res.json({
+      code: 200,
+      result: cycles,
       success: true
     })
   })
@@ -50,15 +81,31 @@ router.post(
       response = 'Invalid workspace'
     }
 
-    // TODO: ensure that given workspaces matches one in the database
-    // created by the director
+    // set the last current cycle to not-current
+    Cycle.findOneAndUpdate(
+      { workspaceName: workspace, current: true },
+      { $set: { current: false } },
+      err => {
+        if (err) {
+          res.json({
+            code: 400,
+            message: err.message,
+            result: {},
+            success: false
+          })
+        }
+      }
+    )
+
+    // TODO: when authentication server is integrated, ensure that given workspaces
+    // matches one in the database created by the director
 
     const cycle = new Cycle({
       term: newTerm,
       workspaceName: workspace
     })
-
     await cycle.save()
+
     code = 200
     res.json({
       code,
