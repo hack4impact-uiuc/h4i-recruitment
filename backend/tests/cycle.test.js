@@ -55,7 +55,7 @@ describe('POST /cycle', () => {
 })
 
 describe('POST /cycle more than once', () => {
-  it('should update the current flag to when a new cycle is created', async () => {
+  it('should update the current attribute for cycles to when a new cycle is created', async () => {
     const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
 
     await request(app)

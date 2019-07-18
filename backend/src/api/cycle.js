@@ -36,7 +36,7 @@ router.get(
   })
 )
 
-// get all cycles belonging to a workspace (either current or current + outdated)
+// get all cycles belonging to a workspace (either current, outdated, or both)
 // TODO: when authentication server is integrated, only show the cycles
 // to the workspace's owner. Otherwise, 404.
 router.get(
@@ -44,7 +44,12 @@ router.get(
   [directorsOnly],
   errorWrap(async (req, res) => {
     const workspaceName = req.params.workspaceName
-    const cycles = await Cycle.find({ workspaceName, current: req.body.current })
+    const current = req.body.current
+
+    const cycles =
+      current !== null
+        ? await Cycle.find({ workspaceName, current: req.body.current })
+        : await Cycle.find({ workspaceName })
 
     if (cycles.length === 0) {
       res.json({
