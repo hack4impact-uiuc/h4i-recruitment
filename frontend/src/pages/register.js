@@ -7,6 +7,7 @@ import { google, registerUser } from '../utils/api'
 import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
+import cookie from 'js-cookie'
 import {
   Container,
   Form,
@@ -29,8 +30,16 @@ class RegisterPage extends Component<Props> {
       email: '',
       password: '',
       password2: '',
-      dropdownOpen: false,
-      errorMessage: ''
+      showModal: false
+    }
+  }
+
+  setCookie = (key, value) => {
+    if (process.browser) {
+      cookie.set(key, value, {
+        expires: 1,
+        path: '/'
+      })
     }
   }
 
@@ -46,26 +55,31 @@ class RegisterPage extends Component<Props> {
     if (resp.status !== 200) {
       this.setState({ errorMessage: resp.message })
     } else {
-      setCookie('token', e.tokenId)
-      setCookie('google', true)
-      Router.push('/')
+      this.setCookie('token', e.tokenId)
+      this.setCookie('google', true)
+      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles 
+      Router.push('/dashboard')
     }
   }
 
   handleSubmit = () => {
     const { email, password, password2 } = this.state
-    if (password != password2) {
-        <Modal>Your passwords do not match!</Modal>
+    if (password !== password2) {
+      this.setState({ showModal: true })
     }
     registerUser(email, password, 'member').then(resp => {
-        if (resp.status === 400) {
-            return (
-              <Modal>Invalid Registration</Modal>
-            )
-          } else {
-            Router.push('/dashboard')
-          }
+        console.log(resp)
+      if (resp.status === 400) {
+        this.setState({ showModal: true })
+      } else {
+        localStorage.setItem('interviewerKey', 'abcd')
+        Router.push('/dashboard')
+      }
     })
+  }
+
+  handleModalClose = () => {
+    this.setState({ showModal: false })
   }
 
   render() {
@@ -125,16 +139,20 @@ class RegisterPage extends Component<Props> {
                   Register
                 </Button>
               </Form>
+
+              <GoogleLogin
+                className="btn-lg sign-in-btn"
+                clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
+                responseType="id_token"
+                scope="https://www.googleapis.com/auth/userinfo.email"
+                onSuccess={this.handleGoogle}
+                buttonText="Register with Google"
+            />
             </CardBody>
           </Card>
-          <GoogleLogin
-            className="btn-lg sign-in-btn"
-            clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-            responseType="id_token"
-            scope="https://www.googleapis.com/auth/userinfo.email"
-            onSuccess={this.handleGoogle}
-            buttonText="Register with Google"
-          />
+          <Modal show={this.state.showModal} onHide={this.handleModalClose}>
+            Your passwords must match.
+          </Modal>
         </Container>
       </>
     )

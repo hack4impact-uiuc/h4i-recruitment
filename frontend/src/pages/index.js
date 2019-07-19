@@ -15,12 +15,9 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Modal,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu
+  Modal
 } from 'reactstrap'
+import cookie from 'js-cookie'
 
 type Props = {}
 
@@ -34,15 +31,25 @@ class LoginPage extends React.Component<Props> {
     }
   }
 
+  setCookie = (key, value) => {
+    if (process.browser) {
+      cookie.set(key, value, {
+        expires: 1,
+        path: '/'
+      })
+    }
+  }
+
   handleGoogle = async e => {
     const result = await google(e.tokenId)
     const resp = await result.json()
     if (resp.status !== 200) {
       this.setState({ errorMessage: resp.message })
     } else {
-      setCookie('token', e.tokenId)
-      setCookie('google', true)
-      Router.push('/')
+      this.setCookie('token', e.tokenId)
+      this.setCookie('google', true)
+      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles  
+      Router.push('/dashboard')
     }
   }
 
@@ -59,6 +66,7 @@ class LoginPage extends React.Component<Props> {
       if (resp.status === 400) {
         this.setState({ showModal: true })
       } else {
+        localStorage.setItem('interviewerKey', 'abcd')
         Router.push('/dashboard')
       }
     })
@@ -123,11 +131,10 @@ class LoginPage extends React.Component<Props> {
           <Button color="outline-primary" onClick={() => Router.push('/register')}>
             {"Don't have an account? Register here!"}
           </Button>
+          <Modal show={this.state.showModal} onHide={this.handleModalClose}>
+            Invalid Login
+          </Modal>
         </Container>
-
-        <Modal show={this.state.showModal} onHide={this.handleModalClose}>
-          Invalid Login
-        </Modal>
       </>
     )
   }

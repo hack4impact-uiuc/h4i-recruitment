@@ -246,51 +246,65 @@ function deleteReferral(candidateID: string) {
 
 function registerUser(email: string, password: string, role: string) {
   console.log(`Creating new user: ${email}`)
-  return fetch(`${AUTH_API_URL}/register`,
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-        role
-      }),
-      headers: {
-        'content-type': 'application/json'
-      },
-      mode: 'cors'
-    }).then(res => res.json())
+  return fetch(`${AUTH_API_URL}/register`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password,
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
 }
 
 function loginUser(email: string, password: string) {
   console.log(`Logging in user ${email}`)
-  return fetch(`${AUTH_API_URL}/login`,
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password
-      }),
-      headers: {
-        'content-type': 'application/json'
-      },
-      mode: 'cors'
-    }).then(res => res.json())
+  return fetch(`${AUTH_API_URL}/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
 }
 
 function loginGoogleUser(tokenId: string, role: string) {
   console.log(`Logging in user ${tokenId} with Google Auth`)
-  return fetch(`${AUTH_API_URL}/login`,
-    {
+  return fetch(`${AUTH_API_URL}/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      tokenId,
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function google(tokenId) {
+  try {
+    return fetch(`${AUTH_API_URL}/google`, {
       method: 'POST',
-      body: JSON.stringify({
-        tokenId,
-        role
-      }),
       headers: {
-        'content-type': 'application/json'
+        'Content-Type': 'application/json'
       },
-      mode: 'cors'
-    }).then(res => res.json())
+      body: JSON.stringify({
+        tokenId: tokenId,
+        role: 'member'
+      })
+    })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 export {
@@ -322,5 +336,6 @@ export {
   getAllInterviewingCandidateInterviews,
   registerUser,
   loginUser,
-  loginGoogleUser
+  loginGoogleUser,
+  google
 }
