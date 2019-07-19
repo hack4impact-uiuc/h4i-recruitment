@@ -16,7 +16,8 @@ import {
   Input,
   Card,
   CardBody,
-  CardTitle
+  CardTitle,
+  Modal
 } from 'reactstrap'
 
 type Props = {}
@@ -54,14 +55,16 @@ class RegisterPage extends Component<Props> {
   handleSubmit = () => {
     const { email, password, password2 } = this.state
     if (password != password2) {
-      // throw error
+        <Modal>Your passwords do not match!</Modal>
     }
     registerUser(email, password, 'member').then(resp => {
-        if (resp.errorMessage = 400) {
-            console.log(resp)
-        } else {
-            // show modal? 
-        }
+        if (resp.status === 400) {
+            return (
+              <Modal>Invalid Registration</Modal>
+            )
+          } else {
+            Router.push('/dashboard')
+          }
     })
   }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
-import { login, google } from '../utils/api'
+import { login, google, loginUser, loginGoogleUser } from '../utils/api'
 import ReactLoading from 'react-loading'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -15,6 +15,7 @@ import {
   Card,
   CardBody,
   CardTitle,
+  Modal,
   Dropdown,
   DropdownItem,
   DropdownToggle,
@@ -29,9 +30,7 @@ class LoginPage extends React.Component<Props> {
     this.state = {
       email: '',
       password: '',
-      password2: '',
-      dropdownOpen: false,
-      errorMessage: ''
+      showModal: false
     }
   }
 
@@ -47,7 +46,27 @@ class LoginPage extends React.Component<Props> {
     }
   }
 
-  handleSubmit = async e => {}
+  handleChange = event => {
+    const value = event.target.value
+    const name = event.target.name
+    this.setState({ [name]: value })
+  }
+
+  handleSubmit = () => {
+    const { email, password } = this.state
+    console.log(`Logging in ${email}`)
+    loginUser(email, password).then(resp => {
+      if (resp.status === 400) {
+        this.setState({ showModal: true })
+      } else {
+        Router.push('/dashboard')
+      }
+    })
+  }
+
+  handleModalClose = () => {
+    this.setState({ showModal: false })
+  }
 
   render() {
     return (
@@ -85,7 +104,7 @@ class LoginPage extends React.Component<Props> {
                     required
                   />
                 </FormGroup>
-                <Button color="outline-secondary" onClick={this.handleSubmit()}>
+                <Button color="outline-secondary" onClick={this.handleSubmit}>
                   Submit
                 </Button>
               </Form>
@@ -105,6 +124,10 @@ class LoginPage extends React.Component<Props> {
             {"Don't have an account? Register here!"}
           </Button>
         </Container>
+
+        <Modal show={this.state.showModal} onHide={this.handleModalClose}>
+          Invalid Login
+        </Modal>
       </>
     )
   }

@@ -9,7 +9,7 @@ const API_URL =
     : 'http://localhost:8080' // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
-const AUTH_API_URL = 'https://h4i-infra-server.n3a9.now.sh/'
+const AUTH_API_URL = 'https://h4i-infra-server.n3a9.now.sh'
 
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
@@ -246,45 +246,51 @@ function deleteReferral(candidateID: string) {
 
 function registerUser(email: string, password: string, role: string) {
   console.log(`Creating new user: ${email}`)
-  return (
-    fetch(`${AUTH_API_URL}/register`),
+  return fetch(`${AUTH_API_URL}/register`,
     {
       method: 'POST',
       body: JSON.stringify({
         email,
         password,
         role
-      }).then(res => res.json())
-    }
-  )
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors'
+    }).then(res => res.json())
 }
 
 function loginUser(email: string, password: string) {
   console.log(`Logging in user ${email}`)
-  return (
-    fetch(`${AUTH_API_URL}/login`),
+  return fetch(`${AUTH_API_URL}/login`,
     {
       method: 'POST',
       body: JSON.stringify({
         email,
         password
-      }).then(res => res.json())
-    }
-  )
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors'
+    }).then(res => res.json())
 }
 
 function loginGoogleUser(tokenId: string, role: string) {
   console.log(`Logging in user ${tokenId} with Google Auth`)
-  return (
-    fetch(`${AUTH_API_URL}/login`),
+  return fetch(`${AUTH_API_URL}/login`,
     {
       method: 'POST',
       body: JSON.stringify({
         tokenId,
         role
-      }).then(res => res.json())
-    }
-  )
+      }),
+      headers: {
+        'content-type': 'application/json'
+      },
+      mode: 'cors'
+    }).then(res => res.json())
 }
 
 export {
