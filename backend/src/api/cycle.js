@@ -21,7 +21,7 @@ router.get(
 
 // Get a cycle by ID
 // TODO: when authentication server is integrated, only show the cycle id if it belongs
-// to the workspace owned by the caller. Otherwise, 404.
+// to the workspace owned by the caller. Otherwise, 403.
 router.get(
   '/:cycle_id',
   [directorsOnly],
@@ -38,7 +38,7 @@ router.get(
 
 // get all cycles belonging to a workspace (either current, outdated, or both)
 // TODO: when authentication server is integrated, only show the cycles
-// to the workspace's owner. Otherwise, 404.
+// to the workspace's owner. Otherwise, 403.
 router.get(
   '/workspace/:workspaceName',
   [directorsOnly],
@@ -47,7 +47,7 @@ router.get(
     const current = req.body.current
 
     if (!workspaceName) {
-      res.json({
+      return res.json({
         code: 400,
         message: 'malformed request',
         success: false
@@ -55,9 +55,9 @@ router.get(
     }
 
     const cycles =
-      current !== null
-        ? await Cycle.find({ workspaceName, current })
-        : await Cycle.find({ workspaceName })
+      current === null
+        ? await Cycle.find({ workspaceName })
+        : await Cycle.find({ workspaceName, current })
 
     res.json({
       code: 200,
@@ -91,7 +91,7 @@ router.post(
       { $set: { current: false } },
       err => {
         if (err) {
-          res.json({
+          return res.json({
             code: 400,
             message: err.message,
             result: {},
