@@ -185,11 +185,13 @@ class NavigationBar extends Component {
                       <a className="nav-bar-link pl-3">Rounds</a>
                     </Link>
                   </NavItem>
-                  <NavItem>
-                    <Link prefetch href="/adminRoles">
-                      <a className="nav-bar-link pl-3">Admin</a>
-                    </Link>
-                  </NavItem>
+                  {this.state.isDirector && (
+                    <NavItem>
+                      <Link prefetch href="/adminRoles">
+                        <a className="nav-bar-link pl-3">Admin</a>
+                      </Link>
+                    </NavItem>
+                  )}
                 </>
               )}
               <NavItem>
