@@ -16,9 +16,10 @@ import {
 } from 'reactstrap'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
-import { getAllEvents, createEvent } from '../utils/api'
+import { getAllEvents } from '../utils/api'
 import Head from '../components/head'
 import Link from 'next/link'
+import EventsModal from '../components/eventsModal'
 
 class EventOverview extends Component {
   constructor(props) {
@@ -92,87 +93,56 @@ class EventOverview extends Component {
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
-            <Modal isOpen={this.state.modal}>
-              <ModalHeader>Add New Event</ModalHeader>
-              <ModalBody>
-                {alert}
-                <Form>
-                  <FormGroup>
-                    <Label>Name</Label>
-                    <Input
-                      name="name"
-                      placeholder="i.e. Product Showcase"
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Date</Label>
-                    <Input
-                      name="date"
-                      type="date"
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Start Time</Label>
-                    <Input
-                      name="startTime"
-                      type="time"
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>End Time</Label>
-                    <Input
-                      name="endTime"
-                      type="time"
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Location</Label>
-                    <Input
-                      name="location"
-                      placeholder="i.e. ECEB"
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Description</Label>
-                    <Input
-                      name="description"
-                      type="textarea"
-                      placeholder="i.e. Teams present their final product."
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>Facebook Event Link</Label>
-                    <Input
-                      name="fbLink"
-                      type="url"
-                      placeholder="i.e. https://www.facebook.com/events/2405129342892922/"
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                    />
-                  </FormGroup>
-                </Form>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" onClick={this.toggleModal}>
-                  Cancel
-                </Button>
-                <Button color="primary" onClick={this.addEvent}>
-                  Submit
-                </Button>
-              </ModalFooter>
-            </Modal>
+            <EventsModal
+              title="Add New Event"
+              isOpen={this.state.modal}
+              formFields={[
+                {
+                  label: 'Name',
+                  name: 'name',
+                  type: '',
+                  placeholder: 'i.e. Product Showcase'
+                },
+                {
+                  label: 'Date',
+                  name: 'date',
+                  type: 'date',
+                  placeholder: ''
+                },
+                {
+                  label: 'Start Time',
+                  name: 'startTime',
+                  type: 'time',
+                  placeholder: ''
+                },
+                {
+                  label: 'End Time',
+                  name: 'endTime',
+                  type: 'time',
+                  placeholder: ''
+                },
+                {
+                  label: 'Location',
+                  name: 'location',
+                  type: '',
+                  placeholder: 'i.e. ECEB'
+                },
+                {
+                  label: 'Description',
+                  name: 'description',
+                  type: 'textarea',
+                  placeholder: 'i.e. Teams present their final product.'
+                },
+                {
+                  label: 'Facebook Event Link',
+                  name: 'fbLink',
+                  type: 'url',
+                  placeholder: 'i.e. https://www.facebook.com/events/2405129342892922/'
+                }
+              ]}
+              toggle={this.toggleModal}
+              onSubmit={this.addEvent}
+            />
             <ActionButton
               className="button-margin"
               text="Add New Event"
