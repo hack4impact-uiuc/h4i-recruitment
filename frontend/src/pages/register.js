@@ -3,7 +3,7 @@
 
 import { Component } from 'react'
 import Router from 'next/router'
-import { register, google } from '../utils/api'
+import { google, registerUser } from '../utils/api'
 import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -16,11 +16,7 @@ import {
   Input,
   Card,
   CardBody,
-  CardTitle,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu
+  CardTitle
 } from 'reactstrap'
 
 type Props = {}
@@ -53,6 +49,20 @@ class RegisterPage extends Component<Props> {
       setCookie('google', true)
       Router.push('/')
     }
+  }
+
+  handleSubmit = () => {
+    const { email, password, password2 } = this.state
+    if (password != password2) {
+      // throw error
+    }
+    registerUser(email, password, 'member').then(resp => {
+        if (resp.errorMessage = 400) {
+            console.log(resp)
+        } else {
+            // show modal? 
+        }
+    })
   }
 
   render() {

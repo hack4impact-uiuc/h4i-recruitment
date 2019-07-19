@@ -47,9 +47,7 @@ class LoginPage extends React.Component<Props> {
     }
   }
 
-  handleSubmit = async e => {
-
-  }
+  handleSubmit = async e => {}
 
   render() {
     return (
