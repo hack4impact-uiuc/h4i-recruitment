@@ -20,6 +20,7 @@
     "react": "^16.7.0",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.0.0",
+    "react-google-login": "^5.0.4",
     "react-loading": "^2.0.3",
     "react-minimal-pie-chart": "^3.3.0",
     "react-redux": "^5.0.7",

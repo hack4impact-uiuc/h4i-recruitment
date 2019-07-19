@@ -62,7 +62,7 @@ class AdminRoles extends React.Component {
               </td>
               {this.state.isEditing && (
                 <td>
-                  <Button>Remove</Button>
+                  <Button>Submit</Button>
                 </td>
               )}
             </tr>
