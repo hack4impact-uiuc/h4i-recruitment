@@ -119,7 +119,7 @@ class CandidatePage extends Component {
   }
 
   render() {
-    if (this.state.candidate === undefined) {
+    if (!this.state.candidate) {
       return (
         <ErrorMessage message="User doesn&#39;t exist. Check if your key has the correct privileges." />
       )
