@@ -51,34 +51,34 @@ class EventsModal extends Component {
   render() {
     const alert = <Alert color="danger">{this.state.alert}</Alert>
     return (
-        <Modal isOpen={this.props.isOpen}>
-          <ModalHeader>{this.props.title}</ModalHeader>
-          <ModalBody>
-            {this.state.alert && alert}
-            <Form>
-              {this.props.formFields.map(field => (
-                <FormGroup>
-                  <Label>{field.label}</Label>
-                  <Input
-                    name={field.name}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    onChange={this.props.handleChange}
-                    onKeyPress={this.handleKeyPress}
-                  />
-                </FormGroup>
-              ))}
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="secondary" onClick={this.closeModal}>
-              Cancel
-            </Button>
-            <Button color="primary" onClick={this.handleSubmit}>
-              Submit
-            </Button>
-          </ModalFooter>
-        </Modal>
+      <Modal isOpen={this.props.isOpen}>
+        <ModalHeader>{this.props.title}</ModalHeader>
+        <ModalBody>
+          {this.state.alert && alert}
+          <Form>
+            {this.props.formFields.map(field => (
+              <FormGroup>
+                <Label>{field.label}</Label>
+                <Input
+                  name={field.name}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  onChange={this.props.handleChange}
+                  onKeyPress={this.handleKeyPress}
+                />
+              </FormGroup>
+            ))}
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={this.closeModal}>
+            Cancel
+          </Button>
+          <Button color="primary" onClick={this.handleSubmit}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </Modal>
     )
   }
 }
