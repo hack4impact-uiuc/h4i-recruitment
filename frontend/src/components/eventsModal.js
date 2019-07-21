@@ -51,7 +51,6 @@ class EventsModal extends Component {
   render() {
     const alert = <Alert color="danger">{this.state.alert}</Alert>
     return (
-      <>
         <Modal isOpen={this.props.isOpen}>
           <ModalHeader>{this.props.title}</ModalHeader>
           <ModalBody>
@@ -80,7 +79,6 @@ class EventsModal extends Component {
             </Button>
           </ModalFooter>
         </Modal>
-      </>
     )
   }
 }
