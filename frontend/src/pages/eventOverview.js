@@ -1,48 +1,27 @@
 import React, { Component } from 'react'
-import Router from 'next/router'
-import {
-  Table,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Container,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Alert
-} from 'reactstrap'
+import { Table, Container } from 'reactstrap'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
-import { getAllEvents } from '../utils/api'
+import { getAllEvents, createEvent } from '../utils/api'
 import Head from '../components/head'
 import Link from 'next/link'
 import EventsModal from '../components/eventsModal'
+import { newEventFields } from '../utils/formFields'
 
 class EventOverview extends Component {
   constructor(props) {
     super(props)
     this.state = {
       events: [],
-      modal: false,
-      name: '',
-      date: '',
-      startTime: '',
-      endTime: '',
-      location: '',
-      description: '',
-      fbLink: '',
-      alert: ''
+      modal: false
     }
   }
 
   async componentDidMount() {
-    const events = await getAllEvents()
-    if (events) {
+    const { success, result } = await getAllEvents()
+    if (success) {
       this.setState({
-        events: events.result
+        events: result
       })
     }
   }
@@ -59,12 +38,6 @@ class EventOverview extends Component {
     })
   }
 
-  handleKeyPress = async event => {
-    if (event.key === 'Enter') {
-      await this.addEvent()
-    }
-  }
-
   addEvent = async () => {
     const event = {
       name: this.state.name,
@@ -75,18 +48,11 @@ class EventOverview extends Component {
       description: this.state.description,
       fbLink: this.state.fbLink
     }
-    const { code } = await createEvent(event)
-    if (code === 500) {
-      this.setState({
-        alert: 'All fields are required.'
-      })
-    } else {
-      Router.push({ pathname: '/eventOverview' })
-    }
+    const { success } = await createEvent(event)
+    return success
   }
 
   render() {
-    const alert = this.state.alert ? <Alert color="danger">{this.state.alert}</Alert> : null
     return (
       <>
         <Head title="Events" />
@@ -96,52 +62,12 @@ class EventOverview extends Component {
             <EventsModal
               title="Add New Event"
               isOpen={this.state.modal}
-              formFields={[
-                {
-                  label: 'Name',
-                  name: 'name',
-                  type: '',
-                  placeholder: 'i.e. Product Showcase'
-                },
-                {
-                  label: 'Date',
-                  name: 'date',
-                  type: 'date',
-                  placeholder: ''
-                },
-                {
-                  label: 'Start Time',
-                  name: 'startTime',
-                  type: 'time',
-                  placeholder: ''
-                },
-                {
-                  label: 'End Time',
-                  name: 'endTime',
-                  type: 'time',
-                  placeholder: ''
-                },
-                {
-                  label: 'Location',
-                  name: 'location',
-                  type: '',
-                  placeholder: 'i.e. ECEB'
-                },
-                {
-                  label: 'Description',
-                  name: 'description',
-                  type: 'textarea',
-                  placeholder: 'i.e. Teams present their final product.'
-                },
-                {
-                  label: 'Facebook Event Link',
-                  name: 'fbLink',
-                  type: 'url',
-                  placeholder: 'i.e. https://www.facebook.com/events/2405129342892922/'
-                }
-              ]}
+              formFields={newEventFields}
               toggle={this.toggleModal}
               onSubmit={this.addEvent}
+              handleChange={this.handleChange}
+              alert="All fields are required."
+              pathname="/eventOverview"
             />
             <ActionButton
               className="button-margin"

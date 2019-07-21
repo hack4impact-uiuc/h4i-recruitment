@@ -12,7 +12,6 @@ import {
   ModalBody,
   ModalFooter
 } from 'reactstrap'
-import { createEvent } from '../utils/api'
 
 class EventsModal extends Component {
   constructor(props) {
@@ -22,46 +21,41 @@ class EventsModal extends Component {
     }
   }
 
-  addEvent = async () => {
-    const event = {
-      name: this.state.name ? this.state.name : '',
-      date: this.state.date ? this.state.date : '',
-      startTime: this.state.startTime ? this.state.startTime : '',
-      endTime: this.state.endTime ? this.state.endTime : '',
-      location: this.state.location ? this.state.location : '',
-      description: this.state.description ? this.state.description : '',
-      fbLink: this.state.fbLink ? this.state.fbLink : ''
-    }
-    const { code } = await createEvent(event)
-    if (code === 500) {
-      this.setState({
-        alert: 'All fields are required.'
-      })
-    } else {
-      Router.push({ pathname: '/eventOverview' })
-    }
-  }
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
   handleKeyPress = async event => {
     if (event.key === 'Enter') {
-      await this.addEvent()
+      this.handleSubmit()
     }
+  }
+
+  handleSubmit = async () => {
+    const success = await this.props.onSubmit()
+    if (success) {
+      Router.push({ pathname: this.props.pathname })
+    } else {
+      this.setState({
+        alert: this.props.alert
+      })
+    }
+  }
+
+  closeModal = () => {
+    // remove err message upon close
+    if (this.state.alert) {
+      this.setState({
+        alert: ''
+      })
+    }
+    this.props.toggle()
   }
 
   render() {
-    const alert = this.state.alert ? <Alert color="danger">{this.state.alert}</Alert> : null
+    const alert = <Alert color="danger">{this.state.alert}</Alert>
     return (
       <>
         <Modal isOpen={this.props.isOpen}>
           <ModalHeader>{this.props.title}</ModalHeader>
           <ModalBody>
-            {alert}
+            {this.state.alert && alert}
             <Form>
               {this.props.formFields.map(field => (
                 <FormGroup>
@@ -70,7 +64,7 @@ class EventsModal extends Component {
                     name={field.name}
                     type={field.type}
                     placeholder={field.placeholder}
-                    onChange={this.handleChange}
+                    onChange={this.props.handleChange}
                     onKeyPress={this.handleKeyPress}
                   />
                 </FormGroup>
@@ -78,10 +72,10 @@ class EventsModal extends Component {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={this.props.toggle}>
+            <Button color="secondary" onClick={this.closeModal}>
               Cancel
             </Button>
-            <Button color="primary" onClick={this.addEvent}>
+            <Button color="primary" onClick={this.handleSubmit}>
               Submit
             </Button>
           </ModalFooter>
