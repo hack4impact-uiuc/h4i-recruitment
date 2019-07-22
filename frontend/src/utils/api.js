@@ -32,6 +32,21 @@ function createEvent(event) {
   }).then(res => res.json())
 }
 
+function eventCheckin(attendee) {
+  return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`, {
+    body: JSON.stringify({
+      name: attendee.name,
+      email: attendee.email,
+      year: attendee.year
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'PUT',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 function getEventById(id: string) {
   return fetch(`${API_URL}/events/${id}?key=${getKey()}`).then(res => res.json())
 }

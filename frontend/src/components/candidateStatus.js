@@ -13,9 +13,10 @@ class CandidateStatus extends Component {
         {status && status === statusEnum.REJECTED && <Badge color="danger">Rejected</Badge>}
         {status && status === statusEnum.INTERVIEWING && <Badge color="info">Interviewing</Badge>}
         {status && status === statusEnum.INVALID && <Badge color="secondary">Invalid</Badge>}
-        {status && status === statusEnum.DONE_INTERVIEWING && (
-          <Badge color="primary">Done Interviewing</Badge>
-        )}
+        {status &&
+          status === statusEnum.DONE_INTERVIEWING && (
+            <Badge color="primary">Done Interviewing</Badge>
+          )}
       </>
     )
   }
