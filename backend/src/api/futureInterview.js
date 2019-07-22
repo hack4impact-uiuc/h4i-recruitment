@@ -95,9 +95,8 @@ router.post(
   })
 )
 
-// This endpoint is an example
 router.post(
-  '/upload',
+  '/uploadCandidates',
   errorWrap(async (req, res) => {
     var workbook = XLSX.read(req.body['data'], { type: 'binary' })
     const sheetName = workbook.SheetNames
@@ -105,13 +104,24 @@ router.post(
     var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
     getTimesFromArray(arr)
-    var newInterview = new FutureInterview({
-      candidates: ['Steve Jobs'],
-      interviewers: ['Tim Ko'],
-      room: 'Room A',
-      date: '01/24/2019',
-      time: '10:00AM'
+    res.json({
+      code: 200,
+      message: 'Populated.',
+      result: {},
+      success: true
     })
+  })
+)
+
+router.post(
+  '/uploadInterviewers',
+  errorWrap(async (req, res) => {
+    var workbook = XLSX.read(req.body['data'], { type: 'binary' })
+    const sheetName = workbook.SheetNames
+    var sheet = workbook['Sheets'][sheetName]
+    var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
+    unmergeColumns(arr)
+    getTimesFromArray(arr)
     res.json({
       code: 200,
       message: 'Populated.',

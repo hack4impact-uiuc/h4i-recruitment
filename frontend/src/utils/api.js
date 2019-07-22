@@ -32,13 +32,34 @@ function createEvent(event) {
   }).then(res => res.json())
 }
 
-function addInterviewSchedule(file: File) {
+function addInterviewerSchedules(file: File) {
   var reader = new FileReader()
   var scheduleString = ''
   
   reader.onload = function(e) {
     scheduleString = reader.result
-    fetch(`${API_URL}/schedule/upload/?key=${getKey()}`, {
+    fetch(`${API_URL}/schedule/uploadCandidates/?key=${getKey()}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({"data": scheduleString})
+    })
+      .then(res => res.json())
+      .then(success => console.log(success))
+      .catch(error => console.log(error))
+  }
+
+  reader.readAsBinaryString(file)
+}
+
+function addCandidateSchedules(file: File) {
+  var reader = new FileReader()
+  var scheduleString = ''
+  
+  reader.onload = function(e) {
+    scheduleString = reader.result
+    fetch(`${API_URL}/schedule/uploadInterviewers/?key=${getKey()}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -246,7 +267,8 @@ function deleteReferral(candidateID: string) {
 export {
   getAllEvents,
   createEvent,
-  addInterviewSchedule,
+  addInterviewerSchedules,
+  addCandidateSchedules,
   getInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,

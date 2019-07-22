@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
 import Link from 'next/link'
-import { getInterviewSchedule, addInterviewSchedule } from '../utils/api'
+import { getInterviewSchedule, addCandidateSchedules, addInterviewerSchedules } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
@@ -28,7 +28,8 @@ class InterviewSchedule extends Component<Props> {
   uploadSchedule(e) {
     e.preventDefault()
 
-    addInterviewSchedule(this.uploadInput.files[0])
+    addCandidateSchedules(this.candidateInput.files[0])
+    addInterviewerSchedules(this.interviewerInput.files[0])
   }
 
   getInterviewCard = interview => {
@@ -127,13 +128,24 @@ class InterviewSchedule extends Component<Props> {
           <form onSubmit={this.uploadSchedule}>
             <div>
               <h2>Upload a New Schedule</h2>
+              <h4>Candidates</h4>
               <input
                 ref={ref => {
-                  this.uploadInput = ref
+                  this.candidateInput = ref
                 }}
                 type="file"
               />
             </div>
+            <div>
+              <h4>Interviewers</h4>
+              <input
+                ref={ref => {
+                  this.interviewerInput = ref
+                }}
+                type="file"
+              />
+            </div>
+            <br/>
             <Button type="submit">Parse Schedule</Button>
           </form>
           <br />
