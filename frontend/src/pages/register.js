@@ -18,16 +18,16 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Modal, 
+  Modal,
   ModalBody,
   ModalFooter,
-  Link
+  ModalHeader
 } from 'reactstrap'
 
 type Props = {}
 
 const EMAIL_REGEX =
-  "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
+  "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})"
 
 class RegisterPage extends Component<Props> {
   constructor(props) {
@@ -36,7 +36,8 @@ class RegisterPage extends Component<Props> {
       email: '',
       password: '',
       password2: '',
-      showModal: false
+      showInvalidPasswordModal: false,
+      showInvalidRequestModal: false
     }
   }
 
@@ -59,7 +60,7 @@ class RegisterPage extends Component<Props> {
     const result = await google(e.tokenId)
     const resp = await result.json()
     if (resp.status !== 200) {
-      this.setState({ errorMessage: resp.message })
+      this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
     } else {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
@@ -71,20 +72,24 @@ class RegisterPage extends Component<Props> {
   handleSubmit = () => {
     const { email, password, password2 } = this.state
     if (password !== password2) {
-      this.setState({ showModal: true })
+      this.setState({ showInvaidPasswordModal: true })
     }
     registerUser(email, password, 'member').then(resp => {
       if (resp.status === 400) {
-        this.setState({ showModal: true })
+        this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', 'abcd')
+        localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles 
         Router.push('/dashboard')
       }
     })
   }
 
-  handleModalClose = () => {
-    this.setState({ showModal: false })
+  handleInvalidPasswordModalClose = () => {
+    this.setState({ showInvalidPasswordModal: false })
+  }
+
+  handleInvalidRequestModalClose = () => {
+    this.setState({ showInvalidRequestModal: false })
   }
 
   render() {
@@ -145,7 +150,6 @@ class RegisterPage extends Component<Props> {
                   Register
                 </Button>
               </Form>
-
               <GoogleLogin
                 className="btn-lg sign-in-btn"
                 clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
@@ -153,15 +157,22 @@ class RegisterPage extends Component<Props> {
                 scope="https://www.googleapis.com/auth/userinfo.email"
                 onSuccess={this.handleGoogle}
                 buttonText="Register with Google"
-            />
+              />
             </CardBody>
           </Card>
-          <Modal autoFocus={false} isOpen={this.state.showModal}>
-            <ModalBody>
-             {'Your passwords must match.'}
-            </ModalBody>
+          <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
+            <ModalHeader>{'Your request was invalid.'}</ModalHeader>
+            <ModalBody>{'Please make sure you do not have an existing account.'}</ModalBody>
             <ModalFooter>
-              <Button onClick={this.handleModalClose} color="secondary">
+              <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
+          <Modal autoFocus={false} isOpen={this.state.showInvalidPasswordModal}>
+            <ModalBody>{'Your passwords must match.'}</ModalBody>
+            <ModalFooter>
+              <Button onClick={this.handleInvalidPasswordModalClose} color="secondary">
                 Close
               </Button>
             </ModalFooter>

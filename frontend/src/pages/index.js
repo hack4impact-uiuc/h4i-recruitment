@@ -48,7 +48,7 @@ class LoginPage extends React.Component<Props> {
     } else {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
-      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles  
+      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
       Router.push('/dashboard')
     }
   }
