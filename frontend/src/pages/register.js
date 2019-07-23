@@ -18,10 +18,16 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Modal
+  Modal, 
+  ModalBody,
+  ModalFooter,
+  Link
 } from 'reactstrap'
 
 type Props = {}
+
+const EMAIL_REGEX =
+  "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
 
 class RegisterPage extends Component<Props> {
   constructor(props) {
@@ -57,7 +63,7 @@ class RegisterPage extends Component<Props> {
     } else {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
-      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles 
+      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
       Router.push('/dashboard')
     }
   }
@@ -68,7 +74,6 @@ class RegisterPage extends Component<Props> {
       this.setState({ showModal: true })
     }
     registerUser(email, password, 'member').then(resp => {
-        console.log(resp)
       if (resp.status === 400) {
         this.setState({ showModal: true })
       } else {
@@ -101,6 +106,7 @@ class RegisterPage extends Component<Props> {
                     name="email"
                     id="exampleEmail"
                     maxLength="64"
+                    pattern={EMAIL_REGEX}
                     value={this.state.email}
                     onChange={this.handleChange}
                     required
@@ -150,8 +156,15 @@ class RegisterPage extends Component<Props> {
             />
             </CardBody>
           </Card>
-          <Modal show={this.state.showModal} onHide={this.handleModalClose}>
-            Your passwords must match.
+          <Modal autoFocus={false} isOpen={this.state.showModal}>
+            <ModalBody>
+             {'Your passwords must match.'}
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={this.handleModalClose} color="secondary">
+                Close
+              </Button>
+            </ModalFooter>
           </Modal>
         </Container>
       </>
