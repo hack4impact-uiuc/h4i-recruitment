@@ -294,8 +294,7 @@ function loginGoogleUser(tokenId: string) {
       body: JSON.stringify({
         tokenId: tokenId,
         role: 'member'
-      }),
-      mode: 'cors'
+      })
     })
   } catch (err) {
     console.log(err)

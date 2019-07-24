@@ -64,6 +64,7 @@ class RegisterPage extends Component<Props> {
     } else {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
+      alert('Account successfully created!')
       localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
       Router.push('/dashboard')
     }
@@ -162,6 +163,7 @@ class RegisterPage extends Component<Props> {
             </CardBody>
           </Card>
           <Button
+            color="outline-primary"
             onClick={() => {
               Router.push('/')
             }}
@@ -180,7 +182,7 @@ class RegisterPage extends Component<Props> {
           <Modal autoFocus={false} isOpen={this.state.showInvalidPasswordModal}>
             <ModalBody>{'Your passwords must match.'}</ModalBody>
             <ModalFooter>
-              <Button onClick={this.handleInvalidPasswordModalClose} color="secondary">
+              <Button onClick={this.handleInvalidPasswordModalClose}>
                 Close
               </Button>
             </ModalFooter>
