@@ -283,32 +283,19 @@ function loginUser(email: string, password: string) {
   }).then(res => res.json())
 }
 
-function loginGoogleUser(tokenId: string, role: string) {
+function loginGoogleUser(tokenId: string) {
   console.log(`Logging in user ${tokenId} with Google Auth`)
-  return fetch(`${AUTH_API_URL}/google`, {
-    method: 'POST',
-    body: JSON.stringify({
-      tokenId,
-      role
-    }),
-    headers: {
-      'content-type': 'application/json'
-    },
-    mode: 'cors'
-  }).then(res => res.json())
-}
-
-function google(tokenId) {
   try {
     return fetch(`${AUTH_API_URL}/google`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'content-type': 'application/json'
       },
       body: JSON.stringify({
         tokenId: tokenId,
         role: 'member'
-      })
+      }),
+      mode: 'cors'
     })
   } catch (err) {
     console.log(err)
@@ -346,6 +333,5 @@ export {
   getAllInterviewingCandidateInterviews,
   registerUser,
   loginUser,
-  loginGoogleUser,
-  google
+  loginGoogleUser
 }

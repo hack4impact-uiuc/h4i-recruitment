@@ -48,7 +48,11 @@ class LoginPage extends React.Component<Props> {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (resp.status !== 200) {
+<<<<<<< Updated upstream
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
+=======
+      this.setState({ errorMessage: resp.message })
+>>>>>>> Stashed changes
       console.log(resp.message)
     } else {
       this.setCookie('token', e.tokenId)

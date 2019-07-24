@@ -3,7 +3,7 @@
 
 import { Component } from 'react'
 import Router from 'next/router'
-import { google, registerUser } from '../utils/api'
+import { google, registerUser, loginGoogleUser } from '../utils/api'
 import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -57,7 +57,7 @@ class RegisterPage extends Component<Props> {
   }
 
   handleGoogle = async e => {
-    const result = await google(e.tokenId)
+    const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (resp.status !== 200) {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
@@ -72,16 +72,17 @@ class RegisterPage extends Component<Props> {
   handleSubmit = () => {
     const { email, password, password2 } = this.state
     if (password !== password2) {
-      this.setState({ showInvaidPasswordModal: true })
+      this.setState({ showInvalidPasswordModal: true })
+    } else {
+      registerUser(email, password, 'member').then(resp => {
+        if (resp.status === 400) {
+          this.setState({ showInvalidRequestModal: true })
+        } else {
+          localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles 
+          Router.push('/dashboard')
+        }
+      })
     }
-    registerUser(email, password, 'member').then(resp => {
-      if (resp.status === 400) {
-        this.setState({ showInvalidRequestModal: true })
-      } else {
-        localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
-        Router.push('/dashboard')
-      }
-    })
   }
 
   handleInvalidPasswordModalClose = () => {
