@@ -79,7 +79,7 @@ class RegisterPage extends Component<Props> {
         if (resp.status === 400) {
           this.setState({ showInvalidRequestModal: true })
         } else {
-          localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles 
+          localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
           Router.push('/dashboard')
         }
       })
@@ -182,9 +182,7 @@ class RegisterPage extends Component<Props> {
           <Modal autoFocus={false} isOpen={this.state.showInvalidPasswordModal}>
             <ModalBody>{'Your passwords must match.'}</ModalBody>
             <ModalFooter>
-              <Button onClick={this.handleInvalidPasswordModalClose}>
-                Close
-              </Button>
+              <Button onClick={this.handleInvalidPasswordModalClose}>Close</Button>
             </ModalFooter>
           </Modal>
         </Container>
