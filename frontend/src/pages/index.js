@@ -68,8 +68,8 @@ class LoginPage extends React.Component<Props> {
     const { email, password } = this.state
     console.log(`Logging in ${email}`)
     loginUser(email, password).then(resp => {
-      if (resp.status === 400) {
-        this.setState({ showModal: true })
+      if (resp.status !== 200) {
+        this.setState({ showInvalidRequestModal: true })
       } else {
         localStorage.setItem('interviewerKey', 'abcd')
         Router.push('/dashboard')
@@ -124,7 +124,6 @@ class LoginPage extends React.Component<Props> {
 
               <GoogleLogin
                 className="btn sign-in-btn"
-                // style={{ float: "right", width: "49%" }}
                 clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
                 responseType="id_token"
                 buttonText={this.props.role}
@@ -138,7 +137,11 @@ class LoginPage extends React.Component<Props> {
           </Button>
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
             <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>{this.state.errorMessage}</ModalBody>
+            <ModalBody>
+              {this.state.errorMessage !== null
+                ? this.state.errorMessage
+                : 'There was an error in your request'}
+            </ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
                 Close

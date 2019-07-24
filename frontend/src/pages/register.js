@@ -36,8 +36,10 @@ class RegisterPage extends Component<Props> {
       email: '',
       password: '',
       password2: '',
+      errorMessage: '',
       showInvalidPasswordModal: false,
-      showInvalidRequestModal: false
+      showInvalidRequestModal: false,
+      showInvalidGoogleRequestModal: false
     }
   }
 
@@ -60,7 +62,7 @@ class RegisterPage extends Component<Props> {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (resp.status !== 200) {
-      this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
+      this.setState({ errorMessage: resp.message, showInvalidGoogleRequestModal: true })
     } else {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
@@ -92,6 +94,10 @@ class RegisterPage extends Component<Props> {
 
   handleInvalidRequestModalClose = () => {
     this.setState({ showInvalidRequestModal: false })
+  }
+
+  handleInvalidGoogleRequestModalClose = () => {
+    this.setState({ showInvalidGoogleRequestModal: false })
   }
 
   render() {
@@ -183,6 +189,19 @@ class RegisterPage extends Component<Props> {
             <ModalBody>{'Your passwords must match.'}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidPasswordModalClose}>Close</Button>
+            </ModalFooter>
+          </Modal>
+          <Modal autoFocus={false} isOpen={this.state.showInvalidGoogleRequestModal}>
+            <ModalHeader>{'There was an error in your request.'}</ModalHeader>
+            <ModalBody>
+              {this.state.errorMessage !== null
+                ? this.state.errorMessage
+                : 'There was an error in your request'}
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={this.handleInvalidGoogleRequestModalClose} color="secondary">
+                Close
+              </Button>
             </ModalFooter>
           </Modal>
         </Container>
