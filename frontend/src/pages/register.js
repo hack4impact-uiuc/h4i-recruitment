@@ -3,7 +3,7 @@
 
 import { Component } from 'react'
 import Router from 'next/router'
-import { google, registerUser, loginGoogleUser } from '../utils/api'
+import { registerUser, loginGoogleUser } from '../utils/api'
 import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -24,12 +24,10 @@ import {
   ModalHeader
 } from 'reactstrap'
 
-type Props = {}
-
 const EMAIL_REGEX =
   "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})"
 
-class RegisterPage extends Component<Props> {
+class RegisterPage extends Component {
   constructor(props) {
     super(props)
     this.state = {

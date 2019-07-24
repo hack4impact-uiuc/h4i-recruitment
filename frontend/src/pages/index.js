@@ -1,7 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
-import { login, google, loginUser, loginGoogleUser } from '../utils/api'
-import ReactLoading from 'react-loading'
+import { loginUser, loginGoogleUser } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { GoogleLogin } from 'react-google-login'
@@ -22,9 +21,7 @@ import {
 } from 'reactstrap'
 import cookie from 'js-cookie'
 
-type Props = {}
-
-class LoginPage extends React.Component<Props> {
+class LoginPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -138,7 +135,7 @@ class LoginPage extends React.Component<Props> {
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
             <ModalHeader>{'There was an error in your request.'}</ModalHeader>
             <ModalBody>
-              {this.state.errorMessage !== ''
+              {this.state.errorMessage
                 ? this.state.errorMessage
                 : 'There was an error in your request'}
             </ModalBody>

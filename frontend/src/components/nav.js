@@ -40,6 +40,7 @@ class NavigationBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isDirector: false,
       isLead: false,
       loggedIn: false,
       showLoginModal: false,
@@ -73,6 +74,7 @@ class NavigationBar extends Component {
       Router.push('/dashboard')
 
       this.setState({
+        isDirector: result.is_director,
         isLead: result.is_lead,
         loggedIn: true,
         username: result.name
@@ -186,7 +188,7 @@ class NavigationBar extends Component {
                       <a className="nav-bar-link pl-3">Rounds</a>
                     </Link>
                   </NavItem>
-                  {this.state.isDirector && (
+                  {(this.state.isDirector || this.state.isLead) && (
                     <NavItem>
                       <Link prefetch href="/adminRoles">
                         <a className="nav-bar-link pl-3">Admin</a>
