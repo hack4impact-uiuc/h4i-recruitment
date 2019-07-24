@@ -41,10 +41,11 @@ class LoginPage extends React.Component<Props> {
   }
 
   handleGoogle = async e => {
-    const result = await google(e.tokenId)
+    const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (resp.status !== 200) {
       this.setState({ errorMessage: resp.message })
+      console.log(resp.message)
     } else {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
@@ -131,8 +132,13 @@ class LoginPage extends React.Component<Props> {
           <Button color="outline-primary" onClick={() => Router.push('/register')}>
             {"Don't have an account? Register here!"}
           </Button>
-          <Modal show={this.state.showModal} onHide={this.handleModalClose}>
-            Invalid Login
+          <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
+            <ModalBody>{'Your passwords must match.'}</ModalBody>
+            <ModalFooter>
+              <Button onClick={this.handleInvalidPasswordModalClose} color="secondary">
+                Close
+              </Button>
+            </ModalFooter>
           </Modal>
         </Container>
       </>

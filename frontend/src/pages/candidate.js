@@ -9,6 +9,7 @@ import CandidateInterviewsModal from '../components/candidates/candidateIntervie
 import AddCommentsModal from '../components/comments/addCommentsModal'
 import CommentBox from '../components/comments/commentBox'
 import ErrorMessage from '../components/errorMessage'
+import Nav from '../components/nav'
 import {
   addReferral,
   addStrongReferral,
@@ -18,10 +19,7 @@ import {
   getCandidateInterviews
 } from '../utils/api'
 import { addInterviewCandidate } from './../actions'
-import ActionButton from '../components/actionButton'
-import Nav from '../components/nav'
 
-type Props = {}
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
@@ -33,7 +31,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => ({})
 
-class CandidatePage extends Component<Props> {
+class CandidatePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -45,6 +43,7 @@ class CandidatePage extends Component<Props> {
       comments: []
     }
   }
+
   async componentDidMount() {
     const { query } = Router
     const { result } = await getCandidateById(query.id)
@@ -53,13 +52,15 @@ class CandidatePage extends Component<Props> {
       comments: result != undefined ? result.comments : []
     })
   }
+
   toggle = () => {
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
   }
+
   submitComment = comment => {
-    const res = addCommentToCandidate(this.state.candidate._id, comment)
+    addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
@@ -69,9 +70,11 @@ class CandidatePage extends Component<Props> {
       comments: commentsState
     })
   }
+
   goBack = () => {
     Router.back()
   }
+
   // handles the click to show all interviews. Modal pops up
   async handleShowAllInterviews(id) {
     const { result } = await getCandidateInterviews(id)
@@ -80,30 +83,35 @@ class CandidatePage extends Component<Props> {
       modalOpen: true
     })
   }
+
   // goes to add the interview
   async handleAddInterview(candidateId, candidateName) {
     const { addInterviewCandidate } = this.props
     await addInterviewCandidate(candidateId, candidateName)
     Router.push('/interview')
   }
+
   // adds referral
   async handleReferral(candidateId) {
     const { result } = await addReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   // adds strong referral
   async handleStrongReferral(candidateId) {
     const { result } = await addStrongReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   // removes referral
   async handleRemoveReferral(candidateId) {
     const { result } = await deleteReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   exitModal = () => {
     this.setState({
       modalOpen: false
@@ -111,12 +119,13 @@ class CandidatePage extends Component<Props> {
   }
 
   render() {
-    if (this.state.candidate == undefined) {
+    if (!this.state.candidate) {
       return (
         <ErrorMessage message="User doesn&#39;t exist. Check if your key has the correct privileges." />
       )
     }
     const { candidate } = this.state
+
     return (
       <>
         <Head title={candidate.name} />

@@ -1,18 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { Card, CardBody, CardTitle, Button, Modal, ModalHeader, ModalFooter } from 'reactstrap'
-import Router from 'next/router'
-
-const handler = (_id: string) =>
-  Router.push({
-    pathname: '/candidate',
-    query: { id: _id }
-  })
-
-type Props = {
-  candidate: Array<mixed> // TODO: make this more specific
-}
 
 class InterviewCard extends Component {
   constructor(props) {
@@ -60,10 +48,10 @@ class InterviewCard extends Component {
               <b>Interviewer: </b>
               {this.props.interviewer}
             </p>
-            <div>
+            <>
               <Button onClick={() => this.handleViewDetails()}>View Details</Button>
               <Button onClick={() => this.toggle()}>Delete (Directors Only)</Button>
-            </div>
+            </>
           </CardBody>
         </Card>
       </>

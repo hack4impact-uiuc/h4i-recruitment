@@ -114,7 +114,7 @@ class Interview extends Component<Props> {
       const msg = 'Interview does not have a Candidate. Please put down a candidate.'
       alert(msg)
     } else {
-      const res = await addInterview(
+      await addInterview(
         getKey(),
         this.props.candidateId,
         this.props.candidateName,
@@ -131,6 +131,7 @@ class Interview extends Component<Props> {
       loading: false
     })
   }
+
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
@@ -145,7 +146,7 @@ class Interview extends Component<Props> {
   }
 
   render() {
-    let { error, filters, sort } = this.props
+    let { error, filters } = this.props
     let { candidates } = this.state
     if (error) {
       console.error(error)
@@ -175,6 +176,7 @@ class Interview extends Component<Props> {
     } else {
       candidates = []
     }
+
     return (
       <>
         <Head title={`Adding ${this.props.candidateName} Interview`} />
@@ -311,6 +313,7 @@ class Interview extends Component<Props> {
     )
   }
 }
+
 // export default Interview
 export default connect(
   mapStateToProps,

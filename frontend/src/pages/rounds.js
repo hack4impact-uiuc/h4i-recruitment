@@ -26,11 +26,12 @@ const mapDispatchToProps = dispatch => {
 }
 
 class Rounds extends Component {
-  constructor(props) {
-    super(props)
-  }
   state = {
     modalOpen: false
+  }
+
+  constructor(props) {
+    super(props)
   }
 
   async changeRound() {

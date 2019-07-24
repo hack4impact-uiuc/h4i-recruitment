@@ -11,6 +11,11 @@ type Props = {
   candidates: Array<mixed>
 }
 
+type State = {
+  isClearable: boolean,
+  isSearchable: boolean
+}
+
 const mapStateToProps = state => ({
   loading: state.candidateListPage.candidatesLoading,
   candidateId: state.interview.candidateId,
@@ -26,26 +31,23 @@ const mapDispatchToProps = dispatch => {
   )
 }
 
-type State = {
-  isClearable: boolean,
-  isSearchable: boolean
-}
-
 // this component is used in the interview page for the user to choose candidate
 class CandidateDropdown extends Component<Props, State> {
-  constructor(props) {
-    super(props)
-  }
   state = {
     isClearable: false,
     isSearchable: true,
     selectedOption: null
   }
+
+  constructor(props) {
+    super(props)
+  }
+
   handleChange = selectedOption => {
     this.setState({ selectedOption: selectedOption })
     let chosenCandidate = null
     for (var i = 0; i < this.props.candidates.length; i++) {
-      if (this.props.candidates[i].name == selectedOption.value) {
+      if (this.props.candidates[i].name === selectedOption.value) {
         chosenCandidate = this.props.candidates[i]
       }
     }
@@ -60,8 +62,9 @@ class CandidateDropdown extends Component<Props, State> {
       this.setState({ selectedOption: newSelectedOption })
     }
   }
+
   render() {
-    const { isClearable, isSearchable, selectedOption } = this.state
+    const { selectedOption } = this.state
     const { candidates } = this.props
     var candidate_names = []
     for (var i = 0; i < candidates.length; i++) {
@@ -69,15 +72,14 @@ class CandidateDropdown extends Component<Props, State> {
       let curr_name_label = { value: curr_cand.name.toString(), label: curr_cand.name.toString() }
       candidate_names.push(curr_name_label)
     }
+
     return (
-      <Fragment>
-        <Select
-          defaultValue={candidate_names[0]}
-          options={candidate_names}
-          onChange={this.handleChange}
-          value={selectedOption}
-        />
-      </Fragment>
+      <Select
+        defaultValue={candidate_names[0]}
+        options={candidate_names}
+        onChange={this.handleChange}
+        value={selectedOption}
+      />
     )
   }
 }

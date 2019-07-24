@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Badge, Row, Col } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import { setCandidateStatus } from '../../utils/api'
 import { setStatus } from '../../actions/actionCreators'
 import ErrorMessage from '../errorMessage'
@@ -11,11 +11,6 @@ import CandidateStatus from '../candidateStatus'
 import CandidateLinks from '../candidateLinks'
 import ChangeStatus from '../changeStatus'
 import { avgInterviewScore, interviewGetCategorySection } from '../../utils/core'
-
-type Props = {
-  candidate: {},
-  hideStatus?: boolean
-}
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -35,11 +30,13 @@ class CandidateBox extends Component {
       avgInterviewScore: null
     }
   }
+
   handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
   }
+
   async componentDidMount() {
     const { interviews } = this.props.candidate
     this.setState({
@@ -47,12 +44,14 @@ class CandidateBox extends Component {
       avgInterviewScore: avgInterviewScore(interviews)
     })
   }
+
   render() {
     // includes null
     if (this.props.candidate == undefined) {
       return <ErrorMessage message="User doesn&#39;t exist" />
     }
     const { candidate } = this.props
+
     return (
       <div className="candidate-box-wrapper">
         <Row>
