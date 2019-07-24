@@ -78,7 +78,7 @@ class RegisterPage extends Component<Props> {
       if (resp.status === 400) {
         this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles 
+        localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
         Router.push('/dashboard')
       }
     })
@@ -160,6 +160,13 @@ class RegisterPage extends Component<Props> {
               />
             </CardBody>
           </Card>
+          <Button
+            onClick={() => {
+              Router.push('/')
+            }}
+          >
+            {'Already have an account? Login here.'}
+          </Button>
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
             <ModalHeader>{'Your request was invalid.'}</ModalHeader>
             <ModalBody>{'Please make sure you do not have an existing account.'}</ModalBody>

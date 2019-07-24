@@ -15,7 +15,10 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Modal
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter
 } from 'reactstrap'
 import cookie from 'js-cookie'
 
@@ -27,7 +30,8 @@ class LoginPage extends React.Component<Props> {
     this.state = {
       email: '',
       password: '',
-      showModal: false
+      errorMessage: '',
+      showInvalidRequestModal: false
     }
   }
 
@@ -44,7 +48,7 @@ class LoginPage extends React.Component<Props> {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (resp.status !== 200) {
-      this.setState({ errorMessage: resp.message })
+      this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
       console.log(resp.message)
     } else {
       this.setCookie('token', e.tokenId)
@@ -133,7 +137,8 @@ class LoginPage extends React.Component<Props> {
             {"Don't have an account? Register here!"}
           </Button>
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
-            <ModalBody>{'Your passwords must match.'}</ModalBody>
+            <ModalHeader>{'There was an error in your request.'}</ModalHeader>
+            <ModalBody>{this.state.errorMessage}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidPasswordModalClose} color="secondary">
                 Close

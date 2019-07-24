@@ -285,7 +285,7 @@ function loginUser(email: string, password: string) {
 
 function loginGoogleUser(tokenId: string, role: string) {
   console.log(`Logging in user ${tokenId} with Google Auth`)
-  return fetch(`${AUTH_API_URL}/login`, {
+  return fetch(`${AUTH_API_URL}/google`, {
     method: 'POST',
     body: JSON.stringify({
       tokenId,
