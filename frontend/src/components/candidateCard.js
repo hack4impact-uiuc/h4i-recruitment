@@ -56,34 +56,30 @@ class CandidateCardComponent extends Component {
             </Row>
             <Row>
               <Col md={12}>
-                {candidate.status &&
-                  candidate.status === 'Accepted' && (
-                    // Replaced the span with Badge for easier, more consistent styling
-                    <h5>
-                      <Badge color="success">Accepted</Badge>
-                    </h5>
-                  )}
+                {candidate.status && candidate.status === 'Accepted' && (
+                  // Replaced the span with Badge for easier, more consistent styling
+                  <h5>
+                    <Badge color="success">Accepted</Badge>
+                  </h5>
+                )}
 
-                {candidate.status &&
-                  candidate.status === 'Pending' && (
-                    <h5>
-                      <Badge color="warning">Pending</Badge>
-                    </h5>
-                  )}
+                {candidate.status && candidate.status === 'Pending' && (
+                  <h5>
+                    <Badge color="warning">Pending</Badge>
+                  </h5>
+                )}
 
-                {candidate.status &&
-                  candidate.status === 'Rejected' && (
-                    <h5>
-                      <Badge color="danger">Rejected</Badge>
-                    </h5>
-                  )}
+                {candidate.status && candidate.status === 'Rejected' && (
+                  <h5>
+                    <Badge color="danger">Rejected</Badge>
+                  </h5>
+                )}
 
-                {candidate.status &&
-                  candidate.status === 'Interviewing' && (
-                    <h5>
-                      <Badge color="info">Interviewing</Badge>
-                    </h5>
-                  )}
+                {candidate.status && candidate.status === 'Interviewing' && (
+                  <h5>
+                    <Badge color="info">Interviewing</Badge>
+                  </h5>
+                )}
               </Col>
             </Row>
           </CardTitle>
@@ -117,21 +113,18 @@ class CandidateCardComponent extends Component {
               </p>
             )}
 
-            {candidate.facemashRankings &&
-              candidate.facemashRankings.elo && (
-                <p>
-                  Facemash Score:{' '}
-                  <span className="highlight">{candidate.facemashRankings.elo}</span>
-                </p>
-              )}
+            {candidate.facemashRankings && candidate.facemashRankings.elo && (
+              <p>
+                Facemash Score: <span className="highlight">{candidate.facemashRankings.elo}</span>
+              </p>
+            )}
 
-            {candidate.facemashRankings &&
-              candidate.facemashRankings.numOfMatches && (
-                <p>
-                  Number of Matches:
-                  <span className="highlight">{candidate.facemashRankings.numOfMatches}</span>
-                </p>
-              )}
+            {candidate.facemashRankings && candidate.facemashRankings.numOfMatches && (
+              <p>
+                Number of Matches:
+                <span className="highlight">{candidate.facemashRankings.numOfMatches}</span>
+              </p>
+            )}
           </div>
           <p>
             Change Status:

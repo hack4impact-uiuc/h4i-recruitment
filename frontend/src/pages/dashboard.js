@@ -45,8 +45,8 @@ var sortByMultipleProperties = function(property1, property2) {
     return x[property1][property2] === y[property1][property2]
       ? 0
       : x[property1][property2] > y[property1][property2]
-        ? 1
-        : -1
+      ? 1
+      : -1
   }
 }
 

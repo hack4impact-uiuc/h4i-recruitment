@@ -32,7 +32,7 @@ function createEvent(event) {
   }).then(res => res.json())
 }
 
-function eventCheckin(attendee) {
+function eventCheckin(attendee, id: string) {
   return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`, {
     body: JSON.stringify({
       name: attendee.name,

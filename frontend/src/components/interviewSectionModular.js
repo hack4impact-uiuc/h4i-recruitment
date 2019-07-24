@@ -15,7 +15,9 @@ class InterviewSectionModular extends Component {
         name="Time Commitment"
         id="time-commitment-input"
       >
-        {options.map(option => <option value={option.value}>{option.name}</option>)}
+        {options.map(option => (
+          <option value={option.value}>{option.name}</option>
+        ))}
       </Input>
     )
   }
@@ -96,15 +98,14 @@ class InterviewSectionModular extends Component {
         {this.props.type === 'notes'
           ? null
           : this.props.type === 'dropdown'
-            ? this.mapOptionsDropdown(options)
-            : this.mapOptionsMultipleChoice(options)}
+          ? this.mapOptionsDropdown(options)
+          : this.mapOptionsMultipleChoice(options)}
 
-        {this.props.type !== 'notes' &&
-          this.props.notesPrompt && (
-            <>
-              <br />
-            </>
-          )}
+        {this.props.type !== 'notes' && this.props.notesPrompt && (
+          <>
+            <br />
+          </>
+        )}
 
         {this.props.notesPrompt ||
           (this.props.type === 'notes' && (
