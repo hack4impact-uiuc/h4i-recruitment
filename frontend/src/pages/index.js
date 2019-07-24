@@ -1,4 +1,5 @@
 import React from 'react'
+import { Component } from 'react'
 import Router from 'next/router'
 import { loginUser, loginGoogleUser } from '../utils/api'
 import Nav from '../components/nav'
@@ -21,7 +22,7 @@ import {
 } from 'reactstrap'
 import cookie from 'js-cookie'
 
-class LoginPage extends React.Component {
+class LoginPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
