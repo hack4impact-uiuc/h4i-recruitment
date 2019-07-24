@@ -67,7 +67,7 @@ class RegisterPage extends Component<Props> {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
       alert('Account successfully created!')
-      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
+      localStorage.setItem('interviewerKey', 'ohno') // TODO: Create switch statements for roles
       Router.push('/dashboard')
     }
   }
@@ -81,7 +81,7 @@ class RegisterPage extends Component<Props> {
         if (resp.status === 400) {
           this.setState({ showInvalidRequestModal: true })
         } else {
-          localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
+          localStorage.setItem('interviewerKey', 'ohno') // TODO: Create switch statements for roles
           Router.push('/dashboard')
         }
       })

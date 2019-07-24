@@ -53,7 +53,7 @@ class LoginPage extends React.Component<Props> {
     } else {
       this.setCookie('token', e.tokenId)
       this.setCookie('google', true)
-      localStorage.setItem('interviewerKey', 'abcd') // TODO: Create switch statements for roles
+      localStorage.setItem('interviewerKey', 'ohno') // TODO: Create switch statements for roles
       Router.push('/dashboard')
     }
   }
@@ -71,7 +71,7 @@ class LoginPage extends React.Component<Props> {
       if (resp.status !== 200) {
         this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', 'abcd')
+        localStorage.setItem('interviewerKey', 'ohno')
         Router.push('/dashboard')
       }
     })
@@ -138,7 +138,7 @@ class LoginPage extends React.Component<Props> {
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
             <ModalHeader>{'There was an error in your request.'}</ModalHeader>
             <ModalBody>
-              {this.state.errorMessage !== null
+              {this.state.errorMessage !== ''
                 ? this.state.errorMessage
                 : 'There was an error in your request'}
             </ModalBody>
