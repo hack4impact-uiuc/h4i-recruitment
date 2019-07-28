@@ -43,7 +43,7 @@ function getEventAttendees(id: string) {
 function addInterviewerSchedules(file: File) {
   var reader = new FileReader()
   var scheduleString = ''
-  
+
   reader.onload = function(e) {
     scheduleString = reader.result
     fetch(`${API_URL}/schedule/uploadCandidates/?key=${getKey()}`, {
@@ -51,7 +51,7 @@ function addInterviewerSchedules(file: File) {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({"data": scheduleString})
+      body: JSON.stringify({ data: scheduleString })
     })
       .then(res => res.json())
       .then(success => console.log(success))
@@ -64,7 +64,7 @@ function addInterviewerSchedules(file: File) {
 function addCandidateSchedules(file: File) {
   var reader = new FileReader()
   var scheduleString = ''
-  
+
   reader.onload = function(e) {
     scheduleString = reader.result
     fetch(`${API_URL}/schedule/uploadInterviewers/?key=${getKey()}`, {
@@ -72,7 +72,7 @@ function addCandidateSchedules(file: File) {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({"data": scheduleString})
+      body: JSON.stringify({ data: scheduleString })
     })
       .then(res => res.json())
       .then(success => console.log(success))

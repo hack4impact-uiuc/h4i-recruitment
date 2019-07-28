@@ -128,9 +128,7 @@ class InterviewSchedule extends Component {
                 ref={ref => {
                   this.candidateInput = ref
                 }}
-                onChange={_ => 
-                  this.setState({candidateFileSelected: true})
-                }
+                onChange={_ => this.setState({ candidateFileSelected: true })}
                 type="file"
                 accept=".xls,.xlsx"
               />
@@ -141,15 +139,18 @@ class InterviewSchedule extends Component {
                 ref={ref => {
                   this.interviewerInput = ref
                 }}
-                onChange={_ => 
-                  this.setState({interviewerFileSelected: true})
-                }
+                onChange={_ => this.setState({ interviewerFileSelected: true })}
                 type="file"
                 accept=".xls,.xlsx"
               />
             </div>
-            <br/>
-            <Button type="submit" disabled={!this.state.interviewerFileSelected || !this.state.candidateFileSelected}>Parse Schedule</Button>
+            <br />
+            <Button
+              type="submit"
+              disabled={!this.state.interviewerFileSelected || !this.state.candidateFileSelected}
+            >
+              Parse Schedule
+            </Button>
           </form>
           <br />
         </Container>

@@ -60,14 +60,14 @@ router.post(
         result: {},
         success: true
       })
-    } catch(e) {
+    } catch (e) {
       res.json({
         code: 400,
         message: 'Error.',
         result: {},
         success: false
       })
-    } 
+    }
   })
 )
 
@@ -88,7 +88,7 @@ router.post(
         result: {},
         success: true
       })
-    } catch(e) {
+    } catch (e) {
       res.json({
         code: 400,
         message: 'Error.',
@@ -101,11 +101,10 @@ router.post(
 
 let uploadInterviewAvailability = async (obj, isInterviewerList) => {
   let availability = new InterviewAvailability({
-   type: isInterviewerList ? "INTERVIEWERS" : "CANDIDATES",
-   interviewDuration: 30,
-   availabilities: obj.times,
-   timeSlots: obj.allTimes
-
+    type: isInterviewerList ? 'INTERVIEWERS' : 'CANDIDATES',
+    interviewDuration: 30,
+    availabilities: obj.times,
+    timeSlots: obj.allTimes
   })
   availability.save()
 }
