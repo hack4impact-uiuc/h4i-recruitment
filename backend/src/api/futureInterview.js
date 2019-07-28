@@ -74,13 +74,14 @@ router.post(
 router.post(
   '/generateSchedules',
   errorWrap(async (req, res) => {
-    const interviewAvail = await InterviewAvailability.find({}).exec()
+    const interviewerAvail = await InterviewAvailability.findOneAndDelete({type: "INTERVIEWERS"}).exec()
+    const candidateAvail = await InterviewAvailability.findOneAndDelete({type: "CANDIDATES"}).exec()
     const result = await fetch('https://private-72687b-schedulingapi4.apiary-mock.com/lambda', {
       body: JSON.stringify({
-        'interviewerAvailabilities': true,
-        'candidateAvailabilities': true,
-        'timeSlots': true,
-        'interviewDuration': true,
+        'interviewerAvailabilities': {times: interviewerAvail.availabilities},
+        'candidateAvailabilities': {times: candidateAvail.availabilities},
+        'timeSlots': interviewerAvail.timeSlots,
+        'interviewDuration': interviewerAvail.interviewDuration,
       }),
       headers: {
         'x-api-key': 'abcDefGhiJkl0123',
@@ -88,7 +89,7 @@ router.post(
       },
       method: 'POST'
     })
-    console.log(interviewAvail)
+    console.log(interviewerAvail)
     console.log(await result.json())
     res.json({
       code: 201,
