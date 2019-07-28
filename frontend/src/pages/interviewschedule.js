@@ -26,6 +26,7 @@ class InterviewSchedule extends Component {
     const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
     const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
     await generateSchedules()
+    this.populateInterviewSchedules()
   }
 
   getInterviewCard = interview => {
@@ -101,13 +102,17 @@ class InterviewSchedule extends Component {
     }
   }
 
-  async componentDidMount() {
+  populateInterviewSchedules = async () => {
     const res = await getInterviewSchedule()
     var interviewList = res.result.interviews
     this.setState({
       interviews: interviewList === undefined ? [] : interviewList,
       interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList)
     })
+  }
+
+  async componentDidMount() {
+    this.populateInterviewSchedules()
   }
 
   render() {

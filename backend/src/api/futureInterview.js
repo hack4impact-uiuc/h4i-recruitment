@@ -74,14 +74,18 @@ router.post(
 router.post(
   '/generateSchedules',
   errorWrap(async (req, res) => {
-    const interviewerAvail = await InterviewAvailability.findOneAndDelete({type: "INTERVIEWERS"}).exec()
-    const candidateAvail = await InterviewAvailability.findOneAndDelete({type: "CANDIDATES"}).exec()
+    const interviewerAvail = await InterviewAvailability.findOneAndDelete({
+      type: 'INTERVIEWERS'
+    }).exec()
+    const candidateAvail = await InterviewAvailability.findOneAndDelete({
+      type: 'CANDIDATES'
+    }).exec()
     const result = await fetch('https://private-72687b-schedulingapi4.apiary-mock.com/lambda', {
       body: JSON.stringify({
-        'interviewerAvailabilities': {times: interviewerAvail.availabilities},
-        'candidateAvailabilities': {times: candidateAvail.availabilities},
-        'timeSlots': interviewerAvail.timeSlots,
-        'interviewDuration': interviewerAvail.interviewDuration,
+        interviewerAvailabilities: { times: interviewerAvail.availabilities },
+        candidateAvailabilities: { times: candidateAvail.availabilities },
+        timeSlots: interviewerAvail.timeSlots,
+        interviewDuration: interviewerAvail.interviewDuration
       }),
       headers: {
         'x-api-key': 'abcDefGhiJkl0123',
@@ -89,10 +93,20 @@ router.post(
       },
       method: 'POST'
     })
-    console.log(interviewerAvail)
-    console.log(await result.json())
+    json = await result.json()
+    insertions = json.scheduledInterviews.map(value => {
+      start_date = moment(new Date(value.start_time))
+      console.log(start_date.format('hh:mm a'))
+      FutureInterview({
+        candidates: [value.name],
+        interviewers: value.interviewers,
+        date: start_date.format('MM/DD/YYYY'),
+        time: start_date.format('hh:mmA')
+      }).save()
+    })
+    await Promise.all(insertions)
     res.json({
-      code: 201,
+      code: 200,
       message: 'Populated.',
       result: {},
       success: true
