@@ -18,7 +18,11 @@ var readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
+<<<<<<< HEAD
 })
+=======
+});
+>>>>>>> 321fad00050c1cfa71263a04f68222879e968525
 
 const gradToYear = {
   'Fall 2019': yearsEnum.SENIOR,
@@ -35,6 +39,10 @@ const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
 const ws = wb.Sheets[wb.SheetNames[0]]
 const jsonSheet = XLSX.utils.sheet_to_json(ws)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 321fad00050c1cfa71263a04f68222879e968525
 function sleep(ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms)
@@ -59,11 +67,19 @@ async function parseStuff() {
 
   for (let i = 0; i < jsonSheet.length; i++) {
     let candidate = jsonSheet[i]
+<<<<<<< HEAD
     console.log(candidate.Name)
     let githubContributions = 'N/A'
     if (candidate['Github Link']) {
       githubContributions = await getGithubContributions(candidate['Github Link'])
     }
+=======
+    // console.log(candidate.Name)
+    // let githubContributions = 'N/A'
+    // if (candidate['Github Link']) {
+    //   githubContributions = await getGithubContributions(candidate['Github Link'])
+    // }
+>>>>>>> 321fad00050c1cfa71263a04f68222879e968525
     let year = gradToYear[candidate['Graduation Date']]
     if (year == null) {
       console.log(`WEIRD GRAD DATE ${candidate.Name}`)
@@ -77,6 +93,7 @@ async function parseStuff() {
     let candidateObj = {}
     // Make sure to not deal with the ones that are going to be hardcoded
     // How to deal with the interviews field?
+<<<<<<< HEAD
     candidateObj.name = candidate.Name
     candidateObj.status = statusEnum.PENDING
     candidateObj.email = candidate['Email Address']
@@ -94,6 +111,9 @@ async function parseStuff() {
       candidate['Which classes have you taken?'] !== undefined
         ? candidate['Which classes have you taken?'].split(', ')
         : []
+=======
+    candidate.status = statusEnum.PENDING
+>>>>>>> 321fad00050c1cfa71263a04f68222879e968525
 
     keys.forEach(key => {
       if (!candidateObj[keymap[key]]) {
@@ -101,11 +121,31 @@ async function parseStuff() {
       }
     })
 
+<<<<<<< HEAD
     let newCandidate = new Candidate(candidateObj)
     const res = await newCandidate.save()
     console.log(res)
 
     // let newCandidate = new Candidate({
+=======
+    // let newCandidate = new Candidate({
+    //   name: candidate.Name,
+    //   email: candidate['Email Address'],
+    //   graduationDate: candidate['Graduation Date'],
+    //   major: candidate.Major,
+    //   minor: candidate['Minor(s)'],
+    //   resumeID: candidate.Resume,
+    //   github: candidate['Github Link'],
+    //   linkedIn: candidate.LinkedIn,
+    //   website: candidate.Website,
+    //   role: candidate['Which role(s) are you applying for? '].split(', '),
+    //   githubContributions: githubContributions,
+    //   year: year,
+    //   classesTaken:
+    //     candidate['Which classes have you taken?'] != undefined
+    //       ? candidate['Which classes have you taken?'].split(', ')
+    //       : [],
+>>>>>>> 321fad00050c1cfa71263a04f68222879e968525
     //   roleReason:
     //     candidate[
     //       'For each role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
@@ -129,6 +169,11 @@ async function parseStuff() {
     //     }
     //   ]
     // })
+<<<<<<< HEAD
+=======
+    // save errors out if candidate doesn't match the schema
+    // Make this a promise? I really don't like any of the manual sleep stuff going on
+>>>>>>> 321fad00050c1cfa71263a04f68222879e968525
     // const res = await newCandidate.save()
     // console.log(res)
     // await sleep(500)
