@@ -21,11 +21,12 @@ const mapDispatchToProps = dispatch => {
 }
 
 class RoundDropdown extends Component {
-  constructor(props) {
-    super(props)
-  }
   state = {
     selectedOption: ''
+  }
+
+  constructor(props) {
+    super(props)
   }
 
   isFormatValid = round => {
@@ -72,14 +73,14 @@ class RoundDropdown extends Component {
     var round_names = []
     var round_names = roundData.rounds.map(this.getRoundInfo)
     return (
-      <Fragment>
+      <>
         <Select
           placeholder="View round structure..."
           options={round_names}
           onChange={this.handleChange}
           value={this.state.selectedOption}
         />
-      </Fragment>
+      </>
     )
   }
 }

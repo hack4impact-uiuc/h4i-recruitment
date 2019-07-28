@@ -5,18 +5,11 @@ import Link from 'next/link'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { editInterview, newInterview } from '../actions'
-import {
-  getKey,
-  getPastInterviews,
-  deleteInterview,
-  getAllInterviewingCandidateInterviews
-} from '../utils/api'
+import { getKey, getPastInterviews, deleteInterview } from '../utils/api'
 import VerificationModal from '../components/verificationModal'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
 import Head from '../components/head'
-
-type Props = {}
 
 const mapStateToProps = state => ({})
 
@@ -31,7 +24,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 // Main app
-class InterviewPortal extends Component<Props> {
+class InterviewPortal extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -48,6 +41,7 @@ class InterviewPortal extends Component<Props> {
       this.setState({ interviews: result })
     }
   }
+
   handleNewInterview = e => {
     const { newInterview } = this.props
     newInterview()
@@ -61,18 +55,21 @@ class InterviewPortal extends Component<Props> {
       Router.push('/interview')
     }
   }
+
   toggle = () => {
     this.setState({
       interviewToDelete: null,
       verificationModalOpen: false
     })
   }
+
   handleDeleteClick = (interviewId, candidateId) => {
     this.setState({
       verificationModalOpen: true,
       interviewToDelete: { interviewId, candidateId }
     })
   }
+
   delete = async () => {
     this.setState({
       loading: true
@@ -90,6 +87,7 @@ class InterviewPortal extends Component<Props> {
 
   render() {
     const { interviews } = this.state
+
     return (
       <>
         <Head title="Interviews" />

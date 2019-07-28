@@ -1,6 +1,6 @@
 //@flow
-import React from 'react'
-import { Container, Row, Table, Badge, Media } from 'reactstrap'
+import React, { Component } from 'react'
+import { Container, Row, Table } from 'reactstrap'
 import Link from 'next/link'
 import { getCandidates, setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
@@ -11,22 +11,21 @@ import ChangeStatus from '../components/changeStatus'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
-type Props = {}
-
-class TablePage extends React.Component<Props> {
+class TablePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
       candidates: []
     }
   }
+
   async componentDidMount() {
     const res = await getCandidates()
-    let candidates = res.result
     this.setState({
       candidates: res.result == undefined ? [] : res.result
     })
   }
+
   handleChange = async e => {
     let newCandidates = this.state.candidates.map(candidate => {
       if (candidate._id === e.target.name) {
@@ -45,6 +44,7 @@ class TablePage extends React.Component<Props> {
         candidate.status !== statusEnum.REJECTED && candidate.status !== statusEnum.INVALID
     )
     filteredCandidates.sort(compareByFacemashScore)
+
     return (
       <>
         <Head title="Table View" />

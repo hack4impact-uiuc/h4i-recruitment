@@ -35,6 +35,7 @@ const mapDispatchToProps = dispatch => {
     dispatch
   )
 }
+
 class NavigationBar extends Component {
   constructor(props) {
     super(props)
@@ -89,6 +90,7 @@ class NavigationBar extends Component {
       if (success) {
         this.setState({
           isLead: result.is_lead,
+          isDirector: result.is_director,
           loggedIn: true,
           username: result.name
         })
@@ -133,6 +135,13 @@ class NavigationBar extends Component {
                   <a className="nav-bar-link pl-3">Dashboard</a>
                 </Link>
               </NavItem>
+              {this.state.isDirector && (
+                <NavItem>
+                  <Link prefetch href="/workspaces">
+                    <a className="nav-bar-link pl-3">Workspaces</a>
+                  </Link>
+                </NavItem>
+              )}
               {this.state.isLead && (
                 <>
                   <NavItem>

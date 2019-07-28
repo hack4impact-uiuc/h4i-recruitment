@@ -32,6 +32,14 @@ function createEvent(event) {
   }).then(res => res.json())
 }
 
+function getEventById(id: string) {
+  return fetch(`${API_URL}/events/${id}?key=${getKey()}`).then(res => res.json())
+}
+
+function getEventAttendees(id: string) {
+  return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`).then(res => res.json())
+}
+
 function addInterviewerSchedules(file: File) {
   var reader = new FileReader()
   var scheduleString = ''
@@ -269,6 +277,8 @@ export {
   createEvent,
   addInterviewerSchedules,
   addCandidateSchedules,
+  getEventById,
+  getEventAttendees,
   getInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,

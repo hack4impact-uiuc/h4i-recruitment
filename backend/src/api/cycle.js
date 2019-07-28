@@ -4,6 +4,8 @@ const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
 // Get all cycles (previous and current)
+// TODO: when authentication server is integrated, only show the cycles that
+// belong to the caller of this endpoint.
 router.get(
   '/',
   [directorsOnly],
@@ -18,6 +20,8 @@ router.get(
 )
 
 // Get a cycle by ID
+// TODO: when authentication server is integrated, only show the cycle id if it belongs
+// to the workspace owned by the caller. Otherwise, 403.
 router.get(
   '/:cycle_id',
   [directorsOnly],
@@ -32,6 +36,37 @@ router.get(
   })
 )
 
+// get all cycles belonging to a workspace (either current, outdated, or both)
+// TODO: when authentication server is integrated, only show the cycles
+// to the workspace's owner. Otherwise, 403.
+router.get(
+  '/workspace/:workspaceName',
+  [directorsOnly],
+  errorWrap(async (req, res) => {
+    const workspaceName = req.params.workspaceName
+    const current = req.body.current
+
+    if (!workspaceName) {
+      return res.json({
+        code: 400,
+        message: 'malformed request',
+        success: false
+      })
+    }
+
+    const cycles =
+      current === null
+        ? await Cycle.find({ workspaceName })
+        : await Cycle.find({ workspaceName, current })
+
+    res.json({
+      code: 200,
+      result: cycles,
+      success: true
+    })
+  })
+)
+
 // Create a new cycle
 router.post(
   '/',
@@ -41,21 +76,40 @@ router.post(
     let code = 400
 
     const newTerm = req.body.term
-    const newChapter = req.body.chapter
+    const workspace = req.body.workspaceName
 
     if (!newTerm) {
       response = 'Invalid term'
     }
-    if (!newChapter) {
-      response = 'Invalid chapter'
+    if (!workspace) {
+      response = 'Invalid workspace'
     }
+
+    // set the last current cycle to not-current
+    Cycle.findOneAndUpdate(
+      { workspaceName: workspace, current: true },
+      { $set: { current: false } },
+      err => {
+        if (err) {
+          return res.json({
+            code: 400,
+            message: err.message,
+            result: {},
+            success: false
+          })
+        }
+      }
+    )
+
+    // TODO: when authentication server is integrated, ensure that given workspaces
+    // matches one in the database created by the director
 
     const cycle = new Cycle({
       term: newTerm,
-      chapter: newChapter
+      workspaceName: workspace
     })
-
     await cycle.save()
+
     code = 200
     res.json({
       code,

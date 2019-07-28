@@ -58,6 +58,7 @@ class InterviewSectionModular extends Component {
         </p>
       )
     }
+
     let options = []
     if (this.props.scoreOptions && this.props.textOptions) {
       for (let i = 0; i < this.props.scoreOptions.length; i++) {
@@ -78,42 +79,46 @@ class InterviewSectionModular extends Component {
         options.push({ name: this.props.textOptions[i], value: this.props.textOptions[i] })
       }
     }
+
     return (
       <InterviewSectionCard title={this.props.title}>
-        {this.props.description ? (
+        {this.props.description && (
           <>
             {this.props.description}
             <br /> <br />
           </>
-        ) : null}
+        )}
 
-        {this.props.prompt ? (
+        {this.props.prompt && (
           <>
             {this.props.prompt} <br /> <br />
           </>
-        ) : null}
+        )}
 
-        {this.props.type == 'notes'
+        {this.props.type === 'notes'
           ? null
-          : this.props.type == 'dropdown'
+          : this.props.type === 'dropdown'
           ? this.mapOptionsDropdown(options)
           : this.mapOptionsMultipleChoice(options)}
-        {this.props.type != 'notes' && this.props.notesPrompt ? (
+
+        {this.props.type !== 'notes' && this.props.notesPrompt && (
           <>
             <br />
           </>
-        ) : null}
-        {this.props.notesPrompt || this.props.type == 'notes' ? (
-          <Input
-            style={{ height: '130px' }}
-            value={this.props.notes}
-            className="textarea-input"
-            onChange={this.handleNotesChange}
-            type="textarea"
-            id="time-commitment-explanation"
-            placeholder={this.props.notesPrompt}
-          />
-        ) : null}
+        )}
+
+        {this.props.notesPrompt ||
+          (this.props.type === 'notes' && (
+            <Input
+              style={{ height: '130px' }}
+              value={this.props.notes}
+              className="textarea-input"
+              onChange={this.handleNotesChange}
+              type="textarea"
+              id="time-commitment-explanation"
+              placeholder={this.props.notesPrompt}
+            />
+          ))}
       </InterviewSectionCard>
     )
   }

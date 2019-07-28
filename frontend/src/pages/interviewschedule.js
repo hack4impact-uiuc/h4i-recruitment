@@ -1,20 +1,14 @@
 import { Container, Button, Table, Row } from 'reactstrap'
 import { Component } from 'react'
-import Router from 'next/router'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import VerificationModal from '../components/verificationModal'
-import ActionButton from '../components/actionButton'
 import Link from 'next/link'
 import { getInterviewSchedule, addCandidateSchedules, addInterviewerSchedules } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
-type Props = {}
-
 const mapStateToProps = state => ({})
 
-class InterviewSchedule extends Component<Props> {
+class InterviewSchedule extends Component {
   constructor(props) {
     super(props)
     this.uploadSchedule = this.uploadSchedule.bind(this)
@@ -116,7 +110,7 @@ class InterviewSchedule extends Component<Props> {
 
   render() {
     return (
-      <div>
+      <>
         <Head title="Interview Schedule" />
         <Nav />
         <Container style={{ overflow: 'hidden' }}>
@@ -150,7 +144,7 @@ class InterviewSchedule extends Component<Props> {
           </form>
           <br />
         </Container>
-      </div>
+      </>
     )
   }
 }
