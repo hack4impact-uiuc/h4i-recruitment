@@ -76,10 +76,10 @@ router.post(
   errorWrap(async (req, res) => {
     const interviewerAvail = await InterviewAvailability.findOneAndDelete({
       type: 'INTERVIEWERS'
-    }).exec()
+    })
     const candidateAvail = await InterviewAvailability.findOneAndDelete({
       type: 'CANDIDATES'
-    }).exec()
+    })
     const result = await fetch('https://private-72687b-schedulingapi4.apiary-mock.com/lambda', {
       body: JSON.stringify({
         interviewerAvailabilities: { times: interviewerAvail.availabilities },
@@ -96,7 +96,6 @@ router.post(
     json = await result.json()
     insertions = json.scheduledInterviews.map(value => {
       start_date = moment(new Date(value.start_time))
-      console.log(start_date.format('hh:mm a'))
       FutureInterview({
         candidates: [value.name],
         interviewers: value.interviewers,
@@ -198,24 +197,10 @@ router.get(
   errorWrap(async (req, res) => {
     const futureInterviews = await FutureInterview.find()
     let interviews = []
-    let code = 500
-    // TODO: do stuff
-    // retrieve list of FutureInterviews and return them
-
-    /*
-    for (var idx = 0; idx < futureInterviews.length; idx++) {
-      if (futureInterviews[idx].date > //!!current date - how do this?!!//) {
-        interviews.push(futureInterviews[idx])
-      }
-    }
-    */
-
-    // for now we'll do:
     interviews = futureInterviews
-    code = 200
     res.json({
-      code,
-      message: 'This endpoint must be implemented',
+      code: 200,
+      message: 'Retrieved interviewers',
       result: { interviews },
       success: true
     })

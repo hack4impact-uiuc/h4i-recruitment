@@ -2,10 +2,17 @@ import { Container, Button, Table, Row } from 'reactstrap'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import Link from 'next/link'
-import { getInterviewSchedule, addCandidateSchedules, addInterviewerSchedules, generateSchedules } from '../utils/api'
+import {
+  getInterviewSchedule,
+  addCandidateSchedules,
+  addInterviewerSchedules,
+  generateSchedules
+} from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { Alert } from 'reactstrap'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const mapStateToProps = state => ({})
 
@@ -22,10 +29,11 @@ class InterviewSchedule extends Component {
 
   async uploadSchedule(e) {
     e.preventDefault()
-
+    this.setState({ isLoading: true })
     const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
     const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
     await generateSchedules()
+    this.setState({ isLoading: false })
     this.populateInterviewSchedules()
   }
 
@@ -153,9 +161,14 @@ class InterviewSchedule extends Component {
             <br />
             <Button
               type="submit"
-              disabled={!this.state.interviewerFileSelected || !this.state.candidateFileSelected}
+              disabled={
+                this.state.isLoading ||
+                !this.state.interviewerFileSelected ||
+                !this.state.candidateFileSelected
+              }
             >
               Parse Schedule
+              {this.state.isLoading && <FontAwesomeIcon icon={faSpinner} spin />}
             </Button>
           </form>
           <br />
