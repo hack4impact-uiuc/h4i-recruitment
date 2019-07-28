@@ -1,6 +1,7 @@
 const express = require('express')
 var mongodb = require('mongodb')
 const XLSX = require('xlsx')
+const fetch = require('isomorphic-unfetch')
 const moment = require('moment')
 const csv = require('csv-array')
 const { errorWrap, leadsOnly } = require('../middleware')
@@ -8,7 +9,6 @@ const { FutureInterview, InterviewAvailability } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
-
 const router = express.Router()
 
 // This endpoint is an example
@@ -53,7 +53,7 @@ router.post(
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
     try {
-      uploadInterviewAvailability(timeObj, false)
+      await uploadInterviewAvailability(timeObj, false)
       res.json({
         code: 200,
         message: 'Populated.',
@@ -72,6 +72,34 @@ router.post(
 )
 
 router.post(
+  '/generateSchedules',
+  errorWrap(async (req, res) => {
+    const interviewAvail = await InterviewAvailability.find({}).exec()
+    const result = await fetch('https://private-72687b-schedulingapi4.apiary-mock.com/lambda', {
+      body: JSON.stringify({
+        'interviewerAvailabilities': true,
+        'candidateAvailabilities': true,
+        'timeSlots': true,
+        'interviewDuration': true,
+      }),
+      headers: {
+        'x-api-key': 'abcDefGhiJkl0123',
+        'content-type': 'application/json'
+      },
+      method: 'POST'
+    })
+    console.log(interviewAvail)
+    console.log(await result.json())
+    res.json({
+      code: 201,
+      message: 'Populated.',
+      result: {},
+      success: true
+    })
+  })
+)
+
+router.post(
   '/uploadInterviewers',
   errorWrap(async (req, res) => {
     var workbook = XLSX.read(req.body['data'], { type: 'binary' })
@@ -81,7 +109,7 @@ router.post(
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
     try {
-      uploadInterviewAvailability(timeObj, true)
+      await uploadInterviewAvailability(timeObj, true)
       res.json({
         code: 200,
         message: 'Populated.',
@@ -106,7 +134,7 @@ let uploadInterviewAvailability = async (obj, isInterviewerList) => {
     availabilities: obj.times,
     timeSlots: obj.allTimes
   })
-  availability.save()
+  await availability.save()
 }
 
 // since the first 3 rows have merged cells for the month and date,

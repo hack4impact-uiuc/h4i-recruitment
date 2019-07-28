@@ -2,7 +2,7 @@ import { Container, Button, Table, Row } from 'reactstrap'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import Link from 'next/link'
-import { getInterviewSchedule, addCandidateSchedules, addInterviewerSchedules } from '../utils/api'
+import { getInterviewSchedule, addCandidateSchedules, addInterviewerSchedules, generateSchedules } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { Alert } from 'reactstrap'
@@ -20,11 +20,12 @@ class InterviewSchedule extends Component {
     }
   }
 
-  uploadSchedule(e) {
+  async uploadSchedule(e) {
     e.preventDefault()
 
-    addCandidateSchedules(this.candidateInput.files[0])
-    addInterviewerSchedules(this.interviewerInput.files[0])
+    const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
+    const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
+    await generateSchedules()
   }
 
   getInterviewCard = interview => {

@@ -40,46 +40,48 @@ function getEventAttendees(id: string) {
   return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`).then(res => res.json())
 }
 
-function addInterviewerSchedules(file: File) {
-  var reader = new FileReader()
-  var scheduleString = ''
-
-  reader.onload = function(e) {
-    scheduleString = reader.result
-    fetch(`${API_URL}/schedule/uploadCandidates/?key=${getKey()}`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ data: scheduleString })
-    })
-      .then(res => res.json())
-      .then(success => console.log(success))
-      .catch(error => console.log(error))
-  }
-
-  reader.readAsBinaryString(file)
+async function addInterviewerSchedules(file: File) {
+  const scheduleString = await readUploadedFile(file)
+  return fetch(`${API_URL}/schedule/uploadInterviewers/?key=${getKey()}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({ data: scheduleString })
+  }).then(res => res.json())
 }
 
-function addCandidateSchedules(file: File) {
-  var reader = new FileReader()
-  var scheduleString = ''
+async function addCandidateSchedules(file: File) {
+  const scheduleString = await readUploadedFile(file)
+  return fetch(`${API_URL}/schedule/uploadCandidates/?key=${getKey()}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({ data: scheduleString })
+  }).then(res => res.json())
+}
 
-  reader.onload = function(e) {
-    scheduleString = reader.result
-    fetch(`${API_URL}/schedule/uploadInterviewers/?key=${getKey()}`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ data: scheduleString })
-    })
-      .then(res => res.json())
-      .then(success => console.log(success))
-      .catch(error => console.log(error))
-  }
+const readUploadedFile = inputFile => {
+  const reader = new FileReader()
 
-  reader.readAsBinaryString(file)
+  return new Promise((resolve, reject) => {
+    reader.onerror = () => {
+      reader.abort()
+      reject(new DOMException('Problem parsing input file.'))
+    }
+
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+    reader.readAsBinaryString(inputFile)
+  })
+}
+
+function generateSchedules() {
+  return fetch(`${API_URL}/schedule/generateSchedules?key=${getKey()}`, { method: 'POST' }).then(
+    res => res.json()
+  )
 }
 
 function getInterviewSchedule() {
@@ -282,6 +284,7 @@ export {
   getInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,
+  generateSchedules,
   validateKey,
   addInterview,
   editInterview,
