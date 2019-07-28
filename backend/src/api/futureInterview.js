@@ -4,64 +4,12 @@ const XLSX = require('xlsx')
 const moment = require('moment')
 const csv = require('csv-array')
 const { errorWrap, leadsOnly } = require('../middleware')
-const { FutureInterview } = require('../models')
+const { FutureInterview, InterviewAvailability } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
 
 const router = express.Router()
-
-router.post(
-  '/uploadOld',
-  [leadsOnly],
-  errorWrap(async (req, res) => {
-    const data = req.body['schedule']
-    let response = 'Schedule Adding Failed'
-    let code = 404
-
-    // TODO: parse schedule
-    var arr = data.split('\n').map(function(e) {
-      return e.split(',')
-    })
-    var date = arr[0][0]
-    var headers = arr[0]
-
-    for (var i = 1; i < arr.length; i++) {
-      for (var j = 1; j < arr[i].length; j++) {
-        if (arr[i][j] === '') continue
-
-        var interview = arr[i][j]
-        var interviewers = interview
-          .split(':')[1]
-          .split(';')[0]
-          .split('&')
-          .map(s => s.trim())
-        var interviewees = interview
-          .split(':')[2]
-          .split('&')
-          .map(s => s.trim())
-
-        let newInterview = new FutureInterview({
-          candidates: interviewees,
-          interviewers: interviewers,
-          room: arr[0][j],
-          date: date,
-          time: arr[i][0]
-        })
-        const res = await newInterview.save()
-      }
-    }
-
-    response = 'Schedule Added Sucessfully'
-    code = 200
-    res.json({
-      code,
-      message: response,
-      result: data,
-      success: true
-    })
-  })
-)
 
 // This endpoint is an example
 router.post(
@@ -103,7 +51,8 @@ router.post(
     var sheet = workbook['Sheets'][sheetName]
     var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
-    getTimesFromArray(arr)
+    let timeObj = getTimesFromArray(arr)
+    uploadInterviewAvailability(timeObj, false)
     res.json({
       code: 200,
       message: 'Populated.',
@@ -121,7 +70,8 @@ router.post(
     var sheet = workbook['Sheets'][sheetName]
     var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
-    getTimesFromArray(arr)
+    let timeObj = getTimesFromArray(arr)
+    uploadInterviewAvailability(timeObj, true)
     res.json({
       code: 200,
       message: 'Populated.',
@@ -130,6 +80,17 @@ router.post(
     })
   })
 )
+
+let uploadInterviewAvailability = async (obj, isInterviewerList) => {
+  let availability = new InterviewAvailability({
+   type: isInterviewerList ? "INTERVIEWERS" : "CANDIDATES",
+   interviewDuration: 30,
+   availabilities: obj.times,
+   timeSlots: obj.allTimes
+
+  })
+  availability.save()
+}
 
 // since the first 3 rows have merged cells for the month and date,
 // we want to "unmerge" so there are no null cells in the month and date rows
@@ -168,9 +129,9 @@ function getTimesFromArray(arr) {
     let datetimeStr = `${arr[0][col]} ${arr[1][col]} ${arr[2][col]}`
     summaryDict['allTimes'].push(moment(datetimeStr, 'MMMM YYYY ddd DD hh:mm a').toDate())
   }
-  console.log(JSON.stringify(summaryDict))
   return summaryDict
 }
+
 router.get(
   '/',
   [leadsOnly],
