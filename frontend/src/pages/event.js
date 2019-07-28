@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import { Container, Table } from 'reactstrap'
 import Nav from '../components/nav'
 import Head from '../components/head'
-import { getEventById, getEventAttendees } from '../utils/api'
+import { getEventById, getEventAttendees, eventCheckin } from '../utils/api'
 import Router from 'next/router'
 import Link from 'next/link'
+import ActionButton from '../components/actionButton'
+import EventsModal from '../components/eventsModal'
+import { newAttendeeFields } from '../utils/formFields'
 
 class Event extends Component {
   constructor(props) {
@@ -34,13 +37,36 @@ class Event extends Component {
         location: result.location,
         description: result.description,
         fbLink: result.fbLink,
-        attendeeEmails: result.attendeeEmails
+        attendeeEmails: result.attendeeEmails,
+        id: query.id
       })
 
     const { result: res } = await getEventAttendees(query.id)
     this.setState({
       attendees: res != undefined ? res : []
     })
+  }
+
+  toggleModal = () => {
+    this.setState({
+      modal: !this.state.modal
+    })
+  }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  addAttendee = async () => {
+    const attendee = {
+      name: this.state.name,
+      email: this.state.email,
+      year: this.state.year
+    }
+    const { success } = await eventCheckin(attendee, this.state.id)
+    return success
   }
 
   render() {
@@ -68,6 +94,19 @@ class Event extends Component {
               {this.state.fbLink}
             </h5>
             <h6 className="event-details">{this.state.description}</h6>
+
+            <EventsModal
+              title="Check In Attendee"
+              isOpen={this.state.modal}
+              formFields={newAttendeeFields}
+              toggle={this.toggleModal}
+              onSubmit={this.addAttendee}
+              handleChange={this.handleChange}
+              alert="All fields are required."
+              pathname="/event"
+            />
+
+            <ActionButton className="button-margin" text="Check In" onClick={this.toggleModal} />
 
             <div className="attendee-list">
               <h3>Attendees List</h3>
