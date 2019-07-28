@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { getInterviewSchedule, addCandidateSchedules, addInterviewerSchedules } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
+import { Alert } from 'reactstrap'
 
 const mapStateToProps = state => ({})
 
@@ -127,7 +128,11 @@ class InterviewSchedule extends Component {
                 ref={ref => {
                   this.candidateInput = ref
                 }}
+                onChange={_ => 
+                  this.setState({candidateFileSelected: true})
+                }
                 type="file"
+                accept=".xls,.xlsx"
               />
             </div>
             <div>
@@ -136,11 +141,15 @@ class InterviewSchedule extends Component {
                 ref={ref => {
                   this.interviewerInput = ref
                 }}
+                onChange={_ => 
+                  this.setState({interviewerFileSelected: true})
+                }
                 type="file"
+                accept=".xls,.xlsx"
               />
             </div>
             <br/>
-            <Button type="submit">Parse Schedule</Button>
+            <Button type="submit" disabled={!this.state.interviewerFileSelected || !this.state.candidateFileSelected}>Parse Schedule</Button>
           </form>
           <br />
         </Container>

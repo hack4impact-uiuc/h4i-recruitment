@@ -52,13 +52,22 @@ router.post(
     var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
-    uploadInterviewAvailability(timeObj, false)
-    res.json({
-      code: 200,
-      message: 'Populated.',
-      result: {},
-      success: true
-    })
+    try {
+      uploadInterviewAvailability(timeObj, false)
+      res.json({
+        code: 200,
+        message: 'Populated.',
+        result: {},
+        success: true
+      })
+    } catch(e) {
+      res.json({
+        code: 400,
+        message: 'Error.',
+        result: {},
+        success: false
+      })
+    } 
   })
 )
 
@@ -71,13 +80,22 @@ router.post(
     var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
-    uploadInterviewAvailability(timeObj, true)
-    res.json({
-      code: 200,
-      message: 'Populated.',
-      result: {},
-      success: true
-    })
+    try {
+      uploadInterviewAvailability(timeObj, true)
+      res.json({
+        code: 200,
+        message: 'Populated.',
+        result: {},
+        success: true
+      })
+    } catch(e) {
+      res.json({
+        code: 400,
+        message: 'Error.',
+        result: {},
+        success: false
+      })
+    }
   })
 )
 
