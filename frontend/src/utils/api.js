@@ -268,6 +268,7 @@ function deleteReferral(candidateID: string) {
 export {
   getAllEvents,
   createEvent,
+  eventCheckin,
   getEventById,
   getEventAttendees,
   addInterviewSchedule,
