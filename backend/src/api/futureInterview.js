@@ -202,12 +202,25 @@ router.get(
     interviews = futureInterviews
     res.json({
       code: 200,
-      message: 'Retrieved interviewers',
+      message: 'Retrieved interview schedules',
       result: { interviews },
       success: true
     })
   })
 )
-
+router.delete(
+  '/',
+  [leadsOnly],
+  errorWrap(async (req, res) => {
+    const result = await FutureInterview.deleteMany({})
+    console.log(result)
+    res.json({
+      code: 200,
+      message: 'Deleted interview schedules',
+      result: { },
+      success: true
+    })
+  })
+)
 // END
 module.exports = router

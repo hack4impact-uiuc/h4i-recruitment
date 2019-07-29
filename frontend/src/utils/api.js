@@ -88,6 +88,10 @@ function getInterviewSchedule() {
   return fetch(`${API_URL}/schedule?key=${getKey()}`).then(res => res.json())
 }
 
+function deleteAllSchedules() {
+  return fetch(`${API_URL}/schedule?key=${getKey()}`, { method: "DELETE" }).then(res => res.json())
+}
+
 function getCandidateById(id: string) {
   return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
 }
@@ -304,5 +308,6 @@ export {
   addReferral,
   addStrongReferral,
   deleteReferral,
+  deleteAllSchedules,
   getAllInterviewingCandidateInterviews
 }

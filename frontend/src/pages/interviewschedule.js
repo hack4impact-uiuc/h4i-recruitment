@@ -6,7 +6,8 @@ import {
   getInterviewSchedule,
   addCandidateSchedules,
   addInterviewerSchedules,
-  generateSchedules
+  generateSchedules,
+  deleteAllSchedules
 } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -19,7 +20,6 @@ const mapStateToProps = state => ({})
 class InterviewSchedule extends Component {
   constructor(props) {
     super(props)
-    this.uploadSchedule = this.uploadSchedule.bind(this)
 
     this.state = {
       interviews: this.props.interviews,
@@ -27,13 +27,19 @@ class InterviewSchedule extends Component {
     }
   }
 
-  async uploadSchedule(e) {
+  uploadSchedule = async e => {
     e.preventDefault()
     this.setState({ isLoading: true })
     const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
     const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
     await generateSchedules()
     this.setState({ isLoading: false })
+    this.populateInterviewSchedules()
+  }
+
+  deleteScheduleHandler = async e => {
+    e.preventDefault()
+    await deleteAllSchedules()
     this.populateInterviewSchedules()
   }
 
@@ -169,6 +175,13 @@ class InterviewSchedule extends Component {
             >
               Parse Schedule
               {this.state.isLoading && <FontAwesomeIcon icon={faSpinner} spin />}
+            </Button>
+            <Button
+              color="danger"
+              onClick={this.deleteScheduleHandler}
+              disabled={this.state.isLoading}
+            >
+              Delete Schedule
             </Button>
           </form>
           <br />
