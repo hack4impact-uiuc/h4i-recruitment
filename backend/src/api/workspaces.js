@@ -23,10 +23,10 @@ router.get(
 // TODO: when authentication server is integrated, only show the workspace if it
 // belongs to the caller of this endpoint.
 router.get(
-  '/:workspace_name',
+  '/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaceName = req.params.workspace_name
+    const workspaceName = req.params.workspaceName
 
     if (!workspaceName) {
       return res.json({
@@ -36,7 +36,7 @@ router.get(
       })
     }
 
-    const workspace = await Workspace.find({ workspaceName })
+    const workspace = await Workspace.find({ name: workspaceName })
 
     res.json({
       code: 200,
@@ -52,19 +52,18 @@ router.post(
   [directorsOnly],
   errorWrap(async (req, res) => {
     const owner = req.body.owner
-    const workspaceName = req.body.workspaceName
-
-    if (!creator || !workspaceName) {
+    const workspaceName = req.body.name
+    if (!owner || !workspaceName) {
       return res.json({
         code: 400,
-        message: creator ? 'Invalid owner name' : 'Invalid workspace name',
+        message: owner ? 'Invalid owner name' : 'Invalid workspace name',
         success: false
       })
     }
 
     const workspace = new Workspace({
-      workspaceName,
-      creator
+      name: workspaceName,
+      owner
     })
     await workspace.save()
 
@@ -78,26 +77,22 @@ router.post(
 
 // Transfer ownership of a workspace to someone else
 router.put(
-  '/transfer',
+  '/transfer/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
     const newOwner = req.body.owner
-    const name = req.body.name
+    const name = req.params.workspaceName
 
-    if (!creator || !workspaceName) {
+    if (!newOwner || !name) {
       return res.json({
         code: 400,
-        message: creator ? 'Invalid owner name' : 'Invalid workspace name',
+        message: newOwner ? 'Invalid owner name' : 'Invalid workspace name',
         success: false
       })
     }
 
     // todo: ensure that new owner is a director & belongs in the same org
-    await Workspace.findByIdAndUpdate(
-      { name },
-      { $set: { owner: newOwner } },
-      { new: true }
-    )
+    await Workspace.findOneAndUpdate({ name }, { $set: { owner: newOwner } }, { new: true })
 
     res.json({
       code: 200,
