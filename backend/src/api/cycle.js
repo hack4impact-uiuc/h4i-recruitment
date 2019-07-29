@@ -1,5 +1,5 @@
 const express = require('express')
-const { Cycle } = require('../models')
+const { Cycle, Workspace } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
@@ -45,6 +45,7 @@ router.get(
   errorWrap(async (req, res) => {
     const workspaceName = req.params.workspaceName
     const current = req.body.current
+    console.log(current)
 
     if (!workspaceName) {
       return res.json({
@@ -55,13 +56,48 @@ router.get(
     }
 
     const cycles =
-      current === null
+      current === undefined
         ? await Cycle.find({ workspaceName })
         : await Cycle.find({ workspaceName, current })
 
     res.json({
       code: 200,
       result: cycles,
+      success: true
+    })
+  })
+)
+
+router.post(
+  '/workspace',
+  [directorsOnly],
+  errorWrap(async (req, res) => {
+    let response = 'Workspace Created Successfully'
+    let code = 400
+
+    const newName = req.body.name
+
+    // TODO: get the creator's name from their key - for now, just put in body
+    const newCreator = req.body.creator
+
+    if (!newName) {
+      response = 'Invalid name'
+    }
+    if (!newCreator) {
+      response = 'Invalid creator'
+    }
+
+    const workspace = new Workspace({
+      name: newName,
+      creator: newCreator
+    })
+
+    await workspace.save()
+    code = 200
+    res.json({
+      code,
+      message: response,
+      result: {},
       success: true
     })
   })

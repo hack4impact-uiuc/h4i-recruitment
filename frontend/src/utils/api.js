@@ -9,6 +9,12 @@ const API_URL =
     : 'http://localhost:8080' // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
+function getCycles(workspaceName) {
+  return fetch(`${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}`).then(res =>
+    res.json()
+  )
+}
+
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
 }
@@ -251,6 +257,7 @@ function deleteReferral(candidateID: string) {
 }
 
 export {
+  getCycles,
   getAllEvents,
   createEvent,
   getEventById,
