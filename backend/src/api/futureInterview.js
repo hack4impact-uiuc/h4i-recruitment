@@ -97,10 +97,10 @@ router.post(
     })
     json = await result.json()
     insertions = json.scheduledInterviews.map(value => {
-      start_date = moment(new Date(value.start_time))
-      FutureInterview({
-        candidates: [value.name],
-        interviewers: value.interviewers,
+      start_date = moment(new Date(value.startTime))
+      return FutureInterview({
+        candidates: [value.name.replace("_"," ")],
+        interviewers: value.interviewers.map(x => x.replace("_", " ")),
         date: start_date.format('MM/DD/YYYY'),
         time: start_date.format('hh:mmA')
       }).save()
@@ -197,7 +197,7 @@ router.get(
   '/',
   [leadsOnly],
   errorWrap(async (req, res) => {
-    const futureInterviews = await FutureInterview.find()
+    const futureInterviews = await FutureInterview.find().sort({ _id: 1 })
     let interviews = []
     interviews = futureInterviews
     res.json({
