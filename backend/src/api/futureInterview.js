@@ -8,6 +8,8 @@ const { errorWrap, leadsOnly } = require('../middleware')
 const { FutureInterview, InterviewAvailability } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
+const schedulerUrl = process.env.SCHEDULER_URL
+const schedulerApiKey = process.env.SCHEDULER_API_KEY
 const keyData = require(keyPath)
 const router = express.Router()
 
@@ -80,7 +82,7 @@ router.post(
     const candidateAvail = await InterviewAvailability.findOneAndDelete({
       type: 'CANDIDATES'
     })
-    const result = await fetch('https://private-72687b-schedulingapi4.apiary-mock.com/lambda', {
+    const result = await fetch(schedulerUrl, {
       body: JSON.stringify({
         interviewerAvailabilities: { times: interviewerAvail.availabilities },
         candidateAvailabilities: { times: candidateAvail.availabilities },
@@ -88,7 +90,7 @@ router.post(
         interviewDuration: interviewerAvail.interviewDuration
       }),
       headers: {
-        'x-api-key': 'abcDefGhiJkl0123',
+        'x-api-key': schedulerApiKey,
         'content-type': 'application/json'
       },
       method: 'POST'
