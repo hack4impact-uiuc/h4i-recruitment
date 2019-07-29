@@ -89,7 +89,7 @@ function getInterviewSchedule() {
 }
 
 function deleteAllSchedules() {
-  return fetch(`${API_URL}/schedule?key=${getKey()}`, { method: "DELETE" }).then(res => res.json())
+  return fetch(`${API_URL}/schedule?key=${getKey()}`, { method: 'DELETE' }).then(res => res.json())
 }
 
 function getCandidateById(id: string) {

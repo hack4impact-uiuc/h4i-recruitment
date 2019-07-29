@@ -99,8 +99,8 @@ router.post(
     insertions = json.scheduledInterviews.map(value => {
       start_date = moment(new Date(value.startTime))
       return FutureInterview({
-        candidates: [value.name.replace("_"," ")],
-        interviewers: value.interviewers.map(x => x.replace("_", " ")),
+        candidates: [value.name.replace('_', ' ')],
+        interviewers: value.interviewers.map(x => x.replace('_', ' ')),
         date: start_date.format('MM/DD/YYYY'),
         time: start_date.format('hh:mmA')
       }).save()
@@ -217,7 +217,7 @@ router.delete(
     res.json({
       code: 200,
       message: 'Deleted interview schedules',
-      result: { },
+      result: {},
       success: true
     })
   })
