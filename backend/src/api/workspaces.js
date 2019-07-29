@@ -82,18 +82,20 @@ router.put(
   [directorsOnly],
   errorWrap(async (req, res) => {
     const newOwner = req.body.owner
+    const name = req.body.name
 
-    if (!newOwner) {
+    if (!creator || !workspaceName) {
       return res.json({
         code: 400,
-        message: 'invalid name provided'
+        message: creator ? 'Invalid owner name' : 'Invalid workspace name',
+        success: false
       })
     }
 
     // todo: ensure that new owner is a director & belongs in the same org
-    const workspace = await Workspace.findByIdAndUpdate(
-      { owner: newOwner },
-      { $set: { name: 'Naomi' } },
+    await Workspace.findByIdAndUpdate(
+      { name },
+      { $set: { owner: newOwner } },
       { new: true }
     )
 
