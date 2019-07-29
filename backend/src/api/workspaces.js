@@ -64,7 +64,7 @@ router.post(
 
     const workspace = new Workspace({
       workspaceName,
-      creator,
+      creator
     })
     await workspace.save()
 
@@ -91,11 +91,16 @@ router.put(
     }
 
     // todo: ensure that new owner is a director & belongs in the same org
-    const workspace = new Workspace({
-      workspaceName,
-      creator,
+    const workspace = await Workspace.findByIdAndUpdate(
+      { owner: newOwner },
+      { $set: { name: 'Naomi' } },
+      { new: true }
+    )
+
+    res.json({
+      code: 200,
+      success: true
     })
-    await workspace.save()
   })
 )
 module.exports = router
