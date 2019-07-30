@@ -26,17 +26,7 @@ router.get(
   '/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaceName = req.params.workspaceName
-
-    if (!workspaceName) {
-      return res.json({
-        code: 400,
-        message: 'malformed request',
-        success: false
-      })
-    }
-
-    const workspace = await Workspace.find({ name: workspaceName })
+    const workspace = await Workspace.find({ name: req.params.workspaceName })
 
     res.json({
       code: 200,
@@ -56,7 +46,7 @@ router.post(
     if (!owner || !workspaceName) {
       return res.json({
         code: 400,
-        message: owner ? 'Invalid owner name' : 'Invalid workspace name',
+        message: owner ? 'Invalid workspace name' : 'Invalid owner name',
         success: false
       })
     }
@@ -81,21 +71,22 @@ router.put(
   [directorsOnly],
   errorWrap(async (req, res) => {
     const newOwner = req.body.owner
-    const name = req.params.workspaceName
+    const workspaceName = req.params.workspaceName
 
-    if (!newOwner || !name) {
+    if (!newOwner || !workspaceName) {
       return res.json({
         code: 400,
-        message: newOwner ? 'Invalid owner name' : 'Invalid workspace name',
+        message: newOwner ? 'Invalid workspace name' : 'Invalid owner name',
         success: false
       })
     }
 
     // todo: ensure that new owner is a director & belongs in the same org
-    await Workspace.findOneAndUpdate({ name }, { $set: { owner: newOwner } }, { new: true })
+    await Workspace.findOneAndUpdate({ name: workspaceName }, { $set: { owner: newOwner } })
 
     res.json({
       code: 200,
+      message: `Successfully transferred ownership for Workspace ${workspaceName}`,
       success: true
     })
   })
