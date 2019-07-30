@@ -16,8 +16,7 @@ class Workspaces extends Component {
 
   async componentDidMount() {
     // get workspaces and cycle, if applicable
-    // TODO: need way to store and get workspace name- how are we going to deal with finding who owns what workspace
-    const res = await getCycles('UIUC')
+    const res = await getCyclesByWorkspace('UIUC')
     this.setState({
       cycles: res && res.result
     })

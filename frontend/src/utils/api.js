@@ -9,7 +9,41 @@ const API_URL =
     : 'http://localhost:8080' // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
-function getCycles(workspaceName) {
+function createWorkspace(workspace) {
+  return fetch(`${API_URL}/workspace?key=${getKey()}`, {
+    body: JSON.stringify({
+      name: workspace.name,
+      creator: workspace.creator
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors' 
+  }).then(res => res.json())
+}
+
+function getWorkspaces() {
+  return fetch(`${API_URL}/workspace?key=${getKey()}`).then(res =>
+    res.json()
+  )
+}
+
+function createCycle(cycle) {
+  return fetch(`${API_URL}/cycle/${workspaceName}?key=${getKey()}`, {
+    body: JSON.stringify({
+      term: cycle.term,
+      workspaceName: cycle.workspaceName
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors' 
+  }).then(res => res.json())
+}
+
+function getCyclesByWorkspace(workspaceName) {
   return fetch(`${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}`).then(res =>
     res.json()
   )

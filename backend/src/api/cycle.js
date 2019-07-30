@@ -112,13 +112,25 @@ router.post(
     let code = 400
 
     const newTerm = req.body.term
-    const workspace = req.body.workspaceName
+    const workspaceName = req.body.workspaceName
 
     if (!newTerm) {
       response = 'Invalid term'
     }
-    if (!workspace) {
+    if (!workspaceName) {
       response = 'Invalid workspace'
+    } else {
+      // TODO: check for a workspace owned by the creator of this cycle
+      const workspace = Workspace.findOne({name: workspaceName})
+      if (!workspace) {
+        // Shouldn't keep going if the workspace name doesn't link to one
+        res.json({
+          code,
+          message: 'Invalid workspace',
+          result: {},
+          success: false
+        })
+      }
     }
 
     // set the last current cycle to not-current
