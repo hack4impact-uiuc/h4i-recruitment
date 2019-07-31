@@ -1,4 +1,4 @@
-import { Container, Button, Table, Row } from 'reactstrap'
+import { Container, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import Link from 'next/link'
@@ -32,9 +32,17 @@ class InterviewSchedule extends Component {
     this.setState({ isLoading: true })
     const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
     const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
-    await generateSchedules()
+    const generatorResponse = await generateSchedules()
     this.setState({ isLoading: false })
+    this.setState({
+      generationError: !generatorResponse.success,
+      generationErrorMessage: generatorResponse.message
+    })
     this.populateInterviewSchedules()
+  }
+
+  handleErrorModalClose = () => {
+    this.setState({ generationError: false })
   }
 
   deleteScheduleHandler = async e => {
@@ -132,13 +140,31 @@ class InterviewSchedule extends Component {
   render() {
     return (
       <>
+        <Modal isOpen={this.state.generationError} toggle={this.handleErrorModalClose}>
+          <ModalHeader toggle={this.handleErrorModalClose}>Schedule Generation Error</ModalHeader>
+          <ModalBody>
+            The schedule generator returned an exception:
+            <div>
+              <code>{this.state.generationErrorMessage}</code>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={this.handleErrorModalClose}>
+              well ok then
+            </Button>
+          </ModalFooter>
+        </Modal>
         <Head title="Interview Schedule" />
         <Nav />
-        <Container style={{ overflow: 'hidden' }}>
-          <h1>Upcoming Interviews</h1>
-          {this.state.interviewCards}
-        </Container>
-        <hr />
+        {this.state.interviewCards !== undefined && this.state.interviewCards.length != 0 ? (
+          <div>
+            <Container style={{ overflow: 'hidden' }}>
+              <h1>Upcoming Interviews</h1>
+              {this.state.interviewCards}
+            </Container>
+            <hr />{' '}
+          </div>
+        ) : null}
         <Container>
           <form onSubmit={this.uploadSchedule}>
             <div>

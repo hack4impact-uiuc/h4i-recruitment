@@ -1,16 +1,13 @@
 const express = require('express')
-var mongodb = require('mongodb')
 const XLSX = require('xlsx')
 const fetch = require('isomorphic-unfetch')
 const moment = require('moment')
-const csv = require('csv-array')
 const { errorWrap, leadsOnly } = require('../middleware')
 const { FutureInterview, InterviewAvailability } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const schedulerUrl = process.env.SCHEDULER_URL
 const schedulerApiKey = process.env.SCHEDULER_API_KEY
-const keyData = require(keyPath)
 const router = express.Router()
 
 // This endpoint is an example
@@ -96,6 +93,14 @@ router.post(
       method: 'POST'
     })
     json = await result.json()
+    console.log(json)
+    if (!result.ok) {
+      res.json({
+        ...json,
+        success: false
+      })
+      return
+    }
     insertions = json.scheduledInterviews.map(value => {
       start_date = moment(new Date(value.startTime))
       return FutureInterview({
