@@ -39,7 +39,7 @@ const newEventFields = [
 const newAttendeeFields = [
   {
     label: 'Name',
-    name: 'name',
+    name: 'attendeeName',
     placeholder: 'i.e. Johnny Appleseed'
   },
   {

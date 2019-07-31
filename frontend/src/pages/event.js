@@ -13,38 +13,40 @@ class Event extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
-      date: '',
-      startTime: '',
-      endTime: '',
-      location: '',
-      description: '',
-      fbLink: '',
       attendeeEmails: [],
-      attendees: []
+      attendees: [],
+      eventId: ''
     }
   }
 
   async componentDidMount() {
     const { query } = Router
-    const { result } = await getEventById(query.id)
+    this.setState({
+      eventId: query.id
+    })
+    await this.getEventAndAttendees(query.id)
+  }
+
+  getEventAndAttendees = async eventId => {
+    const { result } = await getEventById(eventId)
     result &&
       this.setState({
-        name: result.name,
+        eventName: result.name,
         date: result.date,
         startTime: result.startTime,
         endTime: result.endTime,
         location: result.location,
         description: result.description,
         fbLink: result.fbLink,
-        attendeeEmails: result.attendeeEmails,
-        id: query.id
+        attendeeEmails: result.attendeeEmails
       })
 
-    const { result: res } = await getEventAttendees(query.id)
-    this.setState({
-      attendees: res != undefined ? res : []
-    })
+    const { result: res } = await getEventAttendees(eventId)
+    if (Array.isArray(res)) {
+      this.setState({
+        attendees: res
+      })
+    }
   }
 
   toggleModal = () => {
@@ -61,11 +63,11 @@ class Event extends Component {
 
   addAttendee = async () => {
     const attendee = {
-      name: this.state.name,
+      name: this.state.attendeeName,
       email: this.state.email,
       year: this.state.year
     }
-    const { success } = await eventCheckin(attendee, this.state.id)
+    const { success } = await eventCheckin(attendee, this.state.eventId)
     return success
   }
 
@@ -76,7 +78,7 @@ class Event extends Component {
         <Nav />
         <div className="page-content-wrapper">
           <Container fluid>
-            <h1 className="event-details">{this.state.name}</h1>
+            <h1 className="event-details">{this.state.eventName}</h1>
             <h5 className="event-details">
               <b>Date: </b>
               {this.state.date}
@@ -101,9 +103,10 @@ class Event extends Component {
               formFields={newAttendeeFields}
               toggle={this.toggleModal}
               onSubmit={this.addAttendee}
+              onReload={this.getEventAndAttendees}
               handleChange={this.handleChange}
               alert="All fields are required."
-              pathname="/event"
+              id={this.state.eventId}
             />
 
             <ActionButton className="button-margin" text="Check In" onClick={this.toggleModal} />

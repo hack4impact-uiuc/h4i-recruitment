@@ -256,3 +256,10 @@ p > b {
 .event-details {
   text-align: center;
 }
+
+.loader {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
