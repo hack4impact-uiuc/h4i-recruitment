@@ -7,6 +7,7 @@ const structure = require('./structure')
 const cycle = require('./cycle')
 const events = require('./events')
 const attendees = require('./attendees')
+const workspaces = require('./workspaces')
 
 module.exports = {
   candidates,
@@ -17,5 +18,6 @@ module.exports = {
   structure,
   cycle,
   events,
-  attendees
+  attendees,
+  workspaces
 }
