@@ -33,7 +33,7 @@ class RegisterPage extends Component {
     this.state = {
       email: '',
       password: '',
-      password2: '',
+      passwordVerification: '',
       errorMessage: '',
       showInvalidPasswordModal: false,
       showInvalidRequestModal: false,
@@ -59,7 +59,7 @@ class RegisterPage extends Component {
   handleGoogle = async e => {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
-    if (resp.status !== 200) {
+    if (!resp.success) {
       this.setState({ errorMessage: resp.message, showInvalidGoogleRequestModal: true })
     } else {
       this.setCookie('token', e.tokenId)
@@ -71,8 +71,8 @@ class RegisterPage extends Component {
   }
 
   handleSubmit = () => {
-    const { email, password, password2 } = this.state
-    if (password !== password2) {
+    const { email, password, passwordVerification } = this.state
+    if (password !== passwordVerification) {
       this.setState({ showInvalidPasswordModal: true })
     } else {
       registerUser(email, password, 'member').then(resp => {
@@ -139,10 +139,10 @@ class RegisterPage extends Component {
                   <Label for="examplePassword">Confirm Password</Label>
                   <Input
                     type="password"
-                    name="password2"
+                    name="passwordVerification"
                     minLength="8"
                     maxLength="64"
-                    value={this.state.password2}
+                    value={this.state.passwordVerification}
                     onChange={this.handleChange}
                     required
                   />
@@ -191,11 +191,7 @@ class RegisterPage extends Component {
           </Modal>
           <Modal autoFocus={false} isOpen={this.state.showInvalidGoogleRequestModal}>
             <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>
-              {this.state.errorMessage !== null
-                ? this.state.errorMessage
-                : 'There was an error in your request'}
-            </ModalBody>
+            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidGoogleRequestModalClose} color="secondary">
                 Close

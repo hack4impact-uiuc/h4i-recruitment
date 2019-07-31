@@ -45,7 +45,7 @@ class LoginPage extends Component {
   handleGoogle = async e => {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
-    if (resp.status !== 200) {
+    if (!resp.success) {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
       console.log(resp.message)
     } else {
@@ -66,7 +66,7 @@ class LoginPage extends Component {
     const { email, password } = this.state
     console.log(`Logging in ${email}`)
     loginUser(email, password).then(resp => {
-      if (resp.status !== 200) {
+      if (!resp.success) {
         this.setState({ showInvalidRequestModal: true })
       } else {
         localStorage.setItem('interviewerKey', 'ohno')
@@ -135,11 +135,7 @@ class LoginPage extends Component {
           </Button>
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
             <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>
-              {this.state.errorMessage
-                ? this.state.errorMessage
-                : 'There was an error in your request'}
-            </ModalBody>
+            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
                 Close
