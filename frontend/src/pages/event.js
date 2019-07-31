@@ -41,8 +41,8 @@ class Event extends Component {
         attendeeEmails: result.attendeeEmails
       })
 
-    const { result: res } = await getEventAttendees(eventId)
-    if (Array.isArray(res)) {
+    const { result: res, success } = await getEventAttendees(eventId)
+    if (success) {
       this.setState({
         attendees: res
       })
