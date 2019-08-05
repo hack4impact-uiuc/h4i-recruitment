@@ -103,10 +103,9 @@ class Event extends Component {
               formFields={newAttendeeFields}
               toggle={this.toggleModal}
               onSubmit={this.addAttendee}
-              onReload={this.getEventAndAttendees}
+              onReload={() => this.getEventAndAttendees(this.state.eventId)}
               handleChange={this.handleChange}
               alert="All fields are required."
-              id={this.state.eventId}
             />
 
             <ActionButton className="button-margin" text="Check In" onClick={this.toggleModal} />

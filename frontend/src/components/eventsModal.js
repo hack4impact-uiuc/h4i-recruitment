@@ -36,11 +36,7 @@ class EventsModal extends Component {
     })
 
     if (success) {
-      if (this.props.id) {
-        await this.props.onReload(this.props.id)
-      } else {
-        await this.props.onReload()
-      }
+      await this.props.onReload()
       this.closeModal()
     } else {
       this.setState({
