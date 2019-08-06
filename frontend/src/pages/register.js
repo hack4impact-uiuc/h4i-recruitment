@@ -63,9 +63,8 @@ class RegisterPage extends Component {
     const resp = await result.json()
     if (!resp.success) {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
-      console.log(resp.message)
     } else {
-      // set token value so google can acess it 
+      // set token value so google can access it 
       this.setCookie('token', e.tokenId)
       // set google to true so server knows to send the request to google 
       this.setCookie('google', true)
