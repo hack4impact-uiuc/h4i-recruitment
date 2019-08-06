@@ -100,7 +100,7 @@ router.post(
 
     // set the last current cycle to not-current
     Cycle.findOneAndUpdate(
-      { workspaceName: workspace, current: true },
+      { workspaceName, current: true },
       { $set: { current: false } },
       err => {
         if (err) {

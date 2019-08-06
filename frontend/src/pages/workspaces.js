@@ -22,7 +22,7 @@ class Workspaces extends Component {
     // get workspaces and cycle, if applicable
     const workspaceRes = await getWorkspaces()
     if (workspaceRes) {
-      workspaceRes.result.forEach(workspace => {
+      workspaceRes.result.forEach(async (workspace) => {
         const cycleRes = await getCyclesByWorkspace(workspace.name)
         if (cycleRes) {
           workspace.cycles = cycleRes.result
