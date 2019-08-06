@@ -87,8 +87,10 @@ router.post(
     } else {
       // TODO: check for a workspace owned by the creator of this cycle
       const workspace = Workspace.findOne({name: workspaceName})
+      console.log(workspace)
       if (!workspace) {
         // Shouldn't keep going if the workspace name doesn't link to one
+        console.log("!workspace")
         res.json({
           code,
           message: 'Invalid workspace',
@@ -119,7 +121,7 @@ router.post(
 
     const cycle = new Cycle({
       term: newTerm,
-      workspaceName: workspace
+      workspaceName
     })
     await cycle.save()
 

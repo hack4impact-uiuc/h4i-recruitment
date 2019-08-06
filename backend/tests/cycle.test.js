@@ -43,8 +43,10 @@ describe('GET /cycle/:cycleId', () => {
 
 describe('POST /cycle', () => {
   it('should create a cycle', async () => {
+    const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
+    
     const workspace = new Workspace({
-      name: 'Hack4Impact University of Illinois at Urbana-Champaign',
+      name: workspaceName,
       owner: 'Owner'
     })
     await request(app)
@@ -53,7 +55,7 @@ describe('POST /cycle', () => {
 
     const cycle = new Cycle({
       term: 'FA19',
-      workspaceName: 'Hack4Impact University of Illinois at Urbana-Champaign'
+      workspaceName
     })
 
     await request(app)

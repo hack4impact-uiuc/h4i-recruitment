@@ -291,7 +291,10 @@ function deleteReferral(candidateID: string) {
 }
 
 export {
-  getCycles,
+  createWorkspace,
+  getWorkspaces,
+  getCyclesByWorkspace,
+  createCycle,
   getAllEvents,
   createEvent,
   getEventById,
