@@ -14,31 +14,8 @@ class AdminRoles extends React.Component {
     }
   }
 
-  editButton() {
-    return (
-      <Button
-        variant="primary"
-        disabled={this.state.isEditing}
-        onClick={() => this.setState({ isEditing: true })}
-      >
-        Edit
-      </Button>
-    )
-  }
-
-  saveButton() {
-    return (
-      <Button
-        variant="info"
-        disabled={!this.state.isEditing}
-        onClick={() => this.setState({ isEditing: false })}
-      >
-        Save
-      </Button>
-    )
-  }
-
   render() {
+    const sampleMemberId = 1234
     return (
       <>
         <Head title="Home" />
@@ -55,10 +32,10 @@ class AdminRoles extends React.Component {
             <tr>
               <td>{'Insert Name Here'}</td>
               <td>
-                <ChangeYear memberID={1} handleChange={this.handleChange} />
+                <ChangeYear memberID={sampleMemberId} handleChange={this.handleChange} />
               </td>
               <td>
-                <ChangeRole memberID={1} handleChange={this.handleChange} />
+                <ChangeRole memberID={sampleMemberId} handleChange={this.handleChange} />
               </td>
               {this.state.isEditing && (
                 <td>
@@ -68,8 +45,20 @@ class AdminRoles extends React.Component {
             </tr>
           </tbody>
         </Table>
-        {this.editButton()}
-        {this.saveButton()}
+        <Button
+          variant="primary"
+          disabled={this.state.isEditing}
+          onClick={() => this.setState({ isEditing: true })}
+        >
+          Edit
+        </Button>
+        <Button
+          variant="info"
+          disabled={!this.state.isEditing}
+          onClick={() => this.setState({ isEditing: false })}
+        >
+          Save
+        </Button>
       </>
     )
   }

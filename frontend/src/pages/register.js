@@ -33,7 +33,7 @@ class RegisterPage extends Component {
     this.state = {
       email: '',
       password: '',
-      password2: '',
+      passwordVerification: '',
       errorMessage: '',
       showInvalidPasswordModal: false,
       showInvalidRequestModal: false,
@@ -41,6 +41,7 @@ class RegisterPage extends Component {
     }
   }
 
+  // use cookie to hold information they're valid across the whole site 
   setCookie = (key, value) => {
     if (process.browser) {
       cookie.set(key, value, {
@@ -57,29 +58,34 @@ class RegisterPage extends Component {
   }
 
   handleGoogle = async e => {
+    const memberKey = 'ohno'
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
-    if (resp.status !== 200) {
-      this.setState({ errorMessage: resp.message, showInvalidGoogleRequestModal: true })
+    if (!resp.success) {
+      this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
+      console.log(resp.message)
     } else {
+      // set token value so google can acess it 
       this.setCookie('token', e.tokenId)
+      // set google to true so server knows to send the request to google 
       this.setCookie('google', true)
-      alert('Account successfully created!')
-      localStorage.setItem('interviewerKey', 'ohno') // TODO: Create switch statements for roles
+      // set localStorage value so it's valid across the whole site 
+      localStorage.setItem('interviewerKey', memberKey) // TODO: Create switch statements for roles - Issue #314 
       Router.push('/dashboard')
     }
   }
 
   handleSubmit = () => {
-    const { email, password, password2 } = this.state
-    if (password !== password2) {
+    const memberKey = 'ohno'
+    const { email, password, passwordVerification } = this.state
+    if (password !== passwordVerification) {
       this.setState({ showInvalidPasswordModal: true })
     } else {
       registerUser(email, password, 'member').then(resp => {
         if (resp.status === 400) {
           this.setState({ showInvalidRequestModal: true })
         } else {
-          localStorage.setItem('interviewerKey', 'ohno') // TODO: Create switch statements for roles
+          localStorage.setItem('interviewerKey', memberKey) // TODO: Create switch statements for roles
           Router.push('/dashboard')
         }
       })
@@ -115,7 +121,6 @@ class RegisterPage extends Component {
                   <Input
                     type="email"
                     name="email"
-                    id="exampleEmail"
                     maxLength="64"
                     pattern={EMAIL_REGEX}
                     value={this.state.email}
@@ -139,10 +144,10 @@ class RegisterPage extends Component {
                   <Label for="examplePassword">Confirm Password</Label>
                   <Input
                     type="password"
-                    name="password2"
+                    name="passwordVerification"
                     minLength="8"
                     maxLength="64"
-                    value={this.state.password2}
+                    value={this.state.passwordVerification}
                     onChange={this.handleChange}
                     required
                   />
@@ -191,11 +196,7 @@ class RegisterPage extends Component {
           </Modal>
           <Modal autoFocus={false} isOpen={this.state.showInvalidGoogleRequestModal}>
             <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>
-              {this.state.errorMessage !== null
-                ? this.state.errorMessage
-                : 'There was an error in your request'}
-            </ModalBody>
+            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidGoogleRequestModalClose} color="secondary">
                 Close

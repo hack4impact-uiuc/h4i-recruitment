@@ -33,25 +33,31 @@ class LoginPage extends Component {
     }
   }
 
+  // use cookie to hold information they're valid across the whole site 
   setCookie = (key, value) => {
+    const cookieExpirationDays = 1
     if (process.browser) {
       cookie.set(key, value, {
-        expires: 1,
+        expires: cookieExpirationDays,
         path: '/'
       })
     }
   }
 
   handleGoogle = async e => {
+    const memberKey = 'ohno'
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
-    if (resp.status !== 200) {
+    if (!resp.success) {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
       console.log(resp.message)
     } else {
+      // set token value so google can acess it 
       this.setCookie('token', e.tokenId)
+      // set google to true so server knows to send the request to google 
       this.setCookie('google', true)
-      localStorage.setItem('interviewerKey', 'ohno') // TODO: Create switch statements for roles
+      // set localStorage value so it's valid across the whole site 
+      localStorage.setItem('interviewerKey', memberKey) // TODO: Create switch statements for roles - Issue #314 
       Router.push('/dashboard')
     }
   }
@@ -63,13 +69,14 @@ class LoginPage extends Component {
   }
 
   handleSubmit = () => {
+    const memberKey = 'ohno'
     const { email, password } = this.state
     console.log(`Logging in ${email}`)
     loginUser(email, password).then(resp => {
-      if (resp.status !== 200) {
+      if (!resp.success) {
         this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', 'ohno')
+        localStorage.setItem('interviewerKey', memberKey)
         Router.push('/dashboard')
       }
     })
@@ -96,7 +103,6 @@ class LoginPage extends Component {
                   <Input
                     type="email"
                     name="email"
-                    id="exampleEmail"
                     maxLength="64"
                     value={this.state.email}
                     onChange={this.handleChange}
@@ -135,11 +141,7 @@ class LoginPage extends Component {
           </Button>
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
             <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>
-              {this.state.errorMessage
-                ? this.state.errorMessage
-                : 'There was an error in your request'}
-            </ModalBody>
+            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
                 Close

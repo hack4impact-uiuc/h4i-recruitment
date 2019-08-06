@@ -53,9 +53,9 @@ export const rolesEnum = {
 }
 
 export const permissionRolesEnum = {
-  M: 'Member',
-  L: 'Lead',
-  D: 'Director'
+  MEMBER: 'Member',
+  LEAD: 'Lead',
+  DIRECTOR: 'Director'
 }
 
 export const sortByEnum = {
