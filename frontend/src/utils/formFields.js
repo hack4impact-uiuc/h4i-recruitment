@@ -36,4 +36,25 @@ const newEventFields = [
   }
 ]
 
-export { newEventFields }
+const newWorkspaceFields = [
+  {
+    label: 'Name',
+    name: 'name',
+    placeholder: 'i.e. University of Illinois at Urbana-Champaign'
+  },
+  {
+    label: 'Owner',
+    name: 'owner',
+    placeholder: 'THIS IS TEMPORARY'
+  }
+]
+
+const newCycleFields = [
+  {
+    label: 'Term',
+    name: 'term',
+    placeholder: 'i.e. SP19, FA20'
+  }
+]
+
+export { newEventFields, newWorkspaceFields, newCycleFields }

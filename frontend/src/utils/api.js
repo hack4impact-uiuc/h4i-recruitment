@@ -13,7 +13,7 @@ function createWorkspace(workspace) {
   return fetch(`${API_URL}/workspace?key=${getKey()}`, {
     body: JSON.stringify({
       name: workspace.name,
-      creator: workspace.creator
+      owner: workspace.owner
     }),
     headers: {
       'content-type': 'application/json'
