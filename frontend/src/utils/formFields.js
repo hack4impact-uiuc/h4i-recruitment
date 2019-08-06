@@ -40,7 +40,7 @@ const newWorkspaceFields = [
   {
     label: 'Name',
     name: 'name',
-    placeholder: 'i.e. University of Illinois at Urbana-Champaign'
+    placeholder: 'i.e. Hack4Impact University of Illinois at Urbana-Champaign'
   },
   {
     label: 'Owner',

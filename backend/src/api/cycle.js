@@ -68,41 +68,6 @@ router.get(
   })
 )
 
-router.post(
-  '/workspace',
-  [directorsOnly],
-  errorWrap(async (req, res) => {
-    let response = 'Workspace Created Successfully'
-    let code = 400
-
-    const newName = req.body.name
-
-    // TODO: get the creator's name from their key - for now, just put in body
-    const newCreator = req.body.creator
-
-    if (!newName) {
-      response = 'Invalid name'
-    }
-    if (!newCreator) {
-      response = 'Invalid creator'
-    }
-
-    const workspace = new Workspace({
-      name: newName,
-      creator: newCreator
-    })
-
-    await workspace.save()
-    code = 200
-    res.json({
-      code,
-      message: response,
-      result: {},
-      success: true
-    })
-  })
-)
-
 // Create a new cycle
 router.post(
   '/',

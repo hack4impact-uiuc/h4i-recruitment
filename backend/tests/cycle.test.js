@@ -1,12 +1,13 @@
 const request = require('supertest')
 const { expect } = require('chai')
 const app = require('../src/app')
-const { Cycle } = require('../src/models')
+const { Cycle, Workspace } = require('../src/models')
 const { KEY } = require('./utils.js')
 require('./mongo_utils')
 
 beforeEach(async () => {
   await Cycle.deleteMany()
+  await Workspace.deleteMany()
 })
 
 describe('App can run', done => {
@@ -42,6 +43,14 @@ describe('GET /cycle/:cycleId', () => {
 
 describe('POST /cycle', () => {
   it('should create a cycle', async () => {
+    const workspace = new Workspace({
+      name: 'Hack4Impact University of Illinois at Urbana-Champaign',
+      owner: 'Owner'
+    })
+    await request(app)
+      .post(`/workspaces?key=${KEY}`)
+      .send(workspace)
+
     const cycle = new Cycle({
       term: 'FA19',
       workspaceName: 'Hack4Impact University of Illinois at Urbana-Champaign'
@@ -57,6 +66,14 @@ describe('POST /cycle', () => {
 describe('POST /cycle more than once', () => {
   it('should update the current attribute for cycles to when a new cycle is created', async () => {
     const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
+
+    const workspace = new Workspace({
+      name: workspaceName,
+      owner: 'Owner'
+    })
+    await request(app)
+      .post(`/workspaces?key=${KEY}`)
+      .send(workspace)
 
     await request(app)
       .post(`/cycle?key=${KEY}`)
