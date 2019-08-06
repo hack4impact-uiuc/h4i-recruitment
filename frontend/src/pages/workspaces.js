@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import { Container, Table } from 'reactstrap'
 import Nav from '../components/nav'
 import Head from '../components/head'
-import { WorkspaceModal } from '../components'
+import { WorkspaceModal } from '../components/workspaceModal'
 import { getWorkspaces, createWorkspace, createCycle, getCyclesByWorkspace } from '../utils/api'
 import { newWorkspaceFields, newCycleFields } from '../utils/formFields'
-import Router from 'next/router'
-import Link from 'next/link'
 
 class Workspaces extends Component {
   constructor(props) {

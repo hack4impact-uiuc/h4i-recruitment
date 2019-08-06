@@ -45,7 +45,6 @@ router.get(
   errorWrap(async (req, res) => {
     const workspaceName = req.params.workspaceName
     const current = req.body.current
-    console.log(current)
 
     if (!workspaceName) {
       return res.json({
@@ -87,10 +86,8 @@ router.post(
     } else {
       // TODO: check for a workspace owned by the creator of this cycle
       const workspace = Workspace.findOne({name: workspaceName})
-      console.log(workspace)
       if (!workspace) {
         // Shouldn't keep going if the workspace name doesn't link to one
-        console.log("!workspace")
         res.json({
           code,
           message: 'Invalid workspace',
