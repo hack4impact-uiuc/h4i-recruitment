@@ -60,18 +60,15 @@ class EventsModal extends Component {
   }
 
   render() {
-    const alert = <Alert color="danger">{this.state.alert}</Alert>
-    const loader = <ReactLoading className="loader" type="spinningBubbles" color="#000" />
-
     return (
       <Modal isOpen={this.props.isOpen}>
         <ModalHeader>{this.props.title}</ModalHeader>
         {this.state.loading ? (
-          loader
+          <ReactLoading className="loader" type="spinningBubbles" color="#000" />
         ) : (
           <>
             <ModalBody>
-              {this.state.alert && alert}
+              {this.state.alert && <Alert color="danger">{this.state.alert}</Alert>}
               <Form>
                 {this.props.formFields.map(field => (
                   <FormGroup>
