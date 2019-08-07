@@ -2,19 +2,22 @@
 import React, { Component } from 'react'
 import { Container, Row, Table, Col, FormGroup, Label, Input } from 'reactstrap'
 import Link from 'next/link'
+
 import { connect } from 'react-redux'
-import Head from '../components/head'
 import { bindActionCreators } from 'redux'
 import { addFilter, removeFilter } from '../actions'
-import { getCandidates, setCandidateStatus, createWorkspace } from '../utils/api'
+
+import Head from '../components/head'
+import Nav from '../components/nav'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 import FilterComponent from '../components/filterComponent'
 import ChangeStatus from '../components/changeStatus'
 import ErrorMessage from '../components/errorMessage'
+
+import { getCandidates, setCandidateStatus } from '../utils/api'
 import { avgInterviewScore, compareByAvgInterviewScore, getNumOfInterviews } from '../utils/core'
 import { selectByEnum } from '../utils/enums'
-import Nav from '../components/nav'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(

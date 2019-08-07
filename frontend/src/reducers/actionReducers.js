@@ -36,7 +36,6 @@ export default function recruitmentApp(state = initialState, action) {
         validFormat: action.payload
       }
     case EDIT_INTERVIEW:
-      console.log('ACTION INTERVIEW', action.payload.interview)
       return {
         ...state,
         interview: {
@@ -114,7 +113,7 @@ export default function recruitmentApp(state = initialState, action) {
     case REMOVE_FILTER:
       let deleteCategory = action.payload.category
       let deleteFilter = action.payload.filter
-      console.log(deleteCategory, deleteFilter)
+
       return {
         ...state,
         candidateListPage: {
