@@ -145,8 +145,8 @@ class FilterComponent extends Component<Props> {
                 className="workspace-selector"
               >
                 <option selected>None</option>
-                {this.state.workspaces.map(obj => (
-                  <option>{obj.name}</option>
+                {this.state.workspaces.map(workspace => (
+                  <option>{workspace.name}</option>
                 ))}
               </select>
             </p>
