@@ -8,9 +8,9 @@ const ChangeRole = ({ memberID, role, handleChange }) => (
     <option selected disabled hidden>
       Change Permission Role
     </option>
-    <option value={permissionRolesEnum.M}>Member</option>
-    <option value={permissionRolesEnum.L}>Lead</option>
-    <option value={permissionRolesEnum.D}>Director</option>
+    <option value={permissionRolesEnum.MEMBER}>Member</option>
+    <option value={permissionRolesEnum.LEAD}>Lead</option>
+    <option value={permissionRolesEnum.DIRECTOR}>Director</option>
   </select>
 )
 
