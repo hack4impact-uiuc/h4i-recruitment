@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Head from '../components/head'
 import { bindActionCreators } from 'redux'
 import { addFilter, removeFilter } from '../actions'
-import { getCandidates, setCandidateStatus } from '../utils/api'
+import { getCandidates, setCandidateStatus, createWorkspace } from '../utils/api'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 import FilterComponent from '../components/filterComponent'
@@ -96,6 +96,9 @@ class Dashboard extends Component {
     if (this.state.candidates === undefined) {
       return <ErrorMessage code="404" message="Candidates is undefined. Check backend." />
     }
+
+    const workspaceFilterPresent =
+      this.state.filters.workspaces && this.state.filters.workspaces.length > 0
     let filteredCandidates = this.state.candidates
       .filter(x => this.state.filters.gradDates.includes(x.graduationDate))
       .filter(x => this.state.filters.statuses.includes(x.status))
@@ -103,6 +106,10 @@ class Dashboard extends Component {
       .filter(x => this.state.filters.years.includes(x.year))
       .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
       .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))
+      .filter(x =>
+        workspaceFilterPresent ? this.state.filters.workspaces.includes(x.workspace) : true
+      )
+
     // TODO: Convert these cases into enum comparisons
     switch (this.state.filters.sortBy[0]) {
       case 'Name':

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addFilter, removeFilter, resetFilters } from '../actions'
+import { addFilter, removeFilter, resetFilter, resetFilters } from '../actions'
+import { getWorkspaces } from '../utils/api'
 import { bindActionCreators } from 'redux'
 import {
   yearsEnum,
@@ -19,6 +20,7 @@ const mapDispatchToProps = dispatch => {
     {
       addFilter,
       removeFilter,
+      resetFilter,
       resetFilters
     },
     dispatch
@@ -36,6 +38,18 @@ type Props = {
 }
 
 class FilterComponent extends Component<Props> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      workspaces: []
+    }
+  }
+
+  async componentDidMount() {
+    const workspaces = await getWorkspaces()
+    this.setState({ workspaces: workspaces.result })
+  }
+
   handleChange = event => {
     if (event.target.checked) {
       this.props.addFilter(event.target.name, event.target.value)
@@ -53,6 +67,14 @@ class FilterComponent extends Component<Props> {
     }
   }
 
+  handleSelectedChange = async event => {
+    if (event.target.value === 'None') {
+      this.props.resetFilter(event.target.name)
+    } else {
+      this.props.addFilter(event.target.name, event.target.value)
+    }
+  }
+
   handleClick = event => {
     this.props.resetFilters()
   }
@@ -65,11 +87,15 @@ class FilterComponent extends Component<Props> {
     const gradDates = enumToArray(gradEnum)
     const sortBy = enumToArray(sortByEnum)
     const selectBy = enumToArray(selectByEnum)
+
+    const hasMultipleWorkspaces = this.state.workspaces.length > 1
+
     let statusFilter = [],
       referralFilter = [],
       rolesFilter = [],
       yearFilter = [],
       gradFilter = [],
+      workspaceFilter = [],
       selectByFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
@@ -78,6 +104,7 @@ class FilterComponent extends Component<Props> {
       yearFilter = this.props.filters.years
       gradFilter = this.props.filters.gradDates
       selectByFilter = this.props.filters.selectBy
+      workspaceFilter = this.props.filters.workspaces
     }
 
     return (
@@ -106,6 +133,24 @@ class FilterComponent extends Component<Props> {
           })}
         </>
         <h4>Filters</h4>
+        {hasMultipleWorkspaces && (
+          <>
+            <h5>Workspace</h5>
+
+            <p>
+              <select
+                name="workspaces"
+                onChange={this.handleSelectedChange}
+                className="workspace-selector"
+              >
+                <option selected>None</option>
+                {this.state.workspaces.map(obj => (
+                  <option>{obj.name}</option>
+                ))}
+              </select>
+            </p>
+          </>
+        )}
         <h5>Status</h5>
         <>
           {statuses.map((el, idx) => {

@@ -10,6 +10,7 @@ import {
   ADD_FILTER,
   REMOVE_FILTER,
   SET_STATUS,
+  RESET_FILTER,
   RESET_FILTERS,
   SET_ROUND,
   SET_SELECTED_ROUND,
@@ -113,6 +114,7 @@ export default function recruitmentApp(state = initialState, action) {
     case REMOVE_FILTER:
       let deleteCategory = action.payload.category
       let deleteFilter = action.payload.filter
+      console.log(deleteCategory, deleteFilter)
       return {
         ...state,
         candidateListPage: {
@@ -141,6 +143,18 @@ export default function recruitmentApp(state = initialState, action) {
         candidateListPage: {
           ...state.candidateListPage,
           candidates: newCandidates
+        }
+      }
+    case RESET_FILTER:
+      let resetCategory = action.payload.category
+      return {
+        ...state,
+        candidateListPage: {
+          ...state.candidateListPage,
+          filters: {
+            ...state.candidateListPage.filters,
+            [resetCategory]: initialState.candidateListPage.filters[resetCategory]
+          }
         }
       }
     case RESET_FILTERS:

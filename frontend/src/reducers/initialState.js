@@ -9,6 +9,7 @@ import {
   selectByEnum,
   compareByEnum
 } from '../utils/enums'
+import { getWorkspaces } from '../utils/api'
 
 const selectList = enumToArray(selectByEnum)
 selectList.splice(selectList.indexOf('Hours'), 1)
@@ -42,6 +43,7 @@ const initialState = {
       gradDates: enumToArray(gradEnum),
       sortBy: enumToArray(sortByEnum),
       compareBy: enumToArray(compareByEnum),
+      workspaces: [],
       selectBy: selectList
     },
     sort: {
