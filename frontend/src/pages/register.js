@@ -41,7 +41,7 @@ class RegisterPage extends Component {
     }
   }
 
-  // use cookie to hold information they're valid across the whole site
+  // use cookie to hold information that is valid across the whole site
   setCookie = (key, value) => {
     const cookieExpirationDays = 1
     if (process.browser) {
@@ -63,7 +63,7 @@ class RegisterPage extends Component {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (!resp.success) {
-      this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
+      this.setState({ errorMessage: resp.message, showInvalidGoogleRequestModal: true })
     } else {
       // set token value so google can access it
       this.setCookie('token', e.tokenId)

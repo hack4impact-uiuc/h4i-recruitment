@@ -33,7 +33,7 @@ class LoginPage extends Component {
     }
   }
 
-  // use cookie to hold information they're valid across the whole site
+  // use cookie to hold information that is valid across the whole site
   setCookie = (key, value) => {
     const cookieExpirationDays = 1
     if (process.browser) {
