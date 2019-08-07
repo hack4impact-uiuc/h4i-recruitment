@@ -33,7 +33,7 @@ class LoginPage extends Component {
     }
   }
 
-  // use cookie to hold information they're valid across the whole site 
+  // use cookie to hold information they're valid across the whole site
   setCookie = (key, value) => {
     const cookieExpirationDays = 1
     if (process.browser) {
@@ -52,12 +52,12 @@ class LoginPage extends Component {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
       console.log(resp.message)
     } else {
-      // set token value so google can access it 
+      // set token value so google can access it
       this.setCookie('token', e.tokenId)
-      // set google to true so server knows to send the request to google 
+      // set google to true so server knows to send the request to google
       this.setCookie('google', true)
-      // set localStorage value so it's valid across the whole site 
-      localStorage.setItem('interviewerKey', memberKey) // TODO: Create switch statements for roles - Issue #314 
+      // set localStorage value so it's valid across the whole site
+      localStorage.setItem('interviewerKey', memberKey) // TODO: Create switch statements for roles - Issue #314
       Router.push('/dashboard')
     }
   }
