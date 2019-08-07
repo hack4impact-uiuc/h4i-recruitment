@@ -133,6 +133,7 @@ class FilterComponent extends Component<Props> {
           })}
         </>
         <h4>Filters</h4>
+        {/* todo: #305 conditional rendering if user is director */}
         {hasMultipleWorkspaces && (
           <>
             <h5>Workspace</h5>
