@@ -42,6 +42,7 @@ const initialState = {
       gradDates: enumToArray(gradEnum),
       sortBy: enumToArray(sortByEnum),
       compareBy: enumToArray(compareByEnum),
+      workspaces: [],
       selectBy: selectList
     },
     sort: {
