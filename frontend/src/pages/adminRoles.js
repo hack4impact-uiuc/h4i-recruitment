@@ -3,7 +3,6 @@ import { Button, Table } from 'reactstrap'
 import ChangeRole from '../components/changeRole'
 import ChangeYear from '../components/changeYear'
 import Head from '../components/head'
-
 import Nav from '../components/nav'
 
 class AdminRoles extends React.Component {
