@@ -9,7 +9,6 @@ import {
   selectByEnum,
   compareByEnum
 } from '../utils/enums'
-import { getWorkspaces } from '../utils/api'
 
 const selectList = enumToArray(selectByEnum)
 selectList.splice(selectList.indexOf('Hours'), 1)
