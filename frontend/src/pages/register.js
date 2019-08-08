@@ -26,6 +26,7 @@ import {
 
 const EMAIL_REGEX =
   "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})"
+const MEMBER_KEY = 'ohno'
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -59,7 +60,6 @@ class RegisterPage extends Component {
   }
 
   handleGoogle = async e => {
-    const memberKey = 'ohno'
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (!resp.success) {
@@ -70,13 +70,12 @@ class RegisterPage extends Component {
       // set google to true so server knows to send the request to google
       this.setCookie('google', true)
       // set localStorage value so it's valid across the whole site
-      localStorage.setItem('interviewerKey', memberKey) // TODO: Create switch statements for roles - Issue #314
+      localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
       Router.push('/dashboard')
     }
   }
 
   handleSubmit = () => {
-    const memberKey = 'ohno'
     const { email, password, passwordVerification } = this.state
     if (password !== passwordVerification) {
       this.setState({ showInvalidPasswordModal: true })
@@ -85,7 +84,7 @@ class RegisterPage extends Component {
         if (resp.status === 400) {
           this.setState({ showInvalidRequestModal: true })
         } else {
-          localStorage.setItem('interviewerKey', memberKey) // TODO: Create switch statements for roles
+          localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles
           Router.push('/dashboard')
         }
       })

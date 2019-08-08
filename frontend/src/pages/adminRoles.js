@@ -5,6 +5,8 @@ import ChangeYear from '../components/changeYear'
 import Head from '../components/head'
 import Nav from '../components/nav'
 
+const SAMPLE_MEMBER_ID = 1234
+
 class AdminRoles extends React.Component {
   constructor(props) {
     super(props)
@@ -14,7 +16,6 @@ class AdminRoles extends React.Component {
   }
 
   render() {
-    const sampleMemberId = 1234
     return (
       <>
         <Head title="Home" />
@@ -31,10 +32,10 @@ class AdminRoles extends React.Component {
             <tr>
               <td>{'Insert Name Here'}</td>
               <td>
-                <ChangeYear memberID={sampleMemberId} handleChange={this.handleChange} />
+                <ChangeYear memberID={SAMPLE_MEMBER_ID} handleChange={this.handleChange} />
               </td>
               <td>
-                <ChangeRole memberID={sampleMemberId} handleChange={this.handleChange} />
+                <ChangeRole memberID={SAMPLE_MEMBER_ID} handleChange={this.handleChange} />
               </td>
               {this.state.isEditing && (
                 <td>
