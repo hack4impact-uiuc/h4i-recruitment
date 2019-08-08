@@ -1,5 +1,5 @@
 const express = require('express')
-var mongodb = require('mongodb')
+const mongodb = require('mongodb')
 const XLSX = require('xlsx')
 const fetch = require('isomorphic-unfetch')
 const moment = require('moment')
@@ -13,11 +13,16 @@ const schedulerApiKey = process.env.SCHEDULER_API_KEY
 const keyData = require(keyPath)
 const router = express.Router()
 
+const listType = {
+  INTERVIEWERS: 'INTERVIEWERS',
+  CANDIDATES: 'CANDIDATES'
+}
+
 // This endpoint is an example
 router.post(
   '/populateTest',
   errorWrap(async (req, res) => {
-    var newInterview = new FutureInterview({
+    let newInterview = new FutureInterview({
       candidates: ['Steve Jobs'],
       interviewers: ['Tim Ko'],
       room: 'Room A',
@@ -48,10 +53,10 @@ router.post(
 router.post(
   '/uploadCandidates',
   errorWrap(async (req, res) => {
-    var workbook = XLSX.read(req.body['data'], { type: 'binary' })
+    const workbook = XLSX.read(req.body['data'], { type: 'binary' })
     const sheetName = workbook.SheetNames
-    var sheet = workbook['Sheets'][sheetName]
-    var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
+    const sheet = workbook['Sheets'][sheetName]
+    const arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
     try {
@@ -77,10 +82,10 @@ router.post(
   '/generateSchedules',
   errorWrap(async (req, res) => {
     const interviewerAvail = await InterviewAvailability.findOneAndDelete({
-      type: 'INTERVIEWERS'
+      type: listType.INTERVIEWERS
     })
     const candidateAvail = await InterviewAvailability.findOneAndDelete({
-      type: 'CANDIDATES'
+      type: listType.CANDIDATES
     })
     const result = await fetch(schedulerUrl, {
       body: JSON.stringify({
@@ -118,10 +123,10 @@ router.post(
 router.post(
   '/uploadInterviewers',
   errorWrap(async (req, res) => {
-    var workbook = XLSX.read(req.body['data'], { type: 'binary' })
+    let workbook = XLSX.read(req.body['data'], { type: 'binary' })
     const sheetName = workbook.SheetNames
-    var sheet = workbook['Sheets'][sheetName]
-    var arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
+    let sheet = workbook['Sheets'][sheetName]
+    let arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
     try {
@@ -143,9 +148,9 @@ router.post(
   })
 )
 
-let uploadInterviewAvailability = async (obj, isInterviewerList) => {
+const uploadInterviewAvailability = async (obj, isInterviewerList) => {
   let availability = new InterviewAvailability({
-    type: isInterviewerList ? 'INTERVIEWERS' : 'CANDIDATES',
+    type: isInterviewerList ? listType.INTERVIEWERS : listType.CANDIDATES,
     interviewDuration: 30,
     availabilities: obj.times,
     timeSlots: obj.allTimes
@@ -155,10 +160,11 @@ let uploadInterviewAvailability = async (obj, isInterviewerList) => {
 
 // since the first 3 rows have merged cells for the month and date,
 // we want to "unmerge" so there are no null cells in the month and date rows
-function unmergeColumns(arr) {
+const unmergeColumns = arr => {
   let valueToFill
-  for (var i = 0; i < 2; i++) {
-    for (var j = 1; j < arr[i].length; j++) {
+  const NUM_DATE_ROWS = 2
+  for (let i = 0; i < NUM_DATE_ROWS; i++) {
+    for (let j = 1; j < arr[i].length; j++) {
       if (arr[i][j] !== null) {
         valueToFill = arr[i][j]
       } else {
@@ -168,14 +174,16 @@ function unmergeColumns(arr) {
   }
 }
 
-function getTimesFromArray(arr) {
+const getTimesFromArray = arr => {
   let summaryDict = {}
   let timeArray = []
-  for (var row = 3; row < arr.length - 1; row++) {
+  // Index of first row in which candidates / interviewers have their times listed
+  const STARTING_AVAILABILITY_ROW = 3
+  for (let row = STARTING_AVAILABILITY_ROW; row < arr.length - 1; row++) {
     let personObj = {}
     personObj['name'] = arr[row][0]
     personObj['availableTimes'] = []
-    for (var col = 1; col < arr[row].length; col++) {
+    for (let col = 1; col < arr[row].length; col++) {
       if (arr[row][col] === 'OK') {
         // grab the date from the first few rows, concatenate and parse that date
         let datetimeStr = `${arr[0][col]} ${arr[1][col]} ${arr[2][col]}`
@@ -186,7 +194,7 @@ function getTimesFromArray(arr) {
   }
   summaryDict['times'] = timeArray
   summaryDict['allTimes'] = []
-  for (var col = 1; col < arr[0].length; col++) {
+  for (let col = 1; col < arr[0].length; col++) {
     let datetimeStr = `${arr[0][col]} ${arr[1][col]} ${arr[2][col]}`
     summaryDict['allTimes'].push(moment(datetimeStr, 'MMMM YYYY ddd DD hh:mm a').toDate())
   }
@@ -208,6 +216,7 @@ router.get(
     })
   })
 )
+
 router.delete(
   '/',
   [leadsOnly],

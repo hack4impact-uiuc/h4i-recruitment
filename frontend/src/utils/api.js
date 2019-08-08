@@ -68,7 +68,7 @@ const readUploadedFile = inputFile => {
   return new Promise((resolve, reject) => {
     reader.onerror = () => {
       reader.abort()
-      reject(new DOMException('Problem parsing input file.'))
+      reject(new TypeError('Problem parsing input file.'))
     }
 
     reader.onload = () => {

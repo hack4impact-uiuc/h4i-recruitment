@@ -141,7 +141,7 @@ class InterviewSchedule extends Component {
         <hr />
         <Container>
           <form onSubmit={this.uploadSchedule}>
-            <div>
+            <>
               <h2>Upload a New Schedule</h2>
               <h4>Candidates</h4>
               <input
@@ -152,8 +152,8 @@ class InterviewSchedule extends Component {
                 type="file"
                 accept=".xls,.xlsx"
               />
-            </div>
-            <div>
+            </>
+            <>
               <h4>Interviewers</h4>
               <input
                 ref={ref => {
@@ -163,7 +163,7 @@ class InterviewSchedule extends Component {
                 type="file"
                 accept=".xls,.xlsx"
               />
-            </div>
+            </>
             <br />
             <Button
               type="submit"
