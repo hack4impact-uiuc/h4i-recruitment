@@ -63,6 +63,10 @@ class Workspaces extends Component {
     return response
   }
 
+  setCurrentCycle = async cycle => {
+    // new endpoint for cycle setting? do we want this functionality?
+  }
+
   toggleImportModal = event => {
     // TODO: (in next PR) launch modal for file upload and parsing
     // use event.target.value to get the cycle ID
@@ -131,14 +135,17 @@ class Workspaces extends Component {
                       formFields={newCycleFields}
                       toggle={this.toggleCycleModal}
                       onSubmit={() => {
-                        this.createCycle(workspace.name)
+                        return this.createCycle(workspace.name)
                       }}
                       handleChange={this.handleChange}
                       alert="All fields are required."
                       pathname="/workspaces"
                     />
-                    <Button color="primary" value={workspace.name} onClick={this.toggleCycleModal}>
+                    <Button color="primary" onClick={this.toggleCycleModal}>
                       Create cycle
+                    </Button>
+                    <Button color="primary" onClick={this.setCurrentCycle}>
+                      Select cycle
                     </Button>
                   </div>
                 )
