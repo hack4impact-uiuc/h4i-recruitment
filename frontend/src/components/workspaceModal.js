@@ -56,8 +56,8 @@ class WorkspaceModal extends Component {
         <ModalBody>
           {this.state.alert && alert}
           <Form>
-            {this.props.formFields.map(field => (
-              <FormGroup>
+            {this.props.formFields.map((field, index) => (
+              <FormGroup key={index}>
                 <Label>{field.label}</Label>
                 <Input
                   name={field.name}

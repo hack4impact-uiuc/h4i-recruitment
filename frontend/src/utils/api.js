@@ -10,7 +10,7 @@ const API_URL =
 // if your frontend can't connect, try the normal IP
 
 function createWorkspace(workspace) {
-  return fetch(`${API_URL}/workspace?key=${getKey()}`, {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
     body: JSON.stringify({
       name: workspace.name,
       owner: workspace.owner
@@ -19,14 +19,12 @@ function createWorkspace(workspace) {
       'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors' 
+    mode: 'cors'
   }).then(res => res.json())
 }
 
 function getWorkspaces() {
-  return fetch(`${API_URL}/workspace?key=${getKey()}`).then(res =>
-    res.json()
-  )
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
 }
 
 function createCycle(cycle) {
@@ -39,7 +37,7 @@ function createCycle(cycle) {
       'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors' 
+    mode: 'cors'
   }).then(res => res.json())
 }
 

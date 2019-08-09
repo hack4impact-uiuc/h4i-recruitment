@@ -85,7 +85,7 @@ router.post(
       response = 'Invalid workspace'
     } else {
       // TODO: check for a workspace owned by the creator of this cycle
-      const workspace = Workspace.findOne({name: workspaceName})
+      const workspace = Workspace.findOne({ name: workspaceName })
       if (!workspace) {
         // Shouldn't keep going if the workspace name doesn't link to one
         res.json({
@@ -98,20 +98,16 @@ router.post(
     }
 
     // set the last current cycle to not-current
-    Cycle.findOneAndUpdate(
-      { workspaceName, current: true },
-      { $set: { current: false } },
-      err => {
-        if (err) {
-          return res.json({
-            code: 400,
-            message: err.message,
-            result: {},
-            success: false
-          })
-        }
+    Cycle.findOneAndUpdate({ workspaceName, current: true }, { $set: { current: false } }, err => {
+      if (err) {
+        return res.json({
+          code: 400,
+          message: err.message,
+          result: {},
+          success: false
+        })
       }
-    )
+    })
 
     // TODO: when authentication server is integrated, ensure that given workspaces
     // matches one in the database created by the director

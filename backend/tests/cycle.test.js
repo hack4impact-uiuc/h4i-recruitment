@@ -44,7 +44,7 @@ describe('GET /cycle/:cycleId', () => {
 describe('POST /cycle', () => {
   it('should create a cycle', async () => {
     const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
-    
+
     const workspace = new Workspace({
       name: workspaceName,
       owner: 'Owner'
