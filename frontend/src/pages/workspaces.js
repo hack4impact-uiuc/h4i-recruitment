@@ -133,8 +133,9 @@ class Workspaces extends Component {
                       handleChange={this.handleChange}
                       alert="All fields are required."
                       pathname="/workspaces"
+                      workspaceName={workspace.name}
                     />
-                    <Button color="primary" value={workspace.id} onClick={this.toggleCycleModal}>
+                    <Button color="primary" value={workspace.name} onClick={this.toggleCycleModal}>
                       Create cycle
                     </Button>
                   </div>
