@@ -28,7 +28,7 @@ function getWorkspaces() {
 }
 
 function createCycle(cycle) {
-  return fetch(`${API_URL}/cycle/${workspaceName}?key=${getKey()}`, {
+  return fetch(`${API_URL}/cycle?key=${getKey()}`, {
     body: JSON.stringify({
       term: cycle.term,
       workspaceName: cycle.workspaceName

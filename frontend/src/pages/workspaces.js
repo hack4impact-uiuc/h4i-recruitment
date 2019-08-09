@@ -54,12 +54,13 @@ class Workspaces extends Component {
     return response
   }
 
-  createCycle = async event => {
+  createCycle = async workspaceName => {
     const cycle = {
-      name: this.state.term,
-      workspaceName: event.value
+      term: this.state.term,
+      workspaceName
     }
-    console.log(event.value)
+    const response = await createCycle(cycle)
+    return response
   }
 
   toggleImportModal = event => {
@@ -129,11 +130,12 @@ class Workspaces extends Component {
                       isOpen={this.state.cycleModal}
                       formFields={newCycleFields}
                       toggle={this.toggleCycleModal}
-                      onSubmit={this.createCycle}
+                      onSubmit={() => {
+                        this.createCycle(workspace.name)
+                      }}
                       handleChange={this.handleChange}
                       alert="All fields are required."
                       pathname="/workspaces"
-                      workspaceName={workspace.name}
                     />
                     <Button color="primary" value={workspace.name} onClick={this.toggleCycleModal}>
                       Create cycle
