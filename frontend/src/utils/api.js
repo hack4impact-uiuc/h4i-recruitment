@@ -278,6 +278,25 @@ function deleteReferral(candidateID: string) {
   }).then(res => res.json())
 }
 
+function getWorkspaces() {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
+}
+
+function createWorkspace(workspace) {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
+    body: JSON.stringify({
+      owner: workspace.owner,
+      name: workspace.name
+    }),
+
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   getAllEvents,
   createEvent,
@@ -309,5 +328,7 @@ export {
   addStrongReferral,
   deleteReferral,
   deleteAllSchedules,
-  getAllInterviewingCandidateInterviews
+  getAllInterviewingCandidateInterviews,
+  getWorkspaces,
+  createWorkspace
 }
