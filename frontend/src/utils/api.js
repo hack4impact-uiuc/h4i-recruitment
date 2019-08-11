@@ -278,22 +278,22 @@ function loginUser(email: string, password: string) {
     }),
     headers: {
       'content-type': 'application/json'
-    },
+    }
   }).then(res => res.json())
 }
 
 function loginGoogleUser(tokenId: string) {
   console.log(`Logging in user ${tokenId} with Google Auth`)
-    return fetch(`${AUTH_API_URL}/google`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        tokenId: tokenId,
-        role: 'member'
-      })
-    }).then(res => res.json())
+  return fetch(`${AUTH_API_URL}/google`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      tokenId: tokenId,
+      role: 'member'
+    })
+  }).then(res => res.json())
 }
 
 function getWorkspaces() {
