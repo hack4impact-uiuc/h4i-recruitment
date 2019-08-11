@@ -109,9 +109,9 @@ class RegisterPage extends Component {
         <Head />
         <Nav />
         <Container>
-          <Card className="interview-card" style={{ width: '400px', height: '60%' }}>
+          <Card className="login-card">
             <CardTitle>
-              <h3 style={{ textAlign: 'center', paddingTop: '10px' }}>Register</h3>
+              <h3 className="login-title">Register</h3>
             </CardTitle>
             <CardBody>
               <Form>

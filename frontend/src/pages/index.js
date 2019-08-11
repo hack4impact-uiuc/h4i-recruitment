@@ -92,9 +92,9 @@ class LoginPage extends Component {
         <Head />
         <Nav />
         <Container>
-          <Card className="login-card" style={{ width: '400px', height: '60%' }}>
+          <Card className="login-card">
             <CardTitle>
-              <h3 style={{ textAlign: 'center', paddingTop: '10px' }}>Login</h3>
+              <h3 className="login-title">Login</h3>
             </CardTitle>
             <CardBody>
               <Form>

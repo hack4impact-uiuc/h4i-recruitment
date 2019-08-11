@@ -344,12 +344,9 @@ export {
   addStrongReferral,
   deleteReferral,
   getAllInterviewingCandidateInterviews,
-<<<<<<< HEAD
   registerUser,
   loginUser,
-  loginGoogleUser
-=======
+  loginGoogleUser,
   getWorkspaces,
   createWorkspace
->>>>>>> master
 }
