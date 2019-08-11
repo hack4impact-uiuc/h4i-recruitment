@@ -279,13 +279,11 @@ function loginUser(email: string, password: string) {
     headers: {
       'content-type': 'application/json'
     },
-    mode: 'cors'
   }).then(res => res.json())
 }
 
 function loginGoogleUser(tokenId: string) {
   console.log(`Logging in user ${tokenId} with Google Auth`)
-  try {
     return fetch(`${AUTH_API_URL}/google`, {
       method: 'POST',
       headers: {
@@ -295,10 +293,26 @@ function loginGoogleUser(tokenId: string) {
         tokenId: tokenId,
         role: 'member'
       })
-    })
-  } catch (err) {
-    console.log(err)
-  }
+    }).then(res => res.json())
+}
+
+function getWorkspaces() {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
+}
+
+function createWorkspace(workspace) {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
+    body: JSON.stringify({
+      owner: workspace.owner,
+      name: workspace.name
+    }),
+
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
 }
 
 export {
@@ -330,7 +344,12 @@ export {
   addStrongReferral,
   deleteReferral,
   getAllInterviewingCandidateInterviews,
+<<<<<<< HEAD
   registerUser,
   loginUser,
   loginGoogleUser
+=======
+  getWorkspaces,
+  createWorkspace
+>>>>>>> master
 }

@@ -9,7 +9,8 @@ const {
   structure,
   cycle,
   events,
-  attendees
+  attendees,
+  workspaces
 } = require('./api')
 var XLSX = require('xlsx')
 
@@ -28,5 +29,6 @@ router.use('/structure', structure)
 router.use('/cycle', cycle)
 router.use('/events', events)
 router.use('/attendees', attendees)
+router.use('/workspaces', workspaces)
 
 module.exports = router
