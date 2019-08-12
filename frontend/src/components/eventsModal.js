@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import Router from 'next/router'
+import ReactLoading from 'react-loading'
 import {
   Alert,
   Button,
@@ -17,7 +18,8 @@ class EventsModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      alert: ''
+      alert: '',
+      loading: false
     }
   }
 
@@ -29,11 +31,17 @@ class EventsModal extends Component {
 
   handleSubmit = async () => {
     const success = await this.props.onSubmit()
+    this.setState({
+      loading: true
+    })
+
     if (success) {
-      Router.push({ pathname: this.props.pathname })
+      await this.props.onReload()
+      this.closeModal()
     } else {
       this.setState({
-        alert: this.props.alert
+        alert: this.props.alert,
+        loading: false
       })
     }
   }
@@ -45,39 +53,47 @@ class EventsModal extends Component {
         alert: ''
       })
     }
+    this.setState({
+      loading: false
+    })
     this.props.toggle()
   }
 
   render() {
-    const alert = <Alert color="danger">{this.state.alert}</Alert>
     return (
       <Modal isOpen={this.props.isOpen}>
         <ModalHeader>{this.props.title}</ModalHeader>
-        <ModalBody>
-          {this.state.alert && alert}
-          <Form>
-            {this.props.formFields.map(field => (
-              <FormGroup>
-                <Label>{field.label}</Label>
-                <Input
-                  name={field.name}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  onChange={this.props.handleChange}
-                  onKeyPress={this.handleKeyPress}
-                />
-              </FormGroup>
-            ))}
-          </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={this.closeModal}>
-            Cancel
-          </Button>
-          <Button color="primary" onClick={this.handleSubmit}>
-            Submit
-          </Button>
-        </ModalFooter>
+        {this.state.loading ? (
+          <ReactLoading className="loader" type="spinningBubbles" color="#000" />
+        ) : (
+          <>
+            <ModalBody>
+              {this.state.alert && <Alert color="danger">{this.state.alert}</Alert>}
+              <Form>
+                {this.props.formFields.map(field => (
+                  <FormGroup>
+                    <Label>{field.label}</Label>
+                    <Input
+                      name={field.name}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      onChange={this.props.handleChange}
+                      onKeyPress={this.handleKeyPress}
+                    />
+                  </FormGroup>
+                ))}
+              </Form>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="secondary" onClick={this.closeModal}>
+                Cancel
+              </Button>
+              <Button color="primary" onClick={this.handleSubmit}>
+                Submit
+              </Button>
+            </ModalFooter>
+          </>
+        )}
       </Modal>
     )
   }

@@ -18,6 +18,10 @@ class EventOverview extends Component {
   }
 
   async componentDidMount() {
+    await this.getEvents()
+  }
+
+  getEvents = async () => {
     const { success, result } = await getAllEvents()
     if (success) {
       this.setState({
@@ -65,9 +69,9 @@ class EventOverview extends Component {
               formFields={newEventFields}
               toggle={this.toggleModal}
               onSubmit={this.addEvent}
+              onReload={this.getEvents}
               handleChange={this.handleChange}
               alert="All fields are required."
-              pathname="/eventOverview"
             />
             <ActionButton
               className="button-margin"
