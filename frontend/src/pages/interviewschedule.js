@@ -24,7 +24,8 @@ class InterviewSchedule extends Component {
     this.state = {
       interviews: this.props.interviews,
       interviewCards: this.props.interviewCards,
-      apiResponses: []
+      apiResponses: [],
+      clickedDeleteOnce: false
     }
   }
 
@@ -60,9 +61,16 @@ class InterviewSchedule extends Component {
 
   deleteScheduleHandler = async e => {
     e.preventDefault()
+    if (!this.state.clickedDeleteOnce) {
+      // if it hasn't already been clicked, don't yet delete and prompt with warning
+      this.setState({ clickedDeleteOnce: true })
+      setTimeout(() => this.setState({ clickedDeleteOnce: false }), 4000)
+      return
+    }
     const deleteResp = await deleteAllSchedules()
-    this.pushAPIResponse(deleteResp, 'Delete Submission')
+    this.pushAPIResponse(deleteResp, 'Delete Schedule Request')
     this.populateInterviewSchedules()
+    this.setState({ clickedDeleteOnce: false })
   }
 
   getInterviewCard = interview => {
@@ -208,7 +216,7 @@ class InterviewSchedule extends Component {
               onClick={this.deleteScheduleHandler}
               disabled={this.state.isLoading}
             >
-              Delete Schedule
+              {this.state.clickedDeleteOnce ? 'Are you sure?' : 'Delete Schedule'}
             </Button>
           </form>
           <br />
