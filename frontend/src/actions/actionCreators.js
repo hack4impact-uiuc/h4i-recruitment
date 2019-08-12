@@ -9,6 +9,7 @@ import {
   ADD_FILTER,
   REMOVE_FILTER,
   SET_STATUS,
+  RESET_FILTER,
   RESET_FILTERS,
   SET_ROUND,
   SET_SELECTED_ROUND,
@@ -74,6 +75,13 @@ export const addFilter = (category, filter) => ({
   payload: {
     category: category,
     filter: filter
+  }
+})
+
+export const resetFilter = category => ({
+  type: RESET_FILTER,
+  payload: {
+    category
   }
 })
 
