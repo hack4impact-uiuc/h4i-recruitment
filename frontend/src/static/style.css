@@ -263,3 +263,7 @@ p > b {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+
+.workspace-selector {
+  max-width: 120px;
+}
