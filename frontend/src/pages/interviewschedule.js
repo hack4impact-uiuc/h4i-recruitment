@@ -23,23 +23,43 @@ class InterviewSchedule extends Component {
 
     this.state = {
       interviews: this.props.interviews,
-      interviewCards: this.props.interviewCards
+      interviewCards: this.props.interviewCards,
+      apiResponses: []
     }
   }
 
+  getAlerts = () => {
+    return this.state.apiResponses.map((elem) => {
+      return <Alert color={elem.code === 200 ? "success" : "danger"} key={elem.title}>
+      <h4 className="alert-heading">{elem.title}</h4>
+      {elem.message}
+      </Alert>
+    })
+  }
+
+  pushAPIResponse = (obj, title) => {
+    obj.title = title;
+    this.setState(prevState => ({
+      apiResponses: [...prevState.apiResponses, obj]
+    }))
+  }
   uploadSchedule = async e => {
     e.preventDefault()
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true, apiResponses: [] })
     const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
     const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
-    await generateSchedules()
+    const generationResp = await generateSchedules()
+    this.pushAPIResponse(candidateResp, "Candidate Submission")
+    this.pushAPIResponse(interviewerResp, "Interviewer Submission")
+    this.pushAPIResponse(generationResp, "Generate Schedule")
     this.setState({ isLoading: false })
     this.populateInterviewSchedules()
   }
 
   deleteScheduleHandler = async e => {
     e.preventDefault()
-    await deleteAllSchedules()
+    const deleteResp = await deleteAllSchedules()
+    this.pushAPIResponse(deleteResp, "Delete Submission")
     this.populateInterviewSchedules()
   }
 
@@ -118,6 +138,10 @@ class InterviewSchedule extends Component {
 
   populateInterviewSchedules = async () => {
     const res = await getInterviewSchedule()
+    if(res.code !== 200){
+      // only populate if the GET is not successful
+      this.pushAPIResponse(res, "Get Schedule Response")
+    }
     var interviewList = res.result.interviews
     this.setState({
       interviews: interviewList === undefined ? [] : interviewList,
@@ -135,6 +159,7 @@ class InterviewSchedule extends Component {
         <Head title="Interview Schedule" />
         <Nav />
         <Container style={{ overflow: 'hidden' }}>
+        {this.getAlerts()}
           <h1>Upcoming Interviews</h1>
           {this.state.interviewCards}
         </Container>
