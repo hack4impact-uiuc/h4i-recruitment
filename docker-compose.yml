@@ -1,0 +1,14 @@
+# docker-compose.yml
+version: "3"
+services:
+
+  backend:
+    build: ./backend
+    ports:
+      - 8080:8080
+    env_file:
+      - backend/.env
+    command:
+      yarn dev
+
+  
