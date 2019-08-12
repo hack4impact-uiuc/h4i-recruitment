@@ -5,5 +5,8 @@ module.exports = {
       fs: 'empty'
     }
     return config
+  },
+  publicRuntimeConfig: {
+    BACKEND_PORT: process.env.BACKEND_PORT === undefined ? 8080 : process.env.BACKEND_PORT
   }
 }

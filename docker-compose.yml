@@ -5,10 +5,25 @@ services:
   backend:
     build: ./backend
     ports:
-      - 8080:8080
+      - 3001:3001
     env_file:
       - backend/.env
+    environment:
+      - PORT=3001
     command:
       yarn dev
+    tty: true
 
-  
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    environment:
+      - DEBUG_REDUX=false
+      - BACKEND_PORT=3001
+    command:
+      yarn dev
+    tty: true
+
