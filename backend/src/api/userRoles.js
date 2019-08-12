@@ -36,8 +36,31 @@ router.post(
 
     res.json({
       code: 200,
-      message: `Successfully created new user ${newUser.firstName} ${newUser.lastName}`,
+      message: `Successfully recorded new user ${newUser.email}`,
       success: true
     })
   })
 )
+
+// update a user's role
+router.put(
+  '/:tokenId',
+  errorWrap(async (req, res) => {
+    const tokenId = req.params.tokenId
+    if (!tokenId || !req.body.role) {
+      return res.json({
+        code: 400,
+        message: 'Token ID and new role are required.',
+        success: false
+      })
+    }
+
+    await User.findOneAndUpdate({ tokenId }, { $set: { role: req.body.role } })
+    res.json({
+      code: 200,
+      message: 'Successfully updated user',
+      success: true
+    })
+  })
+)
+module.exports = router

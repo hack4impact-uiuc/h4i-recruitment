@@ -265,6 +265,39 @@ function deleteReferral(candidateID: string) {
   }).then(res => res.json())
 }
 
+function getAllUsers() {
+  return fetch(`${API_URL}/users/`).then(res => res.json())
+}
+
+function createNewUser(email: string, tokenId: string, role: string) {
+  console.log(`Writing user ${email} to internal database`)
+  return fetch(`${API_URL}/users/`, {
+    body: JSON.stringify({
+      email, 
+      tokenId, 
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function updateUserRole(tokenId: string, newRole: string) {
+  return fetch(`${API_URL}/users/${tokenId}`, {
+    body: JSON.stringify({
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'PUT',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 function getWorkspaces() {
   return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
 }
