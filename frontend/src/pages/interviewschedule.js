@@ -29,16 +29,18 @@ class InterviewSchedule extends Component {
   }
 
   getAlerts = () => {
-    return this.state.apiResponses.map((elem) => {
-      return <Alert color={elem.code === 200 ? "success" : "danger"} key={elem.title}>
-      <h4 className="alert-heading">{elem.title}</h4>
-      {elem.message}
-      </Alert>
+    return this.state.apiResponses.map(elem => {
+      return (
+        <Alert color={elem.code === 200 ? 'success' : 'danger'} key={elem.title}>
+          <h4 className="alert-heading">{elem.title}</h4>
+          {elem.message}
+        </Alert>
+      )
     })
   }
 
   pushAPIResponse = (obj, title) => {
-    obj.title = title;
+    obj.title = title
     this.setState(prevState => ({
       apiResponses: [...prevState.apiResponses, obj]
     }))
@@ -47,11 +49,11 @@ class InterviewSchedule extends Component {
     e.preventDefault()
     this.setState({ isLoading: true, apiResponses: [] })
     const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
-    this.pushAPIResponse(candidateResp, "Candidate Submission")
+    this.pushAPIResponse(candidateResp, 'Candidate Submission')
     const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
-    this.pushAPIResponse(interviewerResp, "Interviewer Submission")
+    this.pushAPIResponse(interviewerResp, 'Interviewer Submission')
     const generationResp = await generateSchedules()
-    this.pushAPIResponse(generationResp, "Generate Schedule")
+    this.pushAPIResponse(generationResp, 'Generate Schedule')
     this.setState({ isLoading: false })
     this.populateInterviewSchedules()
   }
@@ -59,7 +61,7 @@ class InterviewSchedule extends Component {
   deleteScheduleHandler = async e => {
     e.preventDefault()
     const deleteResp = await deleteAllSchedules()
-    this.pushAPIResponse(deleteResp, "Delete Submission")
+    this.pushAPIResponse(deleteResp, 'Delete Submission')
     this.populateInterviewSchedules()
   }
 
@@ -138,9 +140,9 @@ class InterviewSchedule extends Component {
 
   populateInterviewSchedules = async () => {
     const res = await getInterviewSchedule()
-    if(res.code !== 200){
+    if (res.code !== 200) {
       // only populate if the GET is not successful
-      this.pushAPIResponse(res, "Get Schedule Response")
+      this.pushAPIResponse(res, 'Get Schedule Response')
     }
     var interviewList = res.result.interviews
     this.setState({
@@ -159,7 +161,7 @@ class InterviewSchedule extends Component {
         <Head title="Interview Schedule" />
         <Nav />
         <Container style={{ overflow: 'hidden' }}>
-        {this.getAlerts()}
+          {this.getAlerts()}
           <h1>Upcoming Interviews</h1>
           {this.state.interviewCards}
         </Container>
