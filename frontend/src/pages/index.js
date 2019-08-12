@@ -76,7 +76,7 @@ class LoginPage extends Component {
       if (!response.success) {
         this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', MEMBER_KEY)
+        localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
         Router.push('/dashboard')
       }
     })

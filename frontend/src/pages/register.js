@@ -36,9 +36,7 @@ class RegisterPage extends Component {
       password: '',
       passwordVerification: '',
       errorMessage: '',
-      showInvalidPasswordModal: false,
-      showInvalidRequestModal: false,
-      showInvalidGoogleRequestModal: false
+      showInvalidRequestModal: false
     }
   }
 
@@ -63,7 +61,7 @@ class RegisterPage extends Component {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
     if (!resp.success) {
-      this.setState({ errorMessage: resp.message, showInvalidGoogleRequestModal: true })
+      this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
       this.setCookie('token', e.tokenId)
@@ -78,29 +76,24 @@ class RegisterPage extends Component {
   handleSubmit = () => {
     const { email, password, passwordVerification } = this.state
     if (password !== passwordVerification) {
-      this.setState({ showInvalidPasswordModal: true })
+      this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
       registerUser(email, password, 'member').then(resp => {
         if (resp.status === 400) {
-          this.setState({ showInvalidRequestModal: true })
+          this.setState({
+            errorMessage: 'Please make sure you do not have an existing account.',
+            showInvalidRequestModal: true
+          })
         } else {
-          localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles
+          localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
           Router.push('/dashboard')
         }
       })
     }
   }
 
-  handleInvalidPasswordModalClose = () => {
-    this.setState({ showInvalidPasswordModal: false })
-  }
-
   handleInvalidRequestModalClose = () => {
     this.setState({ showInvalidRequestModal: false })
-  }
-
-  handleInvalidGoogleRequestModalClose = () => {
-    this.setState({ showInvalidGoogleRequestModal: false })
   }
 
   render() {
@@ -180,24 +173,11 @@ class RegisterPage extends Component {
           </Button>
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
             <ModalHeader>{'Your request was invalid.'}</ModalHeader>
-            <ModalBody>{'Please make sure you do not have an existing account.'}</ModalBody>
+            <ModalBody>
+              {this.state.errorMessage || 'There was an error in your request.'}
+            </ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
-          <Modal autoFocus={false} isOpen={this.state.showInvalidPasswordModal}>
-            <ModalBody>{'Your passwords must match.'}</ModalBody>
-            <ModalFooter>
-              <Button onClick={this.handleInvalidPasswordModalClose}>Close</Button>
-            </ModalFooter>
-          </Modal>
-          <Modal autoFocus={false} isOpen={this.state.showInvalidGoogleRequestModal}>
-            <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
-            <ModalFooter>
-              <Button onClick={this.handleInvalidGoogleRequestModalClose} color="secondary">
                 Close
               </Button>
             </ModalFooter>
