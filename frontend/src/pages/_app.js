@@ -6,7 +6,9 @@ import configureStore from '../store/appStore'
 import ErrorMessage from '../components/errorMessage'
 import { PageTransition } from 'next-page-transitions'
 
-export default withRedux(configureStore, { debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true' })(
+export default withRedux(configureStore, {
+  debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true'
+})(
   class MyApp extends App {
     constructor(props) {
       super(props)
