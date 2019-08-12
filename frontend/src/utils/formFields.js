@@ -36,4 +36,22 @@ const newEventFields = [
   }
 ]
 
-export { newEventFields }
+const newAttendeeFields = [
+  {
+    label: 'Name',
+    name: 'attendeeName',
+    placeholder: 'i.e. Johnny Appleseed'
+  },
+  {
+    label: 'Email',
+    name: 'email',
+    placeholder: 'i.e. johnnyappleseed@gmail.com'
+  },
+  {
+    label: 'Year',
+    name: 'year',
+    placeholder: 'i.e. Junior'
+  }
+]
+
+export { newEventFields, newAttendeeFields }
