@@ -53,6 +53,7 @@ export const rolesEnum = {
 }
 
 export const permissionRolesEnum = {
+  PENDING: 'Pending',
   MEMBER: 'Member',
   LEAD: 'Lead',
   DIRECTOR: 'Director'

@@ -18,3 +18,13 @@ Before every commit, you will need to run prettier or the build will fail.
 ```sh
 yarn format
 ```
+
+To start your own authentication server, run these commands:
+```sh 
+npm i -g auth-infra 
+auth-infra setup
+```
+
+You will be prompted from the command line to enter information set up your server. To be compliant with this repository, the roles you should use are [Director, Lead, Member, Pending]. 
+
+For troubleshooting and more information about the server, our authentication server documentation is here: https://my-docz-project-codebrew28.hack4impact1.now.sh/ 
