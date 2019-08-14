@@ -7,10 +7,10 @@ const { User } = require('../models')
 router.get(
   '/',
   errorWrap(async (req, res) => {
-    const workspaces = await User.find()
+    const users = await User.find()
     res.json({
       code: 200,
-      result: workspaces,
+      result: users,
       success: true
     })
   })

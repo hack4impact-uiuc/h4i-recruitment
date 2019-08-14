@@ -1,3 +1,4 @@
+// MongoDB schema representing a member of Hack4Impact
 const mongoose = require('mongoose')
 
 const User = new mongoose.Schema({
