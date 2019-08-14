@@ -12,8 +12,9 @@ mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
   .on('error', error => console.log('Error connecting to MongoLab:', error))
 
+const API_PORT = process.env.PORT === undefined ? 8080 : process.env.PORT
 // start server
-app.listen(8080, async () => console.log('Server listening on port 8080!'))
+app.listen(API_PORT, async () => console.log(`Server listening on port ${API_PORT}!`))
 
 process.on('unhandledRejection', error => {
   // Will print "unhandledRejection err is not defined"

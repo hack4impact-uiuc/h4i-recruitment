@@ -2,6 +2,53 @@
 
 ## Setup
 
+In order to have all the secret keys set up properly, you must create a `.env` file and a `keys.json` file to the root of this directory (`./backend`).
+
+Example setup:
+
+In `.env`:
+```
+MONGO_UURL=mongodb://mongouser:mykey@somedb.mlab.com:port/db
+MONGO_DURL=mongodb://mongouser:mykey@somedb.mlab.com:port/db
+MONGO_URL=mongodb://mongouser:mykey@somedb.mlab.com:port/db
+LEAD_SUFFIX=l
+DIRECTOR_SUFFIX=d
+KEY_JSON=../../keys.json
+SCHEDULER_URL=https://scheduler-URI.amazonaws.com/endpoint
+SCHEDULER_API_KEY=abcd1234
+```
+
+In `keys.json`:
+```
+{
+  "keys": [
+    {
+      "name": "Director 1",
+      "key": "1234"
+    }
+  ]
+}
+```
+
+### Docker
+
+To run with [Docker](https://www.docker.com/) (and start the frontend and backend all at once with one command):
+```
+docker-compose up
+```
+
+And when you're done, you can run:
+```
+docker-compose down -v
+```
+
+Note that if there's a change in the `package.json` file (such as a new module added into the repository), instead of running `yarn add` to re-install, just run `docker-compose up --build`. 
+
+
+### Manual
+
+You must install `dotenv-cli`:
+
 ```sh
 yarn global add dotenv-cli
 ```
@@ -17,7 +64,6 @@ Note: `yarn global add` will default to adding packages to `~/.yarn/bin` so by d
 1.  You can add yarn's default installation location to your `$PATH` environment variable, so that your terminal knows where to look for the executables. You can do this by adding `export PATH="$(yarn global bin):$PATH"` as a line in your `~/.bashrc`. Then simply quit your terminal and reopen it (or run source ~/.bashrc) and everything should work.
 2.  Alternatively, you can change the default global location for yarn (`yarn config set prefix <filepath>`) and set `filepath` to something like `/usr/local` or `/usr` (or anything else in your `$PATH` that makes sense). This second method will require you to re-run the above global add command.
 
-Then, you must copy a `.env` file and a `keys.json` file to this folder.
 
 ```sh
 yarn
