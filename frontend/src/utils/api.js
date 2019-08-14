@@ -273,8 +273,8 @@ function createNewUser(email: string, tokenId: string, role: string) {
   console.log(`Writing user ${email} to internal database`)
   return fetch(`${API_URL}/users/`, {
     body: JSON.stringify({
-      email, 
-      tokenId, 
+      email,
+      tokenId,
       role
     }),
     headers: {
