@@ -51,7 +51,6 @@ class LoginPage extends Component {
     const response = await result.json()
     if (!response.success) {
       this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
-      console.log(response.message)
     } else {
       // set token value so google can access it
       this.setCookie('token', e.tokenId)
