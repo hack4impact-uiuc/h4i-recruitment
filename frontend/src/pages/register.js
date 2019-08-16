@@ -155,7 +155,7 @@ class RegisterPage extends Component {
               </Form>
               <GoogleLogin
                 className="btn-lg sign-in-btn"
-                clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
+                clientId="409847273934-jmhjkeu77d3cqr32sh3vpl3ogh2f4dev.apps.googleusercontent.com"
                 responseType="id_token"
                 scope="https://www.googleapis.com/auth/userinfo.email"
                 onSuccess={this.handleGoogle}
