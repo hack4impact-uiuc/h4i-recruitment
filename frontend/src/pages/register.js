@@ -1,10 +1,13 @@
-import React from 'react'
+// adapted heavily from H4I PI's register workflow examples found here:
+// https://github.com/hack4impact-uiuc/infra-authentication-examples/blob/master/nextjs-client-example/pages/register.js
+
 import { Component } from 'react'
 import Router from 'next/router'
-import { loginUser, loginGoogleUser } from '../utils/api'
+import { registerUser, loginGoogleUser } from '../utils/api'
+import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
-import { GoogleLogin } from 'react-google-login'
+import cookie from 'js-cookie'
 import {
   Container,
   Form,
@@ -17,19 +20,21 @@ import {
   CardTitle,
   Modal,
   ModalBody,
-  ModalHeader,
-  ModalFooter
+  ModalFooter,
+  ModalHeader
 } from 'reactstrap'
-import cookie from 'js-cookie'
 
+const EMAIL_REGEX =
+  "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})"
 const MEMBER_KEY = 'ohno'
 
-class LoginPage extends Component {
+class RegisterPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
       email: '',
       password: '',
+      passwordVerification: '',
       errorMessage: '',
       showInvalidRequestModal: false
     }
@@ -46,11 +51,17 @@ class LoginPage extends Component {
     }
   }
 
+  handleChange = event => {
+    const value = event.target.value
+    const name = event.target.name
+    this.setState({ [name]: value })
+  }
+
   handleGoogle = async e => {
     const result = await loginGoogleUser(e.tokenId)
-    const response = await result.json()
-    if (!response.success) {
-      this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
+    const resp = await result.json()
+    if (!resp.success) {
+      this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
       this.setCookie('token', e.tokenId)
@@ -62,23 +73,23 @@ class LoginPage extends Component {
     }
   }
 
-  handleChange = event => {
-    const value = event.target.value
-    const name = event.target.name
-    this.setState({ [name]: value })
-  }
-
   handleSubmit = () => {
-    const { email, password } = this.state
-    console.log(`Logging in ${email}`)
-    loginUser(email, password).then(response => {
-      if (!response.success) {
-        this.setState({ showInvalidRequestModal: true })
-      } else {
-        localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-        Router.push('/dashboard')
-      }
-    })
+    const { email, password, passwordVerification } = this.state
+    if (password !== passwordVerification) {
+      this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
+    } else {
+      registerUser(email, password, 'member').then(resp => {
+        if (resp.status === 400) {
+          this.setState({
+            errorMessage: 'Please make sure you do not have an existing account.',
+            showInvalidRequestModal: true
+          })
+        } else {
+          localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
+          Router.push('/dashboard')
+        }
+      })
+    }
   }
 
   handleInvalidRequestModalClose = () => {
@@ -93,7 +104,7 @@ class LoginPage extends Component {
         <Container>
           <Card className="login-card">
             <CardTitle>
-              <h3 className="login-title">Login</h3>
+              <h3 className="login-title">Register</h3>
             </CardTitle>
             <CardBody>
               <Form>
@@ -103,6 +114,7 @@ class LoginPage extends Component {
                     type="email"
                     name="email"
                     maxLength="64"
+                    pattern={EMAIL_REGEX}
                     value={this.state.email}
                     onChange={this.handleChange}
                     required
@@ -120,27 +132,50 @@ class LoginPage extends Component {
                     required
                   />
                 </FormGroup>
-                <Button color="outline-secondary" onClick={this.handleSubmit}>
-                  Submit
+                <FormGroup>
+                  <Label for="examplePassword">Confirm Password</Label>
+                  <Input
+                    type="password"
+                    name="passwordVerification"
+                    minLength="8"
+                    maxLength="64"
+                    value={this.state.passwordVerification}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
+                <Button
+                  color="success"
+                  size="lg"
+                  onClick={this.handleSubmit}
+                  style={{ float: 'left', width: '48%' }}
+                >
+                  Register
                 </Button>
               </Form>
-
               <GoogleLogin
-                className="btn sign-in-btn"
+                className="btn-lg sign-in-btn"
                 clientId="409847273934-jmhjkeu77d3cqr32sh3vpl3ogh2f4dev.apps.googleusercontent.com"
                 responseType="id_token"
-                buttonText={this.props.role}
                 scope="https://www.googleapis.com/auth/userinfo.email"
                 onSuccess={this.handleGoogle}
+                buttonText="Register with Google"
               />
             </CardBody>
           </Card>
-          <Button color="outline-primary" onClick={() => Router.push('/register')}>
-            {"Don't have an account? Register here!"}
+          <Button
+            color="outline-primary"
+            onClick={() => {
+              Router.push('/')
+            }}
+          >
+            {'Already have an account? Login here.'}
           </Button>
           <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
-            <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
+            <ModalHeader>{'Your request was invalid.'}</ModalHeader>
+            <ModalBody>
+              {this.state.errorMessage || 'There was an error in your request.'}
+            </ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
                 Close
@@ -153,4 +188,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage
+export default RegisterPage

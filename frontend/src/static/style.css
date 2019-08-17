@@ -216,6 +216,16 @@ p > b {
   margin: 20%;
 }
 
+.login-card {
+  width: '400px';
+  height: '60%';
+}
+
+.login-title {
+  text-align: 'center';
+  padding-top: '10px';
+}
+
 .round-box {
   margin: 10%;
 }
