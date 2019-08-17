@@ -32,8 +32,8 @@ class RegisterPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      firstName: '', 
-      lastName: '', 
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       passwordVerification: '',
@@ -61,13 +61,15 @@ class RegisterPage extends Component {
 
   handleSuccessfulRegister = resp => {
     const { firstName, lastName, email } = this.state
-    addUser(firstName, lastName, email, resp.body.tokenId, 'Pending').then(resp => {
-      if (!resp.success) {
-        console.log(`User ${firstName} ${lastName} was not successfully created.`)
-      }
-    })
     localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
     Router.push('/dashboard')
+
+    addUser(firstName, lastName, email, resp.token, 'Pending').then(resp => {
+      if (!resp.success) {
+        console.log(`User ${firstName} ${lastName} was not successfully created.`)
+        console.log(resp)
+      }
+    })
   }
 
   handleGoogle = async e => {
@@ -90,7 +92,8 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, 'member').then(resp => {
+      registerUser(email, password, 'Pending').then(resp => {
+        console.log(resp)
         if (resp.status === 400) {
           this.setState({
             errorMessage: 'Please make sure you do not have an existing account.',
@@ -119,7 +122,7 @@ class RegisterPage extends Component {
             </CardTitle>
             <CardBody>
               <Form>
-              <FormGroup>
+                <FormGroup>
                   <Label for="exampleEmail">First Name</Label>
                   <Input
                     name="firstName"
@@ -129,7 +132,7 @@ class RegisterPage extends Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
+                  <Label for="exampleEmail">Last Name</Label>
                   <Input
                     name="lastName"
                     value={this.state.lastName}

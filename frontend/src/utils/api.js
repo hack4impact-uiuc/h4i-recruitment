@@ -13,7 +13,7 @@ const API_URL =
     : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
-const AUTH_API_URL = 'h4i-portal-infra-server.now.sh'
+const AUTH_API_URL = 'https://h4i-infra-server.n3a9.now.sh'
 
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
@@ -272,7 +272,9 @@ function deleteReferral(candidateID: string) {
 }
 
 function getAllUsers() {
-  return fetch(`${API_URL}/users/`).then(res => res.json())
+  return fetch(`${API_URL}/user/?key=${getKey()}`, { method: 'GET', mode: 'cors' }).then(res =>
+    res.json()
+  )
 }
 
 function addUser(
@@ -283,7 +285,7 @@ function addUser(
   role: string
 ) {
   console.log(`Writing user ${email} to internal database`)
-  return fetch(`${API_URL}/users/`, {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
     method: 'POST',
     body: JSON.stringify({
       firstName,
@@ -300,7 +302,7 @@ function addUser(
 }
 
 function updateUserRole(tokenId: string, newRole: string) {
-  return fetch(`${API_URL}/users/${tokenId}`, {
+  return fetch(`${API_URL}/user/${tokenId}?key=${getKey()}`, {
     method: 'PUT',
     body: JSON.stringify({
       role
@@ -323,8 +325,7 @@ function registerUser(email: string, password: string, role: string) {
     }),
     headers: {
       'content-type': 'application/json'
-    },
-    mode: 'cors'
+    }
   }).then(res => res.json())
 }
 

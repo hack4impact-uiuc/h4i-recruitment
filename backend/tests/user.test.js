@@ -41,6 +41,9 @@ describe('POST /user/', () => {
       .post(`/user/?key=${KEY}`)
       .send(newUser)
       .expect(200)
+
+    const databaseState = await User.find()
+    expect(databaseState[0].email).to.eq('fakeemail@gmail.com')
   })
 })
 
