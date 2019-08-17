@@ -6,6 +6,8 @@ const { KEY } = require('./utils.js')
 require('./mongo_utils')
 
 const newUser = new User({
+  firstName: 'fake',
+  lastName: 'name',
   email: 'fakeemail@gmail.com',
   role: 'Pending',
   tokenId: 'randomlyGeneratedString'

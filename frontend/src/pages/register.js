@@ -3,7 +3,7 @@
 
 import { Component } from 'react'
 import Router from 'next/router'
-import { registerUser, loginGoogleUser } from '../utils/api'
+import { registerUser, loginGoogleUser, addUser } from '../utils/api'
 import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -32,6 +32,8 @@ class RegisterPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      firstName: '', 
+      lastName: '', 
       email: '',
       password: '',
       passwordVerification: '',
@@ -57,6 +59,17 @@ class RegisterPage extends Component {
     this.setState({ [name]: value })
   }
 
+  handleSuccessfulRegister = resp => {
+    const { firstName, lastName, email } = this.state
+    addUser(firstName, lastName, email, resp.body.tokenId, 'Pending').then(resp => {
+      if (!resp.success) {
+        console.log(`User ${firstName} ${lastName} was not successfully created.`)
+      }
+    })
+    localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
+    Router.push('/dashboard')
+  }
+
   handleGoogle = async e => {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
@@ -68,8 +81,7 @@ class RegisterPage extends Component {
       // set google to true so server knows to send the request to google
       this.setCookie('google', true)
       // set localStorage value so it's valid across the whole site
-      localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-      Router.push('/dashboard')
+      this.handleSuccessfulRegister(resp)
     }
   }
 
@@ -85,8 +97,7 @@ class RegisterPage extends Component {
             showInvalidRequestModal: true
           })
         } else {
-          localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-          Router.push('/dashboard')
+          this.handleSuccessfulRegister(resp)
         }
       })
     }
@@ -108,6 +119,24 @@ class RegisterPage extends Component {
             </CardTitle>
             <CardBody>
               <Form>
+              <FormGroup>
+                  <Label for="exampleEmail">First Name</Label>
+                  <Input
+                    name="firstName"
+                    value={this.state.firstName}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">Email</Label>
+                  <Input
+                    name="lastName"
+                    value={this.state.lastName}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Email</Label>
                   <Input

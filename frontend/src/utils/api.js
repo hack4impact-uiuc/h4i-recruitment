@@ -275,10 +275,19 @@ function getAllUsers() {
   return fetch(`${API_URL}/users/`).then(res => res.json())
 }
 
-function createNewUser(email: string, tokenId: string, role: string) {
+function addUser(
+  firstName: String,
+  lastName: String,
+  email: string,
+  tokenId: string,
+  role: string
+) {
   console.log(`Writing user ${email} to internal database`)
   return fetch(`${API_URL}/users/`, {
+    method: 'POST',
     body: JSON.stringify({
+      firstName,
+      lastName,
       email,
       tokenId,
       role
@@ -286,19 +295,19 @@ function createNewUser(email: string, tokenId: string, role: string) {
     headers: {
       'content-type': 'application/json'
     },
-    method: 'POST'
+    mode: 'cors'
   }).then(res => res.json())
 }
 
 function updateUserRole(tokenId: string, newRole: string) {
   return fetch(`${API_URL}/users/${tokenId}`, {
+    method: 'PUT',
     body: JSON.stringify({
       role
     }),
     headers: {
       'content-type': 'application/json'
     },
-    method: 'PUT',
     mode: 'cors'
   }).then(res => res.json())
 }
@@ -399,6 +408,9 @@ export {
   registerUser,
   loginUser,
   loginGoogleUser,
+  getAllUsers,
+  addUser,
+  updateUserRole,
   getWorkspaces,
   createWorkspace
 }
