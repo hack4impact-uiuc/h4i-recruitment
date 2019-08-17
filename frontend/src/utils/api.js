@@ -1,13 +1,19 @@
 //@flow
 import fetch from 'isomorphic-unfetch'
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
 
 const getKey = () => localStorage.getItem('interviewerKey')
+
+const API_PORT = publicRuntimeConfig.BACKEND_PORT
 
 const API_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://hack4impact-recruitment-backend.now.sh'
-    : 'http://localhost:8080' // make sure your backend is running on this port.
+    : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
+
+const AUTH_API_URL = 'h4i-portal-infra-server.now.sh'
 
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
@@ -280,8 +286,7 @@ function createNewUser(email: string, tokenId: string, role: string) {
     headers: {
       'content-type': 'application/json'
     },
-    method: 'POST',
-    mode: 'cors'
+    method: 'POST'
   }).then(res => res.json())
 }
 
@@ -295,6 +300,50 @@ function updateUserRole(tokenId: string, newRole: string) {
     },
     method: 'PUT',
     mode: 'cors'
+  }).then(res => res.json())
+}
+
+function registerUser(email: string, password: string, role: string) {
+  console.log(`Creating new user: ${email}`)
+  return fetch(`${AUTH_API_URL}/register`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password,
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function loginUser(email: string, password: string) {
+  console.log(`Logging in user ${email}`)
+  return fetch(`${AUTH_API_URL}/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password
+    }),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }).then(res => res.json())
+}
+
+function loginGoogleUser(tokenId: string) {
+  console.log(`Logging in user ${tokenId} with Google Auth`)
+  return fetch(`${AUTH_API_URL}/google`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      tokenId: tokenId,
+      role: 'member'
+    })
   }).then(res => res.json())
 }
 
@@ -347,6 +396,9 @@ export {
   addStrongReferral,
   deleteReferral,
   getAllInterviewingCandidateInterviews,
+  registerUser,
+  loginUser,
+  loginGoogleUser,
   getWorkspaces,
   createWorkspace
 }

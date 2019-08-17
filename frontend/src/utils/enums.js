@@ -52,6 +52,13 @@ export const rolesEnum = {
   UI: 'UI/UX Designer'
 }
 
+export const permissionRolesEnum = {
+  PENDING: 'Pending',
+  MEMBER: 'Member',
+  LEAD: 'Lead',
+  DIRECTOR: 'Director'
+}
+
 export const sortByEnum = {
   NAME: 'Name',
   YEAR: 'Year',
