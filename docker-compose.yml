@@ -1,0 +1,45 @@
+# docker-compose.yml
+version: "3"
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile-dev
+    ports:
+      - 8080:8080
+    env_file:
+      - backend/.env
+    environment:
+      - PORT=8080
+    volumes:
+      - ./backend:/usr/src/app
+      # expose a named volume that works because installing
+      # and then mounting will hide that folder, so we need to explicitly
+      # show it again
+      # note that when reinstalling modules, we need to remove this volume
+      - be_modules:/usr/src/app/node_modules
+    command: yarn dev
+    tty: true
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    environment:
+      - DEBUG_REDUX=false
+      - BACKEND_PORT=8080
+    volumes:
+      - ./frontend:/usr/src/app
+      # expose a named volume that works because installing
+      # and then mounting will hide that folder, so we need to explicitly
+      # show it again
+      # note that when reinstalling modules, we need to remove this volume
+      - fe_modules:/usr/src/app/node_modules
+    command: yarn dev
+    tty: true
+
+volumes:
+  fe_modules:
+  be_modules:
