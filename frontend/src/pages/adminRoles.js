@@ -1,28 +1,44 @@
 import React from 'react'
 import { Button, Table } from 'reactstrap'
 import ChangeRole from '../components/changeRole'
-import ChangeYear from '../components/changeYear'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import { getAllUsers } from '../utils/api'
+import { getAllUsers, updateUserRole } from '../utils/api'
 
 class AdminRoles extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       isEditing: false,
+      newRole: -1,
       users: []
     }
   }
 
-  getUsers() {
+  getUsers = () => {
     getAllUsers().then(resp => {
       this.setState({ users: resp.result })
     })
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.getUsers()
+  }
+
+  handleRoleChange = e => {
+    e.persist()
+    console.log(e)
+    this.setState({ newRole: e.target.value })
+  }
+
+  handleRoleSubmit = userEmail => {
+    console.log(userEmail)
+    updateUserRole(userEmail, this.state.newRole).then(resp => {
+      if (resp.success) {
+        this.setState({ newRole: -1 })
+        this.getUsers()
+      }
+    })
   }
 
   render() {
@@ -36,6 +52,7 @@ class AdminRoles extends React.Component {
             <tr>
               <th>First Name</th>
               <th>Last Name</th>
+              <th>Email</th>
               <th>Role</th>
             </tr>
           </thead>
@@ -46,7 +63,19 @@ class AdminRoles extends React.Component {
                   <tr key={i}>
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
-                    <td>{user.role}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      {isEditing ? (
+                        <ChangeRole value={user.role} handleChange={this.handleRoleChange} />
+                      ) : (
+                        user.role
+                      )}
+                    </td>
+                    {isEditing && (
+                      <td>
+                        <Button onClick={() => this.handleRoleSubmit(user.email)}>Submit</Button>
+                      </td>
+                    )}
                   </tr>
                 </>
               )

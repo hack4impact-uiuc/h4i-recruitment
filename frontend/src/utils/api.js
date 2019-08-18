@@ -301,11 +301,12 @@ function addUser(
   }).then(res => res.json())
 }
 
-function updateUserRole(tokenId: string, newRole: string) {
-  return fetch(`${API_URL}/user/${tokenId}?key=${getKey()}`, {
+function updateUserRole(email: string, newRole: string) {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
     method: 'PUT',
     body: JSON.stringify({
-      role
+      email,
+      role: newRole
     }),
     headers: {
       'content-type': 'application/json'

@@ -23,6 +23,7 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap'
+import { permissionRolesEnum } from '../utils/enums'
 
 const EMAIL_REGEX =
   "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})"
@@ -64,7 +65,7 @@ class RegisterPage extends Component {
     localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
     Router.push('/dashboard')
 
-    addUser(firstName, lastName, email, resp.token, 'Pending').then(resp => {
+    addUser(firstName, lastName, email, resp.token, permissionRolesEnum.PENDING).then(resp => {
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully created.`)
         console.log(resp)

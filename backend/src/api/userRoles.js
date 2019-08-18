@@ -48,18 +48,17 @@ router.post(
 
 // update a user's role
 router.put(
-  '/:tokenId',
+  '/',
   errorWrap(async (req, res) => {
-    const tokenId = req.params.tokenId
-    if (!tokenId || !req.body.role) {
+    if (!req.body.email || !req.body.role) {
       return res.json({
         code: 400,
-        message: 'Token ID and new role are required.',
+        message: 'Email and new role are required.',
         success: false
       })
     }
 
-    await User.findOneAndUpdate({ tokenId }, { $set: { role: req.body.role } })
+    await User.findOneAndUpdate({ email: req.body.email }, { $set: { role: req.body.role } })
     res.json({
       code: 200,
       message: 'Successfully updated user',

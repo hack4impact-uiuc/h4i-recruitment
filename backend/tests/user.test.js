@@ -9,8 +9,7 @@ const newUser = new User({
   firstName: 'fake',
   lastName: 'name',
   email: 'fakeemail@gmail.com',
-  role: 'Pending',
-  tokenId: 'randomlyGeneratedString'
+  role: 'Pending'
 })
 
 beforeEach(async () => {
@@ -47,13 +46,16 @@ describe('POST /user/', () => {
   })
 })
 
-describe('PUT /user/:tokenId', () => {
+describe('PUT /user/', () => {
   it('should update user to have new role', async () => {
     await newUser.save()
-    const newRole = 'Member'
+    const reqBody = {
+      email: 'fakeemail@gmail.com',
+      role: 'Member'
+    }
     await request(app)
-      .put(`/user/${newUser.tokenId}?key=${KEY}`)
-      .send(newRole)
+      .put(`/user/?key=${KEY}`)
+      .send(reqBody)
       .expect(200)
   })
 })
