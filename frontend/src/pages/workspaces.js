@@ -12,6 +12,8 @@ class Workspaces extends Component {
     super(props)
     this.state = {
       workspaces: [],
+      selectedWorkspace: '',
+      cycles: [],
       workspaceModal: false,
       cycleModal: false
     }
@@ -22,14 +24,23 @@ class Workspaces extends Component {
     const workspaceRes = await getWorkspaces()
     if (workspaceRes) {
       workspaceRes.result.forEach(async workspace => {
-        const cycleRes = await getCyclesByWorkspace(workspace.name)
-        if (cycleRes) {
-          workspace.cycles = cycleRes.result
-          this.setState({
-            workspaces: [...this.state.workspaces, workspace]
-          })
-        }
+        this.setState({
+          workspaces: [...this.state.workspaces, workspace.name]
+        })
       })
+
+      if (!this.state.selectedWorkspace && this.state.workspaces.length) {
+        this.setState({
+          selectedWorkspace: this.state.workspaces[0]
+        })
+      }
+
+      const cycleRes = await getCyclesByWorkspace(this.state.selectedWorkspace)
+      if (cycleRes) {
+        this.setState({
+          cycles: cycleRes.result
+        })
+      }
     }
   }
 
@@ -55,6 +66,7 @@ class Workspaces extends Component {
   }
 
   createCycle = async workspaceName => {
+    console.log(workspaceName)
     const cycle = {
       term: this.state.term,
       workspaceName
@@ -78,6 +90,17 @@ class Workspaces extends Component {
     })
   }
 
+  handleSelectWorkspaceChange = e => {
+    this.setState({ selectedWorkspace: e.target.value })
+    console.log(e)
+
+    getCyclesByWorkspace(this.state.selectedWorkspace).then(cycleRes => {
+      this.setState({
+        cycles: cycleRes.result
+      })
+    })
+  }
+
   render() {
     return (
       <>
@@ -95,62 +118,70 @@ class Workspaces extends Component {
               alert="All fields are required."
               pathname="/workspaces"
             />
+            <select value={this.selectedWorkspace} onChange={this.handleSelectWorkspaceChange}>
+              <option selected disabled hidden>
+                Select Workspace
+              </option>
+              {this.state.workspaces.map((workspaceName, index) => {
+                return (
+                  <option value={workspaceName} key={index}>
+                    {workspaceName}
+                  </option>
+                )
+              })}
+            </select>
             <Button color="primary" onClick={this.toggleWorkspaceModal}>
               Create Workspace
             </Button>
-            <ul>
-              {this.state.workspaces.map((workspace, index) => {
-                return (
-                  <div key={index}>
-                    <h2>{workspace.name}</h2>
-                    <Table size="m" hover>
-                      <tbody>
-                        <tr>
-                          <th>Term</th>
-                          <th>Current</th>
-                          <th>Actions</th>
+            {this.state.selectedWorkspace ? (
+              <>
+                <h2>{this.state.selectedWorkspace}</h2>
+                <Table size="m" hover>
+                  <tbody>
+                    <tr>
+                      <th>Term</th>
+                      <th>Actions</th>
+                    </tr>
+                    {this.state.cycles.map((cycle, index) => {
+                      return (
+                        <tr key={index} className={cycle.current ? 'current' : ''}>
+                          <td>{cycle.term}</td>
+                          <td>
+                            <Button
+                              color="primary"
+                              value={cycle.id}
+                              onClick={this.toggleImportModal}
+                            >
+                              Import Candidates
+                            </Button>
+                            <Button color="primary" onClick={this.setCurrentCycle}>
+                              Select cycle
+                            </Button>
+                          </td>
                         </tr>
-                        {workspace.cycles.map((cycle, index) => {
-                          return (
-                            <tr key={index} className={cycle.current && 'current'}>
-                              <td>{cycle.term}</td>
-                              <td>{cycle.current}</td>
-                              <td>
-                                <Button
-                                  color="primary"
-                                  value={cycle.id}
-                                  onClick={this.toggleImportModal}
-                                >
-                                  Import Candidates
-                                </Button>
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    </Table>
-                    <WorkspaceModal
-                      title="Add New Cycle"
-                      isOpen={this.state.cycleModal}
-                      formFields={newCycleFields}
-                      toggle={this.toggleCycleModal}
-                      onSubmit={() => {
-                        return this.createCycle(workspace.name)
-                      }}
-                      handleChange={this.handleChange}
-                      alert="All fields are required."
-                      pathname="/workspaces"
-                    />
-                    <Button color="primary" onClick={this.toggleCycleModal}>
-                      Create cycle
-                    </Button>
-                    <Button color="primary" onClick={this.setCurrentCycle}>
-                      Select cycle
-                    </Button>
-                  </div>
-                )
-              })}
-            </ul>
+                      )
+                    })}
+                  </tbody>
+                </Table>
+                <WorkspaceModal
+                  title="Add New Cycle"
+                  isOpen={this.state.cycleModal}
+                  formFields={newCycleFields}
+                  toggle={this.toggleCycleModal}
+                  onSubmit={() => {
+                    return this.createCycle(this.state.selectedWorkspace)
+                  }}
+                  handleChange={this.handleChange}
+                  alert="All fields are required."
+                  pathname="/workspaces"
+                />
+                <Button color="primary" onClick={this.toggleCycleModal}>
+                  Create cycle
+                </Button>
+              </>
+            ) : (
+              <p>You don't have any workspaces!</p>
+            )}
           </Container>
         </div>
       </>

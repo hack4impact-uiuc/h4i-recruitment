@@ -84,3 +84,4 @@ class WorkspaceModal extends Component {
 }
 
 export default WorkspaceModal
+// when it updates one, it pushes that one to the top but keeps rendering it like it was before, i think
