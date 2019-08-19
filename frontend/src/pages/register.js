@@ -93,7 +93,7 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, 'Pending').then(resp => {
+      registerUser(email, password, permissionRolesEnum.PENDING).then(resp => {
         console.log(resp)
         if (resp.status === 400) {
           this.setState({

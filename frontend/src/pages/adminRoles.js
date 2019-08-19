@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Table } from 'reactstrap'
+import { Button, Table, Card, CardBody } from 'reactstrap'
 import ChangeRole from '../components/changeRole'
 import Head from '../components/head'
 import Nav from '../components/nav'
@@ -11,6 +11,7 @@ class AdminRoles extends React.Component {
     this.state = {
       isEditing: false,
       newRole: -1,
+      selectedUser: -1,
       users: []
     }
   }
@@ -25,15 +26,17 @@ class AdminRoles extends React.Component {
     this.getUsers()
   }
 
-  handleRoleChange = e => {
+  handleRoleChange = (e, idx) => {
+    console.log(e)
     e.persist() // not sure why this is needed?
-    this.setState({ newRole: e.target.value })
+    this.setState({ newRole: e.target.value, selectedUser: idx })
   }
 
   handleRoleSubmit = userEmail => {
     updateUserRole(userEmail, this.state.newRole).then(resp => {
+      console.log(userEmail, this.state.newRole, resp)
       if (resp.success) {
-        this.setState({ newRole: -1 })
+        this.setState({ newRole: -1, selectedUser: -1 })
         this.getUsers()
       }
     })
@@ -45,58 +48,77 @@ class AdminRoles extends React.Component {
       <>
         <Head title="Home" />
         <Nav />
-        <Table size="sm" hover className="candidate-table">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, i) => {
-              return (
-                <>
-                  <tr key={i}>
-                    <td>{user.firstName}</td>
-                    <td>{user.lastName}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      {isEditing ? (
-                        <ChangeRole value={user.role} handleChange={this.handleRoleChange} />
-                      ) : (
-                        user.role
-                      )}
-                    </td>
-                    {isEditing && (
-                      <td>
-                        <Button onClick={() => this.handleRoleSubmit(user.email)}>Submit</Button>
-                      </td>
-                    )}
-                  </tr>
-                </>
-              )
-            })}
-          </tbody>
-        </Table>
-        <Button
-          variant="primary"
-          disabled={isEditing}
-          onClick={() => {
-            this.setState({ isEditing: true })
-            console.log(this.state)
-          }}
-        >
-          Edit
-        </Button>
-        <Button
-          variant="info"
-          disabled={!isEditing}
-          onClick={() => this.setState({ isEditing: false })}
-        >
-          Save
-        </Button>
+        <Card className="admin-roles-card">
+          <CardBody>
+            <Table size="sm" hover className="candidate-table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  {isEditing && <th>Submit</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user, i) => {
+                  return (
+                    <>
+                      <tr key={i}>
+                        <td>{user.firstName}</td>
+                        <td>{user.lastName}</td>
+                        <td>{user.email}</td>
+                        <td>
+                          {isEditing ? (
+                            <ChangeRole
+                              value={user.role}
+                              handleChange={e => {
+                                this.handleRoleChange(e, i)
+                              }}
+                            />
+                          ) : (
+                            user.role
+                          )}
+                        </td>
+                        {isEditing && (
+                          <td>
+                            <Button
+                              color="success"
+                              size="sm"
+                              onClick={() => this.handleRoleSubmit(user.email)}
+                              disabled={
+                                !(this.state.newRole != -1 && this.state.selectedUser === i)
+                              }
+                            >
+                              Submit
+                            </Button>
+                          </td>
+                        )}
+                      </tr>
+                    </>
+                  )
+                })}
+              </tbody>
+            </Table>
+            <Button
+              variant="primary"
+              disabled={isEditing}
+              onClick={() => {
+                this.setState({ isEditing: true })
+                console.log(this.state)
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="info"
+              disabled={!isEditing}
+              onClick={() => this.setState({ isEditing: false })}
+            >
+              Save
+            </Button>
+          </CardBody>
+        </Card>
       </>
     )
   }

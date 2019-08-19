@@ -315,6 +315,22 @@ function updateUserRole(email: string, newRole: string) {
   }).then(res => res.json())
 }
 
+function updateServerUserRole(userEmail: string, newRole: string, password: string) {
+  return fetch(`${AUTH_API_URL}/roleschange`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: getCookie('token'),
+      google: getCookie('google') ? true : false
+    },
+    body: JSON.stringify({
+      userEmail,
+      newRole,
+      password
+    })
+  })
+}
+
 function registerUser(email: string, password: string, role: string) {
   console.log(`Creating new user: ${email}`)
   return fetch(`${AUTH_API_URL}/register`, {
@@ -413,6 +429,7 @@ export {
   getAllUsers,
   addUser,
   updateUserRole,
+  updateServerUserRole,
   getWorkspaces,
   createWorkspace
 }
