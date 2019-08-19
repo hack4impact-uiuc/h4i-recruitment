@@ -122,14 +122,14 @@ class InterviewListPage extends Component {
             </Row>
           ) : (
             <Row className="candidate-list-box">
-              {currentCandidate ? (
+              {currentCandidate && (
                 <CandidateInterviewsModal
                   isOpen={this.state.modalOpen}
                   candidateId={currentCandidate === undefined ? '' : currentCandidate._id}
                   exitModal={this.toggleModal}
                   candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
                 />
-              ) : null}
+              )}
               {candidates.map(candidate =>
                 candidate.interviews.length === 0 ? null : (
                   <>

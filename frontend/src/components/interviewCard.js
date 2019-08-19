@@ -11,16 +11,16 @@ class InterviewCard extends Component {
     this.handleDeleteClick = this.handleDeleteClick.bind(this)
   }
 
-  handleViewDetails() {
+  handleViewDetails = () => {
     this.props.onViewDetails(this.props.interview)
   }
 
-  async handleDeleteClick() {
+  handleDeleteClick = async () => {
     await this.props.handleDelete()
     this.toggle()
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       modal: !this.state.modal
     })
@@ -28,19 +28,19 @@ class InterviewCard extends Component {
 
   render() {
     const closeBtn = (
-      <button className="close" onClick={() => this.toggle()}>
+      <button className="close" onClick={this.toggle}>
         &times;
       </button>
     )
 
     return (
       <>
-        <Modal isOpen={this.state.modal} toggle={() => this.toggle()}>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader close={closeBtn}>
             Are you sure you want to delete this interview? You won't be able to get it back.
           </ModalHeader>
           <ModalFooter>
-            <Button onClick={() => this.toggle()}>Return</Button>
+            <Button onClick={this.toggle}>Return</Button>
             <Button color="danger" onClick={this.handleDeleteClick}>
               Delete
             </Button>
@@ -48,7 +48,7 @@ class InterviewCard extends Component {
         </Modal>
         <Card className="candidate-card">
           <CardBody>
-            <CardTitle onClick={() => this.handleViewDetails()}>
+            <CardTitle onClick={this.handleViewDetails}>
               Overall Interview Score: {this.props.overallScore}
             </CardTitle>
             <p>
@@ -59,10 +59,10 @@ class InterviewCard extends Component {
               {this.props.interviewer}
             </p>
             <>
-              <Button color="info" onClick={() => this.handleViewDetails()}>
+              <Button color="info" onClick={this.handleViewDetails}>
                 View Details
               </Button>
-              <Button color="danger" className="ml-3" onClick={() => this.toggle()}>
+              <Button color="danger" className="ml-3" onClick={this.toggle}>
                 Delete (Directors Only)
               </Button>
             </>

@@ -6,6 +6,12 @@ import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
 
+const closeBtn = (
+  <button className="close" onClick={this.props.exitModal}>
+    &times;
+  </button>
+)
+
 class CandidateInterviewsModal extends Component {
   constructor(props) {
     super(props)
@@ -53,12 +59,6 @@ class CandidateInterviewsModal extends Component {
   }
 
   render() {
-    const closeBtn = (
-      <button className="close" onClick={this.props.exitModal}>
-        &times;
-      </button>
-    )
-
     return (
       <Container>
         <Modal isOpen={this.props.isOpen} size="lg" toggle={this.props.exitModal}>

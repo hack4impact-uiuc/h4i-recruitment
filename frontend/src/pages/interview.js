@@ -247,7 +247,7 @@ class Interview extends Component<Props> {
 
           <Row>
             <Col>
-              {sections ? (
+              {sections && (
                 <Form>
                   {sections.map(section => (
                     <InterviewSectionModular
@@ -294,7 +294,7 @@ class Interview extends Component<Props> {
                     </Link>
                   </FormGroup>
                 </Form>
-              ) : null}
+              )}
             </Col>
             {/* <Col md="6">
             {candidate != undefined ? (

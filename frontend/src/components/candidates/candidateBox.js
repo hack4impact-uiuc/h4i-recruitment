@@ -167,23 +167,18 @@ class CandidateBox extends Component {
           <Col md={4}>
             <Row>
               <Col md={12}>
-                <h4 className="text-info pt-3 pb-2">Additional Information</h4>
-                {candidate.major ? (
-                  <p>
-                    <b>Major: </b>
-                    {candidate.major}
-                  </p>
-                ) : null}
-                {candidate.major ? (
+                <h5 className="text-info pt-3">Additional Information</h5>
+
+                {candidate.major && (
                   <p>
                     <b>Major:</b> {candidate.major}
                   </p>
-                ) : (
-                  <p> </p>
                 )}
-                <p>
-                  <b>Minor:</b> {candidate.minor}
-                </p>
+                {candidate.minor && (
+                  <p>
+                    <b>Minor:</b> {candidate.minor}
+                  </p>
+                )}
                 <p>
                   <b>Graduation Date:</b> {candidate.graduationDate}
                 </p>
