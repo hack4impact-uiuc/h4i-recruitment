@@ -76,7 +76,7 @@ class CandidatePage extends Component {
   }
 
   // handles the click to show all interviews. Modal pops up
-  async handleShowAllInterviews(id) {
+  handleShowAllInterviews = async id => {
     const { result } = await getCandidateInterviews(id)
     this.setState({
       interviews: result,
@@ -125,7 +125,6 @@ class CandidatePage extends Component {
       )
     }
     const { candidate } = this.state
-
     return (
       <>
         <Head title={candidate.name} />
@@ -133,7 +132,10 @@ class CandidatePage extends Component {
         <Container className="mt-5">
           <Row>
             <Col md={12}>
-              <Candidate candidate={candidate} />
+              <Candidate
+                candidate={candidate}
+                handleShowAllInterviews={this.handleShowAllInterviews}
+              />
             </Col>
           </Row>
 
@@ -152,24 +154,21 @@ class CandidatePage extends Component {
               <Button
                 outline
                 color="primary"
-                onClick={() => this.handleShowAllInterviews(candidate._id)}
-              >
-                Show Interviews
-              </Button>
-              <Button
-                outline
-                color="primary"
-                className="margin-sm-all"
                 onClick={() => this.handleStrongReferral(candidate._id)}
               >
                 Strong Refer
               </Button>
-              <Button outline color="primary" onClick={() => this.handleReferral(candidate._id)}>
+              <Button
+                outline
+                color="primary"
+                className="ml-3"
+                onClick={() => this.handleReferral(candidate._id)}
+              >
                 Refer
               </Button>
               <Button
                 outline
-                color="primary"
+                color="warning"
                 className="ml-3"
                 onClick={() => this.handleRemoveReferral(candidate._id)}
               >

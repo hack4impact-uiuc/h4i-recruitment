@@ -53,10 +53,16 @@ class CandidateInterviewsModal extends Component {
   }
 
   render() {
+    const closeBtn = (
+      <button className="close" onClick={this.props.exitModal}>
+        &times;
+      </button>
+    )
+
     return (
       <Container>
-        <Modal isOpen={this.props.isOpen}>
-          <ModalHeader>
+        <Modal isOpen={this.props.isOpen} size="lg" toggle={this.props.exitModal}>
+          <ModalHeader close={closeBtn}>
             {!this.state.viewDetails
               ? this.props.candidateName + "'s Interviews"
               : this.state.currentInterview.candidate_name +

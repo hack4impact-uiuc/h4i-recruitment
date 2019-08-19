@@ -86,7 +86,7 @@ class InterviewListPage extends Component {
           </Row>
           <ActionButton text="Back" onClick={Router.back} />
           <ActionButton
-            style={{ marginLeft: '10px' }}
+            className="ml-3"
             text="Show by Category"
             onClick={this.toggleShowByCategory}
           />
@@ -122,15 +122,17 @@ class InterviewListPage extends Component {
             </Row>
           ) : (
             <Row className="candidate-list-box">
+              {currentCandidate ? (
+                <CandidateInterviewsModal
+                  isOpen={this.state.modalOpen}
+                  candidateId={currentCandidate === undefined ? '' : currentCandidate._id}
+                  exitModal={this.toggleModal}
+                  candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
+                />
+              ) : null}
               {candidates.map(candidate =>
                 candidate.interviews.length === 0 ? null : (
                   <>
-                    <CandidateInterviewsModal
-                      isOpen={this.state.modalOpen}
-                      candidateId={candidate._id}
-                      exitModal={this.toggleModal}
-                      candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
-                    />
                     <CardCol key={candidate._id}>
                       <Card className="candidate-card h-100">
                         <CardTitle style={{ margin: '15px 0 0 0' }}>
