@@ -41,7 +41,7 @@ class AdminRoles extends React.Component {
   }
 
   render() {
-    const { users, isEditing } = this.state
+    const { users, isEditing, newRole, selectedUser } = this.state
     return (
       <>
         <Head title="Home" />
@@ -84,9 +84,7 @@ class AdminRoles extends React.Component {
                               color="success"
                               size="sm"
                               onClick={() => this.handleRoleSubmit(user.email)}
-                              disabled={
-                                !(this.state.newRole != -1 && this.state.selectedUser === i)
-                              }
+                              disabled={!(newRole != -1 && selectedUser === i)}
                             >
                               Submit
                             </Button>
