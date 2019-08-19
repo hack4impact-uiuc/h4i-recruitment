@@ -27,14 +27,12 @@ class AdminRoles extends React.Component {
   }
 
   handleRoleChange = (e, idx) => {
-    console.log(e)
     e.persist() // not sure why this is needed?
     this.setState({ newRole: e.target.value, selectedUser: idx })
   }
 
   handleRoleSubmit = userEmail => {
     updateUserRole(userEmail, this.state.newRole).then(resp => {
-      console.log(userEmail, this.state.newRole, resp)
       if (resp.success) {
         this.setState({ newRole: -1, selectedUser: -1 })
         this.getUsers()
@@ -105,7 +103,6 @@ class AdminRoles extends React.Component {
               disabled={isEditing}
               onClick={() => {
                 this.setState({ isEditing: true })
-                console.log(this.state)
               }}
             >
               Edit

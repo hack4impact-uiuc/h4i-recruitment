@@ -1,4 +1,6 @@
-// MongoDB schema representing a member of Hack4Impact
+/** Schema representing a H4I member
+ * Role should be one of the following: [Director, Lead, Member, Pending]
+ */
 const mongoose = require('mongoose')
 
 const User = new mongoose.Schema({

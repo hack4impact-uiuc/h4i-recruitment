@@ -68,7 +68,6 @@ class RegisterPage extends Component {
     addUser(firstName, lastName, email, resp.token, permissionRolesEnum.PENDING).then(resp => {
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully created.`)
-        console.log(resp)
       }
     })
   }
