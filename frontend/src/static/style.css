@@ -277,3 +277,13 @@ p > b {
 .workspace-selector {
   max-width: 120px;
 }
+
+.pending-card {
+  width: fit-content;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
