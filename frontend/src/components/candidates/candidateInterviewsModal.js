@@ -6,8 +6,8 @@ import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
 
-const closeBtn = (
-  <button className="close" onClick={this.props.exitModal}>
+const closeBtn = ({ exitModal }) => (
+  <button className="close" onClick={exitModal}>
     &times;
   </button>
 )

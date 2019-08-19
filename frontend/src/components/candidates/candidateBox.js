@@ -126,7 +126,7 @@ class CandidateBox extends Component {
               <Col md={6} className="text-right">
                 <Button
                   outline
-                  color="primary"
+                  color="info"
                   className="mt-3"
                   onClick={() => this.props.handleShowAllInterviews(candidate._id)}
                 >
