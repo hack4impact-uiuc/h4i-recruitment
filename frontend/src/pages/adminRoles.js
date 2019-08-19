@@ -16,14 +16,14 @@ class AdminRoles extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    this.getUsers()
+  }
+
   getUsers = () => {
     getAllUsers().then(resp => {
       this.setState({ users: resp.result })
     })
-  }
-
-  componentDidMount = () => {
-    this.getUsers()
   }
 
   handleRoleChange = (e, idx) => {

@@ -60,14 +60,19 @@ class RegisterPage extends Component {
     this.setState({ [name]: value })
   }
 
-  handleSuccessfulRegister = resp => {
+  handleCompleteRegister = resp => {
     const { firstName, lastName, email } = this.state
     localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
     Router.push('/dashboard')
 
     addUser(firstName, lastName, email, resp.token, permissionRolesEnum.PENDING).then(resp => {
       if (!resp.success) {
-        console.log(`User ${firstName} ${lastName} was not successfully created.`)
+        console.log(`User ${firstName} ${lastName} was not successfully recorded`)
+        this.setState({
+          errorMessage:
+            'Your account was successfully created, but not successfully recorded. Please contact an admin.',
+          showInvalidRequestModal: true
+        })
       }
     })
   }
@@ -83,7 +88,7 @@ class RegisterPage extends Component {
       // set google to true so server knows to send the request to google
       this.setCookie('google', true)
       // set localStorage value so it's valid across the whole site
-      this.handleSuccessfulRegister(resp)
+      this.handleCompleteRegister(resp)
     }
   }
 
@@ -93,14 +98,13 @@ class RegisterPage extends Component {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
       registerUser(email, password, permissionRolesEnum.PENDING).then(resp => {
-        console.log(resp)
-        if (resp.status === 400) {
+        if (!resp.success) {
           this.setState({
             errorMessage: 'Please make sure you do not have an existing account.',
             showInvalidRequestModal: true
           })
         } else {
-          this.handleSuccessfulRegister(resp)
+          this.handleCompleteRegister(resp)
         }
       })
     }
@@ -111,6 +115,15 @@ class RegisterPage extends Component {
   }
 
   render() {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordVerification,
+      errorMessage,
+      showInvalidRequestModal
+    } = this.state
     return (
       <>
         <Head />
@@ -124,21 +137,11 @@ class RegisterPage extends Component {
               <Form>
                 <FormGroup>
                   <Label for="exampleEmail">First Name</Label>
-                  <Input
-                    name="firstName"
-                    value={this.state.firstName}
-                    onChange={this.handleChange}
-                    required
-                  />
+                  <Input name="firstName" value={firstName} onChange={this.handleChange} required />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Last Name</Label>
-                  <Input
-                    name="lastName"
-                    value={this.state.lastName}
-                    onChange={this.handleChange}
-                    required
-                  />
+                  <Input name="lastName" value={lastName} onChange={this.handleChange} required />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Email</Label>
@@ -147,7 +150,7 @@ class RegisterPage extends Component {
                     name="email"
                     maxLength="64"
                     pattern={EMAIL_REGEX}
-                    value={this.state.email}
+                    value={email}
                     onChange={this.handleChange}
                     required
                   />
@@ -159,7 +162,7 @@ class RegisterPage extends Component {
                     name="password"
                     minLength="8"
                     maxLength="64"
-                    value={this.state.password}
+                    value={password}
                     onChange={this.handleChange}
                     required
                   />
@@ -171,7 +174,7 @@ class RegisterPage extends Component {
                     name="passwordVerification"
                     minLength="8"
                     maxLength="64"
-                    value={this.state.passwordVerification}
+                    value={passwordVerification}
                     onChange={this.handleChange}
                     required
                   />
@@ -203,11 +206,9 @@ class RegisterPage extends Component {
           >
             {'Already have an account? Login here.'}
           </Button>
-          <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
+          <Modal autoFocus={false} isOpen={showInvalidRequestModal}>
             <ModalHeader>{'Your request was invalid.'}</ModalHeader>
-            <ModalBody>
-              {this.state.errorMessage || 'There was an error in your request.'}
-            </ModalBody>
+            <ModalBody>{errorMessage || 'There was an error in your request.'}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
                 Close
