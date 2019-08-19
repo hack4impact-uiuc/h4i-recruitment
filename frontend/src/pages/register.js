@@ -68,8 +68,7 @@ class RegisterPage extends Component {
       // set google to true so server knows to send the request to google
       this.setCookie('google', true)
       // set localStorage value so it's valid across the whole site
-      localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-      Router.push('/dashboard')
+      Router.push('/pendingPage')
     }
   }
 
@@ -85,8 +84,7 @@ class RegisterPage extends Component {
             showInvalidRequestModal: true
           })
         } else {
-          localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-          Router.push('/dashboard')
+          Router.push('/pendingPage')
         }
       })
     }

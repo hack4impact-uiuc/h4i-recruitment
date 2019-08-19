@@ -22,7 +22,9 @@ import {
 } from 'reactstrap'
 import cookie from 'js-cookie'
 
-const MEMBER_KEY = 'ohno'
+const MEMBER_KEY = process.env.MEMBER_KEY
+const LEAD_KEY = process.env.LEADS_KEY
+const DIRECTOR_KEY = process.env.DIRECTORS_KEY
 
 class LoginPage extends Component {
   constructor(props) {
@@ -57,8 +59,7 @@ class LoginPage extends Component {
       // set google to true so server knows to send the request to google
       this.setCookie('google', true)
       // set localStorage value so it's valid across the whole site
-      localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-      Router.push('/dashboard')
+      this.setRoleKey(response.role)
     }
   }
 
@@ -75,10 +76,24 @@ class LoginPage extends Component {
       if (!response.success) {
         this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-        Router.push('/dashboard')
+        this.setRoleKey(response.role)
       }
     })
+  }
+
+  setRoleKey = role => {
+    if (role != 'Pending') {
+      if (role === 'Director') {
+        localStorage.setItem('interviewerKey', DIRECTOR_KEY)
+      } else if (role === 'Lead') {
+        localStorage.setItem('interviewerKey', LEAD_KEY)
+      } else {
+        localStorage.setItem('interviewerKey', MEMBER_KEY)
+      }
+      Router.push('/dashboard')
+    } else {
+      Router.push('/pendingPage')
+    }
   }
 
   handleInvalidRequestModalClose = () => {

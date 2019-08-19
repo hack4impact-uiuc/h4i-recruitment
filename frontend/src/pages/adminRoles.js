@@ -5,8 +5,6 @@ import ChangeYear from '../components/changeYear'
 import Head from '../components/head'
 import Nav from '../components/nav'
 
-const SAMPLE_MEMBER_ID = 1234
-
 class AdminRoles extends React.Component {
   constructor(props) {
     super(props)

@@ -13,7 +13,7 @@ const API_URL =
     : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
-const AUTH_API_URL = 'h4i-portal-infra-server.now.sh'
+const AUTH_API_URL = 'https://h4i-infra-server.n3a9.now.sh'
 
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
