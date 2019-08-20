@@ -79,7 +79,6 @@ class InterviewSectionModular extends Component {
         options.push({ name: this.props.textOptions[i], value: this.props.textOptions[i] })
       }
     }
-    console.log('notes', this.props.type, this.props.notesPrompt)
     return (
       <InterviewSectionCard title={this.props.title}>
         {this.props.description && (
