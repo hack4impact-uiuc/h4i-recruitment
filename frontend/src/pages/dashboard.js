@@ -26,7 +26,7 @@ import { ChangeStatus, ErrorMessage } from '../components/common'
 import { getCandidates, setCandidateStatus } from '../utils/api'
 import { avgInterviewScore, compareByAvgInterviewScore, getNumOfInterviews } from '../utils/core'
 import { selectByEnum } from '../utils/enums'
-import InfoAlert from '../components/dashboard/infoAlert'
+import UpdateAlert from '../components/dashboard/updateAlert'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -131,8 +131,6 @@ class Dashboard extends Component {
         workspaceFilterPresent ? this.state.filters.workspaces.includes(x.workspace) : true
       )
 
-    filteredCandidates
-
     // TODO: Convert these cases into enum comparisons
     switch (this.state.filters.sortBy[0]) {
       case 'Name':
@@ -177,7 +175,7 @@ class Dashboard extends Component {
                 <Col lg="9" md="8">
                   <Container>
                     <Row>
-                      <InfoAlert />
+                      <UpdateAlert />
                     </Row>
                     <Row>
                       <Col sm={7}>
@@ -319,9 +317,8 @@ class Dashboard extends Component {
 
                                 {selects.includes('Facemash Score') && (
                                   <td>
-                                    {candidate.facemashRankings != undefined
-                                      ? candidate.facemashRankings.elo
-                                      : null}
+                                    {candidate.facemashRankings != undefined &&
+                                      candidate.facemashRankings.elo}
                                   </td>
                                 )}
 
