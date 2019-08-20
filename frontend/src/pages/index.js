@@ -65,24 +65,10 @@ class LoginPage extends Component {
         console.log(response)
         this.setState({ showInvalidRequestModal: true })
       } else {
-        this.setRoleKey(response.role)
+        localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
+        Router.push('/dashboard')
       }
     })
-  }
-
-  setRoleKey = role => {
-    if (role != 'Pending') {
-      if (role === 'Director') {
-        localStorage.setItem('interviewerKey', DIRECTOR_KEY)
-      } else if (role === 'Lead') {
-        localStorage.setItem('interviewerKey', LEAD_KEY)
-      } else {
-        localStorage.setItem('interviewerKey', MEMBER_KEY)
-      }
-      Router.push('/dashboard')
-    } else {
-      Router.push('/pendingPage')
-    }
   }
 
   handleInvalidRequestModalClose = () => {
