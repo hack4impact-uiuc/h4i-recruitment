@@ -295,3 +295,7 @@ p > b {
 .workspace-selector {
   max-width: 120px;
 }
+
+.dashboard .db-alert {
+  width: 100%;
+}
