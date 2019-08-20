@@ -6,6 +6,12 @@ import InterviewCard from '../interviewCard'
 import InterviewDetails from '../interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
 
+const closeBtn = ({ exitModal }) => (
+  <button className="close" onClick={exitModal}>
+    &times;
+  </button>
+)
+
 class CandidateInterviewsModal extends Component {
   constructor(props) {
     super(props)
@@ -55,8 +61,8 @@ class CandidateInterviewsModal extends Component {
   render() {
     return (
       <Container>
-        <Modal isOpen={this.props.isOpen}>
-          <ModalHeader>
+        <Modal isOpen={this.props.isOpen} size="lg" toggle={this.props.exitModal}>
+          <ModalHeader close={closeBtn}>
             {!this.state.viewDetails
               ? this.props.candidateName + "'s Interviews"
               : this.state.currentInterview.candidate_name +

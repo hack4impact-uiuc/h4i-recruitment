@@ -90,7 +90,7 @@ class InterviewPortal extends Component {
 
     return (
       <>
-        <Head title="Interviews" />
+        <Head title="Your Interviews" />
         <Nav />
         <Container>
           <h1>Interviews</h1>

@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, Table, Button } from 'reactstrap'
 import { setCandidateStatus } from '../../utils/api'
 import { setStatus } from '../../actions/actionCreators'
 import ErrorMessage from '../errorMessage'
@@ -75,7 +75,7 @@ class CandidateBox extends Component {
           <Col md={6} className="text-right">
             {!this.props.hideStatus && (
               <a>
-                <p>
+                <p className="mt-2">
                   Change Status:{' '}
                   <ChangeStatus status={this.state.status} handleChange={this.handleChange} />
                 </p>
@@ -119,21 +119,49 @@ class CandidateBox extends Component {
             <p>
               <b>Additional Comments:</b> {candidate.additionalComments}
             </p>
-            <h5 className="text-info pt-3">Interview Information</h5>
-            <p>
-              <b>Average Score: </b> {this.state.avgInterviewScore}
-            </p>
-            {this.state.interviews.map(interview => (
-              <p key={interview._id}>
-                <b>Interviewer: </b>
-                {interview.interviewer_name}
-                {interviewGetCategorySection(interview) !== null ? (
-                  <p>
-                    <b>Category given:</b> {interviewGetCategorySection(interview).response.text}
-                  </p>
-                ) : null}
-              </p>
-            ))}
+            <Row>
+              <Col md={6}>
+                <h4 className="text-info pt-3 pb-2">Interview Information</h4>
+              </Col>
+              <Col md={6} className="text-right">
+                <Button
+                  outline
+                  color="info"
+                  className="mt-3"
+                  onClick={() => this.props.handleShowAllInterviews(candidate._id)}
+                >
+                  Show Interviews
+                </Button>
+              </Col>
+            </Row>
+            <div className="round-info-box">
+              <Table borderless className="seventy-percent-width">
+                <tbody>
+                  <tr>
+                    <td>
+                      <b>Average Score: </b>
+                    </td>
+                    <td>{this.state.avgInterviewScore}</td>
+                  </tr>
+                  {this.state.interviews.map(interview => (
+                    <tr key={interview._id}>
+                      <td>
+                        <b>Interviewer: </b>
+                      </td>
+                      <td>
+                        {interview.interviewer_name}
+                        {interviewGetCategorySection(interview) !== null && (
+                          <p>
+                            <b>Category given:</b>{' '}
+                            {interviewGetCategorySection(interview).response.text}
+                          </p>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
           </Col>
 
           <Col md={4}>
@@ -141,21 +169,21 @@ class CandidateBox extends Component {
               <Col md={12}>
                 <h5 className="text-info pt-3">Additional Information</h5>
 
-                {candidate.major ? (
+                {candidate.major && (
                   <p>
                     <b>Major:</b> {candidate.major}
                   </p>
-                ) : (
-                  <p> </p>
                 )}
-                <p>
-                  <b>Minor:</b> {candidate.minor}
-                </p>
+                {candidate.minor && (
+                  <p>
+                    <b>Minor:</b> {candidate.minor}
+                  </p>
+                )}
                 <p>
                   <b>Graduation Date:</b> {candidate.graduationDate}
                 </p>
                 <p>
-                  <b>Year</b> {candidate.year}
+                  <b>Year:</b> {candidate.year}
                 </p>
                 <p>
                   <b>Github Contributions:</b> {candidate.githubContributions}
@@ -171,7 +199,7 @@ class CandidateBox extends Component {
 
             <Row>
               <Col md={12}>
-                <h5 className="text-info pt-3">Facemash Statistics</h5>
+                <h4 className="text-info pt-3">Facemash Statistics</h4>
                 <p>
                   <b>Facemash Score: </b> {candidate.facemashRankings.elo}
                 </p>

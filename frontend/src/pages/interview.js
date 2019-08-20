@@ -247,52 +247,54 @@ class Interview extends Component<Props> {
 
           <Row>
             <Col>
-              <Form>
-                {sections.map(section => (
-                  <InterviewSectionModular
-                    title={section.title}
-                    description={section.description}
-                    prompt={section.prompt}
-                    type={section.type}
-                    scoreOptions={section.scoreOptions}
-                    textOptions={section.textOptions}
-                    notesPrompt={section.notesPrompt}
-                    response={section.response}
-                  />
-                ))}
-                <InterviewSectionCard title="General Notes">
-                  <Label>
-                    <b>
-                      Any other notes that the rubric didn&#39;t cover or emphasis you&#39;d like to
-                      make? Any general thoughts about this Candidate?
-                    </b>
-                  </Label>
-                  <Input
-                    style={{ height: '150px' }}
-                    type="textarea"
-                    className="textarea-input"
-                    name="generalNotes"
-                    value={this.state.generalNotes}
-                    onChange={this.handleChange}
-                    placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
-                    invalid={this.state.generalNotes === ''}
-                  />
-                  <FormFeedback>
-                    Please fill in your general thoughts about this candidate!
-                  </FormFeedback>
-                </InterviewSectionCard>
-                <FormGroup>
-                  <Link prefetch href="/interviewportal">
-                    <Button
-                      disabled={this.state.generalNotes === ''}
-                      color="primary"
-                      onClick={this.handleSubmitClick}
-                    >
-                      Submit
-                    </Button>
-                  </Link>
-                </FormGroup>
-              </Form>
+              {sections && (
+                <Form>
+                  {sections.map(section => (
+                    <InterviewSectionModular
+                      title={section.title}
+                      description={section.description}
+                      prompt={section.prompt}
+                      type={section.type}
+                      scoreOptions={section.scoreOptions}
+                      textOptions={section.textOptions}
+                      notesPrompt={section.notesPrompt}
+                      response={section.response}
+                    />
+                  ))}
+                  <InterviewSectionCard title="General Notes">
+                    <Label>
+                      <b>
+                        Any other notes that the rubric didn&#39;t cover or emphasis you&#39;d like
+                        to make? Any general thoughts about this Candidate?
+                      </b>
+                    </Label>
+                    <Input
+                      style={{ height: '150px' }}
+                      type="textarea"
+                      className="textarea-input"
+                      name="generalNotes"
+                      value={this.state.generalNotes}
+                      onChange={this.handleChange}
+                      placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
+                      invalid={this.state.generalNotes === ''}
+                    />
+                    <FormFeedback>
+                      Please fill in your general thoughts about this candidate!
+                    </FormFeedback>
+                  </InterviewSectionCard>
+                  <FormGroup>
+                    <Link prefetch href="/interviewportal">
+                      <Button
+                        disabled={this.state.generalNotes === ''}
+                        color="primary"
+                        onClick={this.handleSubmitClick}
+                      >
+                        Submit
+                      </Button>
+                    </Link>
+                  </FormGroup>
+                </Form>
+              )}
             </Col>
             {/* <Col md="6">
             {candidate != undefined ? (

@@ -137,13 +137,11 @@ class NavigationBar extends Component {
                   <a className="nav-bar-link pl-3">Dashboard</a>
                 </Link>
               </NavItem>
-              {this.state.isDirector && (
-                <NavItem>
-                  <Link prefetch href="/workspaces">
-                    <a className="nav-bar-link pl-3">Workspaces</a>
-                  </Link>
-                </NavItem>
-              )}
+              <NavItem>
+                <Link prefetch href="/table">
+                  <a className="nav-bar-link pl-3">Table View</a>
+                </Link>
+              </NavItem>
               {this.state.isLead && (
                 <>
                   <NavItem>
@@ -151,9 +149,10 @@ class NavigationBar extends Component {
                       <a className="nav-bar-link pl-3">Events</a>
                     </Link>
                   </NavItem>
+
                   <NavItem>
-                    <Link prefetch href="/analytics">
-                      <a className="nav-bar-link pl-3">Analytics</a>
+                    <Link prefetch href="/interviewportal">
+                      <a className="nav-bar-link pl-3">Your Interviews</a>
                     </Link>
                   </NavItem>
                   <NavItem>
@@ -174,26 +173,33 @@ class NavigationBar extends Component {
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link prefetch href="/table">
-                      <a className="nav-bar-link pl-3">Table View</a>
-                    </Link>
-                  </NavItem>
-                  <NavItem>
                     <Link prefetch href="/stats">
                       <a className="nav-bar-link pl-3">Emails/Stats</a>
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link prefetch href="/rounds">
-                      <a className="nav-bar-link pl-3">Rounds</a>
+                    <Link prefetch href="/analytics">
+                      <a className="nav-bar-link pl-3">Analytics</a>
                     </Link>
                   </NavItem>
                   {this.state.isDirector && (
-                    <NavItem>
-                      <Link prefetch href="/adminRoles">
-                        <a className="nav-bar-link pl-3">Admin</a>
-                      </Link>
-                    </NavItem>
+                    <>
+                      <NavItem>
+                        <Link prefetch href="/workspaces">
+                          <a className="nav-bar-link pl-3">Workspaces</a>
+                        </Link>
+                      </NavItem>
+                      <NavItem>
+                        <Link prefetch href="/rounds">
+                          <a className="nav-bar-link pl-3">Rounds</a>
+                        </Link>
+                      </NavItem>
+                      <NavItem>
+                        <Link prefetch href="/adminRoles">
+                          <a className="nav-bar-link pl-3">Admin</a>
+                        </Link>
+                      </NavItem>
+                    </>
                   )}
                 </>
               )}
