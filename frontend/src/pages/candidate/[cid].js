@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Row, Col } from 'reactstrap'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 import Head from '../../components/head'
 import { bindActionCreators } from 'redux'
 import Candidate from '../../components/candidates/candidateBox'
