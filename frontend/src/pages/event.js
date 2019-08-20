@@ -5,7 +5,7 @@ import Head from '../components/head'
 import { getEventById, getEventAttendees, eventCheckin } from '../utils/api'
 import Router from 'next/router'
 import Link from 'next/link'
-import ActionButton from '../components/actionButton'
+import { ActionButton } from '../components/common'
 import EventsModal from '../components/eventsModal'
 import { newAttendeeFields } from '../utils/formFields'
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Container } from 'reactstrap'
-import ActionButton from '../components/actionButton'
+import { ActionButton } from '../components/common'
 import Nav from '../components/nav'
 import { getAllEvents, createEvent } from '../utils/api'
 import Head from '../components/head'

@@ -7,7 +7,7 @@ import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 import { compareByFacemashScore } from '../utils/core'
-import ChangeStatus from '../components/changeStatus'
+import { ChangeStatus } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 

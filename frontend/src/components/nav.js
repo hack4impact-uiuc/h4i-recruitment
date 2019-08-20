@@ -17,11 +17,11 @@ import {
   Container,
   NavItem
 } from 'reactstrap'
+import { connect } from 'react-redux'
 import { validateKey, getKey, getRound } from '../utils/api'
 import roundData from '../data/roundData.js'
 import { setRoundRedux } from '../actions'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
   round: state.round
