@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const { errorWrap } = require('../middleware')
+const { directorsOnly, errorWrap } = require('../middleware')
 const { User } = require('../models')
 
 // get all users
 router.get(
   '/',
+  [directorsOnly],
   errorWrap(async (req, res) => {
     const users = await User.find()
     res.json({
@@ -17,6 +18,7 @@ router.get(
 )
 
 // post new user
+// needed during registration, so not directorsOnly
 router.post(
   '/',
   errorWrap(async (req, res) => {
@@ -49,6 +51,7 @@ router.post(
 // update a user's role
 router.put(
   '/',
+  [directorsOnly],
   errorWrap(async (req, res) => {
     if (!req.body.email || !req.body.role) {
       return res.json({
