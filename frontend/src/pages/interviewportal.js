@@ -126,9 +126,7 @@ class InterviewPortal extends Component {
                     <tr key={i + 1}>
                       <td>{i + 1}</td>
                       <td>
-                        <Link
-                          href={{ pathname: '/candidate', query: { id: interview.candidate_id } }}
-                        >
+                        <Link href="/candidate/[cid]" as={`/candidate/${interview.candidate_id}`}>
                           <a className="regular-anchor">{interview.candidate_name}</a>
                         </Link>
                       </td>

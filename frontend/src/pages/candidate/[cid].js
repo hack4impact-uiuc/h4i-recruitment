@@ -2,14 +2,14 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Row, Col } from 'reactstrap'
 import Router from 'next/router'
-import Head from '../components/head'
+import Head from '../../components/head'
 import { bindActionCreators } from 'redux'
-import Candidate from '../components/candidates/candidateBox'
-import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
-import AddCommentsModal from '../components/comments/addCommentsModal'
-import CommentBox from '../components/comments/commentBox'
-import ErrorMessage from '../components/errorMessage'
-import Nav from '../components/nav'
+import Candidate from '../../components/candidates/candidateBox'
+import CandidateInterviewsModal from '../../components/candidates/candidateInterviewsModal'
+import AddCommentsModal from '../../components/comments/addCommentsModal'
+import CommentBox from '../../components/comments/commentBox'
+import ErrorMessage from '../../components/errorMessage'
+import Nav from '../../components/nav'
 import {
   addReferral,
   addStrongReferral,
@@ -17,8 +17,8 @@ import {
   getCandidateById,
   addCommentToCandidate,
   getCandidateInterviews
-} from '../utils/api'
-import { addInterviewCandidate } from './../actions'
+} from '../../utils/api'
+import { addInterviewCandidate } from '../../actions'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -43,10 +43,9 @@ class CandidatePage extends Component {
       comments: []
     }
   }
-
   async componentDidMount() {
-    const { query } = Router
-    const { result } = await getCandidateById(query.id)
+    const query = Router.query
+    const { result } = await getCandidateById(query.cid)
     this.setState({
       candidate: result,
       comments: result != undefined ? result.comments : []

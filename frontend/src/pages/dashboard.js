@@ -202,9 +202,7 @@ class Dashboard extends Component {
                               <th scope="row">{key + 1}</th>
                               {selects.includes('Name') && (
                                 <td>
-                                  <Link
-                                    href={{ pathname: '/candidate', query: { id: candidate._id } }}
-                                  >
+                                  <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                                     <a className="regular-anchor">{candidate.name}</a>
                                   </Link>
                                 </td>
@@ -278,9 +276,7 @@ class Dashboard extends Component {
                                 />
                               </td>
                               <td>
-                                <Link
-                                  href={{ pathname: '/candidate', query: { id: candidate._id } }}
-                                >
+                                <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                                   <a>
                                     <img height="10" src="/static/icons/external-icon.png" />
                                   </a>

@@ -108,7 +108,10 @@ class InterviewListPage extends Component {
                             interviewGetCategorySection(interview) !== null &&
                             interviewGetCategorySection(interview).response.text === category ? (
                               <li>
-                                <Link href={`/candidate?id=${interview.candidate_id}`}>
+                                <Link
+                                  href="/candidate/[cid]"
+                                  as={`/candidate/${interview.candidate_id}`}
+                                >
                                   {interview.candidate_name}
                                 </Link>
                               </li>
@@ -138,7 +141,7 @@ class InterviewListPage extends Component {
                         <CardTitle style={{ margin: '15px 0 0 0' }}>
                           {candidate.name && (
                             <>
-                              <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                              <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                                 <a className="m-3 card-title inline">{candidate.name}</a>
                               </Link>
                               <p

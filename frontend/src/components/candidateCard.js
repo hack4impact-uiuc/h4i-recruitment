@@ -10,11 +10,7 @@ import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 
-const handler = (_id: string) =>
-  Router.push({
-    pathname: '/candidate',
-    query: { id: _id }
-  })
+const handler = (_id: string) => Router.push('/candidate/[cid]', (as = `/candidate/${_id}`))
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -48,7 +44,7 @@ class CandidateCardComponent extends Component {
             <Row>
               <Col md={12}>
                 {candidate.name && (
-                  <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                  <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                     <a className="card-title">{candidate.name}</a>
                   </Link>
                 )}

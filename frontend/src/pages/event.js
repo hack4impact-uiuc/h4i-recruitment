@@ -125,9 +125,7 @@ class Event extends Component {
                     <tr key={attendee._id}>
                       <td>
                         {attendee.candidateId ? (
-                          <Link
-                            href={{ pathname: '/candidate', query: { id: attendee.candidateId } }}
-                          >
+                          <Link href="/candidate/[cid]" as={`/candidate/${attendee.candidateId}`}>
                             <a className="regular-anchor">{attendee.name}</a>
                           </Link>
                         ) : (
