@@ -1,9 +1,21 @@
 import React from 'react'
-import { Button, Table, Card, CardBody } from 'reactstrap'
+import {
+  Button,
+  Table,
+  Card,
+  CardBody,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  FormGroup,
+  Input,
+  Label
+} from 'reactstrap'
 import ChangeRole from '../components/changeRole'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import { getAllUsers, updateUserRole } from '../utils/api'
+import { getAllUsers, updateUserRole, updateServerUserRole } from '../utils/api'
 
 class AdminRoles extends React.Component {
   constructor(props) {
@@ -12,7 +24,10 @@ class AdminRoles extends React.Component {
       isEditing: false,
       newRole: -1,
       selectedUser: -1,
-      users: []
+      users: [],
+      adminPassword: '',
+      showPasswordModal: false,
+      error: ''
     }
   }
 
@@ -32,16 +47,46 @@ class AdminRoles extends React.Component {
   }
 
   handleRoleSubmit = userEmail => {
-    updateUserRole(userEmail, this.state.newRole).then(resp => {
-      if (resp.success) {
-        this.setState({ newRole: -1, selectedUser: -1 })
-        this.getUsers()
+    if (this.state.adminPassword === '') {
+      this.setState({ showPasswordModal: true })
+    }
+  }
+
+  handleChange = event => {
+    const value = event.target.value
+    const name = event.target.name
+    this.setState({ [name]: value })
+  }
+
+  handlePasswordComplete = () => {
+    const { users, selectedUser, newRole, adminPassword } = this.state
+
+    updateServerUserRole(users[selectedUser].email, newRole, adminPassword).then(resp => {
+      if (resp.status != 400) {
+        updateUserRole(userEmail, newRole).then(resp => {
+          if (resp.success) {
+            this.setState({ newRole: -1, selectedUser: -1, showPasswordModal: false })
+            this.getUsers()
+          } else {
+            this.setState({ error: resp.message })
+          }
+        })
+      } else {
+        this.setState({ error: resp.message })
       }
     })
   }
 
   render() {
-    const { users, isEditing, newRole, selectedUser } = this.state
+    const {
+      users,
+      isEditing,
+      newRole,
+      selectedUser,
+      adminPassword,
+      showPasswordModal,
+      error
+    } = this.state
     return (
       <>
         <Head title="Home" />
@@ -105,15 +150,52 @@ class AdminRoles extends React.Component {
             >
               Edit
             </Button>
-            <Button
-              variant="info"
-              disabled={!isEditing}
-              onClick={() => this.setState({ isEditing: false })}
-            >
-              Save
-            </Button>
+            {isEditing && (
+              <Button variant="info" onClick={() => this.setState({ isEditing: false })}>
+                Back to View
+              </Button>
+            )}
           </CardBody>
         </Card>
+        <Modal autoFocus={false} isOpen={showPasswordModal}>
+          <ModalHeader>{'Please enter your password.'}</ModalHeader>
+          <ModalBody>
+            <FormGroup>
+              <Label for="examplePassword">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                value={adminPassword}
+                onChange={this.handleChange}
+                required
+              />
+            </FormGroup>
+            {error != '' && (
+              <>
+                <p>There was an error with your request. Please try again.</p>
+                <p>{error}</p>
+              </>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="success"
+              size="sm"
+              onClick={this.handlePasswordComplete}
+              color="secondary"
+            >
+              Submit
+            </Button>
+            <Button
+              color="warning"
+              size="sm"
+              onClick={() => this.setState({ showPasswordModal: false })}
+              color="secondary"
+            >
+              x
+            </Button>
+          </ModalFooter>
+        </Modal>
       </>
     )
   }

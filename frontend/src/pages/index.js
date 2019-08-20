@@ -20,7 +20,7 @@ import {
   ModalHeader,
   ModalFooter
 } from 'reactstrap'
-import cookie from 'js-cookie'
+import { setCookie } from '../utils/cookieUtils'
 
 const MEMBER_KEY = 'ohno'
 
@@ -35,17 +35,6 @@ class LoginPage extends Component {
     }
   }
 
-  // use cookie to hold information that is valid across the whole site
-  setCookie = (key, value) => {
-    const cookieExpirationDays = 1
-    if (process.browser) {
-      cookie.set(key, value, {
-        expires: cookieExpirationDays,
-        path: '/'
-      })
-    }
-  }
-
   handleGoogle = async e => {
     const result = await loginGoogleUser(e.tokenId)
     const response = await result.json()
@@ -53,9 +42,9 @@ class LoginPage extends Component {
       this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
-      this.setCookie('token', e.tokenId)
+      setCookie('token', e.tokenId)
       // set google to true so server knows to send the request to google
-      this.setCookie('google', true)
+      setCookie('google', true)
       // set localStorage value so it's valid across the whole site
       localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
       Router.push('/dashboard')
@@ -72,13 +61,28 @@ class LoginPage extends Component {
     const { email, password } = this.state
     console.log(`Logging in ${email}`)
     loginUser(email, password).then(response => {
-      if (!response.success) {
+      if (response.status != 200) {
+        console.log(response)
         this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-        Router.push('/dashboard')
+        this.setRoleKey(response.role)
       }
     })
+  }
+
+  setRoleKey = role => {
+    if (role != 'Pending') {
+      if (role === 'Director') {
+        localStorage.setItem('interviewerKey', DIRECTOR_KEY)
+      } else if (role === 'Lead') {
+        localStorage.setItem('interviewerKey', LEAD_KEY)
+      } else {
+        localStorage.setItem('interviewerKey', MEMBER_KEY)
+      }
+      Router.push('/dashboard')
+    } else {
+      Router.push('/pendingPage')
+    }
   }
 
   handleInvalidRequestModalClose = () => {

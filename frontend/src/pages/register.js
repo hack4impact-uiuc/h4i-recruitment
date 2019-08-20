@@ -7,7 +7,7 @@ import { registerUser, loginGoogleUser, addUser } from '../utils/api'
 import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
-import cookie from 'js-cookie'
+import { setCookie } from '../utils/cookieUtils'
 import {
   Container,
   Form,
@@ -43,17 +43,6 @@ class RegisterPage extends Component {
     }
   }
 
-  // use cookie to hold information that is valid across the whole site
-  setCookie = (key, value) => {
-    const cookieExpirationDays = 1
-    if (process.browser) {
-      cookie.set(key, value, {
-        expires: cookieExpirationDays,
-        path: '/'
-      })
-    }
-  }
-
   handleChange = event => {
     const value = event.target.value
     const name = event.target.name
@@ -84,9 +73,9 @@ class RegisterPage extends Component {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
-      this.setCookie('token', e.tokenId)
+      setCookie('token', e.tokenId)
       // set google to true so server knows to send the request to google
-      this.setCookie('google', true)
+      setCookie('google', true)
       // set localStorage value so it's valid across the whole site
       this.handleCompleteRegister(resp)
     }
@@ -97,8 +86,9 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, permissionRolesEnum.PENDING).then(resp => {
-        if (!resp.success) {
+      registerUser(email, password, permissionRolesEnum.DIRECTOR).then(resp => {
+        if (!resp.status === 400) {
+          console.log(resp)
           this.setState({
             errorMessage: 'Please make sure you do not have an existing account.',
             showInvalidRequestModal: true
