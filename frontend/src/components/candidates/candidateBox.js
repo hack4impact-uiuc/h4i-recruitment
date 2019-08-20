@@ -150,12 +150,12 @@ class CandidateBox extends Component {
                       </td>
                       <td>
                         {interview.interviewer_name}
-                        {interviewGetCategorySection(interview) !== null ? (
+                        {interviewGetCategorySection(interview) !== null && (
                           <p>
                             <b>Category given:</b>{' '}
                             {interviewGetCategorySection(interview).response.text}
                           </p>
-                        ) : null}
+                        )}
                       </td>
                     </tr>
                   ))}
