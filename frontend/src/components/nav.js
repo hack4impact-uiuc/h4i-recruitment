@@ -87,20 +87,23 @@ class NavigationBar extends Component {
   }
 
   async componentDidMount() {
-    if (getKey() != undefined) {
-      const { success, result } = await validateKey(getKey())
-      if (success) {
-        this.setState({
-          isLead: result.is_lead,
-          isDirector: result.is_director,
-          loggedIn: true,
-          username: result.name
-        })
-      }
+    if (getKey() === undefined) {
+      return
     }
-    const res = await getRound()
-    if (res.result) {
-      this.props.setRoundRedux(res.result.round)
+    const { success, result } = await validateKey(getKey())
+    if (success) {
+      this.setState({
+        isLead: result.is_lead,
+        isDirector: result.is_director,
+        loggedIn: true,
+        username: result.name
+      })
+    }
+
+    // get interview round data
+    const round = await getRound()
+    if (round.result) {
+      this.props.setRoundRedux(round.result.round)
     } else {
       this.props.setRoundRedux(0)
     }
@@ -117,11 +120,11 @@ class NavigationBar extends Component {
     return (
       <>
         <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
-          <Link prefetch href={this.state.loggedIn ? '/dashboard' : '/'}>
-            <NavbarBrand className="ml-3">
+          <NavbarBrand className="ml-3">
+            <Link href={this.state.loggedIn ? '/dashboard' : '/'}>
               <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
-            </NavbarBrand>
-          </Link>
+            </Link>
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.showLoginModal} navbar>
             <Nav navbar className="ml-auto">
@@ -133,31 +136,30 @@ class NavigationBar extends Component {
                 </NavItem>
               )}
               <NavItem>
-                <Link prefetch href="/dashboard">
+                <Link href="/dashboard">
                   <a className="nav-bar-link pl-3">Dashboard</a>
                 </Link>
               </NavItem>
               <NavItem>
-                <Link prefetch href="/table">
+                <Link href="/table">
                   <a className="nav-bar-link pl-3">Table View</a>
                 </Link>
               </NavItem>
               {this.state.isLead && (
                 <>
                   <NavItem>
-                    <Link prefetch href="/eventOverview">
+                    <Link href="/eventOverview">
                       <a className="nav-bar-link pl-3">Events</a>
                     </Link>
                   </NavItem>
 
                   <NavItem>
-                    <Link prefetch href="/interviewportal">
+                    <Link href="/interviewportal">
                       <a className="nav-bar-link pl-3">Your Interviews</a>
                     </Link>
                   </NavItem>
                   <NavItem>
                     <Link
-                      prefetch
                       href={
                         roundData.rounds[this.props.round].type == 'interview'
                           ? '/interviewportal'
@@ -168,34 +170,34 @@ class NavigationBar extends Component {
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link prefetch href="/interviewschedule">
+                    <Link href="/interviewschedule">
                       <a className="nav-bar-link pl-3">Interview Schedule</a>
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link prefetch href="/stats">
+                    <Link href="/stats">
                       <a className="nav-bar-link pl-3">Emails/Stats</a>
                     </Link>
                   </NavItem>
                   <NavItem>
-                    <Link prefetch href="/analytics">
+                    <Link href="/analytics">
                       <a className="nav-bar-link pl-3">Analytics</a>
                     </Link>
                   </NavItem>
                   {this.state.isDirector && (
                     <>
                       <NavItem>
-                        <Link prefetch href="/workspaces">
+                        <Link href="/workspaces">
                           <a className="nav-bar-link pl-3">Workspaces</a>
                         </Link>
                       </NavItem>
                       <NavItem>
-                        <Link prefetch href="/rounds">
+                        <Link href="/rounds">
                           <a className="nav-bar-link pl-3">Rounds</a>
                         </Link>
                       </NavItem>
                       <NavItem>
-                        <Link prefetch href="/adminRoles">
+                        <Link href="/adminRoles">
                           <a className="nav-bar-link pl-3">Admin</a>
                         </Link>
                       </NavItem>

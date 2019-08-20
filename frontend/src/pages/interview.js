@@ -18,7 +18,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Router from 'next/router'
-import { fetchAllCandidates, addFilter, removeFilter } from '../actions'
+import { fetchAllCandidates, addFilter, removeFilter, fetchCandidatesSuccess } from '../actions'
 import CandidateDropdown from '../components/candidateDropdown'
 import ErrorMessage from '../components/errorMessage'
 import InterviewSectionCard from '../components/interviewSectionCard'
@@ -40,6 +40,7 @@ type Props = {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
+      fetchCandidatesSuccess,
       fetchAllCandidates,
       addFilter,
       removeFilter
@@ -64,7 +65,7 @@ class Interview extends Component<Props> {
     super(props)
     this.state = {
       loading: false,
-      candidates: [],
+      candidates: this.props.candidates,
       error: this.props.error,
       filters: this.props.filters,
       sort: this.props.sort,
@@ -133,9 +134,14 @@ class Interview extends Component<Props> {
   }
 
   async componentDidMount() {
-    const res = await getCandidates()
+    if (this.props.candidates.length !== 0) {
+      return
+    }
+    // only fetch for candidates if redux store doesn't hold candidates
+    const { result } = await getCandidates()
+    this.props.fetchCandidatesSuccess(result)
     this.setState({
-      candidates: res.result
+      candidates: result
     })
   }
 
@@ -293,7 +299,7 @@ class Interview extends Component<Props> {
                     </FormFeedback>
                   </InterviewSectionCard>
                   <FormGroup>
-                    <Link prefetch href="/interviewportal">
+                    <Link href="/interviewportal">
                       <Button
                         disabled={this.state.generalNotes === ''}
                         color="primary"

@@ -146,7 +146,7 @@ class FilterComponent extends Component<Props> {
               >
                 <option selected>None</option>
                 {this.state.workspaces.map(workspace => (
-                  <option>{workspace.name}</option>
+                  <option key={workspace.name}>{workspace.name}</option>
                 ))}
               </select>
             </p>
@@ -175,7 +175,7 @@ class FilterComponent extends Component<Props> {
           })}
         </>
 
-        <h5>Referrals</h5>
+        <h5 className="mt-2">Referrals</h5>
         <>
           {referrals.map((el, idx) => {
             return (
@@ -197,7 +197,7 @@ class FilterComponent extends Component<Props> {
             )
           })}
         </>
-        <h5>Year</h5>
+        <h5 className="mt-2">Year</h5>
         <>
           {years.map((el, idx) => {
             return (
@@ -219,7 +219,7 @@ class FilterComponent extends Component<Props> {
             )
           })}
         </>
-        <h5>Roles</h5>
+        <h5 className="mt-2">Roles</h5>
         <>
           {roles.map((el, idx) => {
             return (
@@ -241,7 +241,7 @@ class FilterComponent extends Component<Props> {
             )
           })}
         </>
-        <h5>Graduation Date:</h5>
+        <h5 className="mt-2">Graduation Date:</h5>
         <>
           {gradDates.map((el, idx) => {
             return (
@@ -263,7 +263,7 @@ class FilterComponent extends Component<Props> {
             )
           })}
         </>
-        <h4>Sorts</h4>
+        <h4 className="mt-2">Sorts</h4>
         <>
           {sortBy.map((el, idx) => {
             return (

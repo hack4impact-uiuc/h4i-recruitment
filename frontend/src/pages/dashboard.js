@@ -1,11 +1,20 @@
 //@flow
 import React, { Component } from 'react'
-import { Container, Row, Table, Col, FormGroup, Label, Input } from 'reactstrap'
+import {
+  Container,
+  Row,
+  Table,
+  Col,
+  FormGroup,
+  Label,
+  Input,
+  UncontrolledTooltip
+} from 'reactstrap'
 import Link from 'next/link'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addFilter, removeFilter } from '../actions'
+import { addFilter, removeFilter, fetchCandidatesSuccess } from '../actions'
 
 import Head from '../components/head'
 import Nav from '../components/nav'
@@ -23,7 +32,8 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       addFilter,
-      removeFilter
+      removeFilter,
+      fetchCandidatesSuccess
     },
     dispatch
   )
@@ -57,7 +67,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      candidates: this.props.candidates,
+      candidates: [],
       error: this.props.error,
       loading: this.props.loading,
       filters: this.props.filters,
@@ -66,9 +76,13 @@ class Dashboard extends Component {
   }
 
   async componentDidMount() {
-    const res = await getCandidates()
+    const { result } = await getCandidates()
+    if (result === undefined) {
+      return
+    }
+    this.props.fetchCandidatesSuccess(result)
     this.setState({
-      candidates: res.result === undefined ? [] : res.result
+      candidates: result
     })
   }
 
@@ -107,11 +121,17 @@ class Dashboard extends Component {
       .filter(x => this.state.filters.statuses.includes(x.status))
       .filter(x => this.state.filters.referrals.includes(x.referralStatus))
       .filter(x => this.state.filters.years.includes(x.year))
-      .filter(x => !x.role.map(role => this.state.filters.roles.includes(role)).includes(false))
-      .filter(x => x.name.toLowerCase().includes(this.state.search.toLowerCase()))
+      .filter(x => this.state.filters.roles.some(role => x.role.indexOf(role) >= 0)) // check if at least one out of the list of filter roles exists in candidate's applied roles
+      .filter(
+        x =>
+          x.name.toLowerCase().includes(this.state.search.toLowerCase()) || // filter by name
+          x._id.toLowerCase().includes(this.state.search.toLowerCase()) // filter by id
+      )
       .filter(x =>
         workspaceFilterPresent ? this.state.filters.workspaces.includes(x.workspace) : true
       )
+
+    filteredCandidates
 
     // TODO: Convert these cases into enum comparisons
     switch (this.state.filters.sortBy[0]) {
@@ -163,7 +183,7 @@ class Dashboard extends Component {
                           type="search"
                           id="search"
                           value={this.state.search}
-                          placeholder="Search Candidates"
+                          placeholder="Search Candidates by Name or ID"
                           onChange={this.handleSearchInput}
                         />
                       </FormGroup>
@@ -224,7 +244,13 @@ class Dashboard extends Component {
                               {selects.includes('Graduation Year') && (
                                 <td>{candidate.graduationDate}</td>
                               )}
-                              {selects.includes('Roles') && <td>{candidate.role.join(', ')}</td>}
+                              {selects.includes('Roles') && (
+                                <td>
+                                  {candidate.role
+                                    .filter(role => this.state.filters.roles.includes(role))
+                                    .join(', ')}
+                                </td>
+                              )}
                               {selects.includes('Major') && <td>{candidate.major}</td>}
                               {selects.includes('Hours') && <td>{candidate.timeCommitment}</td>}
 
@@ -238,11 +264,34 @@ class Dashboard extends Component {
                               )}
 
                               {selects.includes('Strong Referrals') && (
-                                <td>{candidate.strongReferrals.length}</td>
+                                <>
+                                  <td id={`strong${key}`}>
+                                    <span id={`strong-refer-${key}`}>
+                                      {candidate.strongReferrals.length}
+                                    </span>
+                                  </td>
+                                  {candidate.strongReferrals.length > 0 && (
+                                    <UncontrolledTooltip
+                                      placement="right"
+                                      target={`strong-refer-${key}`}
+                                    >
+                                      {candidate.strongReferrals}
+                                    </UncontrolledTooltip>
+                                  )}
+                                </>
                               )}
 
                               {selects.includes('Referrals') && (
-                                <td>{candidate.referrals.length}</td>
+                                <>
+                                  <td>
+                                    <span id={`refer-${key}`}>{candidate.referrals.length}</span>
+                                  </td>
+                                  {candidate.referrals.length > 0 && (
+                                    <UncontrolledTooltip placement="right" target={`refer-${key}`}>
+                                      {candidate.referrals}
+                                    </UncontrolledTooltip>
+                                  )}
+                                </>
                               )}
 
                               {selects.includes('Avg Interview Score') && (
