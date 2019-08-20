@@ -79,7 +79,6 @@ class InterviewSectionModular extends Component {
         options.push({ name: this.props.textOptions[i], value: this.props.textOptions[i] })
       }
     }
-
     return (
       <InterviewSectionCard title={this.props.title}>
         {this.props.description && (
@@ -107,18 +106,17 @@ class InterviewSectionModular extends Component {
           </>
         )}
 
-        {this.props.notesPrompt ||
-          (this.props.type === 'notes' && (
-            <Input
-              style={{ height: '130px' }}
-              value={this.props.notes}
-              className="textarea-input"
-              onChange={this.handleNotesChange}
-              type="textarea"
-              id="time-commitment-explanation"
-              placeholder={this.props.notesPrompt}
-            />
-          ))}
+        {(this.props.notesPrompt || this.props.type === 'notes') && (
+          <Input
+            style={{ height: '130px' }}
+            value={this.props.notes}
+            className="textarea-input"
+            onChange={this.handleNotesChange}
+            type="textarea"
+            id="time-commitment-explanation"
+            placeholder={this.props.notesPrompt}
+          />
+        )}
       </InterviewSectionCard>
     )
   }
