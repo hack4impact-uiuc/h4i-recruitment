@@ -88,7 +88,7 @@ class FilterComponent extends Component<Props> {
     const sortBy = enumToArray(sortByEnum)
     const selectBy = enumToArray(selectByEnum)
 
-    const hasMultipleWorkspaces = this.state.workspaces.length > 1
+    const hasMultipleWorkspaces = this.state.workspaces ? this.state.workspaces.length > 1 : false
 
     let statusFilter = [],
       referralFilter = [],

@@ -130,7 +130,7 @@ class NavigationBar extends Component {
             <Nav navbar className="ml-auto">
               {this.state.loggedIn && (
                 <NavItem>
-                  <div className="nav-bar-name pr-3">
+                  <div className="nav-bar-name pr-3 pt-1">
                     Welcome {this.state.username ? this.state.username : null}!
                   </div>
                 </NavItem>
