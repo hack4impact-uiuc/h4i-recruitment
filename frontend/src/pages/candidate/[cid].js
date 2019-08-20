@@ -8,7 +8,7 @@ import Candidate from '../../components/candidates/candidateBox'
 import CandidateInterviewsModal from '../../components/candidates/candidateInterviewsModal'
 import AddCommentsModal from '../../components/comments/addCommentsModal'
 import CommentBox from '../../components/comments/commentBox'
-import ErrorMessage from '../../components/errorMessage'
+import { ErrorMessage } from '../../components/common'
 import Nav from '../../components/nav'
 import {
   addReferral,

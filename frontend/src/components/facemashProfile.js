@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
-import ErrorMessage from '../components/errorMessage'
+import { ErrorMessage } from '../components/common'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinks from '../components/candidateLinks'
 

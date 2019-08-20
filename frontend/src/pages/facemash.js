@@ -7,7 +7,7 @@ import ReactLoading from 'react-loading'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/facemashProfile'
-import ErrorMessage from '../components/errorMessage'
+import { ErrorMessage } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 

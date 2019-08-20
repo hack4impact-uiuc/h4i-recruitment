@@ -6,10 +6,9 @@ import { bindActionCreators } from 'redux'
 import { Row, Col, Table, Button } from 'reactstrap'
 import { setCandidateStatus } from '../../utils/api'
 import { setStatus } from '../../actions/actionCreators'
-import ErrorMessage from '../errorMessage'
-import CandidateStatus from '../candidateStatus'
-import CandidateLinks from '../candidateLinks'
-import ChangeStatus from '../changeStatus'
+import CandidateStatus from '../../components/candidateStatus'
+import CandidateLinks from '../../components/candidateLinks'
+import { ErrorMessage, ChangeStatus } from '../../components/common'
 import { avgInterviewScore, interviewGetCategorySection } from '../../utils/core'
 
 const mapDispatchToProps = dispatch => {
