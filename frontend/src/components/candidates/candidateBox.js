@@ -159,7 +159,7 @@ class CandidateBox extends Component {
           <Col md={4}>
             <Row>
               <Col md={12}>
-                <h5 className="text-info pt-3">Additional Information</h5>
+                <h4 className="text-info pt-3">Additional Information</h4>
 
                 {candidate.major && (
                   <p>
