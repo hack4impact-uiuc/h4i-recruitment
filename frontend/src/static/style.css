@@ -248,6 +248,14 @@ p > b {
   color: #656565;
 }
 
+.candidate-box-wrapper table {
+  color: #656565;
+  font-size: 14px;
+}
+
+.candidate-box-wrapper table b {
+  color: #000000;
+}
 .embed-doc {
   width: 100%;
   height: 900%;
