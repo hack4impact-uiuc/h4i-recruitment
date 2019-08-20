@@ -106,14 +106,6 @@ class CandidateBox extends Component {
               {candidate.classesTaken != undefined ? candidate.classesTaken.join(', ') : null}
             </p>{' '}
             <p>
-              <b>Strong Referrals: </b>
-              {candidate.strongReferrals != undefined ? candidate.strongReferrals.join(', ') : null}
-            </p>
-            <p>
-              <b>Referrals: </b>
-              {candidate.referrals != undefined ? candidate.referrals.join(', ') : null}
-            </p>
-            <p>
               <b>How They know us:</b> {candidate.howTheyKnowUs}
             </p>
             <p>
@@ -167,7 +159,7 @@ class CandidateBox extends Component {
           <Col md={4}>
             <Row>
               <Col md={12}>
-                <h5 className="text-info pt-3">Additional Information</h5>
+                <h4 className="text-info pt-3">Additional Information</h4>
 
                 {candidate.major && (
                   <p>
@@ -205,6 +197,19 @@ class CandidateBox extends Component {
                 </p>
                 <p>
                   <b>Number of Matches: </b> {candidate.facemashRankings.numOfMatches}
+                </p>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                <h4 className="text-info pt-3">Referrals</h4>
+                <p>
+                  <b>Strong Referrals: </b>
+                  {candidate.strongReferrals && candidate.strongReferrals.join(', ')}
+                </p>
+                <p>
+                  <b>Referrals: </b>
+                  {candidate.referrals && candidate.referrals.join(', ')}
                 </p>
               </Col>
             </Row>

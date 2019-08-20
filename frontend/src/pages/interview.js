@@ -139,6 +139,18 @@ class Interview extends Component<Props> {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    const { round } = this.props
+    if (prevProps.round !== round) {
+      const currRound = roundData.rounds[round]
+      this.setState({
+        sections: currRound.sections,
+        interviewName: currRound.name,
+        interviewScored: currRound.scored
+      })
+    }
+  }
+
   toggle = () => {
     this.setState({
       verificationModalOpen: !this.state.verificationModalOpen
