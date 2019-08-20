@@ -107,7 +107,7 @@ class TablePage extends Component {
                         />
                       </td>
                       <td>
-                        <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                        <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                           <a>
                             <img height="10" src="/static/icons/external-icon.png" />
                           </a>

@@ -125,7 +125,7 @@ class Interview extends Component<Props> {
         this.state.interviewScored
       )
       alert('Successfully added interview')
-      Router.push({ pathname: '/candidate', query: { id: this.props.candidateId } })
+      Router.push('/candidate/[cid]', `/candidate/${this.props.candidateId}`)
     }
     this.setState({
       loading: false
@@ -155,7 +155,7 @@ class Interview extends Component<Props> {
           <Nav />
           <ErrorMessage
             code="404"
-            message={`Bad Fetch with ${error}. Candidates may be empty. Check if you are logged in.`}
+            message={`Bad Fetch with ${error}.Candidates may be empty.Check if you are logged in.`}
           />
         </>
       )
@@ -203,17 +203,15 @@ class Interview extends Component<Props> {
             <Col md="6">
               Some quick links:
               <ul>
-                {this.props.candidateName !== '' && this.props.candidateID !== '' ? (
+                {this.props.candidateName !== '' && this.props.candidateID !== '' && (
                   <li>
-                    <a
-                      href={`/candidate?id=${this.props.candidateId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {this.props.candidateName}&#39;s Page
-                    </a>
+                    <Link href="/candidate/[cid]" as={`/candidate/${this.props.candidateId}`}>
+                      <a target="_blank" rel="noopener noreferrer">
+                        {this.props.candidateName}&#39;s Page
+                      </a>
+                    </Link>
                   </li>
-                ) : null}
+                )}
                 <li>
                   <a
                     target="_blank"
