@@ -6,7 +6,7 @@ const InfoAlertName = 'INFO-ALERT'
 const AlertOff = 'FALL-2019-UPDATE' // change value if you want to trigger a new alert
 
 const turnOff = toggle => {
-  cookie.set(InfoAlertName, AlertOff, { expires: 21 }) // expires in 21 days
+  cookie.set(InfoAlertName, AlertOff, { expires: 365 }) // expires in 365 days
   toggle(false)
 }
 
