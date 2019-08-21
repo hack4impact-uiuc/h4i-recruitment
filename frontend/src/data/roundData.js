@@ -17,7 +17,7 @@ const roundData = {
       scored: true,
       sections: [
         {
-          title: 'General',
+          title: 'Set Question',
           description: (
             <b>
               Please write down your `Set` and the Set's title (`Set 1 openness/not a dick`) and the
@@ -119,6 +119,7 @@ const roundData = {
             </b>
           ],
           prompt: <b>Place the candidate in a category:</b>,
+          dropdownPrompt: 'Pick a Category',
           type: 'dropdown',
           textOptions: [
             'Freshman - maybe',

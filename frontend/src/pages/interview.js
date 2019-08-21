@@ -21,18 +21,19 @@ import Router from 'next/router'
 import { fetchAllCandidates, addFilter, removeFilter, fetchCandidatesSuccess } from '../actions'
 import CandidateDropdown from '../components/candidateDropdown'
 import { ErrorMessage } from '../components/common'
-import InterviewSectionCard from '../components/interviewSectionCard'
+import InterviewSectionCard from '../components/interview/interviewSectionCard'
 import VerificationModal from '../components/verificationModal'
 import InterviewSectionModular from '../components/interviewSectionModular'
 import { getKey, addInterview, getCandidates } from '../utils/api'
 import roundData from '../data/roundData'
 import Nav from '../components/nav'
 import Head from '../components/head'
+import InterviewQuickLinks from '../components/interview/interviewQuickLinks'
+import GeneralNotesInput from '../components/interview/generalNotesInput'
 
 type Props = {
   error: boolean,
   filters: Object,
-  sort: Object,
   candidateId: String,
   candidateName: String
 }
@@ -51,24 +52,20 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => ({
   candidates: state.candidateListPage.candidates,
-  loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
   filters: state.candidateListPage.filters,
-  sort: state.candidateListPage.sort,
   candidateId: state.interview.candidateId,
   candidateName: state.interview.candidateName,
   round: state.round
 })
 
 class Interview extends Component<Props> {
-  constructor(props, context) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: false,
       candidates: this.props.candidates,
-      error: this.props.error,
       filters: this.props.filters,
-      sort: this.props.sort,
       candidateId: '',
       candidateName: '',
       overallScore: 0,
@@ -126,6 +123,9 @@ class Interview extends Component<Props> {
         this.state.interviewScored
       )
       alert('Successfully added interview')
+      this.setState({
+        sections: roundData.rounds[this.props.round].sections // wipe inputs once submitted
+      })
       Router.push('/candidate/[cid]', `/candidate/${this.props.candidateId}`)
     }
     this.setState({
@@ -173,7 +173,7 @@ class Interview extends Component<Props> {
           <Nav />
           <ErrorMessage
             code="404"
-            message={`Bad Fetch with ${error}.Candidates may be empty.Check if you are logged in.`}
+            message={`Bad Fetch with ${error}. Candidates may be empty.Check if you are logged in.`}
           />
         </>
       )
@@ -219,36 +219,11 @@ class Interview extends Component<Props> {
           </Row>
           <Row>
             <Col md="6">
-              Some quick links:
-              <ul>
-                {this.props.candidateName !== '' && this.props.candidateID !== '' && (
-                  <li>
-                    <Link href="/candidate/[cid]" as={`/candidate/${this.props.candidateId}`}>
-                      <a target="_blank" rel="noopener noreferrer">
-                        {this.props.candidateName}&#39;s Page
-                      </a>
-                    </Link>
-                  </li>
-                )}
-                <li>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={roundData.rounds[this.props.round].interviewGuide}
-                  >
-                    Interview Guide
-                  </a>
-                </li>
-                <li>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://docs.google.com/document/d/1119YvTWvh58L7eOy-FvVvLyb9wLzZLImQSPBO3yPszI/edit"
-                  >
-                    Interview Tips
-                  </a>
-                </li>
-              </ul>
+              <InterviewQuickLinks
+                candidateName={this.props.candidateName}
+                candidateID={this.props.candidateId}
+                interviewGuideLink={roundData.rounds[this.props.round].interviewGuide}
+              />
             </Col>
           </Row>
           <VerificationModal
@@ -264,12 +239,13 @@ class Interview extends Component<Props> {
           <Row>
             <Col>
               {sections && (
-                <Form>
+                <Form className="mb-5">
                   {sections.map(section => (
                     <InterviewSectionModular
                       title={section.title}
                       description={section.description}
                       prompt={section.prompt}
+                      dropdownPrompt={section.dropdownPrompt}
                       type={section.type}
                       scoreOptions={section.scoreOptions}
                       textOptions={section.textOptions}
@@ -277,38 +253,17 @@ class Interview extends Component<Props> {
                       response={section.response}
                     />
                   ))}
-                  <InterviewSectionCard title="General Notes">
-                    <Label>
-                      <b>
-                        Any other notes that the rubric didn&#39;t cover or emphasis you&#39;d like
-                        to make? Any general thoughts about this Candidate?
-                      </b>
-                    </Label>
-                    <Input
-                      style={{ height: '150px' }}
-                      type="textarea"
-                      className="textarea-input"
-                      name="generalNotes"
-                      value={this.state.generalNotes}
-                      onChange={this.handleChange}
-                      placeholder="Please put as many notes as possible! It'll help a lot during deliberations."
-                      invalid={this.state.generalNotes === ''}
-                    />
-                    <FormFeedback>
-                      Please fill in your general thoughts about this candidate!
-                    </FormFeedback>
-                  </InterviewSectionCard>
-                  <FormGroup>
-                    <Link href="/interviewportal">
-                      <Button
-                        disabled={this.state.generalNotes === ''}
-                        color="primary"
-                        onClick={this.handleSubmitClick}
-                      >
-                        Submit
-                      </Button>
-                    </Link>
-                  </FormGroup>
+                  <GeneralNotesInput
+                    generalNotes={this.state.generalNotes}
+                    handleChange={this.handleChange}
+                  />
+                  <Button
+                    disabled={this.state.generalNotes === ''}
+                    color="primary"
+                    onClick={this.handleSubmitClick}
+                  >
+                    Submit
+                  </Button>
                 </Form>
               )}
             </Col>

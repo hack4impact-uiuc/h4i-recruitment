@@ -93,8 +93,8 @@ class InterviewPortal extends Component {
         <Head title="Your Interviews" />
         <Nav />
         <Container>
-          <h1>Interviews</h1>
-          <Row style={{ marginBottom: '30px' }}>
+          <h1 className="mt-3">Your Interviews</h1>
+          <Row className="mt-3 mb-4">
             <ActionButton
               className="button-margin"
               text="New Interview"
@@ -109,14 +109,18 @@ class InterviewPortal extends Component {
             submitAction={this.delete}
             header="Are you sure you want to delete this interview?"
             body="There's no going back!"
+            danger={true}
           />
-          <Table>
+          <Table hover>
             <thead>
               <tr>
                 <th>#</th>
                 <th>Candidate Name</th>
-                <th>Interview Overall Score</th>
-                <th>Action</th>
+                <th>Round</th>
+                <th>Overall Score</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -130,9 +134,17 @@ class InterviewPortal extends Component {
                           <a className="regular-anchor">{interview.candidate_name}</a>
                         </Link>
                       </td>
+                      <td>{interview.round}</td>
                       <td>{interview.overall_score}</td>
                       <td>
-                        <Button onClick={() => this.handleEditInterview(interview)}>
+                        <Link href="/interview/[interviewID]" as={`/interview/${interview._id}`}>
+                          <Button outline color="success">
+                            View
+                          </Button>
+                        </Link>
+                      </td>
+                      <td>
+                        <Button disabled onClick={() => this.handleEditInterview(interview)}>
                           Edit Interview
                         </Button>
                       </td>

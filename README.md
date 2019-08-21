@@ -13,7 +13,7 @@ Both the setup for the [frontend](https://github.com/hack4impact-uiuc/h4i-recrui
 ## A Peek
 
 A full fledged platform for managing candidates, their application, interviews, and notes that's catered towards our recruitment process.
-<img width="1821" alt="Screen Shot 2019-04-30 at 11 55 34 PM" src="https://user-images.githubusercontent.com/27740557/57006158-25882a00-6ba4-11e9-9e4b-6ada50bdf2c9.png">
+<img width="1821" alt="Screen Shot 2019-04-30 at 11 55 34 PM" src="https://user-images.githubusercontent.com/27740557/63377541-2d333080-c345-11e9-8977-41a7ebb339f3.png">
 
 ## Contributing
 

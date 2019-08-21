@@ -2,6 +2,7 @@
 // This Component shows the details of a candidate
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Link from 'next/link'
 import { bindActionCreators } from 'redux'
 import { Row, Col, Table, Button } from 'reactstrap'
 import { setCandidateStatus } from '../../utils/api'
@@ -125,33 +126,45 @@ class CandidateBox extends Component {
                 </Button>
               </Col>
             </Row>
+            <div>
+              <p>
+                <b>Average Score: </b>
+                {this.state.avgInterviewScore}
+              </p>
+            </div>
             <div className="round-info-box">
-              <Table borderless className="seventy-percent-width">
-                <tbody>
-                  <tr>
-                    <td>
-                      <b>Average Score: </b>
-                    </td>
-                    <td>{this.state.avgInterviewScore}</td>
-                  </tr>
-                  {this.state.interviews.map(interview => (
-                    <tr key={interview._id}>
-                      <td>
-                        <b>Interviewer: </b>
-                      </td>
-                      <td>
-                        {interview.interviewer_name}
-                        {interviewGetCategorySection(interview) !== null && (
-                          <p>
-                            <b>Category given:</b>{' '}
-                            {interviewGetCategorySection(interview).response.text}
-                          </p>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              {this.state.interviews.length > 0 ? (
+                <Table borderless className="seventy-percent-width">
+                  <tbody>
+                    {this.state.interviews.map(interview => (
+                      <tr key={interview._id}>
+                        <td>{interview.round}</td>
+                        <td>
+                          <div>
+                            <b>By: </b>
+                            {interview.interviewer_name}
+                          </div>
+                          {interviewGetCategorySection(interview) !== null && (
+                            <p>
+                              <b>Category given:</b>{' '}
+                              {interviewGetCategorySection(interview).response.text}
+                            </p>
+                          )}
+                        </td>
+                        <td>
+                          <Link href="/interview/[interviewID]" as={`/interview/${interview._id}`}>
+                            <a className="ml-2" style={{ marginBottom: '3px' }}>
+                              <img height="10" src="/static/icons/external-icon.png" />
+                            </a>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <p className="center mb-3 mt-2">No Interviews for {candidate.name}</p>
+              )}
             </div>
           </Col>
 

@@ -1,6 +1,8 @@
 // @flow
 import React, { Component } from 'react'
+import Link from 'next/link'
 import { Card, CardBody, CardTitle, Button, Modal, ModalHeader, ModalFooter } from 'reactstrap'
+import VerificationModal from '../verificationModal'
 
 class InterviewCard extends Component {
   constructor(props) {
@@ -35,17 +37,14 @@ class InterviewCard extends Component {
 
     return (
       <>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader close={closeBtn}>
-            Are you sure you want to delete this interview? You won't be able to get it back.
-          </ModalHeader>
-          <ModalFooter>
-            <Button onClick={this.toggle}>Return</Button>
-            <Button color="danger" onClick={this.handleDeleteClick}>
-              Delete
-            </Button>
-          </ModalFooter>
-        </Modal>
+        <VerificationModal
+          open={this.state.modal}
+          cancelAction={this.toggle}
+          submitAction={this.handleDeleteClick}
+          header="Are you sure you want to delete this interview? You won't be able to get it back."
+          submitText="Delete"
+          danger={true}
+        />
         <Card className="candidate-card">
           <CardBody>
             <CardTitle onClick={this.handleViewDetails}>
@@ -65,6 +64,11 @@ class InterviewCard extends Component {
               <Button color="danger" className="ml-3" onClick={this.toggle}>
                 Delete (Directors Only)
               </Button>
+              <Link href="/interview/[interviewID]" as={`/interview/${this.props.interview._id}`}>
+                <Button outline className="ml-2" color="success">
+                  View Full Page
+                </Button>
+              </Link>
             </>
           </CardBody>
         </Card>

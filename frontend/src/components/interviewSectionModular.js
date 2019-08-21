@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
-import InterviewSectionCard from './interviewSectionCard'
+import InterviewSectionCard from './interview/interviewSectionCard'
 
 class InterviewSectionModular extends Component {
   constructor(props) {
@@ -12,9 +12,12 @@ class InterviewSectionModular extends Component {
       <Input
         onChange={this.onSelect}
         type="select"
-        name="Time Commitment"
-        id="time-commitment-input"
+        name={this.props.title}
+        id={`${this.props.title}-title`}
       >
+        <option selected disabled hidden>
+          {this.props.dropdownPrompt}
+        </option>
         {options.map(option => (
           <option value={option.value}>{option.name}</option>
         ))}
@@ -94,11 +97,10 @@ class InterviewSectionModular extends Component {
           </>
         )}
 
-        {this.props.type === 'notes'
-          ? null
-          : this.props.type === 'dropdown'
-          ? this.mapOptionsDropdown(options)
-          : this.mapOptionsMultipleChoice(options)}
+        {this.props.type !== 'notes' &&
+          (this.props.type === 'dropdown'
+            ? this.mapOptionsDropdown(options)
+            : this.mapOptionsMultipleChoice(options))}
 
         {this.props.type !== 'notes' && this.props.notesPrompt && (
           <>
@@ -113,7 +115,7 @@ class InterviewSectionModular extends Component {
             className="textarea-input"
             onChange={this.handleNotesChange}
             type="textarea"
-            id="time-commitment-explanation"
+            id={`${this.props.title}-input`}
             placeholder={this.props.notesPrompt}
           />
         )}

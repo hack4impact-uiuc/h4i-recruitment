@@ -304,3 +304,7 @@ p > b {
 .dashboard .db-alert {
   width: 100%;
 }
+
+.general-notes-input {
+  height: 150px !important;
+}
