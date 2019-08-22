@@ -1,6 +1,7 @@
 //@flow
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
+import { getCookie } from './cookieUtils'
 const { publicRuntimeConfig } = getConfig()
 
 const getKey = () => localStorage.getItem('interviewerKey')
@@ -13,7 +14,7 @@ const API_URL =
     : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
-const AUTH_API_URL = 'h4i-portal-infra-server.now.sh'
+const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'
 
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
@@ -271,6 +272,66 @@ function deleteReferral(candidateID: string) {
   }).then(res => res.json())
 }
 
+function getAllUsers() {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, { method: 'GET', mode: 'cors' }).then(res =>
+    res.json()
+  )
+}
+
+function addUser(
+  firstName: String,
+  lastName: String,
+  email: string,
+  tokenId: string,
+  role: string
+) {
+  console.log(`Writing user ${email} to internal database`)
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      tokenId,
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function updateUserRole(email: string, newRole: string) {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      email,
+      role: newRole
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function updateServerUserRole(userEmail: string, newRole: string, password: string) {
+  return fetch(`${AUTH_API_URL}/roleschange`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: getCookie('token'),
+      google: getCookie('google') ? true : false
+    },
+    body: JSON.stringify({
+      userEmail,
+      newRole,
+      password
+    })
+  })
+}
+
 function registerUser(email: string, password: string, role: string) {
   console.log(`Creating new user: ${email}`)
   return fetch(`${AUTH_API_URL}/register`, {
@@ -282,8 +343,7 @@ function registerUser(email: string, password: string, role: string) {
     }),
     headers: {
       'content-type': 'application/json'
-    },
-    mode: 'cors'
+    }
   }).then(res => res.json())
 }
 
@@ -367,6 +427,10 @@ export {
   registerUser,
   loginUser,
   loginGoogleUser,
+  getAllUsers,
+  addUser,
+  updateUserRole,
+  updateServerUserRole,
   getWorkspaces,
   createWorkspace
 }

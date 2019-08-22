@@ -11,6 +11,7 @@ const ChangeRole = ({ memberID, role, handleChange }) => (
     <option value={permissionRolesEnum.MEMBER}>Member</option>
     <option value={permissionRolesEnum.LEAD}>Lead</option>
     <option value={permissionRolesEnum.DIRECTOR}>Director</option>
+    <option value={permissionRolesEnum.PENDING}>Pending</option>
   </select>
 )
 
