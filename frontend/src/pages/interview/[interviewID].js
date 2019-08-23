@@ -27,17 +27,17 @@ class InterviewDetailPage extends Component {
   async componentDidMount() {
     const query = Router.query
     const { result, success, message } = await getInterviewByID(query.interviewID)
-    if (!success || !result) {
+    if (success && result) {
+      this.setState({
+        interview: result.interview,
+        candidateID: result.candidateID,
+        candidateName: result.candidateName
+      })
+    } else {
       this.setState({
         errorMessage: message
       })
-      return
     }
-    this.setState({
-      interview: result.interview,
-      candidateID: result.candidateID,
-      candidateName: result.candidateName
-    })
   }
 
   goBack = () => {

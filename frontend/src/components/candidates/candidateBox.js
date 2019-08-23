@@ -126,12 +126,10 @@ class CandidateBox extends Component {
                 </Button>
               </Col>
             </Row>
-            <div>
-              <p>
-                <b>Average Score: </b>
-                {this.state.avgInterviewScore}
-              </p>
-            </div>
+            <p>
+              <b>Average Score: </b>
+              {this.state.avgInterviewScore}
+            </p>
             <div className="round-info-box">
               {this.state.interviews.length > 0 ? (
                 <Table borderless className="seventy-percent-width">
