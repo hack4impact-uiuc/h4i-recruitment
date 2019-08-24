@@ -1,3 +1,5 @@
+/* route to page is /candidate/[cid] where [cid] is a string value of a candidate's id */
+
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Row, Col } from 'reactstrap'

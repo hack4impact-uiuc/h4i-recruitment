@@ -2,8 +2,9 @@
 // list of interviews a candidate
 import React, { Component } from 'react'
 import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
-import InterviewCard from '../interviewCard'
-import InterviewDetails from '../interviewDetails'
+import Link from 'next/link'
+import InterviewCard from '../interview/interviewCard'
+import InterviewDetails from '../interview/interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
 
 const closeBtn = ({ exitModal }) => (
@@ -71,10 +72,22 @@ class CandidateInterviewsModal extends Component {
           </ModalHeader>
           <ModalBody>
             {this.state.viewDetails ? (
-              <InterviewDetails
-                onExitDetails={this.handleExitDetails}
-                interview={this.state.currentInterview}
-              />
+              <>
+                <InterviewDetails interview={this.state.currentInterview} />
+                <div className="mt-3">
+                  <Button outline value={this.props.interview} onClick={this.handleExitDetails}>
+                    Exit Details
+                  </Button>
+                  <Link
+                    href="/interview/[interviewID]"
+                    as={`/interview/${this.state.currentInterview._id}`}
+                  >
+                    <Button outline className="ml-2" color="success">
+                      View Full Page
+                    </Button>
+                  </Link>
+                </div>
+              </>
             ) : this.state.interviews && this.state.interviews.length > 0 ? (
               this.state.interviews.map(interview => {
                 return (

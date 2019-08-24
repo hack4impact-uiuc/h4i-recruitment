@@ -218,6 +218,12 @@ function getAllInterviews() {
   return fetch(`${API_URL}/interviews?key=${getKey()}`).then(res => res.json())
 }
 
+function getInterviewByID(id) {
+  return fetch(`${API_URL}/interviews/${id}?key=${getKey()}`)
+    .then(res => (res.ok ? res : Promise.reject(res)))
+    .then(res => res.json())
+}
+
 function getAllInterviewingCandidateInterviews() {
   return fetch(`${API_URL}/interviews?notRejected=True&&key=${getKey()}`).then(res => res.json())
 }
@@ -417,6 +423,7 @@ export {
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,
+  getInterviewByID,
   deleteInterview,
   getRound,
   setRound,
