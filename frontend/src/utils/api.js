@@ -22,13 +22,13 @@ function createEvent(event) {
       endTime: event.endTime,
       location: event.location,
       description: event.description,
-      fbLink: event.fbLink,
+      fbLink: event.fbLink
     }),
     headers: {
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -40,9 +40,9 @@ function addInterviewSchedule(file: File) {
     fetch(`${API_URL}/schedule/upload/?key=${getKey()}`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json',
+        'content-type': 'application/json'
       },
-      body: JSON.stringify({ schedule: scheduleString }),
+      body: JSON.stringify({ schedule: scheduleString })
     })
       .then(res => res.json())
       .then(success => console.log(success))
@@ -76,13 +76,13 @@ function setCandidateStatus(id: string, status: string) {
   return fetch(`${API_URL}/candidates/${id}/status?key=${getKey()}`, {
     body: JSON.stringify({
       id: id,
-      status: status,
+      status: status
     }),
     headers: {
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -96,13 +96,13 @@ function setMatchWinner(candidate1: string, candidate2: string, winnerID: string
       candidate1,
       candidate2,
       winnerID,
-      matchID,
+      matchID
     }),
     headers: {
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -110,13 +110,13 @@ function addCommentToCandidate(candidateID: string, comment: string) {
   console.log(`Adding Comment to ${candidateID}: ${comment}`)
   return fetch(`${API_URL}/candidates/${candidateID}/comments?key=${getKey()}`, {
     body: JSON.stringify({
-      comment,
+      comment
     }),
     headers: {
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -154,13 +154,13 @@ function addInterview(
       generalNotes,
       sections,
       round,
-      scored,
+      scored
     }),
     headers: {
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -174,13 +174,13 @@ function editInterview(
     body: JSON.stringify({
       sections,
       overallScore,
-      generalNotes,
+      generalNotes
     }),
     headers: {
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -195,26 +195,26 @@ function getAllInterviewingCandidateInterviews() {
 function deleteInterview(candidateId: string, interviewId: string) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}?key=${getKey()}`, {
     method: 'DELETE',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
 function getRound() {
   return fetch(`${API_URL}/structure?key=${getKey()}`, {
-    method: 'GET',
+    method: 'GET'
   }).then(res => res.json())
 }
 
 function setRound(round: number) {
   return fetch(`${API_URL}/structure?key=${getKey()}`, {
     body: JSON.stringify({
-      round,
+      round
     }),
     headers: {
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     },
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -222,7 +222,7 @@ function addReferral(candidateID: string) {
   console.log(`Adding referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -230,7 +230,7 @@ function addStrongReferral(candidateID: string) {
   console.log(`Adding strong referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/strongReferrals?key=${getKey()}`, {
     method: 'POST',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -238,7 +238,7 @@ function deleteReferral(candidateID: string) {
   console.log(`Deleting referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
     method: 'DELETE',
-    mode: 'cors',
+    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -268,5 +268,5 @@ export {
   addReferral,
   addStrongReferral,
   deleteReferral,
-  getAllInterviewingCandidateInterviews,
+  getAllInterviewingCandidateInterviews
 }

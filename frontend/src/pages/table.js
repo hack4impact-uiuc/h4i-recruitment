@@ -17,14 +17,14 @@ class TablePage extends React.Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      candidates: [],
+      candidates: []
     }
   }
   async componentDidMount() {
     const res = await getCandidates()
     let candidates = res.result
     this.setState({
-      candidates: res.result == undefined ? [] : res.result,
+      candidates: res.result == undefined ? [] : res.result
     })
   }
   handleChange = async e => {

@@ -17,8 +17,8 @@ export default withRedux(configureStore, { debug: true })(
       return {
         pageProps: {
           // Call page-level getInitialProps
-          ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
-        },
+          ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {})
+        }
       }
     }
 

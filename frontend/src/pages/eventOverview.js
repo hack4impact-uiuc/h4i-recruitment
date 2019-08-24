@@ -14,7 +14,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Alert,
+  Alert
 } from 'reactstrap'
 import ActionButton from '../components/actionButton'
 import Nav from '../components/nav'
@@ -34,7 +34,7 @@ class EventOverview extends React.Component<Props> {
       location: '',
       description: '',
       fbLink: '',
-      alert: '',
+      alert: ''
     }
   }
 
@@ -42,20 +42,20 @@ class EventOverview extends React.Component<Props> {
     const events = await getAllEvents()
     if (events) {
       this.setState({
-        events: events.result,
+        events: events.result
       })
     }
   }
 
   toggleModal = () => {
     this.setState({
-      modal: !this.state.modal,
+      modal: !this.state.modal
     })
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     })
   }
 
@@ -73,12 +73,12 @@ class EventOverview extends React.Component<Props> {
       endTime: this.state.endTime,
       location: this.state.location,
       description: this.state.description,
-      fbLink: this.state.fbLink,
+      fbLink: this.state.fbLink
     }
     const { code } = await createEvent(event)
     if (code === 500) {
       this.setState({
-        alert: 'All fields are required.',
+        alert: 'All fields are required.'
       })
     } else {
       Router.push({ pathname: '/eventOverview' })

@@ -79,5 +79,5 @@ export {
   compareByAvgInterviewScore,
   convertUTCToLocal,
   getNumOfInterviews,
-  interviewGetCategorySection,
+  interviewGetCategorySection
 }

@@ -2,7 +2,7 @@ export const yearsEnum = {
   FRESHMAN: 'Freshman',
   SOPHOMORE: 'Sophomore',
   JUNIOR: 'Junior',
-  SENIOR: 'Senior',
+  SENIOR: 'Senior'
 }
 
 export const gradEnum = {
@@ -14,7 +14,7 @@ export const gradEnum = {
   FA21: 'Fall 2021',
   SP22: 'Spring 2022',
   FA22: 'Fall 2022',
-  SP23: 'Spring 2023',
+  SP23: 'Spring 2023'
 }
 
 export const statusEnum = {
@@ -23,13 +23,13 @@ export const statusEnum = {
   INTERVIEWING: 'Interviewing',
   DONE_INTERVIEWING: 'Done Interviewing',
   PENDING: 'Pending',
-  INVALID: 'Invalid',
+  INVALID: 'Invalid'
 }
 
 export const referralEnum = {
   STRONG_REFERRAL: 'Strong Referral',
   REFERRAL: 'Referral',
-  NO_REFERRAL: 'No Referral',
+  NO_REFERRAL: 'No Referral'
 }
 
 export const categoryEnum = {
@@ -42,14 +42,14 @@ export const categoryEnum = {
   STRONGMAYBE:
     'Strong Maybe (I wouldn’t fight to accept this candidate, but I think they would be a good addition to the team)',
   VOUCH: 'Strongly Vouch for this candidate',
-  UPPEREH: 'Upperclassman with experience but eh with everything else',
+  UPPEREH: 'Upperclassman with experience but eh with everything else'
 }
 
 export const rolesEnum = {
   SWE: 'Software Developer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
-  UI: 'UI/UX Designer',
+  UI: 'UI/UX Designer'
 }
 
 export const sortByEnum = {
@@ -59,14 +59,14 @@ export const sortByEnum = {
   STATUS: 'Status',
   ELO: 'Facemash Score',
   MATCHES: 'Number of Matches',
-  AVG_INTERVIEW_SCORE: 'Avg Interview Score',
+  AVG_INTERVIEW_SCORE: 'Avg Interview Score'
 }
 
 export const compareByEnum = {
   YEAR: 'Year',
   GRADYR: 'Graduation Year',
   STATUS: 'Status',
-  ROLES: 'Roles',
+  ROLES: 'Roles'
 }
 
 export const selectByEnum = {
@@ -84,7 +84,7 @@ export const selectByEnum = {
   AVG_INTERVIEW_SCORE: 'Avg Interview Score',
   NUM_INTERVIEWS: 'Number of Interviews',
   ELO: 'Facemash Score',
-  MATCHES: 'Number of Matches',
+  MATCHES: 'Number of Matches'
 }
 
 export const enumToArray = e => {

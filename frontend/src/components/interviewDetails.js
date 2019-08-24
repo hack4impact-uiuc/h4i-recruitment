@@ -6,11 +6,11 @@ import Router from 'next/router'
 const handler = (_id: string) =>
   Router.push({
     pathname: '/candidate',
-    query: { id: _id },
+    query: { id: _id }
   })
 
 type Props = {
-  candidate: Array<mixed>, // TODO: make this more specific
+  candidate: Array<mixed> // TODO: make this more specific
 }
 
 class InterviewDetails extends Component {

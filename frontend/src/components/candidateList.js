@@ -12,11 +12,11 @@ const CardCol = ({ children, ...rest }) => (
 )
 
 type Props = {
-  candidates: Array<mixed>,
+  candidates: Array<mixed>
 }
 
 const mapStateToProps = state => ({
-  loading: state.candidateListPage.candidatesLoading,
+  loading: state.candidateListPage.candidatesLoading
 })
 // component that destructs Props - Props would look like this { candidates: {} }
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
@@ -24,7 +24,7 @@ class CandidateListComponent extends Component<Props> {
   constructor() {
     super()
     this.state = {
-      search: '',
+      search: ''
     }
   }
   handleChange = event => {
