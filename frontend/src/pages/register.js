@@ -21,7 +21,7 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
 } from 'reactstrap'
 import { permissionRolesEnum } from '../utils/enums'
 
@@ -39,7 +39,7 @@ class RegisterPage extends Component {
       password: '',
       passwordVerification: '',
       errorMessage: '',
-      showInvalidRequestModal: false
+      showInvalidRequestModal: false,
     }
   }
 
@@ -60,7 +60,7 @@ class RegisterPage extends Component {
         this.setState({
           errorMessage:
             'Your account was successfully created, but not successfully recorded. Please contact an admin.',
-          showInvalidRequestModal: true
+          showInvalidRequestModal: true,
         })
       }
     })
@@ -91,7 +91,7 @@ class RegisterPage extends Component {
           console.log(resp)
           this.setState({
             errorMessage: 'Please make sure you do not have an existing account.',
-            showInvalidRequestModal: true
+            showInvalidRequestModal: true,
           })
         } else {
           this.handleCompleteRegister(resp)
@@ -112,7 +112,7 @@ class RegisterPage extends Component {
       password,
       passwordVerification,
       errorMessage,
-      showInvalidRequestModal
+      showInvalidRequestModal,
     } = this.state
     return (
       <>

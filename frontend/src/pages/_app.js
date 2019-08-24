@@ -7,7 +7,7 @@ import configureStore from '../store/appStore'
 import { ErrorMessage } from '../components/common'
 
 export default withRedux(configureStore, {
-  debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true'
+  debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true',
 })(
   class MyApp extends App {
     constructor(props) {
@@ -18,8 +18,8 @@ export default withRedux(configureStore, {
       return {
         pageProps: {
           // Call page-level getInitialProps
-          ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {})
-        }
+          ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
+        },
       }
     }
 

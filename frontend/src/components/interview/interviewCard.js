@@ -8,7 +8,7 @@ class InterviewCard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      modal: false
+      modal: false,
     }
     this.handleDeleteClick = this.handleDeleteClick.bind(this)
   }
@@ -24,7 +24,7 @@ class InterviewCard extends Component {
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     })
   }
 

@@ -10,7 +10,7 @@ import {
   ModalFooter,
   FormGroup,
   Input,
-  Label
+  Label,
 } from 'reactstrap'
 import ChangeRole from '../components/changeRole'
 import Head from '../components/head'
@@ -27,7 +27,7 @@ class AdminRoles extends React.Component {
       users: [],
       adminPassword: '',
       showPasswordModal: false,
-      error: ''
+      error: '',
     }
   }
 
@@ -85,7 +85,7 @@ class AdminRoles extends React.Component {
       selectedUser,
       adminPassword,
       showPasswordModal,
-      error
+      error,
     } = this.state
     return (
       <>

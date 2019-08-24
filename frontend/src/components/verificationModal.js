@@ -20,7 +20,7 @@ const VerificationModal = ({
   submitText,
   header,
   body,
-  danger
+  danger,
 }) => (
   <Modal isOpen={open}>
     <ModalHeader close={() => closeBtn(cancelAction)}> {header}</ModalHeader>

@@ -20,7 +20,7 @@ class InterviewDetailPage extends Component {
       candidateID: '',
       candidateName: '',
       verificationModalOpen: false,
-      loading: false
+      loading: false,
     }
   }
 
@@ -31,11 +31,11 @@ class InterviewDetailPage extends Component {
       this.setState({
         interview: result.interview,
         candidateID: result.candidateID,
-        candidateName: result.candidateName
+        candidateName: result.candidateName,
       })
     } else {
       this.setState({
-        errorMessage: message
+        errorMessage: message,
       })
     }
   }
@@ -46,24 +46,24 @@ class InterviewDetailPage extends Component {
 
   toggleOff = () => {
     this.setState({
-      verificationModalOpen: false
+      verificationModalOpen: false,
     })
   }
   handleDeleteClick = () => {
     this.setState({
-      verificationModalOpen: true
+      verificationModalOpen: true,
     })
   }
 
   delete = async () => {
     this.setState({
-      loading: true
+      loading: true,
     })
     const interview = this.state.interview
     await deleteInterview(interview.candidate_id, interview._id)
     this.setState({
       verificationModalOpen: false,
-      loading: false
+      loading: false,
     })
     Router.push('/interviewportal')
   }

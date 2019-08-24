@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       addFilter,
-      removeFilter
+      removeFilter,
     },
     dispatch
   )
@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
   candidates: state.candidateListPage.candidates,
   loading: state.candidateListPage.candidatesLoading,
   error: state.candidateListPage.candidatesError,
-  filters: state.candidateListPage.filters
+  filters: state.candidateListPage.filters,
 })
 
 class Analytics extends Component {
@@ -34,20 +34,20 @@ class Analytics extends Component {
       candidates: this.props.candidates,
       error: this.props.error,
       loading: this.props.loading,
-      filters: this.props.filters
+      filters: this.props.filters,
     }
   }
   async componentDidMount() {
     const res = await getCandidates()
     let candidates = res.result
     this.setState({
-      candidates: res.result == undefined ? [] : res.result
+      candidates: res.result == undefined ? [] : res.result,
     })
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      filters: nextProps.filters
+      filters: nextProps.filters,
     })
   }
 
@@ -109,10 +109,10 @@ class Analytics extends Component {
             '#db316d',
             '#ff005a',
             '  #ff6700',
-            '#13890f'
-          ]
-        }
-      ]
+            '#13890f',
+          ],
+        },
+      ],
     }
     return (
       <>

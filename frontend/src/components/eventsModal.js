@@ -11,7 +11,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
 } from 'reactstrap'
 
 class EventsModal extends Component {
@@ -19,7 +19,7 @@ class EventsModal extends Component {
     super(props)
     this.state = {
       alert: '',
-      loading: false
+      loading: false,
     }
   }
 
@@ -32,7 +32,7 @@ class EventsModal extends Component {
   handleSubmit = async () => {
     const success = await this.props.onSubmit()
     this.setState({
-      loading: true
+      loading: true,
     })
 
     if (success) {
@@ -41,7 +41,7 @@ class EventsModal extends Component {
     } else {
       this.setState({
         alert: this.props.alert,
-        loading: false
+        loading: false,
       })
     }
   }
@@ -50,11 +50,11 @@ class EventsModal extends Component {
     // remove err message upon close
     if (this.state.alert) {
       this.setState({
-        alert: ''
+        alert: '',
       })
     }
     this.setState({
-      loading: false
+      loading: false,
     })
     this.props.toggle()
   }
