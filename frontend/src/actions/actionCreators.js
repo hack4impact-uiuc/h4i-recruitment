@@ -9,28 +9,35 @@ import {
   ADD_FILTER,
   REMOVE_FILTER,
   SET_STATUS,
+  RESET_FILTER,
   RESET_FILTERS,
   SET_ROUND,
   SET_SELECTED_ROUND,
   SET_VALID_FORMAT
 } from './actionTypes.js'
 import { getCandidates } from '../utils/api'
+
 // Action Creators
 
 export const setRoundRedux = round => ({
   type: SET_ROUND,
   payload: round
 })
+
 export const setSelectedRound = selectedRound => ({
   type: SET_SELECTED_ROUND,
   payload: selectedRound
 })
+
 export const setValidFormat = validFormat => ({
   type: SET_VALID_FORMAT,
   payload: validFormat
 })
+
 export const fetchCandidatesFailure = error => ({ type: FETCH_CANDIDATES_FAILURE, payload: error })
+
 export const fetchCandidatesBegin = () => ({ type: FETCH_CANDIDATES_BEGIN })
+
 export const setStatus = (candidateId, status) => ({
   type: SET_STATUS,
   payload: {
@@ -38,10 +45,12 @@ export const setStatus = (candidateId, status) => ({
     status: status
   }
 })
+
 export const fetchCandidatesSuccess = candidates => ({
   type: FETCH_CANDIDATES_SUCCESS,
   payload: candidates
 })
+
 export const addInterviewCandidate = (candidateId, candidateName) => ({
   type: ADD_INTERVIEW_CANDIDATE,
   payload: {
@@ -49,6 +58,7 @@ export const addInterviewCandidate = (candidateId, candidateName) => ({
     candidateName: candidateName
   }
 })
+
 export const editInterview = interview => ({
   type: EDIT_INTERVIEW,
   payload: {
@@ -68,6 +78,13 @@ export const addFilter = (category, filter) => ({
   }
 })
 
+export const resetFilter = category => ({
+  type: RESET_FILTER,
+  payload: {
+    category
+  }
+})
+
 export const resetFilters = () => ({
   type: RESET_FILTERS
 })
@@ -79,6 +96,7 @@ export const removeFilter = (category, filter) => ({
     filter: filter
   }
 })
+
 // Function to create action that stores data about new match
 function newMatch(candidate1, candidate2, match_id) {
   return {

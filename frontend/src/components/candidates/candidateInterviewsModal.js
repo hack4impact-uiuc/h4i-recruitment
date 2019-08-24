@@ -1,13 +1,19 @@
 // This is a Modal that opens up, showing a
 // list of interviews a candidate
-import React from 'react'
+import React, { Component } from 'react'
 import { Container, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap'
-import InterviewCard from '../interviewCard'
-import InterviewDetails from '../interviewDetails'
+import Link from 'next/link'
+import InterviewCard from '../interview/interviewCard'
+import InterviewDetails from '../interview/interviewDetails'
 import { getCandidateInterviews, deleteInterview } from '../../utils/api'
-type Props = {}
 
-class CandidateInterviewsModal extends React.Component<Props> {
+const closeBtn = ({ exitModal }) => (
+  <button className="close" onClick={exitModal}>
+    &times;
+  </button>
+)
+
+class CandidateInterviewsModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -30,12 +36,14 @@ class CandidateInterviewsModal extends React.Component<Props> {
       currentInterview: interview
     })
   }
+
   handleExitDetails = e => {
     this.setState({
       viewDetails: false,
       currentInterview: null
     })
   }
+
   delete = async interview => {
     await deleteInterview(this.props.candidateId, interview._id)
     const newInterviews = await getCandidateInterviews(this.props.candidateId)
@@ -43,6 +51,7 @@ class CandidateInterviewsModal extends React.Component<Props> {
       interviews: newInterviews ? newInterviews.result : []
     })
   }
+
   toggle = () => {
     this.setState({
       interviewToDelete: null,
@@ -53,8 +62,8 @@ class CandidateInterviewsModal extends React.Component<Props> {
   render() {
     return (
       <Container>
-        <Modal isOpen={this.props.isOpen}>
-          <ModalHeader>
+        <Modal isOpen={this.props.isOpen} size="lg" toggle={this.props.exitModal}>
+          <ModalHeader close={closeBtn}>
             {!this.state.viewDetails
               ? this.props.candidateName + "'s Interviews"
               : this.state.currentInterview.candidate_name +
@@ -63,10 +72,22 @@ class CandidateInterviewsModal extends React.Component<Props> {
           </ModalHeader>
           <ModalBody>
             {this.state.viewDetails ? (
-              <InterviewDetails
-                onExitDetails={this.handleExitDetails}
-                interview={this.state.currentInterview}
-              />
+              <>
+                <InterviewDetails interview={this.state.currentInterview} />
+                <div className="mt-3">
+                  <Button outline value={this.props.interview} onClick={this.handleExitDetails}>
+                    Exit Details
+                  </Button>
+                  <Link
+                    href="/interview/[interviewID]"
+                    as={`/interview/${this.state.currentInterview._id}`}
+                  >
+                    <Button outline className="ml-2" color="success">
+                      View Full Page
+                    </Button>
+                  </Link>
+                </div>
+              </>
             ) : this.state.interviews && this.state.interviews.length > 0 ? (
               this.state.interviews.map(interview => {
                 return (

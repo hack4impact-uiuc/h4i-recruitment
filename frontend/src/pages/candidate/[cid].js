@@ -1,14 +1,17 @@
+/* route to page is /candidate/[cid] where [cid] is a string value of a candidate's id */
+
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Row, Col } from 'reactstrap'
 import Router from 'next/router'
-import Head from '../components/head'
+import Head from '../../components/head'
 import { bindActionCreators } from 'redux'
-import Candidate from '../components/candidates/candidateBox'
-import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
-import AddCommentsModal from '../components/comments/addCommentsModal'
-import CommentBox from '../components/comments/commentBox'
-import ErrorMessage from '../components/errorMessage'
+import Candidate from '../../components/candidates/candidateBox'
+import CandidateInterviewsModal from '../../components/candidates/candidateInterviewsModal'
+import AddCommentsModal from '../../components/comments/addCommentsModal'
+import CommentBox from '../../components/comments/commentBox'
+import { ErrorMessage } from '../../components/common'
+import Nav from '../../components/nav'
 import {
   addReferral,
   addStrongReferral,
@@ -16,12 +19,9 @@ import {
   getCandidateById,
   addCommentToCandidate,
   getCandidateInterviews
-} from '../utils/api'
-import { addInterviewCandidate } from './../actions'
-import ActionButton from '../components/actionButton'
-import Nav from '../components/nav'
+} from '../../utils/api'
+import { addInterviewCandidate } from '../../actions'
 
-type Props = {}
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => ({})
 
-class CandidatePage extends Component<Props> {
+class CandidatePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -46,20 +46,22 @@ class CandidatePage extends Component<Props> {
     }
   }
   async componentDidMount() {
-    const { query } = Router
-    const { result } = await getCandidateById(query.id)
+    const query = Router.query
+    const { result } = await getCandidateById(query.cid)
     this.setState({
       candidate: result,
       comments: result != undefined ? result.comments : []
     })
   }
+
   toggle = () => {
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
   }
+
   submitComment = comment => {
-    const res = addCommentToCandidate(this.state.candidate._id, comment)
+    addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
       addNotesModal: !this.state.addNotesModal
     })
@@ -69,41 +71,48 @@ class CandidatePage extends Component<Props> {
       comments: commentsState
     })
   }
+
   goBack = () => {
     Router.back()
   }
+
   // handles the click to show all interviews. Modal pops up
-  async handleShowAllInterviews(id) {
+  handleShowAllInterviews = async id => {
     const { result } = await getCandidateInterviews(id)
     this.setState({
       interviews: result,
       modalOpen: true
     })
   }
+
   // goes to add the interview
   async handleAddInterview(candidateId, candidateName) {
     const { addInterviewCandidate } = this.props
     await addInterviewCandidate(candidateId, candidateName)
     Router.push('/interview')
   }
+
   // adds referral
   async handleReferral(candidateId) {
     const { result } = await addReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   // adds strong referral
   async handleStrongReferral(candidateId) {
     const { result } = await addStrongReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   // removes referral
   async handleRemoveReferral(candidateId) {
     const { result } = await deleteReferral(candidateId)
     this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
+
   exitModal = () => {
     this.setState({
       modalOpen: false
@@ -111,7 +120,7 @@ class CandidatePage extends Component<Props> {
   }
 
   render() {
-    if (this.state.candidate == undefined) {
+    if (!this.state.candidate) {
       return (
         <ErrorMessage message="User doesn&#39;t exist. Check if your key has the correct privileges." />
       )
@@ -124,7 +133,10 @@ class CandidatePage extends Component<Props> {
         <Container className="mt-5">
           <Row>
             <Col md={12}>
-              <Candidate candidate={candidate} />
+              <Candidate
+                candidate={candidate}
+                handleShowAllInterviews={this.handleShowAllInterviews}
+              />
             </Col>
           </Row>
 
@@ -143,24 +155,21 @@ class CandidatePage extends Component<Props> {
               <Button
                 outline
                 color="primary"
-                onClick={() => this.handleShowAllInterviews(candidate._id)}
-              >
-                Show Interviews
-              </Button>
-              <Button
-                outline
-                color="primary"
-                className="margin-sm-all"
                 onClick={() => this.handleStrongReferral(candidate._id)}
               >
                 Strong Refer
               </Button>
-              <Button outline color="primary" onClick={() => this.handleReferral(candidate._id)}>
+              <Button
+                outline
+                color="primary"
+                className="ml-3"
+                onClick={() => this.handleReferral(candidate._id)}
+              >
                 Refer
               </Button>
               <Button
                 outline
-                color="primary"
+                color="warning"
                 className="ml-3"
                 onClick={() => this.handleRemoveReferral(candidate._id)}
               >

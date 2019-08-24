@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
-import InterviewSectionCard from './interviewSectionCard'
+import InterviewSectionCard from './interview/interviewSectionCard'
 
 class InterviewSectionModular extends Component {
   constructor(props) {
@@ -12,9 +12,12 @@ class InterviewSectionModular extends Component {
       <Input
         onChange={this.onSelect}
         type="select"
-        name="Time Commitment"
-        id="time-commitment-input"
+        name={this.props.title}
+        id={`${this.props.title}-title`}
       >
+        <option selected disabled hidden>
+          {this.props.dropdownPrompt}
+        </option>
         {options.map(option => (
           <option value={option.value}>{option.name}</option>
         ))}
@@ -58,6 +61,7 @@ class InterviewSectionModular extends Component {
         </p>
       )
     }
+
     let options = []
     if (this.props.scoreOptions && this.props.textOptions) {
       for (let i = 0; i < this.props.scoreOptions.length; i++) {
@@ -80,40 +84,41 @@ class InterviewSectionModular extends Component {
     }
     return (
       <InterviewSectionCard title={this.props.title}>
-        {this.props.description ? (
+        {this.props.description && (
           <>
             {this.props.description}
             <br /> <br />
           </>
-        ) : null}
+        )}
 
-        {this.props.prompt ? (
+        {this.props.prompt && (
           <>
             {this.props.prompt} <br /> <br />
           </>
-        ) : null}
+        )}
 
-        {this.props.type == 'notes'
-          ? null
-          : this.props.type == 'dropdown'
-          ? this.mapOptionsDropdown(options)
-          : this.mapOptionsMultipleChoice(options)}
-        {this.props.type != 'notes' && this.props.notesPrompt ? (
+        {this.props.type !== 'notes' &&
+          (this.props.type === 'dropdown'
+            ? this.mapOptionsDropdown(options)
+            : this.mapOptionsMultipleChoice(options))}
+
+        {this.props.type !== 'notes' && this.props.notesPrompt && (
           <>
             <br />
           </>
-        ) : null}
-        {this.props.notesPrompt || this.props.type == 'notes' ? (
+        )}
+
+        {(this.props.notesPrompt || this.props.type === 'notes') && (
           <Input
             style={{ height: '130px' }}
             value={this.props.notes}
             className="textarea-input"
             onChange={this.handleNotesChange}
             type="textarea"
-            id="time-commitment-explanation"
+            id={`${this.props.title}-input`}
             placeholder={this.props.notesPrompt}
           />
-        ) : null}
+        )}
       </InterviewSectionCard>
     )
   }

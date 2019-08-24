@@ -1,13 +1,20 @@
 //@flow
 import fetch from 'isomorphic-unfetch'
+import getConfig from 'next/config'
+import { getCookie } from './cookieUtils'
+const { publicRuntimeConfig } = getConfig()
 
 const getKey = () => localStorage.getItem('interviewerKey')
+
+const API_PORT = publicRuntimeConfig.BACKEND_PORT
 
 const API_URL =
   process.env.NODE_ENV === 'production'
     ? 'https://hack4impact-recruitment-backend.now.sh'
-    : 'http://localhost:8080' // make sure your backend is running on this port.
+    : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
+
+const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'
 
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
@@ -30,6 +37,29 @@ function createEvent(event) {
     method: 'POST',
     mode: 'cors'
   }).then(res => res.json())
+}
+
+function eventCheckin(attendee, id: string) {
+  return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`, {
+    body: JSON.stringify({
+      name: attendee.name,
+      email: attendee.email,
+      year: attendee.year
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'PUT',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function getEventById(id: string) {
+  return fetch(`${API_URL}/events/${id}?key=${getKey()}`).then(res => res.json())
+}
+
+function getEventAttendees(id: string) {
+  return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`).then(res => res.json())
 }
 
 function addInterviewSchedule(file: File) {
@@ -188,6 +218,12 @@ function getAllInterviews() {
   return fetch(`${API_URL}/interviews?key=${getKey()}`).then(res => res.json())
 }
 
+function getInterviewByID(id) {
+  return fetch(`${API_URL}/interviews/${id}?key=${getKey()}`)
+    .then(res => (res.ok ? res : Promise.reject(res)))
+    .then(res => res.json())
+}
+
 function getAllInterviewingCandidateInterviews() {
   return fetch(`${API_URL}/interviews?notRejected=True&&key=${getKey()}`).then(res => res.json())
 }
@@ -242,9 +278,134 @@ function deleteReferral(candidateID: string) {
   }).then(res => res.json())
 }
 
+function getAllUsers() {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, { method: 'GET', mode: 'cors' }).then(res =>
+    res.json()
+  )
+}
+
+function addUser(
+  firstName: String,
+  lastName: String,
+  email: string,
+  tokenId: string,
+  role: string
+) {
+  console.log(`Writing user ${email} to internal database`)
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      tokenId,
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function updateUserRole(email: string, newRole: string) {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      email,
+      role: newRole
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
+function updateServerUserRole(userEmail: string, newRole: string, password: string) {
+  return fetch(`${AUTH_API_URL}/roleschange`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: getCookie('token'),
+      google: getCookie('google') ? true : false
+    },
+    body: JSON.stringify({
+      userEmail,
+      newRole,
+      password
+    })
+  })
+}
+
+function registerUser(email: string, password: string, role: string) {
+  console.log(`Creating new user: ${email}`)
+  return fetch(`${AUTH_API_URL}/register`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password,
+      role
+    }),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }).then(res => res.json())
+}
+
+function loginUser(email: string, password: string) {
+  console.log(`Logging in user ${email}`)
+  return fetch(`${AUTH_API_URL}/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password
+    }),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }).then(res => res.json())
+}
+
+function loginGoogleUser(tokenId: string) {
+  console.log(`Logging in user ${tokenId} with Google Auth`)
+  return fetch(`${AUTH_API_URL}/google`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      tokenId: tokenId,
+      role: 'member'
+    })
+  }).then(res => res.json())
+}
+
+function getWorkspaces() {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
+}
+
+function createWorkspace(workspace) {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
+    body: JSON.stringify({
+      owner: workspace.owner,
+      name: workspace.name
+    }),
+
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(res => res.json())
+}
+
 export {
   getAllEvents,
   createEvent,
+  eventCheckin,
+  getEventById,
+  getEventAttendees,
   addInterviewSchedule,
   getInterviewSchedule,
   getPastInterviews,
@@ -262,11 +423,21 @@ export {
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,
+  getInterviewByID,
   deleteInterview,
   getRound,
   setRound,
   addReferral,
   addStrongReferral,
   deleteReferral,
-  getAllInterviewingCandidateInterviews
+  getAllInterviewingCandidateInterviews,
+  registerUser,
+  loginUser,
+  loginGoogleUser,
+  getAllUsers,
+  addUser,
+  updateUserRole,
+  updateServerUserRole,
+  getWorkspaces,
+  createWorkspace
 }

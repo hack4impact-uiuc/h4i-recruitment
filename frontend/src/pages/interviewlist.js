@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
@@ -9,8 +9,7 @@ import {
 } from '../utils/api'
 import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
 import { avgInterviewScore, interviewGetCategorySection } from '../utils/core'
-import ActionLink from '../components/actionLink'
-import ActionButton from '../components/actionButton'
+import { ActionLink, ActionButton } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import roundData from '../data/roundData'
@@ -21,14 +20,14 @@ const CardCol = ({ children, ...rest }) => (
     {children}
   </Col>
 )
+
 const sortByProperty = function(property) {
   return function(x, y) {
     return x[property] === y[property] ? 0 : x[property] > y[property] ? 1 : -1
   }
 }
-type Props = {}
 
-class InterviewListPage extends React.Component<Props> {
+class InterviewListPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,6 +39,7 @@ class InterviewListPage extends React.Component<Props> {
       interviewingInterviews: []
     }
   }
+
   async componentDidMount() {
     const res = await getInterviewingCandidates()
     const candidates = res.result
@@ -55,6 +55,7 @@ class InterviewListPage extends React.Component<Props> {
         interviewingInterviewsres == undefined ? [] : interviewingInterviewsres
     })
   }
+
   toggleModal = candidateId => {
     this.setState({
       currentCandidateId: candidateId,
@@ -67,11 +68,13 @@ class InterviewListPage extends React.Component<Props> {
       byCategory: !this.state.byCategory
     })
   }
+
   render() {
-    const { candidates, interviews } = this.state
+    const { candidates } = this.state
     const currentCandidate = candidates.find(
       candidate => candidate._id === this.state.currentCandidateId
     )
+
     return (
       <>
         <Head title="My Interviews" />
@@ -82,7 +85,7 @@ class InterviewListPage extends React.Component<Props> {
           </Row>
           <ActionButton text="Back" onClick={Router.back} />
           <ActionButton
-            style={{ marginLeft: '10px' }}
+            className="ml-3"
             text="Show by Category"
             onClick={this.toggleShowByCategory}
           />
@@ -104,7 +107,10 @@ class InterviewListPage extends React.Component<Props> {
                             interviewGetCategorySection(interview) !== null &&
                             interviewGetCategorySection(interview).response.text === category ? (
                               <li>
-                                <Link href={`/candidate?id=${interview.candidate_id}`}>
+                                <Link
+                                  href="/candidate/[cid]"
+                                  as={`/candidate/${interview.candidate_id}`}
+                                >
                                   {interview.candidate_name}
                                 </Link>
                               </li>
@@ -118,21 +124,23 @@ class InterviewListPage extends React.Component<Props> {
             </Row>
           ) : (
             <Row className="candidate-list-box">
+              {currentCandidate && (
+                <CandidateInterviewsModal
+                  isOpen={this.state.modalOpen}
+                  candidateId={currentCandidate === undefined ? '' : currentCandidate._id}
+                  exitModal={this.toggleModal}
+                  candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
+                />
+              )}
               {candidates.map(candidate =>
                 candidate.interviews.length === 0 ? null : (
                   <>
-                    <CandidateInterviewsModal
-                      isOpen={this.state.modalOpen}
-                      candidateId={candidate._id}
-                      exitModal={this.toggleModal}
-                      candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
-                    />
                     <CardCol key={candidate._id}>
                       <Card className="candidate-card h-100">
                         <CardTitle style={{ margin: '15px 0 0 0' }}>
-                          {candidate.name ? (
+                          {candidate.name && (
                             <>
-                              <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                              <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                                 <a className="m-3 card-title inline">{candidate.name}</a>
                               </Link>
                               <p
@@ -149,8 +157,6 @@ class InterviewListPage extends React.Component<Props> {
                                 interviews: {candidate.interviews.length}
                               </p>
                             </>
-                          ) : (
-                            <></>
                           )}
                         </CardTitle>
                         <CardBody>

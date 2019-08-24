@@ -7,7 +7,7 @@ import ReactLoading from 'react-loading'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/facemashProfile'
-import ErrorMessage from '../components/errorMessage'
+import { ErrorMessage } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
@@ -118,7 +118,7 @@ class FaceMash extends Component<Props> {
     }
 
     return candidates && candidates.length == 2 ? (
-      <div>
+      <>
         <Head title="Facemash" />
         <Nav />
         <Container>
@@ -162,7 +162,7 @@ class FaceMash extends Component<Props> {
             <ReactLoading className="loader-box" type="spinningBubbles" color="#000" />
           )}
         </Container>
-      </div>
+      </>
     ) : (
       <ErrorMessage>Error: Couldn&#39;t get new FaceMash match. Please refresh page.</ErrorMessage>
     )

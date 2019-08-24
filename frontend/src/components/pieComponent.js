@@ -8,8 +8,7 @@ import {
   rolesEnum,
   gradEnum,
   compareByEnum,
-  enumToArray,
-  selectByEnum
+  enumToArray
 } from '../utils/enums'
 import { Button } from 'reactstrap'
 
@@ -64,8 +63,7 @@ class PieComponent extends Component<Props> {
     let statusFilter = [],
       roleFilter = [],
       yearFilter = [],
-      gradFilter = [],
-      compareByFilter = []
+      gradFilter = []
     if (this.props.filters) {
       statusFilter = this.props.filters.statuses
       roleFilter = this.props.filters.roles
@@ -75,16 +73,11 @@ class PieComponent extends Component<Props> {
 
     return (
       <div className="filter-box">
-        <div>
-          <h3>Query Panel</h3>
-        </div>
-        <div>
-          <h4>Filters</h4>
-        </div>
-        <div>
-          <h5>Status</h5>
-        </div>
-        <div>
+        <h3>Query Panel</h3>
+
+        <h4>Filters</h4>
+        <h5>Status</h5>
+        <>
           {statuses.map((el, idx) => {
             return (
               <div key={idx}>
@@ -104,11 +97,9 @@ class PieComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h5>Year</h5>
-        </div>
-        <div>
+        </>
+        <h5>Year</h5>
+        <>
           {years.map((el, idx) => {
             return (
               <div key={idx}>
@@ -128,11 +119,9 @@ class PieComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h5>Role</h5>
-        </div>
-        <div>
+        </>
+        <h5>Role</h5>
+        <>
           {roles.map((el, idx) => {
             return (
               <div key={idx}>
@@ -152,11 +141,10 @@ class PieComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
-          <h5>Graduation Date:</h5>
-        </div>
-        <div>
+        </>
+        <h5>Graduation Date:</h5>
+
+        <>
           {gradDates.map((el, idx) => {
             return (
               <div key={idx}>
@@ -176,12 +164,11 @@ class PieComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
+        </>
 
-        <div>
-          <h4>Compare</h4>
-        </div>
-        <div>
+        <h4>Compare</h4>
+
+        <>
           {compareBy.map((el, idx) => {
             return (
               <div key={idx}>
@@ -201,11 +188,11 @@ class PieComponent extends Component<Props> {
               </div>
             )
           })}
-        </div>
-        <div>
+        </>
+        <>
           <p> </p>
           <Button onClick={this.handleClick}>Reset Filters</Button>
-        </div>
+        </>
       </div>
     )
   }

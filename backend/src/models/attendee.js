@@ -6,6 +6,7 @@ const Attendee = new mongoose.Schema({
   year: { type: String, required: true },
   attendedEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   lateEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  candidateId: { type: mongoose.Schema.Types.ObjectId },
   workspaceId: { type: String }
 })
 

@@ -2,12 +2,13 @@ import React from 'react'
 import App, { Container } from 'next/app'
 import { Provider } from 'react-redux'
 import withRedux from 'next-redux-wrapper'
-import Head from '../components/head'
-import configureStore from '../store/appStore'
-import ErrorMessage from '../components/errorMessage'
 import { PageTransition } from 'next-page-transitions'
+import configureStore from '../store/appStore'
+import { ErrorMessage } from '../components/common'
 
-export default withRedux(configureStore, { debug: true })(
+export default withRedux(configureStore, {
+  debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true'
+})(
   class MyApp extends App {
     constructor(props) {
       super(props)
@@ -33,7 +34,7 @@ export default withRedux(configureStore, { debug: true })(
       return (
         <Container>
           <Provider store={store}>
-            <div>
+            <>
               {this.state.hasError ? (
                 <ErrorMessage
                   code="404"
@@ -44,7 +45,7 @@ export default withRedux(configureStore, { debug: true })(
                   <Component {...pageProps} />
                 </PageTransition>
               )}
-            </div>
+            </>
           </Provider>
           <style jsx global>
             {`
