@@ -54,7 +54,8 @@ class RegisterPage extends Component {
     localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
     Router.push('/dashboard')
 
-    addUser(firstName, lastName, email, resp.token, permissionRolesEnum.PENDING).then(resp => {
+    addUser(firstName, lastName, email, resp.uid, permissionRolesEnum.PENDING).then(resp => {
+      console.log(resp)
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully recorded`)
         this.setState({
@@ -86,11 +87,12 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, permissionRolesEnum.DIRECTOR).then(resp => {
-        if (!resp.status === 400) {
+      registerUser(email, password, permissionRolesEnum.PENDING).then(resp => {
+        console.log(resp)
+        if (resp.status === 400) {
           console.log(resp)
           this.setState({
-            errorMessage: 'Please make sure you do not have an existing account.',
+            errorMessage: resp.error || 'Please make sure you do not have an existing account.',
             showInvalidRequestModal: true,
           })
         } else {

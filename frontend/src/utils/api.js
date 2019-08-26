@@ -284,21 +284,15 @@ function getAllUsers() {
   )
 }
 
-function addUser(
-  firstName: String,
-  lastName: String,
-  email: string,
-  tokenId: string,
-  role: string
-) {
+function addUser(firstName: string, lastName: string, userId: string, email: string, role: string) {
   console.log(`Writing user ${email} to internal database`)
   return fetch(`${API_URL}/user/?key=${getKey()}`, {
     method: 'POST',
     body: JSON.stringify({
       firstName,
       lastName,
+      userId,
       email,
-      tokenId,
       role,
     }),
     headers: {
