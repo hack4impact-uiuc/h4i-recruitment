@@ -63,6 +63,38 @@ router.get(
   })
 )
 
+// get interview based on id
+router.get(
+  '/:interview_id',
+  errorWrap(async (req, res) => {
+    const interviewID = req.params.interview_id
+    const result = await Candidate.findOne({ 'interviews._id': interviewID })
+    if (result === null) {
+      res.status(400).json({
+        code: 400,
+        message: `Cannot find interview ${interviewID}`,
+        success: false,
+        result: null
+      })
+      return
+    }
+    const interview = result.interviews.find(interview => String(interview._id) === interviewID) // need to cast Mongo Object ID to string
+
+    const ret = {
+      candidateID: result._id,
+      candidateName: result.name,
+      interview: interview
+    }
+
+    res.json({
+      code: 200,
+      message: `Successfully found interview ${interviewID}`,
+      success: true,
+      result: ret
+    })
+  })
+)
+
 // get interviews based on interviewer
 router.get(
   '/interviewer/:interviewer_key',

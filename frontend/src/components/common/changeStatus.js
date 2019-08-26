@@ -1,7 +1,7 @@
 // Change Status dropdown
 // handler function must be included for logic
 import React from 'react'
-import { statusEnum } from '../utils/enums'
+import { statusEnum } from '../../utils/enums'
 
 const ChangeStatus = ({ candidateID, status, handleChange }) => (
   <select name={candidateID} value={status} onChange={handleChange}>

@@ -6,25 +6,33 @@ import React from 'react'
 import ReactLoading from 'react-loading'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Col, Row } from 'reactstrap'
 
-const VerificationModalComponent = ({
+const closeBtn = ({ toggle }) => (
+  <button className="close" onClick={toggle}>
+    &times;
+  </button>
+)
+
+const VerificationModal = ({
   loading,
   open,
   cancelAction,
   submitAction,
+  submitText,
   header,
-  body
+  body,
+  danger,
 }) => (
   <Modal isOpen={open}>
-    <ModalHeader>{header}</ModalHeader>
+    <ModalHeader close={() => closeBtn(cancelAction)}> {header}</ModalHeader>
     {!loading ? (
       <>
-        <ModalBody>{body}</ModalBody>
+        {body && <ModalBody>{body}</ModalBody>}
         <ModalFooter>
           <Button onClick={cancelAction} color="secondary">
             Cancel
           </Button>
-          <Button onClick={submitAction} color="primary">
-            Submit
+          <Button onClick={submitAction} color={danger ? 'danger' : 'primary'}>
+            {submitText ? submitText : 'Submit'}
           </Button>
         </ModalFooter>
       </>
@@ -42,4 +50,4 @@ const VerificationModalComponent = ({
   </Modal>
 )
 
-export default VerificationModalComponent
+export default VerificationModal

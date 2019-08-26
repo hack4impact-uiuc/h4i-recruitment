@@ -1,29 +1,31 @@
+/* route to page is /candidate/[cid] where [cid] is a string value of a candidate's id */
+
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Row, Col } from 'reactstrap'
 import Router from 'next/router'
-import Head from '../components/head'
+import Head from '../../components/head'
 import { bindActionCreators } from 'redux'
-import Candidate from '../components/candidates/candidateBox'
-import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
-import AddCommentsModal from '../components/comments/addCommentsModal'
-import CommentBox from '../components/comments/commentBox'
-import ErrorMessage from '../components/errorMessage'
-import Nav from '../components/nav'
+import Candidate from '../../components/candidates/candidateBox'
+import CandidateInterviewsModal from '../../components/candidates/candidateInterviewsModal'
+import AddCommentsModal from '../../components/comments/addCommentsModal'
+import CommentBox from '../../components/comments/commentBox'
+import { ErrorMessage } from '../../components/common'
+import Nav from '../../components/nav'
 import {
   addReferral,
   addStrongReferral,
   deleteReferral,
   getCandidateById,
   addCommentToCandidate,
-  getCandidateInterviews
-} from '../utils/api'
-import { addInterviewCandidate } from './../actions'
+  getCandidateInterviews,
+} from '../../utils/api'
+import { addInterviewCandidate } from '../../actions'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addInterviewCandidate
+      addInterviewCandidate,
     },
     dispatch
   )
@@ -40,34 +42,33 @@ class CandidatePage extends Component {
       addNotesModal: false,
       candidate: null,
       modalOpen: false,
-      comments: []
+      comments: [],
     }
   }
-
   async componentDidMount() {
-    const { query } = Router
-    const { result } = await getCandidateById(query.id)
+    const query = Router.query
+    const { result } = await getCandidateById(query.cid)
     this.setState({
       candidate: result,
-      comments: result != undefined ? result.comments : []
+      comments: result != undefined ? result.comments : [],
     })
   }
 
   toggle = () => {
     this.setState({
-      addNotesModal: !this.state.addNotesModal
+      addNotesModal: !this.state.addNotesModal,
     })
   }
 
   submitComment = comment => {
     addCommentToCandidate(this.state.candidate._id, comment)
     this.setState({
-      addNotesModal: !this.state.addNotesModal
+      addNotesModal: !this.state.addNotesModal,
     })
     let commentsState = this.state.comments
     commentsState.push({ writerName: 'You', text: comment, created_at: 'Now' })
     this.setState({
-      comments: commentsState
+      comments: commentsState,
     })
   }
 
@@ -76,11 +77,11 @@ class CandidatePage extends Component {
   }
 
   // handles the click to show all interviews. Modal pops up
-  async handleShowAllInterviews(id) {
+  handleShowAllInterviews = async id => {
     const { result } = await getCandidateInterviews(id)
     this.setState({
       interviews: result,
-      modalOpen: true
+      modalOpen: true,
     })
   }
 
@@ -114,7 +115,7 @@ class CandidatePage extends Component {
 
   exitModal = () => {
     this.setState({
-      modalOpen: false
+      modalOpen: false,
     })
   }
 
@@ -125,7 +126,6 @@ class CandidatePage extends Component {
       )
     }
     const { candidate } = this.state
-
     return (
       <>
         <Head title={candidate.name} />
@@ -133,7 +133,10 @@ class CandidatePage extends Component {
         <Container className="mt-5">
           <Row>
             <Col md={12}>
-              <Candidate candidate={candidate} />
+              <Candidate
+                candidate={candidate}
+                handleShowAllInterviews={this.handleShowAllInterviews}
+              />
             </Col>
           </Row>
 
@@ -152,24 +155,21 @@ class CandidatePage extends Component {
               <Button
                 outline
                 color="primary"
-                onClick={() => this.handleShowAllInterviews(candidate._id)}
-              >
-                Show Interviews
-              </Button>
-              <Button
-                outline
-                color="primary"
-                className="margin-sm-all"
                 onClick={() => this.handleStrongReferral(candidate._id)}
               >
                 Strong Refer
               </Button>
-              <Button outline color="primary" onClick={() => this.handleReferral(candidate._id)}>
+              <Button
+                outline
+                color="primary"
+                className="ml-3"
+                onClick={() => this.handleReferral(candidate._id)}
+              >
                 Refer
               </Button>
               <Button
                 outline
-                color="primary"
+                color="warning"
                 className="ml-3"
                 onClick={() => this.handleRemoveReferral(candidate._id)}
               >

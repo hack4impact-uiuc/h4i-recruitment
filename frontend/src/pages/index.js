@@ -18,9 +18,9 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  ModalFooter
+  ModalFooter,
 } from 'reactstrap'
-import cookie from 'js-cookie'
+import { setCookie } from '../utils/cookieUtils'
 
 const MEMBER_KEY = process.env.MEMBER_KEY
 const LEAD_KEY = process.env.LEADS_KEY
@@ -33,18 +33,7 @@ class LoginPage extends Component {
       email: '',
       password: '',
       errorMessage: '',
-      showInvalidRequestModal: false
-    }
-  }
-
-  // use cookie to hold information that is valid across the whole site
-  setCookie = (key, value) => {
-    const cookieExpirationDays = 1
-    if (process.browser) {
-      cookie.set(key, value, {
-        expires: cookieExpirationDays,
-        path: '/'
-      })
+      showInvalidRequestModal: false,
     }
   }
 
@@ -55,9 +44,9 @@ class LoginPage extends Component {
       this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
-      this.setCookie('token', e.tokenId)
+      setCookie('token', e.tokenId)
       // set google to true so server knows to send the request to google
-      this.setCookie('google', true)
+      setCookie('google', true)
       // set localStorage value so it's valid across the whole site
       this.setRoleKey(response.role)
     }
@@ -73,7 +62,8 @@ class LoginPage extends Component {
     const { email, password } = this.state
     console.log(`Logging in ${email}`)
     loginUser(email, password).then(response => {
-      if (!response.success) {
+      if (response.status != 200) {
+        console.log(response)
         this.setState({ showInvalidRequestModal: true })
       } else {
         this.setRoleKey(response.role)

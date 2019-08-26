@@ -7,25 +7,25 @@ import ReactLoading from 'react-loading'
 import { generateMatchData } from './../actions'
 import { getCandidateMatch, setMatchWinner } from '../utils/api'
 import Candidate from '../components/facemashProfile'
-import ErrorMessage from '../components/errorMessage'
+import { ErrorMessage } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
 type Props = {
   candidates: Array<any>,
   matchID: string,
-  error: boolean
+  error: boolean,
 }
 
 const mapStateToProps = state => ({
   candidates: state.facemash.candidates,
-  matchID: state.facemash.matchID
+  matchID: state.facemash.matchID,
 })
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      generateMatchData
+      generateMatchData,
     },
     dispatch
   )
@@ -37,7 +37,7 @@ class FaceMash extends Component<Props> {
     this.state = {
       error: false,
       message: '',
-      loading: false
+      loading: false,
     }
   }
 
@@ -89,7 +89,7 @@ class FaceMash extends Component<Props> {
       )
       if (res.success) {
         this.setState({
-          success: 'Successfully Submitted'
+          success: 'Successfully Submitted',
         })
       } else {
         console.error('Match not successfully submitted')

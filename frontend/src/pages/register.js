@@ -3,11 +3,11 @@
 
 import { Component } from 'react'
 import Router from 'next/router'
-import { registerUser, loginGoogleUser } from '../utils/api'
+import { registerUser, loginGoogleUser, addUser } from '../utils/api'
 import { GoogleLogin } from 'react-google-login'
 import Nav from '../components/nav'
 import Head from '../components/head'
-import cookie from 'js-cookie'
+import { setCookie } from '../utils/cookieUtils'
 import {
   Container,
   Form,
@@ -21,8 +21,9 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
 } from 'reactstrap'
+import { permissionRolesEnum } from '../utils/enums'
 
 const EMAIL_REGEX =
   "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})"
@@ -32,22 +33,13 @@ class RegisterPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       passwordVerification: '',
       errorMessage: '',
-      showInvalidRequestModal: false
-    }
-  }
-
-  // use cookie to hold information that is valid across the whole site
-  setCookie = (key, value) => {
-    const cookieExpirationDays = 1
-    if (process.browser) {
-      cookie.set(key, value, {
-        expires: cookieExpirationDays,
-        path: '/'
-      })
+      showInvalidRequestModal: false,
     }
   }
 
@@ -57,6 +49,23 @@ class RegisterPage extends Component {
     this.setState({ [name]: value })
   }
 
+  handleCompleteRegister = resp => {
+    const { firstName, lastName, email } = this.state
+    localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
+    Router.push('/dashboard')
+
+    addUser(firstName, lastName, email, resp.token, permissionRolesEnum.PENDING).then(resp => {
+      if (!resp.success) {
+        console.log(`User ${firstName} ${lastName} was not successfully recorded`)
+        this.setState({
+          errorMessage:
+            'Your account was successfully created, but not successfully recorded. Please contact an admin.',
+          showInvalidRequestModal: true,
+        })
+      }
+    })
+  }
+
   handleGoogle = async e => {
     const result = await loginGoogleUser(e.tokenId)
     const resp = await result.json()
@@ -64,11 +73,11 @@ class RegisterPage extends Component {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
-      this.setCookie('token', e.tokenId)
+      setCookie('token', e.tokenId)
       // set google to true so server knows to send the request to google
-      this.setCookie('google', true)
-      // set localStorage value so it's valid across the whole site
+      setCookie('google', true)
       Router.push('/pendingPage')
+      this.handleCompleteRegister(resp)
     }
   }
 
@@ -77,14 +86,16 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, 'member').then(resp => {
-        if (resp.status === 400) {
+      registerUser(email, password, permissionRolesEnum.DIRECTOR).then(resp => {
+        if (!resp.status === 400) {
+          console.log(resp)
           this.setState({
             errorMessage: 'Please make sure you do not have an existing account.',
-            showInvalidRequestModal: true
+            showInvalidRequestModal: true,
           })
         } else {
           Router.push('/pendingPage')
+          this.handleCompleteRegister(resp)
         }
       })
     }
@@ -95,6 +106,15 @@ class RegisterPage extends Component {
   }
 
   render() {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordVerification,
+      errorMessage,
+      showInvalidRequestModal,
+    } = this.state
     return (
       <>
         <Head />
@@ -107,13 +127,21 @@ class RegisterPage extends Component {
             <CardBody>
               <Form>
                 <FormGroup>
+                  <Label for="exampleEmail">First Name</Label>
+                  <Input name="firstName" value={firstName} onChange={this.handleChange} required />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">Last Name</Label>
+                  <Input name="lastName" value={lastName} onChange={this.handleChange} required />
+                </FormGroup>
+                <FormGroup>
                   <Label for="exampleEmail">Email</Label>
                   <Input
                     type="email"
                     name="email"
                     maxLength="64"
                     pattern={EMAIL_REGEX}
-                    value={this.state.email}
+                    value={email}
                     onChange={this.handleChange}
                     required
                   />
@@ -125,7 +153,7 @@ class RegisterPage extends Component {
                     name="password"
                     minLength="8"
                     maxLength="64"
-                    value={this.state.password}
+                    value={password}
                     onChange={this.handleChange}
                     required
                   />
@@ -137,7 +165,7 @@ class RegisterPage extends Component {
                     name="passwordVerification"
                     minLength="8"
                     maxLength="64"
-                    value={this.state.passwordVerification}
+                    value={passwordVerification}
                     onChange={this.handleChange}
                     required
                   />
@@ -169,11 +197,9 @@ class RegisterPage extends Component {
           >
             {'Already have an account? Login here.'}
           </Button>
-          <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
+          <Modal autoFocus={false} isOpen={showInvalidRequestModal}>
             <ModalHeader>{'Your request was invalid.'}</ModalHeader>
-            <ModalBody>
-              {this.state.errorMessage || 'There was an error in your request.'}
-            </ModalBody>
+            <ModalBody>{errorMessage || 'There was an error in your request.'}</ModalBody>
             <ModalFooter>
               <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
                 Close
