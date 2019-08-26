@@ -11,7 +11,7 @@ import {
   gradEnum,
   sortByEnum,
   enumToArray,
-  selectByEnum
+  selectByEnum,
 } from '../utils/enums'
 import { Button } from 'reactstrap'
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => {
       addFilter,
       removeFilter,
       resetFilter,
-      resetFilters
+      resetFilters,
     },
     dispatch
   )
@@ -29,19 +29,19 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    filters: state.candidateListPage.filters
+    filters: state.candidateListPage.filters,
   }
 }
 
 type Props = {
-  filters: Object
+  filters: Object,
 }
 
 class FilterComponent extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
-      workspaces: []
+      workspaces: [],
     }
   }
 

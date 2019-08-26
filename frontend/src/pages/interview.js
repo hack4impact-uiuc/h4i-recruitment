@@ -11,7 +11,7 @@ import {
   FormFeedback,
   Toast,
   ToastHeader,
-  ToastBody
+  ToastBody,
 } from 'reactstrap'
 import Link from 'next/link'
 import React from 'react'
@@ -35,7 +35,7 @@ type Props = {
   error: boolean,
   filters: Object,
   candidateId: String,
-  candidateName: String
+  candidateName: String,
 }
 
 const mapDispatchToProps = dispatch => {
@@ -44,7 +44,7 @@ const mapDispatchToProps = dispatch => {
       fetchCandidatesSuccess,
       fetchAllCandidates,
       addFilter,
-      removeFilter
+      removeFilter,
     },
     dispatch
   )
@@ -56,7 +56,7 @@ const mapStateToProps = state => ({
   filters: state.candidateListPage.filters,
   candidateId: state.interview.candidateId,
   candidateName: state.interview.candidateName,
-  round: state.round
+  round: state.round,
 })
 
 class Interview extends Component<Props> {
@@ -73,26 +73,26 @@ class Interview extends Component<Props> {
       sections: roundData.rounds[this.props.round].sections,
       interviewName: roundData.rounds[this.props.round].name,
       interviewScored: roundData.rounds[this.props.round].scored,
-      verificationModalOpen: false
+      verificationModalOpen: false,
     }
   }
 
   handleSubmitClick = e => {
     e.preventDefault()
     this.setState({
-      verificationModalOpen: true
+      verificationModalOpen: true,
     })
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
   submit = async e => {
     this.setState({
-      loading: true
+      loading: true,
     })
     console.log('Adding Interview....')
     let overallScore = 0
@@ -124,12 +124,12 @@ class Interview extends Component<Props> {
       )
       alert('Successfully added interview')
       this.setState({
-        sections: roundData.rounds[this.props.round].sections // wipe inputs once submitted
+        sections: roundData.rounds[this.props.round].sections, // wipe inputs once submitted
       })
       Router.push('/candidate/[cid]', `/candidate/${this.props.candidateId}`)
     }
     this.setState({
-      loading: false
+      loading: false,
     })
   }
 
@@ -141,7 +141,7 @@ class Interview extends Component<Props> {
     const { result } = await getCandidates()
     this.props.fetchCandidatesSuccess(result)
     this.setState({
-      candidates: result
+      candidates: result,
     })
   }
 
@@ -152,14 +152,14 @@ class Interview extends Component<Props> {
       this.setState({
         sections: currRound.sections,
         interviewName: currRound.name,
-        interviewScored: currRound.scored
+        interviewScored: currRound.scored,
       })
     }
   }
 
   toggle = () => {
     this.setState({
-      verificationModalOpen: !this.state.verificationModalOpen
+      verificationModalOpen: !this.state.verificationModalOpen,
     })
   }
 

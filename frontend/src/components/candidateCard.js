@@ -15,7 +15,7 @@ const handler = (_id: string) => Router.push('/candidate/[cid]', (as = `/candida
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setStatus
+      setStatus,
     },
     dispatch
   )
@@ -25,7 +25,7 @@ class CandidateCardComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate.status
+      status: this.props.candidate.status,
     }
   }
 

@@ -9,5 +9,5 @@ export {
   InterviewCard,
   InterviewDetails,
   InterviewQuickLinks,
-  InterviewSectionCard
+  InterviewSectionCard,
 }

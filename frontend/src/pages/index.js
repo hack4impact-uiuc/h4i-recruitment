@@ -18,7 +18,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  ModalFooter
+  ModalFooter,
 } from 'reactstrap'
 import { setCookie } from '../utils/cookieUtils'
 
@@ -31,7 +31,7 @@ class LoginPage extends Component {
       email: '',
       password: '',
       errorMessage: '',
-      showInvalidRequestModal: false
+      showInvalidRequestModal: false,
     }
   }
 

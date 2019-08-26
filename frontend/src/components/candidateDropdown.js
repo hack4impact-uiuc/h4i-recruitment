@@ -8,24 +8,24 @@ import Select from 'react-select'
 import { addInterviewCandidate } from '../actions'
 
 type Props = {
-  candidates: Array<mixed>
+  candidates: Array<mixed>,
 }
 
 type State = {
   isClearable: boolean,
-  isSearchable: boolean
+  isSearchable: boolean,
 }
 
 const mapStateToProps = state => ({
   loading: state.candidateListPage.candidatesLoading,
   candidateId: state.interview.candidateId,
-  candidateName: state.interview.candidateName
+  candidateName: state.interview.candidateName,
 })
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addInterviewCandidate
+      addInterviewCandidate,
     },
     dispatch
   )
@@ -36,7 +36,7 @@ class CandidateDropdown extends Component<Props, State> {
   state = {
     isClearable: false,
     isSearchable: true,
-    selectedOption: null
+    selectedOption: null,
   }
 
   constructor(props) {
