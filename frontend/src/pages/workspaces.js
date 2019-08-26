@@ -66,7 +66,6 @@ class Workspaces extends Component {
   }
 
   createCycle = async workspaceName => {
-    console.log(workspaceName)
     const cycle = {
       term: this.state.term,
       workspaceName
@@ -92,9 +91,8 @@ class Workspaces extends Component {
 
   handleSelectWorkspaceChange = e => {
     this.setState({ selectedWorkspace: e.target.value })
-    console.log(e)
 
-    getCyclesByWorkspace(this.state.selectedWorkspace).then(cycleRes => {
+    getCyclesByWorkspace(e.target.value).then(cycleRes => {
       this.setState({
         cycles: cycleRes.result
       })
