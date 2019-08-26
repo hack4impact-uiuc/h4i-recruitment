@@ -15,7 +15,7 @@ class Workspaces extends Component {
       selectedWorkspace: '',
       cycles: [],
       workspaceModal: false,
-      cycleModal: false
+      cycleModal: false,
     }
   }
 
@@ -25,20 +25,20 @@ class Workspaces extends Component {
     if (workspaceRes) {
       workspaceRes.result.forEach(async workspace => {
         this.setState({
-          workspaces: [...this.state.workspaces, workspace.name]
+          workspaces: [...this.state.workspaces, workspace.name],
         })
       })
 
       if (!this.state.selectedWorkspace && this.state.workspaces.length) {
         this.setState({
-          selectedWorkspace: this.state.workspaces[0]
+          selectedWorkspace: this.state.workspaces[0],
         })
       }
 
       const cycleRes = await getCyclesByWorkspace(this.state.selectedWorkspace)
       if (cycleRes) {
         this.setState({
-          cycles: cycleRes.result
+          cycles: cycleRes.result,
         })
       }
     }
@@ -46,20 +46,20 @@ class Workspaces extends Component {
 
   toggleWorkspaceModal = () => {
     this.setState({
-      workspaceModal: !this.state.workspaceModal
+      workspaceModal: !this.state.workspaceModal,
     })
   }
 
   toggleCycleModal = () => {
     this.setState({
-      cycleModal: !this.cycleModal
+      cycleModal: !this.cycleModal,
     })
   }
 
   createWorkspace = async () => {
     const workspace = {
       name: this.state.name,
-      owner: this.state.owner
+      owner: this.state.owner,
     }
     const response = await createWorkspace(workspace)
     return response
@@ -68,7 +68,7 @@ class Workspaces extends Component {
   createCycle = async workspaceName => {
     const cycle = {
       term: this.state.term,
-      workspaceName
+      workspaceName,
     }
     const response = await createCycle(cycle)
     return response
@@ -85,7 +85,7 @@ class Workspaces extends Component {
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
@@ -94,7 +94,7 @@ class Workspaces extends Component {
 
     getCyclesByWorkspace(e.target.value).then(cycleRes => {
       this.setState({
-        cycles: cycleRes.result
+        cycles: cycleRes.result,
       })
     })
   }

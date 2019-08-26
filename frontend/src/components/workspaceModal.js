@@ -10,14 +10,14 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
 } from 'reactstrap'
 
 class WorkspaceModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      alert: ''
+      alert: '',
     }
   }
 
@@ -33,7 +33,7 @@ class WorkspaceModal extends Component {
       Router.push({ pathname: this.props.pathname })
     } else {
       this.setState({
-        alert: this.props.alert
+        alert: this.props.alert,
       })
     }
   }
@@ -42,7 +42,7 @@ class WorkspaceModal extends Component {
     // remove err message upon close
     if (this.state.alert) {
       this.setState({
-        alert: ''
+        alert: '',
       })
     }
     this.props.toggle()

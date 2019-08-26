@@ -58,21 +58,21 @@ const newWorkspaceFields = [
   {
     label: 'Name',
     name: 'name',
-    placeholder: 'i.e. Hack4Impact University of Illinois at Urbana-Champaign'
+    placeholder: 'i.e. Hack4Impact University of Illinois at Urbana-Champaign',
   },
   {
     label: 'Owner',
     name: 'owner',
-    placeholder: 'THIS IS TEMPORARY'
-  }
+    placeholder: 'THIS IS TEMPORARY',
+  },
 ]
 
 const newCycleFields = [
   {
     label: 'Term',
     name: 'term',
-    placeholder: 'i.e. SP19, FA20'
-  }
+    placeholder: 'i.e. SP19, FA20',
+  },
 ]
 
 export { newEventFields, newWorkspaceFields, newCycleFields }

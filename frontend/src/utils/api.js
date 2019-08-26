@@ -20,13 +20,13 @@ function createWorkspace(workspace) {
   return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
     body: JSON.stringify({
       name: workspace.name,
-      owner: workspace.owner
+      owner: workspace.owner,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -38,13 +38,13 @@ function createCycle(cycle) {
   return fetch(`${API_URL}/cycle?key=${getKey()}`, {
     body: JSON.stringify({
       term: cycle.term,
-      workspaceName: cycle.workspaceName
+      workspaceName: cycle.workspaceName,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -480,6 +480,4 @@ export {
   addUser,
   updateUserRole,
   updateServerUserRole,
-  getWorkspaces,
-  createWorkspace,
 }
