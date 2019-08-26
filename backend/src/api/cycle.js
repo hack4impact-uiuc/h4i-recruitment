@@ -128,4 +128,46 @@ router.post(
   })
 )
 
+router.put(
+  '/setCurrent/:workspaceName/:cycleId',
+  [directorsOnly],
+  errorWrap(async (req, res) => {
+    const workspaceName = req.params.workspaceName
+    const cycleId = req.params.cycleId
+    // set the last current cycle to not-current
+    await Cycle.findOneAndUpdate(
+      { workspaceName, current: true },
+      { $set: { current: false } },
+      err => {
+        if (err) {
+          return res.json({
+            code: 400,
+            message: err.message,
+            result: {},
+            success: false
+          })
+        }
+      }
+    )
+
+    // todo: ensure that new owner is a director & belongs in the same org
+    await Cycle.findOneAndUpdate({ _id: cycleId }, { $set: { current: true } }, err => {
+      if (err) {
+        return res.json({
+          code: 400,
+          message: err.message,
+          result: {},
+          success: false
+        })
+      }
+    })
+
+    res.json({
+      code: 200,
+      message: `Successfully set cycle as current`,
+      success: true
+    })
+  })
+)
+
 module.exports = router

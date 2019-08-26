@@ -92,30 +92,4 @@ router.put(
   })
 )
 
-router.put(
-  '/setCurrent/:workspaceName',
-  [directorsOnly],
-  errorWrap(async (req, res) => {
-    const workspaceName = req.params.workspaceName
-    const workspace = find({ name: workspaceName })
-    if (!workspace) {
-      return res.json({
-        code: 400,
-        message: 'Invalid workspace name',
-        success: false
-      })
-    }
-
-    // todo: ensure that new owner is a director & belongs in the same org
-    await Workspace.findOneAndUpdate({ current: true }, { $set: { current: false } })
-    await Workspace.findOneAndUpdate({ name: workspaceName }, { $set: { current: true } })
-
-    res.json({
-      code: 200,
-      message: `Successfully set ${workspaceName} as current`,
-      success: true
-    })
-  })
-)
-
 module.exports = router

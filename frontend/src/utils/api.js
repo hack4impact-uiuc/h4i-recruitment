@@ -34,6 +34,16 @@ function getWorkspaces() {
   return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
 }
 
+function setCurrentCycle(cycleId, workspaceName) {
+  return fetch(`${API_URL}/cycle/setCurrent/${workspaceName}/${cycleId}?key=${getKey()}`, {
+    headers: {
+      'content-type': 'application/json',
+    },
+    method: 'PUT',
+    mode: 'cors',
+  }).then(res => res.json())
+}
+
 function createCycle(cycle) {
   return fetch(`${API_URL}/cycle?key=${getKey()}`, {
     body: JSON.stringify({
@@ -110,7 +120,9 @@ function addInterviewSchedule(file: File) {
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ schedule: scheduleString }),
+      body: JSON.stringify({
+        schedule: scheduleString,
+      }),
     })
       .then(res => res.json())
       .then(success => console.log(success))
@@ -197,6 +209,7 @@ function getPastInterviews(interviewerKey: string) {
     res.json()
   )
 }
+
 function getCandidateInterviews(candidateId: string) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`).then(res =>
     res.json()
@@ -317,9 +330,10 @@ function deleteReferral(candidateID: string) {
 }
 
 function getAllUsers() {
-  return fetch(`${API_URL}/user/?key=${getKey()}`, { method: 'GET', mode: 'cors' }).then(res =>
-    res.json()
-  )
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'GET',
+    mode: 'cors',
+  }).then(res => res.json())
 }
 
 function addUser(
@@ -419,25 +433,6 @@ function loginGoogleUser(tokenId: string) {
   }).then(res => res.json())
 }
 
-function getWorkspaces() {
-  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
-}
-
-function createWorkspace(workspace) {
-  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
-    body: JSON.stringify({
-      owner: workspace.owner,
-      name: workspace.name,
-    }),
-
-    headers: {
-      'content-type': 'application/json',
-    },
-    method: 'POST',
-    mode: 'cors',
-  }).then(res => res.json())
-}
-
 export {
   createWorkspace,
   getWorkspaces,
@@ -445,6 +440,7 @@ export {
   createCycle,
   getAllEvents,
   createEvent,
+  setCurrentCycle,
   eventCheckin,
   getEventById,
   getEventAttendees,

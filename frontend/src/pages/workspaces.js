@@ -3,7 +3,13 @@ import { Container, Table } from 'reactstrap'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import WorkspaceModal from '../components/workspaceModal'
-import { getWorkspaces, createWorkspace, createCycle, getCyclesByWorkspace } from '../utils/api'
+import {
+  getWorkspaces,
+  createWorkspace,
+  createCycle,
+  getCyclesByWorkspace,
+  setCurrentCycle,
+} from '../utils/api'
 import { newWorkspaceFields, newCycleFields } from '../utils/formFields'
 import { Button } from 'reactstrap'
 
@@ -74,8 +80,17 @@ class Workspaces extends Component {
     return response
   }
 
-  setCurrentCycle = async cycle => {
-    // new endpoint for cycle setting? do we want this functionality?
+  setCurrentCycle = async (cycle, workspaceName) => {
+    const response = await setCurrentCycle(cycle, workspaceName)
+    if (response.success) {
+      const cycleRes = await getCyclesByWorkspace(this.state.selectedWorkspace)
+      if (cycleRes) {
+        this.setState({
+          cycles: cycleRes.result,
+        })
+      }
+    }
+    return response
   }
 
   toggleImportModal = event => {
@@ -152,7 +167,12 @@ class Workspaces extends Component {
                             >
                               Import Candidates
                             </Button>
-                            <Button color="primary" onClick={this.setCurrentCycle}>
+                            <Button
+                              color="primary"
+                              onClick={() => {
+                                this.setCurrentCycle(cycle._id, this.state.selectedWorkspace)
+                              }}
+                            >
                               Select cycle
                             </Button>
                           </td>
