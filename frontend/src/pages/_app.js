@@ -2,11 +2,13 @@ import React from 'react'
 import App, { Container } from 'next/app'
 import { Provider } from 'react-redux'
 import withRedux from 'next-redux-wrapper'
-import configureStore from '../store/appStore'
-import ErrorMessage from '../components/errorMessage'
 import { PageTransition } from 'next-page-transitions'
+import configureStore from '../store/appStore'
+import { ErrorMessage } from '../components/common'
 
-export default withRedux(configureStore, { debug: true })(
+export default withRedux(configureStore, {
+  debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true',
+})(
   class MyApp extends App {
     constructor(props) {
       super(props)
@@ -16,8 +18,8 @@ export default withRedux(configureStore, { debug: true })(
       return {
         pageProps: {
           // Call page-level getInitialProps
-          ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {})
-        }
+          ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
+        },
       }
     }
 

@@ -1,49 +1,78 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Component } from 'react'
 import Router from 'next/router'
-import { Button, Container, Input, Row, Col } from 'reactstrap'
-import { validateKey } from '../utils/api'
-import ReactLoading from 'react-loading'
+import { loginUser, loginGoogleUser } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
+import { GoogleLogin } from 'react-google-login'
+import {
+  Container,
+  Form,
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+  CardBody,
+  CardTitle,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+} from 'reactstrap'
+import { setCookie } from '../utils/cookieUtils'
+
+const MEMBER_KEY = 'ohno'
 
 class LoginPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentKey: '',
-      loading: false
+      email: '',
+      password: '',
+      errorMessage: '',
+      showInvalidRequestModal: false,
     }
   }
 
-  handleSubmit = async () => {
-    this.setState({
-      loading: true
-    })
-    const { success, result } = await validateKey(this.state.currentKey)
-    if (success) {
-      localStorage.setItem('interviewerKey', this.state.currentKey)
-      localStorage.setItem('interviewerName', result.name)
-      this.setState({
-        loading: false
-      })
-      Router.push('/dashboard')
+  handleGoogle = async e => {
+    const result = await loginGoogleUser(e.tokenId)
+    const response = await result.json()
+    if (!response.success) {
+      this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
     } else {
-      this.setState({
-        loading: false
-      })
-      alert("Couldn't log in. Is your key correct?")
+      // set token value so google can access it
+      setCookie('token', e.tokenId)
+      // set google to true so server knows to send the request to google
+      setCookie('google', true)
+      // set localStorage value so it's valid across the whole site
+      localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
+      Router.push('/dashboard')
     }
   }
 
-  onTextChange = e => {
-    this.setState({ currentKey: e.target.value })
+  handleChange = event => {
+    const value = event.target.value
+    const name = event.target.name
+    this.setState({ [name]: value })
   }
 
-  // handles when user presses "Enter" when input is focused
-  _handleKeyPress = e => {
-    if (e.key === 'Enter') {
-      this.handleSubmit()
-    }
+  handleSubmit = () => {
+    const { email, password } = this.state
+    console.log(`Logging in ${email}`)
+    loginUser(email, password).then(response => {
+      if (response.status != 200) {
+        console.log(response)
+        this.setState({ showInvalidRequestModal: true })
+      } else {
+        localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
+        Router.push('/dashboard')
+      }
+    })
+  }
+
+  handleInvalidRequestModalClose = () => {
+    this.setState({ showInvalidRequestModal: false })
   }
 
   render() {
@@ -52,30 +81,62 @@ class LoginPage extends Component {
         <Head />
         <Nav />
         <Container>
-          {this.state.loading ? (
-            <Row className="login-loading-box">
-              <Col md="4" />
-              <Col md="2">
-                <ReactLoading className="login-box" type="spinningBubbles" color="#000" />
-              </Col>
-            </Row>
-          ) : (
-            <div className="align-middle login-box">
-              <h4>Enter Key:</h4>
-              <Input
-                autoFocus={true}
-                type="text"
-                value={this.state.currentKey}
-                onChange={this.onTextChange}
-                name="Input Key"
-                placeholder="Input Your Key"
-                onKeyPress={this._handleKeyPress}
+          <Card className="login-card">
+            <CardTitle>
+              <h3 className="login-title">Login</h3>
+            </CardTitle>
+            <CardBody>
+              <Form>
+                <FormGroup>
+                  <Label for="exampleEmail">Email</Label>
+                  <Input
+                    type="email"
+                    name="email"
+                    maxLength="64"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="examplePassword">Password</Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    minLength="8"
+                    maxLength="64"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
+                <Button color="outline-secondary" onClick={this.handleSubmit}>
+                  Submit
+                </Button>
+              </Form>
+
+              <GoogleLogin
+                className="btn sign-in-btn"
+                clientId="409847273934-jmhjkeu77d3cqr32sh3vpl3ogh2f4dev.apps.googleusercontent.com"
+                responseType="id_token"
+                buttonText={this.props.role}
+                scope="https://www.googleapis.com/auth/userinfo.email"
+                onSuccess={this.handleGoogle}
               />
-              <Button className="mt-3" color="primary" onClick={this.handleSubmit}>
-                Login
+            </CardBody>
+          </Card>
+          <Button color="outline-primary" onClick={() => Router.push('/register')}>
+            {"Don't have an account? Register here!"}
+          </Button>
+          <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
+            <ModalHeader>{'There was an error in your request.'}</ModalHeader>
+            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
+            <ModalFooter>
+              <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
+                Close
               </Button>
-            </div>
-          )}
+            </ModalFooter>
+          </Modal>
         </Container>
       </>
     )

@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import { editInterview, newInterview } from '../actions'
 import { getKey, getPastInterviews, deleteInterview } from '../utils/api'
 import VerificationModal from '../components/verificationModal'
-import ActionButton from '../components/actionButton'
+import { ActionButton } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
@@ -17,7 +17,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       editInterview,
-      newInterview
+      newInterview,
     },
     dispatch
   )
@@ -31,7 +31,7 @@ class InterviewPortal extends Component {
       interviews: [],
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false
+      loading: false,
     }
   }
 
@@ -59,20 +59,20 @@ class InterviewPortal extends Component {
   toggle = () => {
     this.setState({
       interviewToDelete: null,
-      verificationModalOpen: false
+      verificationModalOpen: false,
     })
   }
 
   handleDeleteClick = (interviewId, candidateId) => {
     this.setState({
       verificationModalOpen: true,
-      interviewToDelete: { interviewId, candidateId }
+      interviewToDelete: { interviewId, candidateId },
     })
   }
 
   delete = async () => {
     this.setState({
-      loading: true
+      loading: true,
     })
     const interview = this.state.interviewToDelete
     await deleteInterview(interview.candidateId, interview.interviewId)
@@ -81,7 +81,7 @@ class InterviewPortal extends Component {
       interviews: newInterviews,
       verificationModalOpen: false,
       interviewToDelete: null,
-      loading: false
+      loading: false,
     })
   }
 
@@ -90,11 +90,11 @@ class InterviewPortal extends Component {
 
     return (
       <>
-        <Head title="Interviews" />
+        <Head title="Your Interviews" />
         <Nav />
         <Container>
-          <h1>Interviews</h1>
-          <Row style={{ marginBottom: '30px' }}>
+          <h1 className="mt-3">Your Interviews</h1>
+          <Row className="mt-3 mb-4">
             <ActionButton
               className="button-margin"
               text="New Interview"
@@ -109,14 +109,18 @@ class InterviewPortal extends Component {
             submitAction={this.delete}
             header="Are you sure you want to delete this interview?"
             body="There's no going back!"
+            danger={true}
           />
-          <Table>
+          <Table hover>
             <thead>
               <tr>
                 <th>#</th>
                 <th>Candidate Name</th>
-                <th>Interview Overall Score</th>
-                <th>Action</th>
+                <th>Round</th>
+                <th>Overall Score</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -126,15 +130,21 @@ class InterviewPortal extends Component {
                     <tr key={i + 1}>
                       <td>{i + 1}</td>
                       <td>
-                        <Link
-                          href={{ pathname: '/candidate', query: { id: interview.candidate_id } }}
-                        >
+                        <Link href="/candidate/[cid]" as={`/candidate/${interview.candidate_id}`}>
                           <a className="regular-anchor">{interview.candidate_name}</a>
                         </Link>
                       </td>
+                      <td>{interview.round}</td>
                       <td>{interview.overall_score}</td>
                       <td>
-                        <Button onClick={() => this.handleEditInterview(interview)}>
+                        <Link href="/interview/[interviewID]" as={`/interview/${interview._id}`}>
+                          <Button outline color="success">
+                            View
+                          </Button>
+                        </Link>
+                      </td>
+                      <td>
+                        <Button disabled onClick={() => this.handleEditInterview(interview)}>
                           Edit Interview
                         </Button>
                       </td>
@@ -148,7 +158,7 @@ class InterviewPortal extends Component {
                           Delete
                         </Button>
                       </td>
-                    </tr>
+                    </tr>,
                   ]
                 })
               ) : (

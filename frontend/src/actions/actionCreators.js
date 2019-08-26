@@ -9,10 +9,11 @@ import {
   ADD_FILTER,
   REMOVE_FILTER,
   SET_STATUS,
+  RESET_FILTER,
   RESET_FILTERS,
   SET_ROUND,
   SET_SELECTED_ROUND,
-  SET_VALID_FORMAT
+  SET_VALID_FORMAT,
 } from './actionTypes.js'
 import { getCandidates } from '../utils/api'
 
@@ -20,17 +21,17 @@ import { getCandidates } from '../utils/api'
 
 export const setRoundRedux = round => ({
   type: SET_ROUND,
-  payload: round
+  payload: round,
 })
 
 export const setSelectedRound = selectedRound => ({
   type: SET_SELECTED_ROUND,
-  payload: selectedRound
+  payload: selectedRound,
 })
 
 export const setValidFormat = validFormat => ({
   type: SET_VALID_FORMAT,
-  payload: validFormat
+  payload: validFormat,
 })
 
 export const fetchCandidatesFailure = error => ({ type: FETCH_CANDIDATES_FAILURE, payload: error })
@@ -41,52 +42,59 @@ export const setStatus = (candidateId, status) => ({
   type: SET_STATUS,
   payload: {
     candidateId: candidateId,
-    status: status
-  }
+    status: status,
+  },
 })
 
 export const fetchCandidatesSuccess = candidates => ({
   type: FETCH_CANDIDATES_SUCCESS,
-  payload: candidates
+  payload: candidates,
 })
 
 export const addInterviewCandidate = (candidateId, candidateName) => ({
   type: ADD_INTERVIEW_CANDIDATE,
   payload: {
     candidateId: candidateId,
-    candidateName: candidateName
-  }
+    candidateName: candidateName,
+  },
 })
 
 export const editInterview = interview => ({
   type: EDIT_INTERVIEW,
   payload: {
-    interview: interview
-  }
+    interview: interview,
+  },
 })
 
 export const newInterview = () => ({
-  type: NEW_INTERVIEW
+  type: NEW_INTERVIEW,
 })
 
 export const addFilter = (category, filter) => ({
   type: ADD_FILTER,
   payload: {
     category: category,
-    filter: filter
-  }
+    filter: filter,
+  },
+})
+
+export const resetFilter = category => ({
+  type: RESET_FILTER,
+  payload: {
+    category,
+  },
 })
 
 export const resetFilters = () => ({
-  type: RESET_FILTERS
+  type: RESET_FILTERS,
 })
 
 export const removeFilter = (category, filter) => ({
   type: REMOVE_FILTER,
   payload: {
     category: category,
-    filter: filter
-  }
+    filter: filter,
+  },
 })
 
 // Function to create action that stores data about new match
@@ -94,7 +102,7 @@ function newMatch(candidate1, candidate2, match_id) {
   return {
     type: NEW_MATCH,
     candidates: [candidate1, candidate2],
-    matchID: match_id
+    matchID: match_id,
   }
 }
 
