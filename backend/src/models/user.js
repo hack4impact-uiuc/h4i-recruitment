@@ -9,6 +9,6 @@ const User = new mongoose.Schema({
   email: String,
   key: String,
   role: String,
-  workspaceId: String
+  cycleId: mongoose.Schema.Types.ObjectId
 })
 module.exports = mongoose.model('User', User)

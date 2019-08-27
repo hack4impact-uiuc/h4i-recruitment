@@ -40,7 +40,7 @@ const Candidate = new mongoose.Schema(
       name: { type: String },
       key: { type: String }
     },
-    workspaceId: { type: String }
+    cycleId: { type: mongoose.Schema.Types.ObjectId }
   },
   { timestamps: true }
 )

@@ -10,7 +10,7 @@ const Event = new mongoose.Schema({
   attendeeEmails: { type: [String], default: [] },
   lateAttendeeEmails: { type: [String], default: [] },
   fbLink: { type: String, required: true },
-  workspaceId: { type: String }
+  cycleId: { type: mongoose.Schema.Types.ObjectId }
 })
 
 module.exports = mongoose.model('Event', Event)

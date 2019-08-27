@@ -11,7 +11,7 @@ import {
   setCurrentCycle,
 } from '../utils/api'
 import { newWorkspaceFields, newCycleFields } from '../utils/formFields'
-import { Button } from 'reactstrap'
+import { ActionButton } from '../components/common'
 
 class Workspaces extends Component {
   constructor(props) {
@@ -143,9 +143,11 @@ class Workspaces extends Component {
                 )
               })}
             </select>
-            <Button color="primary" onClick={this.toggleWorkspaceModal}>
-              Create Workspace
-            </Button>
+            <ActionButton
+              className="button-margin"
+              text="Create Workspace"
+              onClick={this.toggleWorkspaceModal}
+            />
             {this.state.selectedWorkspace ? (
               <>
                 <h2>{this.state.selectedWorkspace}</h2>
@@ -160,21 +162,18 @@ class Workspaces extends Component {
                         <tr key={index} className={cycle.current ? 'current' : ''}>
                           <td>{cycle.term}</td>
                           <td>
-                            <Button
-                              color="primary"
-                              value={cycle.id}
+                            <ActionButton
+                              className="button-margin"
+                              text="Import Candidates"
                               onClick={this.toggleImportModal}
-                            >
-                              Import Candidates
-                            </Button>
-                            <Button
-                              color="primary"
+                            />
+                            <ActionButton
+                              className="button-margin"
+                              text="Select Cycle"
                               onClick={() => {
                                 this.setCurrentCycle(cycle._id, this.state.selectedWorkspace)
                               }}
-                            >
-                              Select cycle
-                            </Button>
+                            />
                           </td>
                         </tr>
                       )
@@ -193,9 +192,13 @@ class Workspaces extends Component {
                   alert="All fields are required."
                   pathname="/workspaces"
                 />
-                <Button color="primary" onClick={this.toggleCycleModal}>
-                  Create cycle
-                </Button>
+                <ActionButton
+                  className="button-margin"
+                  text="Create Cycle"
+                  onClick={() => {
+                    this.setCurrentCycle(cycle._id, this.toggleCycleModal)
+                  }}
+                />
               </>
             ) : (
               <p>You don't have any workspaces!</p>

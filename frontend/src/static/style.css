@@ -291,7 +291,7 @@ p > b {
 }
 
 .current {
-  color: blue;
+  background-color: #dee2e6;
 }
 
 .loader {
