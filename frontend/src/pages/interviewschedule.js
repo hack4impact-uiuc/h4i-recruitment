@@ -2,27 +2,75 @@ import { Container, Button, Table, Row } from 'reactstrap'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import Link from 'next/link'
-import { getInterviewSchedule, addInterviewSchedule } from '../utils/api'
+import {
+  getInterviewSchedule,
+  addCandidateSchedules,
+  addInterviewerSchedules,
+  generateSchedules,
+  deleteAllSchedules,
+} from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
+import { Alert } from 'reactstrap'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const mapStateToProps = state => ({})
 
 class InterviewSchedule extends Component {
   constructor(props) {
     super(props)
-    this.uploadSchedule = this.uploadSchedule.bind(this)
 
     this.state = {
       interviews: this.props.interviews,
       interviewCards: this.props.interviewCards,
+      apiResponses: [],
+      clickedDeleteOnce: false,
     }
   }
 
-  uploadSchedule(e) {
-    e.preventDefault()
+  getAlerts = () => {
+    return this.state.apiResponses.map(elem => {
+      return (
+        <Alert color={elem.code === 200 ? 'success' : 'danger'} key={elem.title}>
+          <h4 className="alert-heading">{elem.title}</h4>
+          {elem.message}
+        </Alert>
+      )
+    })
+  }
 
-    addInterviewSchedule(this.uploadInput.files[0])
+  pushAPIResponse = (obj, title) => {
+    obj.title = title
+    this.setState(prevState => ({
+      apiResponses: [...prevState.apiResponses, obj],
+    }))
+  }
+  uploadSchedule = async e => {
+    e.preventDefault()
+    this.setState({ isLoading: true, apiResponses: [] })
+    const candidateResp = await addCandidateSchedules(this.candidateInput.files[0])
+    this.pushAPIResponse(candidateResp, 'Candidate Submission')
+    const interviewerResp = await addInterviewerSchedules(this.interviewerInput.files[0])
+    this.pushAPIResponse(interviewerResp, 'Interviewer Submission')
+    const generationResp = await generateSchedules()
+    this.pushAPIResponse(generationResp, 'Generate Schedule')
+    this.setState({ isLoading: false })
+    this.populateInterviewSchedules()
+  }
+
+  deleteScheduleHandler = async e => {
+    e.preventDefault()
+    if (!this.state.clickedDeleteOnce) {
+      // if it hasn't already been clicked, don't yet delete and prompt with warning
+      this.setState({ clickedDeleteOnce: true })
+      setTimeout(() => this.setState({ clickedDeleteOnce: false }), 4000)
+      return
+    }
+    const deleteResp = await deleteAllSchedules()
+    this.pushAPIResponse(deleteResp, 'Delete Schedule Request')
+    this.populateInterviewSchedules()
+    this.setState({ clickedDeleteOnce: false })
   }
 
   getInterviewCard = interview => {
@@ -98,13 +146,21 @@ class InterviewSchedule extends Component {
     }
   }
 
-  async componentDidMount() {
+  populateInterviewSchedules = async () => {
     const res = await getInterviewSchedule()
+    if (res.code !== 200) {
+      // only populate if the GET is not successful
+      this.pushAPIResponse(res, 'Get Schedule Response')
+    }
     var interviewList = res.result.interviews
     this.setState({
       interviews: interviewList === undefined ? [] : interviewList,
       interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList),
     })
+  }
+
+  async componentDidMount() {
+    this.populateInterviewSchedules()
   }
 
   render() {
@@ -113,6 +169,7 @@ class InterviewSchedule extends Component {
         <Head title="Interview Schedule" />
         <Nav />
         <Container style={{ overflow: 'hidden' }}>
+          {this.getAlerts()}
           <h1>Upcoming Interviews</h1>
           {this.state.interviewCards}
         </Container>
@@ -121,14 +178,46 @@ class InterviewSchedule extends Component {
           <form onSubmit={this.uploadSchedule}>
             <>
               <h2>Upload a New Schedule</h2>
+              <h4>Candidates</h4>
               <input
                 ref={ref => {
-                  this.uploadInput = ref
+                  this.candidateInput = ref
                 }}
+                onChange={_ => this.setState({ candidateFileSelected: true })}
                 type="file"
+                accept=".xls,.xlsx"
               />
             </>
-            <Button type="submit">Parse Schedule</Button>
+            <>
+              <h4>Interviewers</h4>
+              <input
+                ref={ref => {
+                  this.interviewerInput = ref
+                }}
+                onChange={_ => this.setState({ interviewerFileSelected: true })}
+                type="file"
+                accept=".xls,.xlsx"
+              />
+            </>
+            <br />
+            <Button
+              type="submit"
+              disabled={
+                this.state.isLoading ||
+                !this.state.interviewerFileSelected ||
+                !this.state.candidateFileSelected
+              }
+            >
+              Parse Schedule
+              {this.state.isLoading && <FontAwesomeIcon icon={faSpinner} spin />}
+            </Button>
+            <Button
+              color="danger"
+              onClick={this.deleteScheduleHandler}
+              disabled={this.state.isLoading}
+            >
+              {this.state.clickedDeleteOnce ? 'Are you sure?' : 'Delete Schedule'}
+            </Button>
           </form>
           <br />
         </Container>
