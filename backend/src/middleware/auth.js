@@ -14,20 +14,8 @@ const auth = (req, res, next) => {
       const foundUser = User.findOne({ userId: key })
 
       if (foundUser != null) {
-        req._key_name = foundUser.name // set the user's name of the key that was used to make the request
+        req._key_name = foundUser.firstName // set the user's name of the key that was used to make the request
         req._key = key
-
-        // check if there is a corresponding name for the key
-        if (req._key_name == undefined) {
-          const msg = `The key '${key}' given doesn't have a corresponding name. Check the json file holding the keys.`
-          console.error(msg)
-          res.status(500).json({
-            code: 500,
-            message: msg,
-            success: false
-          })
-          return
-        }
 
         // check whether key is a director's, lead's, or member's key
         // this is used by the directorsOnly and leadsOnly middleware

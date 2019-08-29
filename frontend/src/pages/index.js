@@ -1,7 +1,7 @@
 import React from 'react'
 import { Component } from 'react'
 import Router from 'next/router'
-import { loginUser, loginGoogleUser } from '../utils/api'
+import { loginUser, loginGoogleUser, validateKey } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { GoogleLogin } from 'react-google-login'

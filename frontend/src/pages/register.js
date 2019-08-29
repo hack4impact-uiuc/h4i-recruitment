@@ -51,8 +51,7 @@ class RegisterPage extends Component {
 
   handleCompleteRegister = resp => {
     const { firstName, lastName, email } = this.state
-    localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-    Router.push('/dashboard')
+    localStorage.setItem('memberId', resp.uid)
 
     addUser(firstName, lastName, email, resp.uid, permissionRolesEnum.PENDING).then(resp => {
       console.log(resp)

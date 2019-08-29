@@ -40,61 +40,33 @@ class NavigationBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isDirector: false,
-      isLead: false,
+      role: 'Pending',
       loggedIn: false,
-      showLoginModal: false,
       username: null,
     }
   }
 
-  toggle = () => {
-    this.setState({
-      showLoginModal: !this.state.showLoginModal,
-    })
-  }
-
   logout = () => {
-    localStorage.removeItem('interviewerKey')
-    localStorage.removeItem('interviewerName')
+    localStorage.removeItem('memberId')
+    localStorage.removeItem('memberName')
 
     this.setState({ loggedIn: false })
     alert('Logged Out!')
     Router.push('/')
   }
 
-  async handleSubmit() {
-    this.setState({
-      showLoginModal: false,
-    })
-    const { success, result } = await validateKey(this.state.currentKey)
-    if (success) {
-      localStorage.setItem('interviewerKey', this.state.currentKey)
-      localStorage.setItem('interviewerName', result.name)
-      Router.push('/dashboard')
-
-      this.setState({
-        isDirector: result.is_director,
-        isLead: result.is_lead,
-        loggedIn: true,
-        username: result.name,
-      })
-    }
-  }
-
-  onTextChange = e => {
-    this.setState({ currentKey: e.target.value })
-  }
-
   async componentDidMount() {
-    if (getKey() === undefined) {
-      return
+    if (getKey() !== undefined) {
+      this.setState({ loggedIn: true })
     }
     const { success, result } = await validateKey(getKey())
+    console.log(getKey())
+    console.log(await validateKey(getKey()))
     if (success) {
+      localStorage.setItem('memberName', result.name)
+
       this.setState({
-        isLead: result.is_lead,
-        isDirector: result.is_director,
+        role: result.role,
         loggedIn: true,
         username: result.name,
       })
@@ -145,7 +117,7 @@ class NavigationBar extends Component {
                   <a className="nav-bar-link pl-3">Table View</a>
                 </Link>
               </NavItem>
-              {this.state.isLead && (
+              {this.state.role === 'Lead' && (
                 <>
                   <NavItem>
                     <Link href="/eventOverview">
@@ -184,7 +156,7 @@ class NavigationBar extends Component {
                       <a className="nav-bar-link pl-3">Analytics</a>
                     </Link>
                   </NavItem>
-                  {this.state.isDirector && (
+                  {this.state.role === 'Director' && (
                     <>
                       <NavItem>
                         <Link href="/workspaces">
@@ -207,7 +179,7 @@ class NavigationBar extends Component {
               )}
               <NavItem>
                 {!this.state.loggedIn ? (
-                  <a className="nav-bar-link pl-3" href="#" onClick={this.toggle}>
+                  <a className="nav-bar-link pl-3" href="#" onClick={() => Router.push('/#')}>
                     Login
                   </a>
                 ) : (
@@ -219,36 +191,6 @@ class NavigationBar extends Component {
             </Nav>
           </Collapse>
         </Navbar>
-        <Container>
-          <Modal autoFocus={false} isOpen={this.state.showLoginModal}>
-            <ModalHeader>Login to Your Interview Portal</ModalHeader>
-            <ModalBody>
-              <Input
-                autoFocus={true}
-                type="text"
-                onChange={this.onTextChange}
-                name="Input Key"
-                placeholder="Input Your Key"
-                onKeyPress={this._handleKeyPress}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Link prefetch href="/">
-                <Button onClick={this.toggle} color="secondary">
-                  Cancel
-                </Button>
-              </Link>
-              <Button
-                onClick={e => {
-                  this.handleSubmit()
-                }}
-                color="primary"
-              >
-                Submit
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </Container>
       </>
     )
   }
