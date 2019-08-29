@@ -75,4 +75,4 @@ const newCycleFields = [
   },
 ]
 
-export { newEventFields, newWorkspaceFields, newCycleFields }
+export { newAttendeeFields, newEventFields, newWorkspaceFields, newCycleFields }
