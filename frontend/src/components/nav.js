@@ -2,21 +2,7 @@
 import { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
-import {
-  Navbar,
-  Nav,
-  NavbarBrand,
-  NavbarToggler,
-  Collapse,
-  Modal,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  Input,
-  Button,
-  Container,
-  NavItem,
-} from 'reactstrap'
+import { Navbar, Nav, NavbarBrand, NavbarToggler, Collapse, NavItem } from 'reactstrap'
 import { connect } from 'react-redux'
 import { validateKey, getKey, getRound } from '../utils/api'
 import roundData from '../data/roundData.js'
