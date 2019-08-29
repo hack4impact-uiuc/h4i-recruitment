@@ -6,17 +6,22 @@ const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const keyData = require(keyPath)
 const { statusEnum } = require('../utils/enums')
+const { User } = require('../models')
 
 const router = express.Router()
 
 router.get(
-  '/verify_interviewer',
+  '/verify_member',
   errorWrap(async (req, res) => {
     let keyVerified = false
     const key = req.query.key
+    let foundUser = null
     // removed && key.length === 11)
     if (key) {
-      keyVerified = keyData.keys.filter(currKey => currKey.key === key).length !== 0
+      foundUser = User.findOne({ userId: key })
+      if (foundUser != null) {
+        keyVerified = true
+      }
     }
     let statusCode = keyVerified ? 200 : 403
     let message = keyVerified ? 'key is verified' : 'key did not pass verification'
@@ -24,7 +29,12 @@ router.get(
       code: statusCode,
       message: message,
       success: keyVerified,
-      result: { name: req._key_name, is_lead: req._is_lead, is_director: req._is_director }
+      result: {
+        name: `${foundUser.firstName} ${foundUser.lastName} `,
+        role: foundUser.role,
+        memberId: foundUser.memberId,
+        email: foundUser.email
+      }
     })
   })
 )

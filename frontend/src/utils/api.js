@@ -4,7 +4,7 @@ import getConfig from 'next/config'
 import { getCookie } from './cookieUtils'
 const { publicRuntimeConfig } = getConfig()
 
-const getKey = () => localStorage.getItem('interviewerKey')
+const getKey = () => localStorage.getItem('memberId')
 
 const API_PORT = publicRuntimeConfig.BACKEND_PORT
 
@@ -151,7 +151,7 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 }
 
 function validateKey(key: string) {
-  return fetch(`${API_URL}/interviews/verify_interviewer?key=${key}`).then(res => res.json())
+  return fetch(`${API_URL}/interviews/verify_member?key=${key}`).then(res => res.json())
 }
 
 function getPastInterviews(interviewerKey: string) {
