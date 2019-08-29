@@ -50,8 +50,6 @@ router.post(
   })
 )
 
-
-
 router.post(
   '/generateSchedules',
   errorWrap(async (req, res) => {
@@ -105,7 +103,7 @@ router.post(
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
     try {
-        await uploadInterviewAvailability(timeObj, req.params.type.toLowerCase() === 'interviewers')
+      await uploadInterviewAvailability(timeObj, req.params.type.toLowerCase() === 'interviewers')
       res.json({
         code: 200,
         message: 'Populated.',
