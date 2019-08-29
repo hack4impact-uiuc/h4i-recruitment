@@ -1,8 +1,4 @@
-const keyPath =
-  process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
-const keyData = require(keyPath)
-const leadSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.LEAD_SUFFIX
-const directorSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.DIRECTOR_SUFFIX
+const { User } = require('../models')
 
 // middleware around router
 // checks whether key passed in through the query parameters
@@ -10,15 +6,15 @@ const directorSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.DIREC
 // Passes name, key, is a lead boolean to the request object with the attributes: _key_name, _key, _is_lead
 const auth = (req, res, next) => {
   const key = req.query.key
+  // check to see if URL is for register, since it would not have a key
   if (key != undefined) {
     // removed && key.length === 11
     // Can add this rule if wanted
     if (key) {
-      const keysFiltered = keyData.keys.filter(currKey => currKey.key === key)
-      const keyVerified = keysFiltered.length !== 0
+      const foundUser = User.findOne({ userId: key })
 
-      if (keyVerified) {
-        req._key_name = keysFiltered[0].name // set the user's name of the key that was used to make the request
+      if (foundUser != null) {
+        req._key_name = foundUser.name // set the user's name of the key that was used to make the request
         req._key = key
 
         // check if there is a corresponding name for the key
@@ -35,15 +31,22 @@ const auth = (req, res, next) => {
 
         // check whether key is a director's, lead's, or member's key
         // this is used by the directorsOnly and leadsOnly middleware
-        if (key.endsWith(directorSuffix)) {
-          req._is_lead = true
+        if (foundUser.role === 'Director') {
           req._is_director = true
-        } else if (key.endsWith(leadSuffix)) {
           req._is_lead = true
+          req._is_member = true
+        } else if (foundUser.role === 'Lead') {
           req._is_director = false
-        } else {
+          req._is_lead = true
+          req._is_member = true
+        } else if (foundUser.role === 'Member') {
+          req._is_director = false
           req._is_lead = false
+          req._is_member = true
+        } else {
           req._is_director = false
+          req._is_lead = false
+          req._is_member = false
         }
         return next()
       }

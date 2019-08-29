@@ -2,9 +2,6 @@ const express = require('express')
 var mongodb = require('mongodb')
 const { errorWrap, leadsOnly } = require('../middleware')
 const { Interview, Candidate } = require('../models')
-const keyPath =
-  process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
-const keyData = require(keyPath)
 const { statusEnum } = require('../utils/enums')
 const { User } = require('../models')
 
