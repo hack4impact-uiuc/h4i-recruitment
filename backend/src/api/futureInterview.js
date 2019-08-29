@@ -50,33 +50,7 @@ router.post(
   })
 )
 
-router.post(
-  '/uploadCandidates',
-  errorWrap(async (req, res) => {
-    const workbook = XLSX.read(req.body['data'], { type: 'binary' })
-    const sheetName = workbook.SheetNames
-    const sheet = workbook['Sheets'][sheetName]
-    const arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
-    unmergeColumns(arr)
-    let timeObj = getTimesFromArray(arr)
-    try {
-      await uploadInterviewAvailability(timeObj, false)
-      res.json({
-        code: 200,
-        message: 'Populated.',
-        result: {},
-        success: true
-      })
-    } catch (e) {
-      res.json({
-        code: 400,
-        message: 'Error.',
-        result: {},
-        success: false
-      })
-    }
-  })
-)
+
 
 router.post(
   '/generateSchedules',
@@ -122,16 +96,16 @@ router.post(
 )
 
 router.post(
-  '/uploadInterviewers',
+  '/upload:type',
   errorWrap(async (req, res) => {
-    let workbook = XLSX.read(req.body['data'], { type: 'binary' })
+    const workbook = XLSX.read(req.body['data'], { type: 'binary' })
     const sheetName = workbook.SheetNames
-    let sheet = workbook['Sheets'][sheetName]
-    let arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
+    const sheet = workbook['Sheets'][sheetName]
+    const arr = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: null })
     unmergeColumns(arr)
     let timeObj = getTimesFromArray(arr)
     try {
-      await uploadInterviewAvailability(timeObj, true)
+        await uploadInterviewAvailability(timeObj, req.params.type.toLowerCase() === 'interviewers')
       res.json({
         code: 200,
         message: 'Populated.',
