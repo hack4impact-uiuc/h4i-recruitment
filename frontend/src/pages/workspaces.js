@@ -58,7 +58,7 @@ class Workspaces extends Component {
 
   toggleCycleModal = () => {
     this.setState({
-      cycleModal: !this.cycleModal,
+      cycleModal: !this.state.cycleModal,
     })
   }
 
@@ -144,7 +144,7 @@ class Workspaces extends Component {
               })}
             </select>
             <ActionButton
-              className="button-margin"
+              className="button-margin margin-left-sm"
               text="Create Workspace"
               onClick={this.toggleWorkspaceModal}
             />
@@ -195,9 +195,7 @@ class Workspaces extends Component {
                 <ActionButton
                   className="button-margin"
                   text="Create Cycle"
-                  onClick={() => {
-                    this.setCurrentCycle(cycle._id, this.toggleCycleModal)
-                  }}
+                  onClick={this.toggleCycleModal}
                 />
               </>
             ) : (

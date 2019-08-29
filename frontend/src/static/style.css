@@ -312,3 +312,7 @@ p > b {
 .general-notes-input {
   height: 150px !important;
 }
+
+.margin-left-sm {
+  margin-left: 15px;
+}
