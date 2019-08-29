@@ -56,12 +56,12 @@ class NavigationBar extends Component {
   }
 
   async componentDidMount() {
-    if (getKey() !== undefined) {
-      this.setState({ loggedIn: true })
+    if (localStorage.getItem('memberId')) {
+      this.setState({
+        loggedIn: true,
+      })
     }
     const { success, result } = await validateKey(getKey())
-    console.log(getKey())
-    console.log(await validateKey(getKey()))
     if (success) {
       localStorage.setItem('memberName', result.name)
 
@@ -89,6 +89,7 @@ class NavigationBar extends Component {
   }
 
   render() {
+    console.log(this.state.loggedIn)
     return (
       <>
         <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
