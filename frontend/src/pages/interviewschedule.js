@@ -148,7 +148,7 @@ class InterviewSchedule extends Component {
 
   populateInterviewSchedules = async () => {
     const res = await getInterviewSchedule()
-    if (!res.success) {
+    if (res.code !== 200) {
       // only populate if the GET is not successful
       this.pushAPIResponse(res, 'Get Schedule Response')
     }
