@@ -56,12 +56,7 @@ class NavigationBar extends Component {
   }
 
   async componentDidMount() {
-    if (getKey() !== undefined) {
-      this.setState({ loggedIn: true })
-    }
     const { success, result } = await validateKey(getKey())
-    console.log(getKey())
-    console.log(await validateKey(getKey()))
     if (success) {
       localStorage.setItem('memberName', result.name)
 
