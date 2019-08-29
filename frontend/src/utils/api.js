@@ -62,28 +62,56 @@ function getEventAttendees(id: string) {
   return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`).then(res => res.json())
 }
 
-function addInterviewSchedule(file: File) {
-  var reader = new FileReader()
-  var scheduleString = ''
-  reader.onload = function(e) {
-    scheduleString = reader.result
-    fetch(`${API_URL}/schedule/upload/?key=${getKey()}`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({ schedule: scheduleString }),
-    })
-      .then(res => res.json())
-      .then(success => console.log(success))
-      .catch(error => console.log(error))
-  }
+async function addInterviewerSchedules(file: File) {
+  const scheduleString = await readUploadedFile(file)
+  return fetch(`${API_URL}/schedule/uploadInterviewers/?key=${getKey()}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ data: scheduleString }),
+  }).then(res => res.json())
+}
 
-  reader.readAsText(file)
+async function addCandidateSchedules(file: File) {
+  const scheduleString = await readUploadedFile(file)
+  return fetch(`${API_URL}/schedule/uploadCandidates/?key=${getKey()}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ data: scheduleString }),
+  }).then(res => res.json())
+}
+
+const readUploadedFile = inputFile => {
+  const reader = new FileReader()
+
+  return new Promise((resolve, reject) => {
+    reader.onerror = () => {
+      reader.abort()
+      reject(new TypeError('Problem encountered while reading input file.'))
+    }
+
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+    reader.readAsBinaryString(inputFile)
+  })
+}
+
+function generateSchedules() {
+  return fetch(`${API_URL}/schedule/generateSchedules?key=${getKey()}`, { method: 'POST' }).then(
+    res => res.json()
+  )
 }
 
 function getInterviewSchedule() {
   return fetch(`${API_URL}/schedule?key=${getKey()}`).then(res => res.json())
+}
+
+function deleteAllSchedules() {
+  return fetch(`${API_URL}/schedule?key=${getKey()}`, { method: 'DELETE' }).then(res => res.json())
 }
 
 function getCandidateById(id: string) {
@@ -397,13 +425,15 @@ function createWorkspace(workspace) {
 export {
   getAllEvents,
   createEvent,
+  addInterviewerSchedules,
+  addCandidateSchedules,
   eventCheckin,
   getEventById,
   getEventAttendees,
-  addInterviewSchedule,
   getInterviewSchedule,
   getPastInterviews,
   getCandidateInterviews,
+  generateSchedules,
   validateKey,
   addInterview,
   editInterview,
@@ -424,6 +454,7 @@ export {
   addReferral,
   addStrongReferral,
   deleteReferral,
+  deleteAllSchedules,
   getAllInterviewingCandidateInterviews,
   registerUser,
   loginUser,
