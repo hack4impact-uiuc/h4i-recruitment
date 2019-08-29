@@ -115,7 +115,7 @@ class LoginPage extends Component {
 
               <GoogleLogin
                 className="btn sign-in-btn"
-                clientId="409847273934-jmhjkeu77d3cqr32sh3vpl3ogh2f4dev.apps.googleusercontent.com"
+                clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
                 responseType="id_token"
                 buttonText={this.props.role}
                 scope="https://www.googleapis.com/auth/userinfo.email"
