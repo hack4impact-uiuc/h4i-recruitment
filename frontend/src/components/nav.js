@@ -48,6 +48,7 @@ class NavigationBar extends Component {
       })
     }
     const { success, result } = await validateKey(getKey())
+    console.log(await validateKey(getKey()))
     if (success) {
       localStorage.setItem('memberName', result.name)
 

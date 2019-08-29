@@ -51,7 +51,7 @@ class RegisterPage extends Component {
   handleCompleteRegister = resp => {
     const { firstName, lastName, email } = this.state
 
-    addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.PENDING).then(resp => {
+    addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.LEAD).then(resp => {
       console.log(resp)
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully recorded`)

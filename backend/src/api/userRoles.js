@@ -6,7 +6,7 @@ const { User } = require('../models')
 // get all users
 router.get(
   '/',
-  [directorsOnly],
+
   errorWrap(async (req, res) => {
     const users = await User.find()
     res.json({

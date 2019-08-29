@@ -15,7 +15,7 @@ router.get(
     let foundUser = null
     // removed && key.length === 11)
     if (key) {
-      foundUser = User.findOne({ userId: key })
+      foundUser = await User.findOne({ userId: key })
       if (foundUser.email != null) {
         keyVerified = true
       }
@@ -27,7 +27,7 @@ router.get(
       message: message,
       success: keyVerified,
       result: {
-        name: `${foundUser.firstName} ${foundUser.lastName}`,
+        name: foundUser.firstName,
         role: foundUser.role,
         memberId: foundUser.memberId,
         email: foundUser.email

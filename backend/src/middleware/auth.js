@@ -1,5 +1,8 @@
 const { User } = require('../models')
 
+async function getUser(userId) {
+  return await User.findOne({ userId })
+}
 // middleware around router
 // checks whether key passed in through the query parameters
 // are one of the keys listed in the json file.
@@ -11,7 +14,7 @@ const auth = (req, res, next) => {
     // removed && key.length === 11
     // Can add this rule if wanted
     if (key) {
-      const foundUser = User.findOne({ userId: key })
+      const foundUser = getUser(key)
 
       if (foundUser != null) {
         req._key_name = foundUser.firstName // set the user's name of the key that was used to make the request
