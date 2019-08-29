@@ -7,7 +7,7 @@ import { statusEnum } from '../utils/enums'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinksBadge from '../components/candidateLinksBadge'
 import { compareByFacemashScore } from '../utils/core'
-import ChangeStatus from '../components/changeStatus'
+import { ChangeStatus } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 
@@ -15,14 +15,14 @@ class TablePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      candidates: []
+      candidates: [],
     }
   }
 
   async componentDidMount() {
     const res = await getCandidates()
     this.setState({
-      candidates: res.result == undefined ? [] : res.result
+      candidates: res.result == undefined ? [] : res.result,
     })
   }
 
@@ -107,7 +107,7 @@ class TablePage extends Component {
                         />
                       </td>
                       <td>
-                        <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                        <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                           <a>
                             <img height="10" src="/static/icons/external-icon.png" />
                           </a>

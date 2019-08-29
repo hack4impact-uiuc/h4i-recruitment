@@ -5,14 +5,14 @@ import { bindActionCreators } from 'redux'
 import { setCandidateStatus } from '../utils/api'
 import { statusEnum } from '../utils/enums'
 import { setStatus } from '../actions/actionCreators'
-import ErrorMessage from '../components/errorMessage'
+import { ErrorMessage } from '../components/common'
 import CandidateStatus from '../components/candidateStatus'
 import CandidateLinks from '../components/candidateLinks'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setStatus
+      setStatus,
     },
     dispatch
   )
@@ -22,7 +22,7 @@ class FacemashProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.candidate != undefined ? this.props.candidate.status : null
+      status: this.props.candidate != undefined ? this.props.candidate.status : null,
     }
   }
 

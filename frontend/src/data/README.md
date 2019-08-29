@@ -33,6 +33,8 @@ Interview rounds must contain a `sections` field, which is an array of `section`
 If only `scoreOptions` is provided or both `scoreOptions` and `textOptions` are provided, then the question is scored and `response.score` will be updated.
 If only `textOptions` is provided, `response.text` will be updated.
 
+If you'd like to add a custom dropdown prompt, use the field `dropdownPrompt`
+
 ### Optional Fields
 
 - `notesPrompt`: The placeholder string in the notes box. Must be formatted as a string and must be present for the section to have a notes box.

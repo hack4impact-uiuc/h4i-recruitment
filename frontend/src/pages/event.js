@@ -5,7 +5,7 @@ import Head from '../components/head'
 import { getEventById, getEventAttendees, eventCheckin } from '../utils/api'
 import Router from 'next/router'
 import Link from 'next/link'
-import ActionButton from '../components/actionButton'
+import { ActionButton } from '../components/common'
 import EventsModal from '../components/eventsModal'
 import { newAttendeeFields } from '../utils/formFields'
 
@@ -15,14 +15,14 @@ class Event extends Component {
     this.state = {
       attendeeEmails: [],
       attendees: [],
-      eventId: ''
+      eventId: '',
     }
   }
 
   async componentDidMount() {
     const { query } = Router
     this.setState({
-      eventId: query.id
+      eventId: query.id,
     })
     await this.getEventAndAttendees(query.id)
   }
@@ -38,26 +38,26 @@ class Event extends Component {
         location: result.location,
         description: result.description,
         fbLink: result.fbLink,
-        attendeeEmails: result.attendeeEmails
+        attendeeEmails: result.attendeeEmails,
       })
 
     const { result: res, success } = await getEventAttendees(eventId)
     if (success) {
       this.setState({
-        attendees: res
+        attendees: res,
       })
     }
   }
 
   toggleModal = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     })
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
@@ -65,7 +65,7 @@ class Event extends Component {
     const attendee = {
       name: this.state.attendeeName,
       email: this.state.email,
-      year: this.state.year
+      year: this.state.year,
     }
     const { success } = await eventCheckin(attendee, this.state.eventId)
     return success
@@ -125,9 +125,7 @@ class Event extends Component {
                     <tr key={attendee._id}>
                       <td>
                         {attendee.candidateId ? (
-                          <Link
-                            href={{ pathname: '/candidate', query: { id: attendee.candidateId } }}
-                          >
+                          <Link href="/candidate/[cid]" as={`/candidate/${attendee.candidateId}`}>
                             <a className="regular-anchor">{attendee.name}</a>
                           </Link>
                         ) : (

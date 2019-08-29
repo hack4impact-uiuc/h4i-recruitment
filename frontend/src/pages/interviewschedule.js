@@ -7,7 +7,7 @@ import {
   addCandidateSchedules,
   addInterviewerSchedules,
   generateSchedules,
-  deleteAllSchedules
+  deleteAllSchedules,
 } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -25,7 +25,7 @@ class InterviewSchedule extends Component {
       interviews: this.props.interviews,
       interviewCards: this.props.interviewCards,
       apiResponses: [],
-      clickedDeleteOnce: false
+      clickedDeleteOnce: false,
     }
   }
 
@@ -43,7 +43,7 @@ class InterviewSchedule extends Component {
   pushAPIResponse = (obj, title) => {
     obj.title = title
     this.setState(prevState => ({
-      apiResponses: [...prevState.apiResponses, obj]
+      apiResponses: [...prevState.apiResponses, obj],
     }))
   }
   uploadSchedule = async e => {
@@ -155,7 +155,7 @@ class InterviewSchedule extends Component {
     var interviewList = res.result.interviews
     this.setState({
       interviews: interviewList === undefined ? [] : interviewList,
-      interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList)
+      interviewCards: interviewList === undefined ? [] : this.getAllInterviewCards(interviewList),
     })
   }
 

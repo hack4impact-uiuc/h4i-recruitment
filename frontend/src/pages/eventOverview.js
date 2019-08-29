@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Container } from 'reactstrap'
-import ActionButton from '../components/actionButton'
+import { ActionButton } from '../components/common'
 import Nav from '../components/nav'
 import { getAllEvents, createEvent } from '../utils/api'
 import Head from '../components/head'
@@ -13,7 +13,7 @@ class EventOverview extends Component {
     super(props)
     this.state = {
       events: [],
-      modal: false
+      modal: false,
     }
   }
 
@@ -25,20 +25,20 @@ class EventOverview extends Component {
     const { success, result } = await getAllEvents()
     if (success) {
       this.setState({
-        events: result
+        events: result,
       })
     }
   }
 
   toggleModal = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     })
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
@@ -50,7 +50,7 @@ class EventOverview extends Component {
       endTime: this.state.endTime,
       location: this.state.location,
       description: this.state.description,
-      fbLink: this.state.fbLink
+      fbLink: this.state.fbLink,
     }
     const { success } = await createEvent(event)
     return success

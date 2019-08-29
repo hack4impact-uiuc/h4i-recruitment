@@ -108,7 +108,7 @@ router.post(
         interviewers: value.interviewers.map(x => x.replace('_', ' ')),
         date: start_date.format('MM/DD/YYYY'),
         time: start_date.format('hh:mmA'),
-        room: ""
+        room: ''
       }).save()
     })
     await Promise.all(insertions)

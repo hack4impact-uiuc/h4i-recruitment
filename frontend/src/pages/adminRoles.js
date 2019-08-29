@@ -1,64 +1,201 @@
 import React from 'react'
-import { Button, Table } from 'reactstrap'
+import {
+  Button,
+  Table,
+  Card,
+  CardBody,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  FormGroup,
+  Input,
+  Label,
+} from 'reactstrap'
 import ChangeRole from '../components/changeRole'
-import ChangeYear from '../components/changeYear'
 import Head from '../components/head'
 import Nav from '../components/nav'
-
-const SAMPLE_MEMBER_ID = 1234
+import { getAllUsers, updateUserRole, updateServerUserRole } from '../utils/api'
 
 class AdminRoles extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: false
+      isEditing: false,
+      newRole: -1,
+      selectedUser: -1,
+      users: [],
+      adminPassword: '',
+      showPasswordModal: false,
+      error: '',
     }
   }
 
+  componentDidMount = () => {
+    this.getUsers()
+  }
+
+  getUsers = () => {
+    getAllUsers().then(resp => {
+      this.setState({ users: resp.result })
+    })
+  }
+
+  handleRoleChange = (e, idx) => {
+    e.persist() // not sure why this is needed?
+    this.setState({ newRole: e.target.value, selectedUser: idx })
+  }
+
+  handleRoleSubmit = userEmail => {
+    if (this.state.adminPassword === '') {
+      this.setState({ showPasswordModal: true })
+    }
+  }
+
+  handleChange = event => {
+    const value = event.target.value
+    const name = event.target.name
+    this.setState({ [name]: value })
+  }
+
+  handlePasswordComplete = () => {
+    const { users, selectedUser, newRole, adminPassword } = this.state
+
+    updateServerUserRole(users[selectedUser].email, newRole, adminPassword).then(resp => {
+      if (resp.status != 400) {
+        updateUserRole(userEmail, newRole).then(resp => {
+          if (resp.success) {
+            this.setState({ newRole: -1, selectedUser: -1, showPasswordModal: false })
+            this.getUsers()
+          } else {
+            this.setState({ error: resp.message })
+          }
+        })
+      } else {
+        this.setState({ error: resp.message })
+      }
+    })
+  }
+
   render() {
+    const {
+      users,
+      isEditing,
+      newRole,
+      selectedUser,
+      adminPassword,
+      showPasswordModal,
+      error,
+    } = this.state
     return (
       <>
         <Head title="Home" />
         <Nav />
-        <Table size="sm" hover className="candidate-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Year</th>
-              <th>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{'Insert Name Here'}</td>
-              <td>
-                <ChangeYear memberID={SAMPLE_MEMBER_ID} handleChange={this.handleChange} />
-              </td>
-              <td>
-                <ChangeRole memberID={SAMPLE_MEMBER_ID} handleChange={this.handleChange} />
-              </td>
-              {this.state.isEditing && (
-                <td>
-                  <Button>Submit</Button>
-                </td>
-              )}
-            </tr>
-          </tbody>
-        </Table>
-        <Button
-          variant="primary"
-          disabled={this.state.isEditing}
-          onClick={() => this.setState({ isEditing: true })}
-        >
-          Edit
-        </Button>
-        <Button
-          variant="info"
-          disabled={!this.state.isEditing}
-          onClick={() => this.setState({ isEditing: false })}
-        >
-          Save
-        </Button>
+        <Card className="admin-roles-card">
+          <CardBody>
+            <Table size="sm" hover className="candidate-table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  {isEditing && <th>Submit</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user, i) => {
+                  return (
+                    <>
+                      <tr key={i}>
+                        <td>{user.firstName}</td>
+                        <td>{user.lastName}</td>
+                        <td>{user.email}</td>
+                        <td>
+                          {isEditing ? (
+                            <ChangeRole
+                              value={user.role}
+                              handleChange={e => {
+                                this.handleRoleChange(e, i)
+                              }}
+                            />
+                          ) : (
+                            user.role
+                          )}
+                        </td>
+                        {isEditing && (
+                          <td>
+                            <Button
+                              color="success"
+                              size="sm"
+                              onClick={() => this.handleRoleSubmit(user.email)}
+                              disabled={!(newRole != -1 && selectedUser === i)}
+                            >
+                              Submit
+                            </Button>
+                          </td>
+                        )}
+                      </tr>
+                    </>
+                  )
+                })}
+              </tbody>
+            </Table>
+            <Button
+              variant="primary"
+              disabled={isEditing}
+              onClick={() => {
+                this.setState({ isEditing: true })
+              }}
+            >
+              Edit
+            </Button>
+            {isEditing && (
+              <Button variant="info" onClick={() => this.setState({ isEditing: false })}>
+                Back to View
+              </Button>
+            )}
+          </CardBody>
+        </Card>
+        <Modal autoFocus={false} isOpen={showPasswordModal}>
+          <ModalHeader>{'Please enter your password.'}</ModalHeader>
+          <ModalBody>
+            <FormGroup>
+              <Label for="examplePassword">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                value={adminPassword}
+                onChange={this.handleChange}
+                required
+              />
+            </FormGroup>
+            {error != '' && (
+              <>
+                <p>There was an error with your request. Please try again.</p>
+                <p>{error}</p>
+              </>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="success"
+              size="sm"
+              onClick={this.handlePasswordComplete}
+              color="secondary"
+            >
+              Submit
+            </Button>
+            <Button
+              color="warning"
+              size="sm"
+              onClick={() => this.setState({ showPasswordModal: false })}
+              color="secondary"
+            >
+              x
+            </Button>
+          </ModalFooter>
+        </Modal>
       </>
     )
   }

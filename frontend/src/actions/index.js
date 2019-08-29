@@ -14,5 +14,5 @@ export {
   resetFilters,
   setRoundRedux,
   setSelectedRound,
-  setValidFormat
+  setValidFormat,
 } from './actionCreators.js'

@@ -5,12 +5,11 @@ import { Container, Row, Card, CardBody, CardTitle, Col } from 'reactstrap'
 import {
   getInterviewingCandidates,
   getAllInterviews,
-  getAllInterviewingCandidateInterviews
+  getAllInterviewingCandidateInterviews,
 } from '../utils/api'
 import CandidateInterviewsModal from '../components/candidates/candidateInterviewsModal'
 import { avgInterviewScore, interviewGetCategorySection } from '../utils/core'
-import ActionLink from '../components/actionLink'
-import ActionButton from '../components/actionButton'
+import { ActionLink, ActionButton } from '../components/common'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import roundData from '../data/roundData'
@@ -37,7 +36,7 @@ class InterviewListPage extends Component {
       modalOpen: false,
       currentCandidateId: '',
       byCategory: false,
-      interviewingInterviews: []
+      interviewingInterviews: [],
     }
   }
 
@@ -53,20 +52,20 @@ class InterviewListPage extends Component {
         candidates == undefined ? [] : candidates.sort(sortByProperty('graduationDate')).reverse(),
       interviews: interviews == undefined ? [] : interviews,
       interviewingInterviews:
-        interviewingInterviewsres == undefined ? [] : interviewingInterviewsres
+        interviewingInterviewsres == undefined ? [] : interviewingInterviewsres,
     })
   }
 
   toggleModal = candidateId => {
     this.setState({
       currentCandidateId: candidateId,
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
     })
   }
 
   toggleShowByCategory = () => {
     this.setState({
-      byCategory: !this.state.byCategory
+      byCategory: !this.state.byCategory,
     })
   }
 
@@ -86,7 +85,7 @@ class InterviewListPage extends Component {
           </Row>
           <ActionButton text="Back" onClick={Router.back} />
           <ActionButton
-            style={{ marginLeft: '10px' }}
+            className="ml-3"
             text="Show by Category"
             onClick={this.toggleShowByCategory}
           />
@@ -108,7 +107,10 @@ class InterviewListPage extends Component {
                             interviewGetCategorySection(interview) !== null &&
                             interviewGetCategorySection(interview).response.text === category ? (
                               <li>
-                                <Link href={`/candidate?id=${interview.candidate_id}`}>
+                                <Link
+                                  href="/candidate/[cid]"
+                                  as={`/candidate/${interview.candidate_id}`}
+                                >
                                   {interview.candidate_name}
                                 </Link>
                               </li>
@@ -122,21 +124,23 @@ class InterviewListPage extends Component {
             </Row>
           ) : (
             <Row className="candidate-list-box">
+              {currentCandidate && (
+                <CandidateInterviewsModal
+                  isOpen={this.state.modalOpen}
+                  candidateId={currentCandidate === undefined ? '' : currentCandidate._id}
+                  exitModal={this.toggleModal}
+                  candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
+                />
+              )}
               {candidates.map(candidate =>
                 candidate.interviews.length === 0 ? null : (
                   <>
-                    <CandidateInterviewsModal
-                      isOpen={this.state.modalOpen}
-                      candidateId={candidate._id}
-                      exitModal={this.toggleModal}
-                      candidateName={currentCandidate === undefined ? '' : currentCandidate.name}
-                    />
                     <CardCol key={candidate._id}>
                       <Card className="candidate-card h-100">
                         <CardTitle style={{ margin: '15px 0 0 0' }}>
                           {candidate.name && (
                             <>
-                              <Link href={{ pathname: '/candidate', query: { id: candidate._id } }}>
+                              <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                                 <a className="m-3 card-title inline">{candidate.name}</a>
                               </Link>
                               <p
@@ -145,7 +149,7 @@ class InterviewListPage extends Component {
                                   float: 'right',
                                   marginBottom: 0,
                                   paddingRight: '5px',
-                                  fontSize: '12px'
+                                  fontSize: '12px',
                                 }}
                               >
                                 Avg Score: {avgInterviewScore(candidate.interviews)}

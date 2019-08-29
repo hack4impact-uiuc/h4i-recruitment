@@ -1,6 +1,7 @@
 //@flow
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
+import { getCookie } from './cookieUtils'
 const { publicRuntimeConfig } = getConfig()
 
 const getKey = () => localStorage.getItem('interviewerKey')
@@ -13,7 +14,7 @@ const API_URL =
     : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
-const AUTH_API_URL = 'h4i-portal-infra-server.now.sh'
+const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'
 
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
@@ -28,13 +29,13 @@ function createEvent(event) {
       endTime: event.endTime,
       location: event.location,
       description: event.description,
-      fbLink: event.fbLink
+      fbLink: event.fbLink,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -43,13 +44,13 @@ function eventCheckin(attendee, id: string) {
     body: JSON.stringify({
       name: attendee.name,
       email: attendee.email,
-      year: attendee.year
+      year: attendee.year,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'PUT',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -66,9 +67,9 @@ async function addInterviewerSchedules(file: File) {
   return fetch(`${API_URL}/schedule/uploadInterviewers/?key=${getKey()}`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
-    body: JSON.stringify({ data: scheduleString })
+    body: JSON.stringify({ data: scheduleString }),
   }).then(res => res.json())
 }
 
@@ -77,9 +78,9 @@ async function addCandidateSchedules(file: File) {
   return fetch(`${API_URL}/schedule/uploadCandidates/?key=${getKey()}`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
-    body: JSON.stringify({ data: scheduleString })
+    body: JSON.stringify({ data: scheduleString }),
   }).then(res => res.json())
 }
 
@@ -133,13 +134,13 @@ function setCandidateStatus(id: string, status: string) {
   return fetch(`${API_URL}/candidates/${id}/status?key=${getKey()}`, {
     body: JSON.stringify({
       id: id,
-      status: status
+      status: status,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -153,13 +154,13 @@ function setMatchWinner(candidate1: string, candidate2: string, winnerID: string
       candidate1,
       candidate2,
       winnerID,
-      matchID
+      matchID,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -167,13 +168,13 @@ function addCommentToCandidate(candidateID: string, comment: string) {
   console.log(`Adding Comment to ${candidateID}: ${comment}`)
   return fetch(`${API_URL}/candidates/${candidateID}/comments?key=${getKey()}`, {
     body: JSON.stringify({
-      comment
+      comment,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -211,13 +212,13 @@ function addInterview(
       generalNotes,
       sections,
       round,
-      scored
+      scored,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -231,18 +232,24 @@ function editInterview(
     body: JSON.stringify({
       sections,
       overallScore,
-      generalNotes
+      generalNotes,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
 function getAllInterviews() {
   return fetch(`${API_URL}/interviews?key=${getKey()}`).then(res => res.json())
+}
+
+function getInterviewByID(id) {
+  return fetch(`${API_URL}/interviews/${id}?key=${getKey()}`)
+    .then(res => (res.ok ? res : Promise.reject(res)))
+    .then(res => res.json())
 }
 
 function getAllInterviewingCandidateInterviews() {
@@ -252,26 +259,26 @@ function getAllInterviewingCandidateInterviews() {
 function deleteInterview(candidateId: string, interviewId: string) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}?key=${getKey()}`, {
     method: 'DELETE',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
 function getRound() {
   return fetch(`${API_URL}/structure?key=${getKey()}`, {
-    method: 'GET'
+    method: 'GET',
   }).then(res => res.json())
 }
 
 function setRound(round: number) {
   return fetch(`${API_URL}/structure?key=${getKey()}`, {
     body: JSON.stringify({
-      round
+      round,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -279,7 +286,7 @@ function addReferral(candidateID: string) {
   console.log(`Adding referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -287,7 +294,7 @@ function addStrongReferral(candidateID: string) {
   console.log(`Adding strong referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/strongReferrals?key=${getKey()}`, {
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -295,8 +302,68 @@ function deleteReferral(candidateID: string) {
   console.log(`Deleting referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
     method: 'DELETE',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
+}
+
+function getAllUsers() {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, { method: 'GET', mode: 'cors' }).then(res =>
+    res.json()
+  )
+}
+
+function addUser(
+  firstName: String,
+  lastName: String,
+  email: string,
+  tokenId: string,
+  role: string
+) {
+  console.log(`Writing user ${email} to internal database`)
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      tokenId,
+      role,
+    }),
+    headers: {
+      'content-type': 'application/json',
+    },
+    mode: 'cors',
+  }).then(res => res.json())
+}
+
+function updateUserRole(email: string, newRole: string) {
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      email,
+      role: newRole,
+    }),
+    headers: {
+      'content-type': 'application/json',
+    },
+    mode: 'cors',
+  }).then(res => res.json())
+}
+
+function updateServerUserRole(userEmail: string, newRole: string, password: string) {
+  return fetch(`${AUTH_API_URL}/roleschange`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      token: getCookie('token'),
+      google: getCookie('google') ? true : false,
+    },
+    body: JSON.stringify({
+      userEmail,
+      newRole,
+      password,
+    }),
+  })
 }
 
 function registerUser(email: string, password: string, role: string) {
@@ -306,12 +373,11 @@ function registerUser(email: string, password: string, role: string) {
     body: JSON.stringify({
       email,
       password,
-      role
+      role,
     }),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
-    mode: 'cors'
   }).then(res => res.json())
 }
 
@@ -321,11 +387,11 @@ function loginUser(email: string, password: string) {
     method: 'POST',
     body: JSON.stringify({
       email,
-      password
+      password,
     }),
     headers: {
-      'content-type': 'application/json'
-    }
+      'content-type': 'application/json',
+    },
   }).then(res => res.json())
 }
 
@@ -334,12 +400,12 @@ function loginGoogleUser(tokenId: string) {
   return fetch(`${AUTH_API_URL}/google`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     body: JSON.stringify({
       tokenId: tokenId,
-      role: 'member'
-    })
+      role: 'member',
+    }),
   }).then(res => res.json())
 }
 
@@ -351,14 +417,14 @@ function createWorkspace(workspace) {
   return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
     body: JSON.stringify({
       owner: workspace.owner,
-      name: workspace.name
+      name: workspace.name,
     }),
 
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     },
     method: 'POST',
-    mode: 'cors'
+    mode: 'cors',
   }).then(res => res.json())
 }
 
@@ -387,6 +453,7 @@ export {
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,
+  getInterviewByID,
   deleteInterview,
   getRound,
   setRound,
@@ -398,6 +465,10 @@ export {
   registerUser,
   loginUser,
   loginGoogleUser,
+  getAllUsers,
+  addUser,
+  updateUserRole,
+  updateServerUserRole,
   getWorkspaces,
-  createWorkspace
+  createWorkspace,
 }
