@@ -51,7 +51,6 @@ class RegisterPage extends Component {
 
   handleCompleteRegister = resp => {
     const { firstName, lastName, email } = this.state
-    localStorage.setItem('memberId', resp.uid)
 
     addUser(firstName, lastName, email, resp.uid, permissionRolesEnum.PENDING).then(resp => {
       console.log(resp)
@@ -96,6 +95,7 @@ class RegisterPage extends Component {
           })
         } else {
           Router.push('/pendingPage')
+          localStorage.setItem('memberId', resp.uid)
           this.handleCompleteRegister(resp)
         }
       })

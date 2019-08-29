@@ -21,6 +21,7 @@ import {
   ModalFooter,
 } from 'reactstrap'
 import { setCookie } from '../utils/cookieUtils'
+import { permissionRolesEnum } from '../utils/enums'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -45,7 +46,11 @@ class LoginPage extends Component {
       setCookie('google', true)
       // set localStorage value so it's valid across the whole site
       localStorage.setItem('memberId', response.uid)
-      Router.push('/pendingPage')
+      if (response.permission === permissionRolesEnum.PENDING) {
+        Router.push('/pendingPage')
+      } else {
+        Router.push('/dashboard')
+      }
     }
   }
 
@@ -64,7 +69,11 @@ class LoginPage extends Component {
         this.setState({ showInvalidRequestModal: true })
       } else {
         localStorage.setItem('memberId', response.uid)
-        Router.push('/pendingPage')
+        if (response.permission === permissionRolesEnum.PENDING) {
+          Router.push('/pendingPage')
+        } else {
+          Router.push('/dashboard')
+        }
       }
     })
   }
