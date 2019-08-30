@@ -103,7 +103,7 @@ class NavigationBar extends Component {
                   <a className="nav-bar-link pl-3">Table View</a>
                 </Link>
               </NavItem>
-              {(this.state.role === 'Member' || this.state.role === 'Lead') && (
+              {this.state.role != 'Pending' && (
                 <>
                   <NavItem>
                     <Link href="/eventOverview">

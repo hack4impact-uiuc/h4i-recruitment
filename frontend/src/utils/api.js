@@ -350,12 +350,12 @@ function updateServerUserRole(userEmail: string, newRole: string, password: stri
     headers: {
       'Content-Type': 'application/json',
       token: getCookie('token'),
-      google: getCookie('google') ? true : false,
+      google: false,
     },
     body: JSON.stringify({
-      userEmail,
-      newRole,
-      password,
+      password: password,
+      userEmail: userEmail,
+      newRole: newRole,
     }),
   })
 }
@@ -398,7 +398,7 @@ function loginGoogleUser(tokenId: string) {
     },
     body: JSON.stringify({
       tokenId: tokenId,
-      role: 'member',
+      role: 'Pending',
     }),
   }).then(res => res.json())
 }

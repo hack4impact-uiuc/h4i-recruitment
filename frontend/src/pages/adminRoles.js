@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
+  Form,
   FormGroup,
   Input,
   Label,
@@ -54,14 +55,14 @@ class AdminRoles extends React.Component {
 
   handleChange = event => {
     const value = event.target.value
-    const name = event.target.name
-    this.setState({ [name]: value })
+    this.setState({ adminPassword: value })
   }
 
   handlePasswordComplete = () => {
     const { users, selectedUser, newRole, adminPassword } = this.state
 
     updateServerUserRole(users[selectedUser].email, newRole, adminPassword).then(resp => {
+      console.log(resp)
       if (resp.status != 400) {
         updateUserRole(userEmail, newRole).then(resp => {
           if (resp.success) {
@@ -160,16 +161,18 @@ class AdminRoles extends React.Component {
         <Modal autoFocus={false} isOpen={showPasswordModal}>
           <ModalHeader>{'Please enter your password.'}</ModalHeader>
           <ModalBody>
-            <FormGroup>
-              <Label for="examplePassword">Password</Label>
-              <Input
-                type="password"
-                name="password"
-                value={adminPassword}
-                onChange={this.handleChange}
-                required
-              />
-            </FormGroup>
+            <Form>
+              <FormGroup>
+                <Label for="examplePassword">Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  value={adminPassword}
+                  onChange={this.handleChange}
+                  required
+                />
+              </FormGroup>
+            </Form>
             {error != '' && (
               <>
                 <p>There was an error with your request. Please try again.</p>

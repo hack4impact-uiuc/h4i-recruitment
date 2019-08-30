@@ -35,9 +35,9 @@ class LoginPage extends Component {
   }
 
   handleGoogle = async e => {
-    const result = await loginGoogleUser(e.tokenId)
-    const response = await result.json()
-    if (!response.success) {
+    const response = await loginGoogleUser(e.tokenId)
+    console.log(response)
+    if (response.status != 200) {
       this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it

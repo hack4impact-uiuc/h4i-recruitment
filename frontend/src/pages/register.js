@@ -51,7 +51,7 @@ class RegisterPage extends Component {
   handleCompleteRegister = resp => {
     const { firstName, lastName, email } = this.state
 
-    addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.MEMBER).then(resp => {
+    addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.PENDING).then(resp => {
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully recorded`)
         this.setState({
@@ -64,9 +64,9 @@ class RegisterPage extends Component {
   }
 
   handleGoogle = async e => {
-    const result = await loginGoogleUser(e.tokenId)
-    const resp = await result.json()
-    if (!resp.success) {
+    const resp = await loginGoogleUser(e.tokenId)
+    console.log(resp)
+    if (resp.status != 200) {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
@@ -74,6 +74,7 @@ class RegisterPage extends Component {
       // set google to true so server knows to send the request to google
       setCookie('google', true)
       Router.push('/pendingPage')
+      localStorage.setItem('memberId', resp.uid)
       this.handleCompleteRegister(resp)
     }
   }
@@ -83,8 +84,9 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, permissionRolesEnum.MEMBER).then(resp => {
+      registerUser(email, password, permissionRolesEnum.PENDING).then(resp => {
         if (resp.status === 400) {
+          console.log(resp)
           this.setState({
             errorMessage: resp.error || 'Please make sure you do not have an existing account.',
             showInvalidRequestModal: true,
