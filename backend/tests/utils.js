@@ -1,6 +1,6 @@
 const { Candidate, Match } = require('../src/models')
 
-const KEY = 'lead'
+const KEY = 'director'
 const NONLEAD_KEY = 'member'
 // Build unique mongo ObjectId for candidate given index of candidate
 // The slice statement makes sure that the ObjectId is valid even if num is

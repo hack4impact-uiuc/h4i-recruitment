@@ -123,7 +123,7 @@ describe('POST /matchCandidates', () => {
       .send(frontend_payload)
       .expect(200)
     const match = await Match.findById(matchIds(0))
-    expect(match.submittedBy).to.eq('Test Key')
+    expect(match.submittedBy).to.eq('Director')
     expect(match.submittedByKey).to.eq(KEY)
   })
 })

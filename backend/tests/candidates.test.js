@@ -125,6 +125,7 @@ describe('POST /candidates/:id/comments', async () => {
         comment: 'test comment'
       })
       .expect(200)
+    console.log(res)
   })
 
   it('should return 400 if comment was not provided', async () => {
@@ -153,7 +154,7 @@ describe('POST /candidates/:id/status', async () => {
 
   it('should return 403 if key does not end in lead suffix', async () => {
     const res = await request(app)
-      .post(`/candidates/${candidateStatus._id}/status?key=${NONLEAD_KEY}`)
+      .post(`/candidates/${candidateStatus._id}/status?key=${'Pending'}`)
       .send({
         status: 'Accepted'
       })

@@ -20,14 +20,14 @@ let res = { status, json }
 
 describe('Auth middleware', () => {
   it('should not call next() when the key is a substring of the real key', async () => {
-    let req = getAuthMiddlewareRequestStub('hjsdhfy79')
+    let req = getAuthMiddlewareRequestStub('mem')
     let nextSpy = sinon.spy()
     authMiddleware(req, res, nextSpy)
     assert(nextSpy.notCalled)
   })
 
   it('should not call next() when the key contains a substring that is the real key', async () => {
-    let req = getAuthMiddlewareRequestStub('hjsdhfy79uutt')
+    let req = getAuthMiddlewareRequestStub('memberrrrr')
     let nextSpy = sinon.spy()
     authMiddleware(req, res, nextSpy)
     assert(nextSpy.notCalled)
@@ -39,7 +39,7 @@ describe('Auth middleware', () => {
     assert(nextSpy.calledOnce)
   })
   it('should not call next() when the key is the same length as keys in db but is not in the db', async () => {
-    let req = getAuthMiddlewareRequestStub('hjsdhfy79ud')
+    let req = getAuthMiddlewareRequestStub('notkey')
     let nextSpy = sinon.spy()
     authMiddleware(req, res, nextSpy)
     assert(nextSpy.notCalled)
