@@ -1,6 +1,6 @@
 const express = require('express')
 var mongodb = require('mongodb')
-const { errorWrap, leadsOnly } = require('../middleware')
+const { errorWrap, membersOnly } = require('../middleware')
 const { Interview, Candidate } = require('../models')
 const { statusEnum } = require('../utils/enums')
 const { User } = require('../models')
@@ -165,7 +165,7 @@ router.get(
 
 router.get(
   '/:interview_id',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const retInterview = await Interview.findById(req.params.interview_id)
     res.json({
@@ -179,7 +179,7 @@ router.get(
 
 router.post(
   '/',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const data = req.body
     let response = 'Interview Added Successfully'

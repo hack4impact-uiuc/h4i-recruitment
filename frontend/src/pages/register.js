@@ -51,7 +51,7 @@ class RegisterPage extends Component {
   handleCompleteRegister = resp => {
     const { firstName, lastName, email } = this.state
 
-    addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.LEAD).then(resp => {
+    addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.MEMBER).then(resp => {
       console.log(resp)
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully recorded`)
@@ -84,7 +84,7 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, permissionRolesEnum.LEAD).then(resp => {
+      registerUser(email, password, permissionRolesEnum.MEMBER).then(resp => {
         console.log(resp)
         if (resp.status === 400) {
           console.log(resp)

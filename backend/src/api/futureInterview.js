@@ -4,7 +4,7 @@ const XLSX = require('xlsx')
 const fetch = require('isomorphic-unfetch')
 const moment = require('moment')
 const csv = require('csv-array')
-const { errorWrap, leadsOnly } = require('../middleware')
+const { errorWrap, membersOnly } = require('../middleware')
 const { FutureInterview, InterviewAvailability } = require('../models')
 const keyPath =
   process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
@@ -176,7 +176,7 @@ const getTimesFromArray = arr => {
 
 router.get(
   '/',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const futureInterviews = await FutureInterview.find().sort({ _id: 1 })
     let interviews = []
@@ -192,7 +192,7 @@ router.get(
 
 router.delete(
   '/',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const result = await FutureInterview.deleteMany({})
     console.log(result)
