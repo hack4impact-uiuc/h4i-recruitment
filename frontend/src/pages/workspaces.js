@@ -29,10 +29,8 @@ class Workspaces extends Component {
     // get workspaces and cycle, if applicable
     const workspaceRes = await getWorkspaces()
     if (workspaceRes) {
-      workspaceRes.result.forEach(async workspace => {
-        this.setState({
-          workspaces: [...this.state.workspaces, workspace.name],
-        })
+      this.setState({
+        workspaces: workspaceRes.result.map(workspace => workspace.name),
       })
 
       if (!this.state.selectedWorkspace && this.state.workspaces.length) {
