@@ -16,9 +16,7 @@ router.get(
     // removed && key.length === 11)
     if (key) {
       foundUser = await User.findOne({ userId: key })
-      if (foundUser.email != null) {
-        keyVerified = true
-      }
+      keyVerified = foundUser.email != null
     }
     let statusCode = keyVerified ? 200 : 403
     let message = keyVerified ? 'key is verified' : 'key did not pass verification'
