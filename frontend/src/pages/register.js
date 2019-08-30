@@ -52,7 +52,6 @@ class RegisterPage extends Component {
     const { firstName, lastName, email } = this.state
 
     addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.MEMBER).then(resp => {
-      console.log(resp)
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully recorded`)
         this.setState({
@@ -85,9 +84,7 @@ class RegisterPage extends Component {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
       registerUser(email, password, permissionRolesEnum.MEMBER).then(resp => {
-        console.log(resp)
         if (resp.status === 400) {
-          console.log(resp)
           this.setState({
             errorMessage: resp.error || 'Please make sure you do not have an existing account.',
             showInvalidRequestModal: true,

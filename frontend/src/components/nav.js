@@ -48,7 +48,6 @@ class NavigationBar extends Component {
       })
     }
     const { success, result } = await validateKey(getKey())
-    console.log(await validateKey(getKey()))
     if (success) {
       localStorage.setItem('memberName', result.name)
 
@@ -76,7 +75,6 @@ class NavigationBar extends Component {
   }
 
   render() {
-    console.log(this.state.loggedIn)
     return (
       <>
         <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
@@ -105,7 +103,7 @@ class NavigationBar extends Component {
                   <a className="nav-bar-link pl-3">Table View</a>
                 </Link>
               </NavItem>
-              {this.state.role === 'Lead' && (
+              {(this.state.role === 'Member' || this.state.role === 'Lead') && (
                 <>
                   <NavItem>
                     <Link href="/eventOverview">

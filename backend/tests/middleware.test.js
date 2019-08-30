@@ -1,7 +1,7 @@
 const { assert } = require('chai')
 const sinon = require('sinon')
 const authMiddleware = require('../src/middleware/auth') // must be imported directly
-const leadsOnly = require('../src/middleware/leadsOnly')
+const membersOnly = require('../src/middleware/membersOnly')
 
 const {
   NONLEAD_KEY,
@@ -50,14 +50,14 @@ describe('onlyLeads middleware', () => {
   it('should call next() when key has lead suffix', async () => {
     let req = getLeadsOnlyMiddlewareRequestStub(KEY, true)
     let nextSpy = sinon.spy()
-    leadsOnly(req, res, nextSpy)
+    membersOnly(req, res, nextSpy)
     assert(nextSpy.calledOnce)
   })
 
   it('should not call next() when key does NOT have lead suffix', async () => {
     let req = getLeadsOnlyMiddlewareRequestStub(NONLEAD_KEY, false)
     let nextSpy = sinon.spy()
-    leadsOnly(req, res, nextSpy)
+    membersOnly(req, res, nextSpy)
     assert(nextSpy.notCalled)
   })
 })

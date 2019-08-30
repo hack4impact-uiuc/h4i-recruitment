@@ -65,7 +65,6 @@ class LoginPage extends Component {
     console.log(`Logging in ${email}`)
     loginUser(email, password).then(response => {
       if (response.status != 200) {
-        console.log(response)
         this.setState({ showInvalidRequestModal: true })
       } else {
         localStorage.setItem('memberId', response.uid)
