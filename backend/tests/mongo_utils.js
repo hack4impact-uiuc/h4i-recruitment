@@ -26,7 +26,7 @@ before(async done => {
     {},
     err => {
       if (err) {
-        done(err)
+        return
       }
     }
   )
@@ -60,8 +60,6 @@ before(async done => {
       workspaceId: 'abc'
     }
   ])
-
-  done()
 })
 
 after(() => {
