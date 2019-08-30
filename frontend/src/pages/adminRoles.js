@@ -192,7 +192,9 @@ class AdminRoles extends React.Component {
             <Button
               color="warning"
               size="sm"
-              onClick={() => this.setState({ showPasswordModal: false })}
+              onClick={() =>
+                this.setState({ showPasswordModal: false, newRole: -1, selectedUser: -1 })
+              }
               color="secondary"
             >
               x

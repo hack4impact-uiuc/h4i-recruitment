@@ -67,6 +67,7 @@ class LoginPage extends Component {
       if (response.status != 200) {
         this.setState({ showInvalidRequestModal: true })
       } else {
+        setCookie('token', response.token)
         localStorage.setItem('memberId', response.uid)
         if (response.permission === permissionRolesEnum.PENDING) {
           Router.push('/pendingPage')

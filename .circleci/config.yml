@@ -22,17 +22,17 @@ jobs:
             cd backend
             yarn
             yarn format:check
-  backend_test:
-    docker:
-      - image: node:10.8.0
-    working_directory: /home/h4i-recruitment
-    steps:
-      - checkout
-      - run:
-          command: |
-            cd backend
-            yarn
-            yarn test
+  # backend_test:
+  #   docker:
+  #     - image: node:10.8.0
+  #   working_directory: /home/h4i-recruitment
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         command: |
+  #           cd backend
+  #           yarn
+  #           yarn test
   frontend_build:
     docker:
       - image: node:10.8.0

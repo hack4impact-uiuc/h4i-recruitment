@@ -353,9 +353,9 @@ function updateServerUserRole(userEmail: string, newRole: string, password: stri
       google: false,
     },
     body: JSON.stringify({
-      password: password,
-      userEmail: userEmail,
-      newRole: newRole,
+      password,
+      userEmail,
+      newRole,
     }),
   })
 }
