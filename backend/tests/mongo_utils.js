@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const { MongoMemoryServer } = require('mongodb-memory-server')
+const {User} = require('../src/models')
 
 let mongoServer
 
-before(done => {
+before(async done => {
   mongoServer = new MongoMemoryServer()
   mongoServer
     .getConnectionString()
@@ -19,6 +20,36 @@ before(done => {
       )
     })
     .then(() => done())
+
+  await User.insertMany([
+    {
+      firstName: "Member",
+      lastName: "Test",
+      userId: "member",
+      email: "m@t.com",
+      key: "member",
+      role: "Member",
+      workspaceId: "abc"
+    },
+    {
+      firstName: "Lead",
+      lastName: "Test",
+      userId: "lead",
+      email: "l@t.com",
+      key: "lead",
+      role: "Lead",
+      workspaceId: "abc"
+    },
+    {
+      firstName: "Director",
+      lastName: "Test",
+      userId: "director",
+      email: "d@t.com",
+      key: "director",
+      role: "Director",
+      workspaceId: "abc"
+    }
+  ])
 })
 
 after(() => {
