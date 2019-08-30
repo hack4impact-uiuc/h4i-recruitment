@@ -4,7 +4,7 @@ const { User } = require('../src/models')
 
 let mongoServer
 
-before(async done => {
+before(async () => {
   mongoServer = new MongoMemoryServer()
   // mongoServer
   //   .getConnectionString()
