@@ -1,49 +1,42 @@
-const keyPath =
-  process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
-const keyData = require(keyPath)
-const leadSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.LEAD_SUFFIX
-const directorSuffix = process.env.NODE_ENV === 'test' ? 'u' : process.env.DIRECTOR_SUFFIX
+const { User } = require('../models')
 
 // middleware around router
 // checks whether key passed in through the query parameters
 // are one of the keys listed in the json file.
 // Passes name, key, is a lead boolean to the request object with the attributes: _key_name, _key, _is_lead
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
   const key = req.query.key
   if (key != undefined) {
     // removed && key.length === 11
     // Can add this rule if wanted
-    if (key) {
-      const keysFiltered = keyData.keys.filter(currKey => currKey.key === key)
-      const keyVerified = keysFiltered.length !== 0
 
-      if (keyVerified) {
-        req._key_name = keysFiltered[0].name // set the user's name of the key that was used to make the request
+    // check to see if URL is for register, since the key would not be recorded yet
+    if (req.method === 'POST' && req.url.includes('/user/')) {
+      return next()
+    } else if (key) {
+      const foundUser = await User.findOne({ userId: key })
+      if (foundUser != null) {
+        req._key_name = foundUser.firstName // set the user's name of the key that was used to make the request
         req._key = key
 
-        // check if there is a corresponding name for the key
-        if (req._key_name == undefined) {
-          const msg = `The key '${key}' given doesn't have a corresponding name. Check the json file holding the keys.`
-          console.error(msg)
-          res.status(500).json({
-            code: 500,
-            message: msg,
-            success: false
-          })
-          return
-        }
-
         // check whether key is a director's, lead's, or member's key
-        // this is used by the directorsOnly and leadsOnly middleware
-        if (key.endsWith(directorSuffix)) {
-          req._is_lead = true
+        // this is used by the directorsOnly and membersOnly middleware
+        if (foundUser.role === 'Director') {
           req._is_director = true
-        } else if (key.endsWith(leadSuffix)) {
           req._is_lead = true
+          req._is_member = true
+        } else if (foundUser.role === 'Lead') {
           req._is_director = false
-        } else {
+          req._is_lead = true
+          req._is_member = true
+        } else if (foundUser.role === 'Member') {
+          req._is_director = false
           req._is_lead = false
+          req._is_member = true
+        } else {
           req._is_director = false
+          req._is_lead = false
+          req._is_member = false
         }
         return next()
       }

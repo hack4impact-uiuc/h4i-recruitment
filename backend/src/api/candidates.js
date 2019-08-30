@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongodb = require('mongodb')
-const { errorWrap, leadsOnly, directorsOnly } = require('../middleware')
+const { errorWrap, membersOnly, directorsOnly } = require('../middleware')
 const { Candidate, Comment, Interview } = require('../models')
 const {
   statusEnum,
@@ -16,7 +16,7 @@ const { getGithubContributions } = require('../utils/gitScraper')
 // Get all candidates
 router.get(
   '/',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     let candidates
     if (req.query.status) {
@@ -31,7 +31,7 @@ router.get(
 // Adding a filter to view candidates through
 router.post(
   '/query',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     let filter = req.body.filters
     let sortFilters = {}
@@ -82,7 +82,7 @@ router.post(
 // Set status of a candidate given their ID
 router.post(
   '/:candidateId/status',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const data = req.body
     let response = 'Status set Sucessfully'
@@ -149,7 +149,7 @@ router.post(
 // Get candidate by ID
 router.get(
   '/:candidateId',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const candidate = await Candidate.findById(req.params.candidateId)
     res.json({ result: candidate, success: true, code: 200 })
@@ -159,7 +159,7 @@ router.get(
 // Post comment to candidate
 router.post(
   '/:candidateId/comments',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const data = req.body
     if (data.comment == undefined) {
@@ -190,7 +190,7 @@ router.post(
 // Post an interview for a candidate given ID
 router.post(
   '/:candidateId/interviews',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const data = req.body
     let response = 'Interview Added Sucessfully'
@@ -250,7 +250,7 @@ router.post(
 // Get interviews of a candidate given ID
 router.get(
   '/:candidateId/interviews',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const candidate = await Candidate.findById(req.params.candidateId)
     res.json({
@@ -264,7 +264,7 @@ router.get(
 // Update interview of a candidate given ID
 router.put(
   '/:candidateId/interviews',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const data = req.body
     let response = 'Interview Edited Sucessfully'

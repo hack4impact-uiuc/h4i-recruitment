@@ -4,7 +4,7 @@ import getConfig from 'next/config'
 import { getCookie } from './cookieUtils'
 const { publicRuntimeConfig } = getConfig()
 
-const getKey = () => localStorage.getItem('interviewerKey')
+const getKey = () => localStorage.getItem('memberId')
 
 const API_PORT = publicRuntimeConfig.BACKEND_PORT
 
@@ -179,7 +179,7 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 }
 
 function validateKey(key: string) {
-  return fetch(`${API_URL}/interviews/verify_interviewer?key=${key}`).then(res => res.json())
+  return fetch(`${API_URL}/interviews/verify_member?key=${key}`).then(res => res.json())
 }
 
 function getPastInterviews(interviewerKey: string) {
@@ -312,21 +312,15 @@ function getAllUsers() {
   )
 }
 
-function addUser(
-  firstName: String,
-  lastName: String,
-  email: string,
-  tokenId: string,
-  role: string
-) {
+function addUser(firstName: string, lastName: string, userId: string, email: string, role: string) {
   console.log(`Writing user ${email} to internal database`)
   return fetch(`${API_URL}/user/?key=${getKey()}`, {
     method: 'POST',
     body: JSON.stringify({
       firstName,
       lastName,
+      userId,
       email,
-      tokenId,
       role,
     }),
     headers: {
@@ -356,12 +350,12 @@ function updateServerUserRole(userEmail: string, newRole: string, password: stri
     headers: {
       'Content-Type': 'application/json',
       token: getCookie('token'),
-      google: getCookie('google') ? true : false,
+      google: false,
     },
     body: JSON.stringify({
+      password,
       userEmail,
       newRole,
-      password,
     }),
   })
 }
@@ -404,7 +398,7 @@ function loginGoogleUser(tokenId: string) {
     },
     body: JSON.stringify({
       tokenId: tokenId,
-      role: 'member',
+      role: 'Pending',
     }),
   }).then(res => res.json())
 }

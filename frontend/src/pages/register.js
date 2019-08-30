@@ -27,7 +27,6 @@ import { permissionRolesEnum } from '../utils/enums'
 
 const EMAIL_REGEX =
   "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})"
-const MEMBER_KEY = 'ohno'
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -51,10 +50,8 @@ class RegisterPage extends Component {
 
   handleCompleteRegister = resp => {
     const { firstName, lastName, email } = this.state
-    localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-    Router.push('/dashboard')
 
-    addUser(firstName, lastName, email, resp.token, permissionRolesEnum.PENDING).then(resp => {
+    addUser(firstName, lastName, resp.uid, email, permissionRolesEnum.PENDING).then(resp => {
       if (!resp.success) {
         console.log(`User ${firstName} ${lastName} was not successfully recorded`)
         this.setState({
@@ -67,16 +64,17 @@ class RegisterPage extends Component {
   }
 
   handleGoogle = async e => {
-    const result = await loginGoogleUser(e.tokenId)
-    const resp = await result.json()
-    if (!resp.success) {
+    const resp = await loginGoogleUser(e.tokenId)
+    console.log(resp)
+    if (resp.status != 200) {
       this.setState({ errorMessage: resp.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
       setCookie('token', e.tokenId)
       // set google to true so server knows to send the request to google
       setCookie('google', true)
-      // set localStorage value so it's valid across the whole site
+      Router.push('/pendingPage')
+      localStorage.setItem('memberId', resp.uid)
       this.handleCompleteRegister(resp)
     }
   }
@@ -86,14 +84,16 @@ class RegisterPage extends Component {
     if (password !== passwordVerification) {
       this.setState({ errorMessage: 'Your passwords must match.', showInvalidRequestModal: true })
     } else {
-      registerUser(email, password, permissionRolesEnum.DIRECTOR).then(resp => {
-        if (!resp.status === 400) {
+      registerUser(email, password, permissionRolesEnum.PENDING).then(resp => {
+        if (resp.status === 400) {
           console.log(resp)
           this.setState({
-            errorMessage: 'Please make sure you do not have an existing account.',
+            errorMessage: resp.error || 'Please make sure you do not have an existing account.',
             showInvalidRequestModal: true,
           })
         } else {
+          Router.push('/pendingPage')
+          localStorage.setItem('memberId', resp.uid)
           this.handleCompleteRegister(resp)
         }
       })
@@ -180,7 +180,7 @@ class RegisterPage extends Component {
               </Form>
               <GoogleLogin
                 className="btn-lg sign-in-btn"
-                clientId="409847273934-jmhjkeu77d3cqr32sh3vpl3ogh2f4dev.apps.googleusercontent.com"
+                clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
                 responseType="id_token"
                 scope="https://www.googleapis.com/auth/userinfo.email"
                 onSuccess={this.handleGoogle}

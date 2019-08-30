@@ -1,7 +1,7 @@
 import React from 'react'
 import { Component } from 'react'
 import Router from 'next/router'
-import { loginUser, loginGoogleUser } from '../utils/api'
+import { loginUser, loginGoogleUser, validateKey } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { GoogleLogin } from 'react-google-login'
@@ -21,8 +21,7 @@ import {
   ModalFooter,
 } from 'reactstrap'
 import { setCookie } from '../utils/cookieUtils'
-
-const MEMBER_KEY = 'ohno'
+import { permissionRolesEnum } from '../utils/enums'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -36,9 +35,9 @@ class LoginPage extends Component {
   }
 
   handleGoogle = async e => {
-    const result = await loginGoogleUser(e.tokenId)
-    const response = await result.json()
-    if (!response.success) {
+    const response = await loginGoogleUser(e.tokenId)
+    console.log(response)
+    if (response.status != 200) {
       this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
     } else {
       // set token value so google can access it
@@ -46,8 +45,12 @@ class LoginPage extends Component {
       // set google to true so server knows to send the request to google
       setCookie('google', true)
       // set localStorage value so it's valid across the whole site
-      localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-      Router.push('/dashboard')
+      localStorage.setItem('memberId', response.uid)
+      if (response.permission === permissionRolesEnum.PENDING) {
+        Router.push('/pendingPage')
+      } else {
+        Router.push('/dashboard')
+      }
     }
   }
 
@@ -62,11 +65,15 @@ class LoginPage extends Component {
     console.log(`Logging in ${email}`)
     loginUser(email, password).then(response => {
       if (response.status != 200) {
-        console.log(response)
         this.setState({ showInvalidRequestModal: true })
       } else {
-        localStorage.setItem('interviewerKey', MEMBER_KEY) // TODO: Create switch statements for roles - Issue #314
-        Router.push('/dashboard')
+        setCookie('token', response.token)
+        localStorage.setItem('memberId', response.uid)
+        if (response.permission === permissionRolesEnum.PENDING) {
+          Router.push('/pendingPage')
+        } else {
+          Router.push('/dashboard')
+        }
       }
     })
   }
@@ -117,7 +124,7 @@ class LoginPage extends Component {
 
               <GoogleLogin
                 className="btn sign-in-btn"
-                clientId="409847273934-jmhjkeu77d3cqr32sh3vpl3ogh2f4dev.apps.googleusercontent.com"
+                clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
                 responseType="id_token"
                 buttonText={this.props.role}
                 scope="https://www.googleapis.com/auth/userinfo.email"

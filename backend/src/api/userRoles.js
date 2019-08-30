@@ -34,8 +34,8 @@ router.post(
     const newBsonUser = new User({
       firstName: newUser.firstName,
       lastName: newUser.lastName,
+      userId: newUser.userId,
       email: newUser.email,
-      tokenId: newUser.tokenId,
       role: newUser.role
     })
     await newBsonUser.save()
