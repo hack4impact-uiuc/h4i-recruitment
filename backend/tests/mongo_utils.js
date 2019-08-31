@@ -9,11 +9,15 @@ before(async () => {
   mongoServer
     .getConnectionString()
     .then(mongoUri => {
-      return mongoose.connect(mongoUri, {}, err => {
-        if (err) {
-          done(err)
+      return mongoose.connect(
+        mongoUri,
+        {},
+        err => {
+          if (err) {
+            done(err)
+          }
         }
-      })
+      )
     })
     .then(() => done())
   const mongoUri = await mongoServer.getConnectionString()

@@ -23,28 +23,28 @@ describe('Auth middleware', () => {
   it('should not call next() when the key is a substring of the real key', async () => {
     let req = getAuthMiddlewareRequestStub('direct')
     let nextSpy = sinon.spy()
-    authMiddleware(req, res, nextSpy)
+    await authMiddleware(req, res, nextSpy)
     assert(nextSpy.notCalled)
   })
 
   it('should not call next() when the key contains a substring that is the real key', async () => {
     let req = getAuthMiddlewareRequestStub('directorr')
     let nextSpy = sinon.spy()
-    authMiddleware(req, res, nextSpy)
+    await authMiddleware(req, res, nextSpy)
     assert(nextSpy.notCalled)
   })
   it('should call next() when the key matches a key in the db', async () => {
     let req = getAuthMiddlewareRequestStub(KEY)
     let nextSpy = sinon.spy()
     console.log('START HERE')
-    authMiddleware(req, res, nextSpy)
+    await authMiddleware(req, res, nextSpy)
     console.log('END HERE')
     assert(nextSpy.calledOnce)
   })
   it('should not call next() when the key is the same length as keys in db but is not in the db', async () => {
     let req = getAuthMiddlewareRequestStub('notaakey')
     let nextSpy = sinon.spy()
-    authMiddleware(req, res, nextSpy)
+    await authMiddleware(req, res, nextSpy)
     assert(nextSpy.notCalled)
   })
 })
