@@ -5,7 +5,6 @@ const { User } = require('../src/models')
 let mongoServer
 
 before(async () => {
-  console.log('bogust')
   mongoServer = new MongoMemoryServer()
   const mongoUri = await mongoServer.getConnectionString()
   await mongoose.connect(

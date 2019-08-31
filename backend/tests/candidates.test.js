@@ -113,7 +113,7 @@ describe('GET /candidates/:candidateId', async () => {
 describe('POST /candidates/:id/comments', async () => {
   let candidate
 
-  before(async () => {
+  beforeEach(async () => {
     candidate = new Candidate({
       name: 'Tim',
       resumeID: 'a',
