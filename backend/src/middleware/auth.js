@@ -16,6 +16,7 @@ const auth = async (req, res, next) => {
       return next()
     } else if (key) {
       const foundUser = await User.findOne({ userId: key })
+      console.log(foundUser)
       if (foundUser != null) {
         req._key_name = foundUser.firstName // set the user's name of the key that was used to make the request
         req._key = key
