@@ -122,11 +122,9 @@ describe('POST /candidates/:id/comments', async () => {
       role: []
     })
     await candidate.save()
-    console.log(await Candidate.find())
   })
 
   it('should add a comment', async () => {
-    console.log(await Candidate.find())
     await request(app)
       .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
       .send({
@@ -145,7 +143,7 @@ describe('POST /candidates/:id/comments', async () => {
 describe('POST /candidates/:id/status', async () => {
   let candidateStatus
 
-  before(async () => {
+  beforeEach(async () => {
     candidateStatus = new Candidate({
       name: 'TimChangeStatus',
       email: 'someemail',
