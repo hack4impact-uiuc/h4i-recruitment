@@ -2,6 +2,7 @@ const { assert } = require('chai')
 const sinon = require('sinon')
 const authMiddleware = require('../src/middleware/auth') // must be imported directly
 const leadsOnly = require('../src/middleware/leadsOnly')
+require('./mongo_utils')
 
 const {
   NONLEAD_KEY,
