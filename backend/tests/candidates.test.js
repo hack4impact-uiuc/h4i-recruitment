@@ -2,7 +2,7 @@ const request = require('supertest')
 const sinon = require('sinon')
 const { expect } = require('chai')
 const app = require('../src/app')
-const { Candidate, User } = require('../src/models')
+const { Candidate } = require('../src/models')
 const { KEY, NONLEAD_KEY } = require('./utils')
 const { statusEnums } = require('../src/utils/enums')
 require('./mongo_utils')
@@ -118,14 +118,14 @@ describe('POST /candidates/:id/comments', async () => {
       name: 'Tim',
       resumeID: 'a',
       email: 'a',
-      major: 'a'
+      major: 'a',
+      role: []
     })
     await candidate.save()
+    console.log(await Candidate.find())
   })
 
   it('should add a comment', async () => {
-    console.log(await Candidate.find())
-    console.log(await User.find())
     await request(app)
       .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
       .send({
