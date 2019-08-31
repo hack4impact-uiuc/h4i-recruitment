@@ -5,21 +5,8 @@ const { User } = require('../src/models')
 let mongoServer
 
 before(async () => {
+  console.log('bogust')
   mongoServer = new MongoMemoryServer()
-  // mongoServer
-  //   .getConnectionString()
-  //   .then(mongoUri => {
-  //     return mongoose.connect(
-  //       mongoUri,
-  //       {},
-  //       err => {
-  //         if (err) {
-  //           done(err)
-  //         }
-  //       }
-  //     )
-  //   })
-  //   .then(() => done())
   const mongoUri = await mongoServer.getConnectionString()
   await mongoose.connect(
     mongoUri,
