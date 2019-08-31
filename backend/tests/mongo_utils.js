@@ -6,22 +6,26 @@ let mongoServer
 
 before(async () => {
   mongoServer = new MongoMemoryServer()
-  mongoServer
-    .getConnectionString()
-    .then(mongoUri => {
-      return mongoose.connect(mongoUri, {}, err => {
-        if (err) {
-          done(err)
-        }
-      })
-    })
-    .then(() => done())
+  // mongoServer
+  //   .getConnectionString()
+  //   .then(mongoUri => {
+  //     return mongoose.connect(mongoUri, {}, err => {
+  //       if (err) {
+  //         done(err)
+  //       }
+  //     })
+  //   })
+  //   .then(() => done())
   const mongoUri = await mongoServer.getConnectionString()
-  await mongoose.connect(mongoUri, {}, err => {
-    if (err) {
-      return
+  await mongoose.connect(
+    mongoUri,
+    {},
+    err => {
+      if (err) {
+        return
+      }
     }
-  })
+  )
 
   await User.insertMany([
     {

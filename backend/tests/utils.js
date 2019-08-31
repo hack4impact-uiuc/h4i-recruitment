@@ -50,7 +50,7 @@ const createMatches = async matches => {
   await Match.insertMany(query)
 }
 
-const getAuthMiddlewareRequestStub = key => ({ query: { key: key } })
+const getAuthMiddlewareRequestStub = key => ({ query: { key: key }, url: '' })
 const getLeadsOnlyMiddlewareRequestStub = (key, isLead) => ({ _key: key, _is_lead: isLead })
 
 module.exports = {
