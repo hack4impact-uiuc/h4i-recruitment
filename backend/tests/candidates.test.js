@@ -126,6 +126,7 @@ describe('POST /candidates/:id/comments', async () => {
   })
 
   it('should add a comment', async () => {
+    console.log(await Candidate.find())
     await request(app)
       .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
       .send({
