@@ -13,39 +13,6 @@ const newUser = new User({
   role: 'Pending'
 })
 
-// beforeEach(async () => {
-//   await User.deleteMany()
-//   await User.insertMany([
-//     {
-//       firstName: 'Member',
-//       lastName: 'Test',
-//       userId: 'member',
-//       email: 'm@t.com',
-//       key: 'member',
-//       role: 'Member',
-//       workspaceId: 'abc'
-//     },
-//     {
-//       firstName: 'Lead',
-//       lastName: 'Test',
-//       userId: 'lead',
-//       email: 'l@t.com',
-//       key: 'lead',
-//       role: 'Lead',
-//       workspaceId: 'abc'
-//     },
-//     {
-//       firstName: 'Director',
-//       lastName: 'Test',
-//       userId: 'director',
-//       email: 'd@t.com',
-//       key: 'director',
-//       role: 'Director',
-//       workspaceId: 'abc'
-//     }
-//   ])
-// })
-
 describe('App can run', done => {
   it('returns status 200', async () => {
     await request(app)
