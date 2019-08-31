@@ -111,8 +111,10 @@ describe('GET /candidates/:candidateId', async () => {
 // })
 
 describe('POST /candidates/:id/comments', async () => {
+  let candidate
+
   before(async () => {
-    const candidate = new Candidate({
+    candidate = new Candidate({
       name: 'Tim',
       resumeID: 'a',
       email: 'a',
@@ -138,8 +140,10 @@ describe('POST /candidates/:id/comments', async () => {
 })
 
 describe('POST /candidates/:id/status', async () => {
+  let candidateStatus
+
   before(async () => {
-    const candidateStatus = new Candidate({
+    candidateStatus = new Candidate({
       name: 'TimChangeStatus',
       email: 'someemail',
       resumeID: 'some resume link',
