@@ -111,15 +111,21 @@ describe('GET /candidates/:candidateId', async () => {
 // })
 
 describe('POST /candidates/:id/comments', async () => {
-  const candidate = new Candidate({
-    name: 'Tim',
-    resumeID: 'a',
-    email: 'a',
-    major: 'a'
+  let candidate
+
+  beforeEach(async () => {
+    candidate = new Candidate({
+      name: 'Tim',
+      resumeID: 'a',
+      email: 'a',
+      major: 'a',
+      role: []
+    })
+    await candidate.save()
   })
-  await candidate.save()
+
   it('should add a comment', async () => {
-    const res = await request(app)
+    await request(app)
       .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
       .send({
         comment: 'test comment'
@@ -135,13 +141,18 @@ describe('POST /candidates/:id/comments', async () => {
 })
 
 describe('POST /candidates/:id/status', async () => {
-  const candidateStatus = new Candidate({
-    name: 'TimChangeStatus',
-    email: 'someemail',
-    resumeID: 'some resume link',
-    major: 'ce'
+  let candidateStatus
+
+  beforeEach(async () => {
+    candidateStatus = new Candidate({
+      name: 'TimChangeStatus',
+      email: 'someemail',
+      resumeID: 'some resume link',
+      major: 'ce'
+    })
+    await candidateStatus.save()
   })
-  await candidateStatus.save()
+
   it('should change the status', async () => {
     const res = await request(app)
       .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)
@@ -153,7 +164,7 @@ describe('POST /candidates/:id/status', async () => {
 
   it('should return 403 if key does not end in lead suffix', async () => {
     const res = await request(app)
-      .post(`/candidates/${candidateStatus._id}/status?key=${NONLEAD_KEY}`)
+      .post(`/candidates/${candidateStatus._id}/status?key=${'Pending'}`)
       .send({
         status: 'Accepted'
       })

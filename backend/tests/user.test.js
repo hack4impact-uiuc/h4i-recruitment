@@ -9,11 +9,8 @@ const newUser = new User({
   firstName: 'fake',
   lastName: 'name',
   email: 'fakeemail@gmail.com',
+  userId: 'userId',
   role: 'Pending'
-})
-
-beforeEach(async () => {
-  await User.deleteMany()
 })
 
 describe('App can run', done => {
@@ -30,7 +27,7 @@ describe('GET /user/', () => {
     const res = await request(app)
       .get(`/user/?key=${KEY}`)
       .expect(200)
-    expect(res.body.result[0].email).to.eq('fakeemail@gmail.com')
+    expect(res.body.result[0].email).to.eq('m@t.com')
   })
 })
 
@@ -41,8 +38,8 @@ describe('POST /user/', () => {
       .send(newUser)
       .expect(200)
 
-    const databaseState = await User.find()
-    expect(databaseState[0].email).to.eq('fakeemail@gmail.com')
+    const foundUser = await User.findOne({ firstName: 'fake' })
+    expect(foundUser.email).to.eq('fakeemail@gmail.com')
   })
 })
 
