@@ -111,13 +111,16 @@ describe('GET /candidates/:candidateId', async () => {
 // })
 
 describe('POST /candidates/:id/comments', async () => {
-  const candidate = new Candidate({
-    name: 'Tim',
-    resumeID: 'a',
-    email: 'a',
-    major: 'a'
+  before(async () => {
+    const candidate = new Candidate({
+      name: 'Tim',
+      resumeID: 'a',
+      email: 'a',
+      major: 'a'
+    })
+    await candidate.save()
   })
-  await candidate.save()
+
   it('should add a comment', async () => {
     const res = await request(app)
       .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
@@ -135,13 +138,16 @@ describe('POST /candidates/:id/comments', async () => {
 })
 
 describe('POST /candidates/:id/status', async () => {
-  const candidateStatus = new Candidate({
-    name: 'TimChangeStatus',
-    email: 'someemail',
-    resumeID: 'some resume link',
-    major: 'ce'
+  before(async () => {
+    const candidateStatus = new Candidate({
+      name: 'TimChangeStatus',
+      email: 'someemail',
+      resumeID: 'some resume link',
+      major: 'ce'
+    })
+    await candidateStatus.save()
   })
-  await candidateStatus.save()
+
   it('should change the status', async () => {
     const res = await request(app)
       .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)

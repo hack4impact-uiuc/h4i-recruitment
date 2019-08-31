@@ -177,8 +177,7 @@ router.post(
       const candidate = await Candidate.findByIdAndUpdate(req.params.candidateId, {
         $push: { comments: newComment }
       })
-      const all = await Candidate.find()
-      console.log(all)
+
       res.json({
         message: `Successfully added comment to user ${candidate._id}`,
         status: 200,
