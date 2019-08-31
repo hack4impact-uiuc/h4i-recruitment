@@ -125,7 +125,6 @@ describe('POST /candidates/:id/comments', async () => {
         comment: 'test comment'
       })
       .expect(200)
-    console.log(res)
   })
 
   it('should return 400 if comment was not provided', async () => {

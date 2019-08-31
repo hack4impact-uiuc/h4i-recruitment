@@ -9,6 +9,7 @@ const auth = async (req, res, next) => {
   if (key != undefined) {
     // removed && key.length === 11
     // Can add this rule if wanted
+    console.log('reached here')
 
     // check to see if URL is for register, since the key would not be recorded yet
     if (req.method === 'POST' && req.url.includes('/user/')) {
@@ -22,6 +23,7 @@ const auth = async (req, res, next) => {
         // check whether key is a director's, lead's, or member's key
         // this is used by the directorsOnly and membersOnly middleware
         if (foundUser.role === 'Director') {
+          console.log('reached here tooooooo')
           req._is_director = true
           req._is_lead = true
           req._is_member = true
@@ -38,6 +40,8 @@ const auth = async (req, res, next) => {
           req._is_lead = false
           req._is_member = false
         }
+
+        console.log('reached here toooooooooooooooo')
         return next()
       }
     }
