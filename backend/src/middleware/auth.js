@@ -38,7 +38,6 @@ const auth = async (req, res, next) => {
           req._is_lead = false
           req._is_member = false
         }
-
         return next()
       }
     }
