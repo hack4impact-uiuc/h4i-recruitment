@@ -44,6 +44,14 @@ before(async () => {
       key: 'director',
       role: 'Director',
       workspaceId: 'abc'
+    },
+    {
+      firstName: 'Tim',
+      lastName: 'Ko',
+      userId: 'timko',
+      email: 'tim@h4i.com',
+      role: 'Director',
+      workspaceId: 'abc'
     }
   ])
 })

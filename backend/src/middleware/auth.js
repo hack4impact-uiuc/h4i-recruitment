@@ -25,14 +25,17 @@ const auth = async (req, res, next) => {
           req._is_director = true
           req._is_lead = true
           req._is_member = true
+          req._user = foundUser
         } else if (foundUser.role === 'Lead') {
           req._is_director = false
           req._is_lead = true
           req._is_member = true
+          req._user = foundUser
         } else if (foundUser.role === 'Member') {
           req._is_director = false
           req._is_lead = false
           req._is_member = true
+          req._user = foundUser
         } else {
           req._is_director = false
           req._is_lead = false
