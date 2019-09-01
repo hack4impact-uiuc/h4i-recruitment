@@ -3,14 +3,12 @@ const { Workspace } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
-// Get all workspaces
-// TODO: when authentication server is integrated, only show the workspace that
-// belong to the caller of this endpoint.
+// Get all workspaces belonging to whoever called the endpoint.
 router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaces = await Workspace.find()
+    const workspaces = await Workspace.find({ owner: req._user })
     res.json({
       code: 200,
       result: workspaces,
@@ -19,14 +17,12 @@ router.get(
   })
 )
 
-// Find workspace by name
-// TODO: when authentication server is integrated, only show the workspace if it
-// belongs to the caller of this endpoint.
+// Find workspace by name, if they belong to the caller.
 router.get(
   '/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspace = await Workspace.find({ name: req.params.workspaceName })
+    const workspace = await Workspace.find({ name: req.params.workspaceName, owner: req._user })
 
     res.json({
       code: 200,
@@ -41,7 +37,7 @@ router.post(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const owner = req.body.owner
+    const owner = req._user
     const workspaceName = req.body.name
     if (!owner || !workspaceName) {
       return res.json({
