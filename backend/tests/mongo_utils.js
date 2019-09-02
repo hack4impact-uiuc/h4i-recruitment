@@ -25,7 +25,7 @@ before(async () => {
       email: 'm@t.com',
       key: 'member',
       role: 'Member',
-      workspaceId: ['abc']
+      workspaceId: 'abc'
     },
     {
       firstName: 'Lead',
@@ -34,7 +34,7 @@ before(async () => {
       email: 'l@t.com',
       key: 'lead',
       role: 'Lead',
-      workspaceId: ['abc']
+      workspaceId: 'abc'
     },
     {
       firstName: 'Director',
@@ -43,7 +43,7 @@ before(async () => {
       email: 'd@t.com',
       key: 'director',
       role: 'Director',
-      workspaceId: ['abc']
+      workspaceId: 'abc'
     },
     {
       firstName: 'Tim',
@@ -51,7 +51,7 @@ before(async () => {
       userId: 'timko',
       email: 'tim@h4i.com',
       role: 'Director',
-      workspaceId: ['abc']
+      workspaceId: 'abc'
     }
   ])
 })

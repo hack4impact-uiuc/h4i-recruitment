@@ -8,7 +8,7 @@ router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const cycles = await Cycle.find({ workspaceName: {"$in" : req._user.workspaceId} })
+    const cycles = await Cycle.find({ workspaceName: { $in: req._user.workspaceId } })
     res.json({
       code: 200,
       result: cycles,
@@ -26,22 +26,20 @@ router.get(
     const cycleId = req.params.cycle_id
     const cycle = await Cycle.findById(cycleId)
     if (cycle.length == 0) {
-      res.json({
+      return res.json({
         code: 404,
         message: 'Not found',
         success: false
       })
-      return
     }
 
     // cycle exists but is under a different workspace
     if (!req._user.workspaceId.includes(cycle.workspaceName)) {
-      res.json({
+      return res.json({
         code: 403,
         message: 'Unauthorized',
         success: false
       })
-      return
     }
 
     res.json({
@@ -69,8 +67,8 @@ router.get(
     }
     const cycles =
       current === null
-        ? await Cycle.find({ workspaceName: {"$in" : req._user.workspaceId} })
-        : await Cycle.find({ workspaceName: {"$in" : req._user.workspaceId}, current })
+        ? await Cycle.find({ workspaceName: { $in: req._user.workspaceId } })
+        : await Cycle.find({ workspaceName: { $in: req._user.workspaceId }, current })
 
     res.json({
       code: 200,
