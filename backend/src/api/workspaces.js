@@ -56,7 +56,7 @@ router.post(
     // add the workspace to the list of workspaces for a user
     await User.findOneAndUpdate(
       { email: req._user.email },
-      { $push: { workspaceId: workspaceName } }
+      { $push: { workspaceIds: workspaceName } }
     )
 
     res.json({
@@ -72,7 +72,7 @@ router.put(
   [directorsOnly],
   errorWrap(async (req, res) => {
     const userEmail = req.body.userEmail
-    const workspaceName = req.body.workspaceId
+    const workspaceName = req.body.workspaceIds
 
     if (!userEmail || !workspaceName) {
       return res.json({
@@ -82,7 +82,7 @@ router.put(
       })
     }
 
-    if (!req._user.workspaceId.includes(workspaceName)) {
+    if (!req._user.workspaceIds.includes(workspaceName)) {
       return res.json({
         code: 403,
         message: 'unauthorized',
@@ -93,7 +93,7 @@ router.put(
     // adds the workspace to the user's list of workspaces
     await User.findOneAndUpdate(
       { email: userEmail },
-      { $push: { workspaceId: workspaceName } },
+      { $push: { workspaceIds: workspaceName } },
       err => {
         if (err) {
           return res.json({
@@ -128,7 +128,7 @@ router.put(
       })
     }
 
-    if (!newOwner.workspaceId.includes(workspace) || newOwner.role != 'Director') {
+    if (!newOwner.workspaceIds.includes(workspace) || newOwner.role != 'Director') {
       return res.json({
         code: 400,
         message: 'Invalid permissions for new owner',

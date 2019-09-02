@@ -10,6 +10,6 @@ const User = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   key: { type: String },
   role: { type: String, required: true },
-  workspaceId: [{ type: String }]
+  workspaceIds: [{ type: String }]
 })
 module.exports = mongoose.model('User', User)

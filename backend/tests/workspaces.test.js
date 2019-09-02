@@ -60,7 +60,7 @@ describe('GET POST Transfer /workspace', () => {
 
     await request(app)
       .put(`/workspaces/addUser?key=${KEY}`)
-      .send({ workspaceId: workspaceName, userEmail: 'tim@h4i.com' })
+      .send({ workspaceIds: workspaceName, userEmail: 'tim@h4i.com' })
       .expect(200)
 
     userRequest = await request(app).get(`/user/?key=${KEY}`)
@@ -70,7 +70,7 @@ describe('GET POST Transfer /workspace', () => {
 
     await request(app)
       .put(`/workspaces/transfer/${workspaceName}?key=${KEY}`)
-      .send({ workspaceId: workspaceName, userEmail: 'tim@h4i.com' })
+      .send({ workspaceIds: workspaceName, userEmail: 'tim@h4i.com' })
       .expect(200)
 
     res = await request(app)
