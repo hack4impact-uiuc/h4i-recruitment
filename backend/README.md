@@ -34,7 +34,6 @@ However, `keys.json` is no longer used as part of the login. We use the followin
 
   * member@test.com
   * lead@test.com
-  * director@test.com
 
 The password for all of them is `password`.
 
