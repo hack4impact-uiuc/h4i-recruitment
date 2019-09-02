@@ -5,14 +5,6 @@ const { User } = require('../src/models')
 const { KEY } = require('./utils.js')
 require('./mongo_utils')
 
-const newUser = new User({
-  firstName: 'fake',
-  lastName: 'name',
-  email: 'fakeemail@gmail.com',
-  userId: 'userId',
-  role: 'Pending'
-})
-
 describe('App can run', done => {
   it('returns status 200', async () => {
     await request(app)
@@ -23,6 +15,13 @@ describe('App can run', done => {
 
 describe('GET /user/', () => {
   it('should get all users', async () => {
+    const newUser = new User({
+      firstName: 'fake',
+      lastName: 'name',
+      email: 'fakeemail@gmail.com',
+      userId: 'userId',
+      role: 'Pending'
+    })
     await newUser.save()
     const res = await request(app)
       .get(`/user/?key=${KEY}`)
@@ -33,6 +32,14 @@ describe('GET /user/', () => {
 
 describe('POST /user/', () => {
   it('should create a new user', async () => {
+    const newUser = new User({
+      firstName: 'fake',
+      lastName: 'name',
+      email: 'fakeemail2@gmail.com',
+      userId: 'userId2',
+      role: 'Pending'
+    })
+
     await request(app)
       .post(`/user/?key=${KEY}`)
       .send(newUser)
@@ -45,7 +52,6 @@ describe('POST /user/', () => {
 
 describe('PUT /user/', () => {
   it('should update user to have new role', async () => {
-    await newUser.save()
     const reqBody = {
       email: 'fakeemail@gmail.com',
       role: 'Member'
