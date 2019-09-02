@@ -3,14 +3,12 @@ const { Cycle } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
-// Get all cycles (previous and current)
-// TODO: when authentication server is integrated, only show the cycles that
-// belong to the caller of this endpoint.
+// Get all cycles belonging to the same workspace that a User is in (previous and current)
 router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const cycles = await Cycle.find()
+    const cycles = await Cycle.find({ workspaceName: {"$in" : req._user.workspaceId} })
     res.json({
       code: 200,
       result: cycles,
@@ -19,15 +17,33 @@ router.get(
   })
 )
 
-// Get a cycle by ID
-// TODO: when authentication server is integrated, only show the cycle id if it belongs
+// Get a cycle by ID, if the cycle is in the same workspace as the caller of the endpoint.
 // to the workspace owned by the caller. Otherwise, 403.
 router.get(
-  '/:cycle_id',
+  '/id/:cycle_id',
   [directorsOnly],
   errorWrap(async (req, res) => {
     const cycleId = req.params.cycle_id
     const cycle = await Cycle.findById(cycleId)
+    if (cycle.length == 0) {
+      res.json({
+        code: 404,
+        message: 'Not found',
+        success: false
+      })
+      return
+    }
+
+    // cycle exists but is under a different workspace
+    if (!req._user.workspaceId.includes(cycle.workspaceName)) {
+      res.json({
+        code: 403,
+        message: 'Unauthorized',
+        success: false
+      })
+      return
+    }
+
     res.json({
       code: 200,
       result: cycle,
@@ -36,28 +52,25 @@ router.get(
   })
 )
 
-// get all cycles belonging to a workspace (either current, outdated, or both)
-// TODO: when authentication server is integrated, only show the cycles
-// to the workspace's owner. Otherwise, 403.
+// get all cycles belonging to the workspace that a user belongs to (either current, outdated, or both)
 router.get(
-  '/workspace/:workspaceName',
+  '/workspace',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaceName = req.params.workspaceName
+    const workspaceNames = req._user.workspaceId
     const current = req.body.current
 
-    if (!workspaceName) {
+    if (!workspaceNames || workspaceNames.length == 0) {
       return res.json({
         code: 400,
         message: 'malformed request',
         success: false
       })
     }
-
     const cycles =
       current === null
-        ? await Cycle.find({ workspaceName })
-        : await Cycle.find({ workspaceName, current })
+        ? await Cycle.find({ workspaceName: {"$in" : req._user.workspaceId} })
+        : await Cycle.find({ workspaceName: {"$in" : req._user.workspaceId}, current })
 
     res.json({
       code: 200,
@@ -81,7 +94,7 @@ router.post(
     if (!newTerm) {
       response = 'Invalid term'
     }
-    if (!workspace) {
+    if (!workspace || !req._user.workspaceId.includes(workspace)) {
       response = 'Invalid workspace'
     }
 
@@ -100,9 +113,6 @@ router.post(
         }
       }
     )
-
-    // TODO: when authentication server is integrated, ensure that given workspaces
-    // matches one in the database created by the director
 
     const cycle = new Cycle({
       term: newTerm,

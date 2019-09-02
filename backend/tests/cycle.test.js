@@ -11,7 +11,7 @@ beforeEach(async () => {
 
 describe('App can run', done => {
   it('returns status 200', async () => {
-    const res = await request(app)
+    await request(app)
       .get(`/?key=${KEY}`)
       .expect(200)
   })
@@ -26,15 +26,15 @@ describe('GET /cycle', () => {
   })
 })
 
-describe('GET /cycle/:cycleId', () => {
+describe('GET /cycle/id/:cycleId', () => {
   it('should get a cycle by ID', async () => {
     const cycle = new Cycle({
       term: 'FA19',
-      workspaceName: 'Hack4Impact University of Illinois at Urbana-Champaign'
+      workspaceName: 'abc'
     })
     await cycle.save()
     const res = await request(app)
-      .get(`/cycle/${cycle._id}?key=${KEY}`)
+      .get(`/cycle/id/${cycle._id}?key=${KEY}`)
       .expect(200)
     expect(res.body.result.term).to.eq('FA19')
   })
@@ -42,28 +42,24 @@ describe('GET /cycle/:cycleId', () => {
 
 describe('POST /cycle', () => {
   it('should create a cycle', async () => {
-    const cycle = new Cycle({
-      term: 'FA19',
-      workspaceName: 'Hack4Impact University of Illinois at Urbana-Champaign'
-    })
-
     await request(app)
       .post(`/cycle?key=${KEY}`)
-      .send(cycle)
+      .send({
+        term: 'FA19',
+        workspaceName: 'abc'
+      })
       .expect(200)
   })
 })
 
 describe('POST /cycle more than once', () => {
   it('should update the current attribute for cycles to when a new cycle is created', async () => {
-    const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
-
     await request(app)
       .post(`/cycle?key=${KEY}`)
       .send(
         new Cycle({
           term: 'FA18',
-          workspaceName
+          workspaceName: 'abc'
         })
       )
 
@@ -72,25 +68,25 @@ describe('POST /cycle more than once', () => {
       .send(
         new Cycle({
           term: 'SP19',
-          workspaceName
+          workspaceName: 'abc'
         })
       )
 
     const newCycle = await request(app)
-      .get(`/cycle/workspace/${workspaceName}?key=${KEY}`)
+      .get(`/cycle/workspace?key=${KEY}`)
       .send({ current: true })
 
     newCycleId = newCycle.body.result[0]._id
 
     const res = await request(app)
-      .get(`/cycle/${newCycleId}?key=${KEY}`)
+      .get(`/cycle/id/${newCycleId}?key=${KEY}`)
       .expect(200)
 
     expect(res.body.result.current).to.eq(true)
     expect(res.body.result.term).to.eq('SP19')
 
     const oldCycle = await request(app)
-      .get(`/cycle/workspace/${workspaceName}?key=${KEY}`)
+      .get(`/cycle/workspace?key=${KEY}`)
       .send({ current: false })
     expect(oldCycle.body.result[0].term).to.eq('FA18')
   })

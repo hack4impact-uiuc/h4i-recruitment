@@ -1,7 +1,7 @@
 const request = require('supertest')
 const { expect } = require('chai')
 const app = require('../src/app')
-const { Workspace } = require('../src/models')
+const { User, Workspace } = require('../src/models')
 const { KEY, NONLEAD_KEY } = require('./utils.js')
 require('./mongo_utils')
 
@@ -27,7 +27,7 @@ describe('GET /workspace', () => {
 })
 
 describe('GET /workspace failure', () => {
-  it('should not get all workspaces because not a lead', async () => {
+  it('should not fail request because caller is not a director', async () => {
     await request(app)
       .get(`/workspaces?key=${NONLEAD_KEY}`)
       .expect(403)
@@ -47,11 +47,10 @@ describe('GET POST Transfer /workspace', () => {
       .send(workspace)
       .expect(200)
 
-    let userRequest = await request(app)
-    .get(`/user/?key=${KEY}`)
+    let userRequest = await request(app).get(`/user/?key=${KEY}`)
 
-    const originalOwnerId = userRequest.body.result.filter((user) => {
-      return user.email == "d@t.com"
+    const originalOwnerId = userRequest.body.result.filter(user => {
+      return user.email == 'd@t.com'
     })
 
     // verify db state
@@ -59,14 +58,24 @@ describe('GET POST Transfer /workspace', () => {
     expect(res.body.result[0].name).to.eq(workspaceName)
     expect(res.body.result[0].owner).to.eq(originalOwnerId[0]._id)
 
-    const newOwnerId = userRequest.body.result.filter((user) => {
-      return user.email == "tim@h4i.com"
+    await request(app)
+      .put(`/workspaces/addUser?key=${KEY}`)
+      .send({ workspaceId: workspaceName, userEmail: 'tim@h4i.com' })
+      .expect(200)
+
+    userRequest = await request(app).get(`/user/?key=${KEY}`)
+    const newOwnerId = userRequest.body.result.filter(user => {
+      return user.email == 'tim@h4i.com'
     })
 
     await request(app)
-      .put(`/workspaces/transfer/${workspace.name}?key=${KEY}`)
-      .send({ owner: newOwnerId[0] })
+      .put(`/workspaces/transfer/${workspaceName}?key=${KEY}`)
+      .send({ workspaceId: workspaceName, owner: newOwnerId[0] })
       .expect(200)
+
+    res = await request(app)
+    .get(`/workspaces?key=${KEY}`)
+    .expect(200)
 
     // verify db owner is updated
     res = await request(app).get(`/workspaces/${workspace.name}?key=timko`)

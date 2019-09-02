@@ -1,5 +1,5 @@
 const express = require('express')
-const { Workspace } = require('../models')
+const { User, Workspace } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
@@ -53,6 +53,9 @@ router.post(
     })
     await workspace.save()
 
+    // add the workspace to the list of workspaces for a user
+    await User.findOneAndUpdate({email: req._user.email}, { $push: { workspaceId: workspaceName } })
+
     res.json({
       code: 200,
       message: 'Successfully created workspace',
@@ -61,23 +64,72 @@ router.post(
   })
 )
 
+router.put(
+  '/addUser',
+  [directorsOnly],
+  errorWrap(async (req, res) => {
+    const userEmail = req.body.userEmail
+    const workspaceName = req.body.workspaceId
+
+    if (!userEmail || !workspaceName) {
+      return res.json({
+        code: 400,
+        message: 'malformed request',
+        success: false
+      })
+    }
+
+    if (!req._user.workspaceId.includes(workspaceName)) {
+      return res.json({
+        code: 403,
+        message: 'unauthorized',
+        success: false
+      })
+    }
+
+    // adds the workspace to the user's list of workspaces
+    await User.findOneAndUpdate({email: userEmail}, { $push: { workspaceId: workspaceName } }, err => {
+      if (err) {
+        return res.json({
+          code: 404,
+          message: 'user not found',
+          result: {},
+          success: false
+        })
+      }
+    })
+
+    res.json({
+      code: 200,
+      success: true,
+      message: 'added user to new workspace!'
+    })
+  })
+)
 // Transfer ownership of a workspace to someone else
 router.put(
   '/transfer/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
     const newOwner = req.body.owner
-    const workspaceName = req.params.workspaceName
+    const workspaceName = req.body.workspaceId
 
     if (!newOwner || !workspaceName) {
       return res.json({
         code: 400,
-        message: newOwner ? 'Invalid workspace name' : 'Invalid owner name',
+        message: 'malformed request',
         success: false
       })
     }
 
-    // todo: ensure that new owner is a director & belongs in the same org
+    if (!newOwner.workspaceId.includes(workspaceName) || newOwner.role != 'Director') {
+      return res.json({
+        code: 400,
+        message: "Invalid permissions for new owner",
+        success: false
+      })
+    }
+
     await Workspace.findOneAndUpdate({ name: workspaceName }, { $set: { owner: newOwner } })
 
     res.json({
