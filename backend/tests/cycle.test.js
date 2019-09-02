@@ -92,13 +92,13 @@ describe('POST /cycle more than once', () => {
         })
       )
 
-    const newCycle = await request(app)
-      .get(`/cycle/workspace/${workspaceName}?key=${KEY}&current=true`)
+    const newCycle = await request(app).get(
+      `/cycle/workspace/${workspaceName}?key=${KEY}&current=true`
+    )
     newCycleId = newCycle.body.result[0]._id
     const res = await request(app)
       .get(`/cycle/id/${newCycleId}?key=${KEY}`)
       .expect(200)
-
     expect(res.body.result.current).to.eq(true)
     expect(res.body.result.term).to.eq('SP19')
 
