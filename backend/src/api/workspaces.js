@@ -54,7 +54,10 @@ router.post(
     await workspace.save()
 
     // add the workspace to the list of workspaces for a user
-    await User.findOneAndUpdate({email: req._user.email}, { $push: { workspaceId: workspaceName } })
+    await User.findOneAndUpdate(
+      { email: req._user.email },
+      { $push: { workspaceId: workspaceName } }
+    )
 
     res.json({
       code: 200,
@@ -88,16 +91,20 @@ router.put(
     }
 
     // adds the workspace to the user's list of workspaces
-    await User.findOneAndUpdate({email: userEmail}, { $push: { workspaceId: workspaceName } }, err => {
-      if (err) {
-        return res.json({
-          code: 404,
-          message: 'user not found',
-          result: {},
-          success: false
-        })
+    await User.findOneAndUpdate(
+      { email: userEmail },
+      { $push: { workspaceId: workspaceName } },
+      err => {
+        if (err) {
+          return res.json({
+            code: 404,
+            message: 'user not found',
+            result: {},
+            success: false
+          })
+        }
       }
-    })
+    )
 
     res.json({
       code: 200,
@@ -111,10 +118,9 @@ router.put(
   '/transfer/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const newOwner = req.body.owner
-    const workspaceName = req.body.workspaceId
-
-    if (!newOwner || !workspaceName) {
+    const newOwner = (await User.find({ email: req.body.userEmail }))[0]
+    const workspace = req.params.workspaceName
+    if (!newOwner || !workspace) {
       return res.json({
         code: 400,
         message: 'malformed request',
@@ -122,19 +128,19 @@ router.put(
       })
     }
 
-    if (!newOwner.workspaceId.includes(workspaceName) || newOwner.role != 'Director') {
+    if (!newOwner.workspaceId.includes(workspace) || newOwner.role != 'Director') {
       return res.json({
         code: 400,
-        message: "Invalid permissions for new owner",
+        message: 'Invalid permissions for new owner',
         success: false
       })
     }
 
-    await Workspace.findOneAndUpdate({ name: workspaceName }, { $set: { owner: newOwner } })
+    await Workspace.findOneAndUpdate({ name: workspace }, { $set: { owner: newOwner } })
 
     res.json({
       code: 200,
-      message: `Successfully transferred ownership for Workspace ${workspaceName}`,
+      message: `Successfully transferred ownership for Workspace ${workspace}`,
       success: true
     })
   })

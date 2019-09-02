@@ -70,15 +70,16 @@ describe('GET POST Transfer /workspace', () => {
 
     await request(app)
       .put(`/workspaces/transfer/${workspaceName}?key=${KEY}`)
-      .send({ workspaceId: workspaceName, owner: newOwnerId[0] })
+      .send({ workspaceId: workspaceName, userEmail: 'tim@h4i.com' })
       .expect(200)
 
     res = await request(app)
-    .get(`/workspaces?key=${KEY}`)
-    .expect(200)
+      .get(`/workspaces?key=${KEY}`)
+      .expect(200)
 
     // verify db owner is updated
-    res = await request(app).get(`/workspaces/${workspace.name}?key=timko`)
+    res = await request(app).get(`/workspaces/${workspaceName}?key=timko`)
+    userRequest = await request(app).get(`/user/?key=${KEY}`)
     expect(res.body.result[0].name).to.eq(workspaceName)
     expect(res.body.result[0].owner).to.eq(newOwnerId[0]._id)
   })
