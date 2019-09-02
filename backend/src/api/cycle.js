@@ -89,7 +89,7 @@ router.post(
     if (!newTerm || !workspaceName || !req._user.workspaceIds.includes(workspaceName)) {
       return res.json({
         code: 400,
-        message: "Malformed Request",
+        message: 'Malformed Request',
         success: false
       })
     }
