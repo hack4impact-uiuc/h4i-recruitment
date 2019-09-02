@@ -1,22 +1,22 @@
 const express = require('express')
 var mongodb = require('mongodb')
-const { errorWrap, leadsOnly } = require('../middleware')
+const { errorWrap, membersOnly } = require('../middleware')
 const { Interview, Candidate } = require('../models')
-const keyPath =
-  process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
-const keyData = require(keyPath)
 const { statusEnum } = require('../utils/enums')
+const { User } = require('../models')
 
 const router = express.Router()
 
 router.get(
-  '/verify_interviewer',
+  '/verify_member',
   errorWrap(async (req, res) => {
     let keyVerified = false
     const key = req.query.key
+    let foundUser = null
     // removed && key.length === 11)
     if (key) {
-      keyVerified = keyData.keys.filter(currKey => currKey.key === key).length !== 0
+      foundUser = await User.findOne({ userId: key })
+      keyVerified = foundUser.email != null
     }
     let statusCode = keyVerified ? 200 : 403
     let message = keyVerified ? 'key is verified' : 'key did not pass verification'
@@ -24,7 +24,12 @@ router.get(
       code: statusCode,
       message: message,
       success: keyVerified,
-      result: { name: req._key_name, is_lead: req._is_lead, is_director: req._is_director }
+      result: {
+        name: foundUser.firstName,
+        role: foundUser.role,
+        memberId: foundUser.memberId,
+        email: foundUser.email
+      }
     })
   })
 )
@@ -158,7 +163,7 @@ router.get(
 
 router.get(
   '/:interview_id',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const retInterview = await Interview.findById(req.params.interview_id)
     res.json({
@@ -172,7 +177,7 @@ router.get(
 
 router.post(
   '/',
-  [leadsOnly],
+  [membersOnly],
   errorWrap(async (req, res) => {
     const data = req.body
     let response = 'Interview Added Successfully'

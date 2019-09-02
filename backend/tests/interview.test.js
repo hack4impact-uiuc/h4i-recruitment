@@ -13,14 +13,14 @@ beforeEach(async () => {
   await Interview.deleteMany()
 })
 
-describe('GET verify_interviewer/:key', () => {
+describe('GET verify_member/:key', () => {
   it('should return false when the key is a substring of the real key', async () => {
     const expected = JSON.stringify({
       code: 403,
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interviews/verify_interviewer?key=hjsdhfy79`)
+    const res = await request(app).get(`/interviews/verify_member?key=directo`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -30,7 +30,7 @@ describe('GET verify_interviewer/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interviews/verify_interviewer?key=hjsdhfy79uutt`)
+    const res = await request(app).get(`/interviews/verify_member?key=directorr`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -40,12 +40,12 @@ describe('GET verify_interviewer/:key', () => {
       message: 'key is verified',
       success: true,
       result: {
-        name: 'Test Key',
-        is_lead: true,
-        is_director: true
+        name: 'Director',
+        role: 'Director',
+        email: 'd@t.com'
       }
     })
-    const res = await request(app).get(`/interviews/verify_interviewer?key=${KEY}`)
+    const res = await request(app).get(`/interviews/verify_member?key=${KEY}`)
     expect(200).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -55,7 +55,7 @@ describe('GET verify_interviewer/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interviews/verify_interviewer?key=hjsdhfy79ud`)
+    const res = await request(app).get(`/interviews/verify_member?key=notkey`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })

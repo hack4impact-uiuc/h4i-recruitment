@@ -2,6 +2,7 @@
 const Candidate = require('./candidate')
 const Interview = require('./interview').InterviewModel
 const FutureInterview = require('./futureInterview')
+const InterviewAvailability = require('./interviewAvailability')
 const Stats = require('./stats')
 const Match = require('./match')
 const Comment = require('./comment').CommentModel
@@ -20,6 +21,7 @@ module.exports = {
   Comment,
   Structure,
   FutureInterview,
+  InterviewAvailability,
   Cycle,
   Event,
   Attendee,
