@@ -8,7 +8,7 @@ router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const cycles = await Cycle.find({ workspaceName: { $in: req._user.workspaceId } })
+    const cycles = await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
     res.json({
       code: 200,
       result: cycles,
@@ -34,7 +34,7 @@ router.get(
     }
 
     // cycle exists but is under a different workspace
-    if (!req._user.workspaceId.includes(cycle.workspaceName)) {
+    if (!req._user.workspaceIds.includes(cycle.workspaceName)) {
       return res.json({
         code: 403,
         message: 'Unauthorized',
@@ -55,7 +55,7 @@ router.get(
   '/workspace',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaceNames = req._user.workspaceId
+    const workspaceNames = req._user.workspaceIds
     const current = req.body.current
 
     if (!workspaceNames || workspaceNames.length == 0) {
@@ -67,8 +67,8 @@ router.get(
     }
     const cycles =
       current === null
-        ? await Cycle.find({ workspaceName: { $in: req._user.workspaceId } })
-        : await Cycle.find({ workspaceName: { $in: req._user.workspaceId }, current })
+        ? await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
+        : await Cycle.find({ workspaceName: { $in: req._user.workspaceIds }, current })
 
     res.json({
       code: 200,
@@ -92,7 +92,7 @@ router.post(
     if (!newTerm) {
       response = 'Invalid term'
     }
-    if (!workspace || !req._user.workspaceId.includes(workspace)) {
+    if (!workspace || !req._user.workspaceIds.includes(workspace)) {
       response = 'Invalid workspace'
     }
 
