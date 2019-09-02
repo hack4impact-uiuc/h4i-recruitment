@@ -66,8 +66,8 @@ router.get(
     }
 
     const cycles = current
-      ? await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
-      : await Cycle.find({ workspaceName: { $in: req._user.workspaceIds }, current })
+      ? await Cycle.find({ workspaceName: { $in: req._user.workspaceIds }, current })
+      : await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
 
     res.json({
       code: 200,
