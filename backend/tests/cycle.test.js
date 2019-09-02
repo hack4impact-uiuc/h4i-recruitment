@@ -53,11 +53,6 @@ describe('POST /cycle', () => {
       .post(`/workspaces?key=${KEY}`)
       .send(workspace)
 
-    const cycle = new Cycle({
-      term: 'FA19',
-      workspaceName
-    })
-
     await request(app)
       .post(`/cycle?key=${KEY}`)
       .send({

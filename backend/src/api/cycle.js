@@ -83,29 +83,15 @@ router.post(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    let response = 'Cycle Created Successfully'
-    let code = 400
-
     const newTerm = req.body.term
     const workspaceName = req.body.workspaceName
 
-    if (!newTerm) {
-      response = 'Invalid term'
-    }
-    if (!workspace || !req._user.workspaceIds.includes(workspace)) {
-      response = 'Invalid workspace'
-    } else {
-      // TODO: check for a workspace owned by the creator of this cycle
-      const workspace = Workspace.findOne({ name: workspaceName })
-      if (!workspace) {
-        // Shouldn't keep going if the workspace name doesn't link to one
-        res.json({
-          code,
-          message: 'Invalid workspace',
-          result: {},
-          success: false
-        })
-      }
+    if (!newTerm || !workspaceName || !req._user.workspaceIds.includes(workspaceName)) {
+      return res.json({
+        code: 400,
+        message: "Malformed Request",
+        success: false
+      })
     }
 
     // set the last current cycle to not-current
@@ -120,19 +106,15 @@ router.post(
       }
     })
 
-    // TODO: when authentication server is integrated, ensure that given workspaces
-    // matches one in the database created by the director
-
     const cycle = new Cycle({
       term: newTerm,
       workspaceName
     })
     await cycle.save()
 
-    code = 200
     res.json({
-      code,
-      message: response,
+      code: 200,
+      message: 'Cycle Created Successfully',
       result: {},
       success: true
     })
