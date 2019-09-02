@@ -30,6 +30,13 @@ In `keys.json`:
 }
 ```
 
+However, `keys.json` is no longer used as part of the login. We use the following accounts as test logins:
+
+  * member@test.com
+  * lead@test.com
+
+The password for all of them is `password`.
+
 ### Docker
 
 To run with [Docker](https://www.docker.com/) (and start the frontend and backend all at once with one command):
