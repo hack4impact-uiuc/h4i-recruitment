@@ -79,7 +79,7 @@ describe('POST /cycle more than once', () => {
       .send(
         new Cycle({
           term: 'FA18',
-          workspaceName: 'abc'
+          workspaceName: workspaceName
         })
       )
 
@@ -88,7 +88,7 @@ describe('POST /cycle more than once', () => {
       .send(
         new Cycle({
           term: 'SP19',
-          workspaceName: 'abc'
+          workspaceName: workspaceName
         })
       )
 
@@ -103,7 +103,7 @@ describe('POST /cycle more than once', () => {
     expect(res.body.result.term).to.eq('SP19')
 
     const oldCycle = await request(app)
-      .get(`/cycle/workspace/${workspaceName}?key=${KEY}`)
+      .get(`/cycle/workspace/${workspaceName}?key=${KEY}&current=false`)
       .send({ current: false })
     expect(oldCycle.body.result[0].term).to.eq('FA18')
   })

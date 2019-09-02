@@ -50,7 +50,7 @@ router.get(
   })
 )
 
-// get all cycles belonging to a workspace that a user belongs to (either current, outdated, or both)
+// get all cycles belonging to a specified workspace. The caller must belong to that workspace.
 router.get(
   '/workspace/:workspaceName',
   [directorsOnly],
@@ -58,16 +58,17 @@ router.get(
     const workspace = req.params.workspaceName
     const current = req.query.current
     if (!workspace || !req._user.workspaceIds.includes(workspace)) {
-      return res.json({
+      res.json({
         code: 400,
         message: 'malformed request',
         success: false
       })
+      return
     }
     const cycles =
       current == 'true'
-        ? await Cycle.find({ workspaceName: { $in: req._user.workspaceIds }, current })
-        : await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
+        ? await Cycle.find({ workspaceName: workspace, current })
+        : await Cycle.find({ workspaceName: workspace })
 
     res.json({
       code: 200,
@@ -86,11 +87,12 @@ router.post(
     const workspaceName = req.body.workspaceName
 
     if (!newTerm || !workspaceName || !req._user.workspaceIds.includes(workspaceName)) {
-      return res.json({
+      res.json({
         code: 400,
         message: 'Malformed Request',
         success: false
       })
+      return
     }
 
     // set the last current cycle to not-current
@@ -98,21 +100,14 @@ router.post(
       { workspaceName, current: true },
       { $set: { current: false } },
       (err, result) => {
-        if (!result) {
-          return res.json({
-            code: 404,
-            message: 'Workspace not found',
-            result: {},
-            success: false
-          })
-        }
         if (err) {
-          return res.json({
+          res.json({
             code: 400,
             message: err.message,
             result: {},
             success: false
           })
+          return
         }
       }
     )
