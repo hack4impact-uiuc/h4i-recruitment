@@ -25,7 +25,7 @@ router.get(
   errorWrap(async (req, res) => {
     const cycleId = req.params.cycle_id
     const cycle = await Cycle.findById(cycleId)
-    if (cycle.length == 0) {
+    if (!cycle) {
       return res.json({
         code: 404,
         message: 'Not found',
