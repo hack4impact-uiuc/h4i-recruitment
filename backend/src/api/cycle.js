@@ -3,14 +3,12 @@ const { Cycle, Workspace } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
-// Get all cycles (previous and current)
-// TODO: when authentication server is integrated, only show the cycles that
-// belong to the caller of this endpoint.
+// Get all cycles belonging to the same workspace that a User is in (previous and current)
 router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const cycles = await Cycle.find()
+    const cycles = await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
     res.json({
       code: 200,
       result: cycles,
@@ -19,15 +17,31 @@ router.get(
   })
 )
 
-// Get a cycle by ID
-// TODO: when authentication server is integrated, only show the cycle id if it belongs
+// Get a cycle by ID, if the cycle is in the same workspace as the caller of the endpoint.
 // to the workspace owned by the caller. Otherwise, 403.
 router.get(
-  '/:cycle_id',
+  '/id/:cycle_id',
   [directorsOnly],
   errorWrap(async (req, res) => {
     const cycleId = req.params.cycle_id
     const cycle = await Cycle.findById(cycleId)
+    if (!cycle) {
+      return res.json({
+        code: 404,
+        message: 'Not found',
+        success: false
+      })
+    }
+
+    // cycle exists but is under a different workspace
+    if (!req._user.workspaceIds.includes(cycle.workspaceName)) {
+      return res.json({
+        code: 403,
+        message: 'Unauthorized',
+        success: false
+      })
+    }
+
     res.json({
       code: 200,
       result: cycle,
@@ -36,28 +50,25 @@ router.get(
   })
 )
 
-// get all cycles belonging to a workspace (either current, outdated, or both)
-// TODO: when authentication server is integrated, only show the cycles
-// to the workspace's owner. Otherwise, 403.
+// get all cycles belonging to a specified workspace. The caller must belong to that workspace.
 router.get(
   '/workspace/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaceName = req.params.workspaceName
-    const current = req.body.current
-
-    if (!workspaceName) {
-      return res.json({
+    const workspace = req.params.workspaceName
+    const current = req.query.current
+    if (!workspace || !req._user.workspaceIds.includes(workspace)) {
+      res.json({
         code: 400,
         message: 'malformed request',
         success: false
       })
+      return
     }
-
     const cycles =
-      current === undefined
-        ? await Cycle.find({ workspaceName })
-        : await Cycle.find({ workspaceName, current })
+      current == 'true'
+        ? await Cycle.find({ workspaceName: workspace, current })
+        : await Cycle.find({ workspaceName: workspace })
 
     res.json({
       code: 200,
@@ -72,45 +83,34 @@ router.post(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    let response = 'Cycle Created Successfully'
-    let code = 400
-
     const newTerm = req.body.term
     const workspaceName = req.body.workspaceName
 
-    if (!newTerm) {
-      response = 'Invalid term'
-    }
-    if (!workspaceName) {
-      response = 'Invalid workspace'
-    } else {
-      // TODO: check for a workspace owned by the creator of this cycle
-      const workspace = Workspace.findOne({ name: workspaceName })
-      if (!workspace) {
-        // Shouldn't keep going if the workspace name doesn't link to one
-        res.json({
-          code,
-          message: 'Invalid workspace',
-          result: {},
-          success: false
-        })
-      }
+    if (!newTerm || !workspaceName || !req._user.workspaceIds.includes(workspaceName)) {
+      res.json({
+        code: 400,
+        message: 'Malformed Request',
+        success: false
+      })
+      return
     }
 
     // set the last current cycle to not-current
-    Cycle.findOneAndUpdate({ workspaceName, current: true }, { $set: { current: false } }, err => {
-      if (err) {
-        return res.json({
-          code: 400,
-          message: err.message,
-          result: {},
-          success: false
-        })
+    Cycle.findOneAndUpdate(
+      { workspaceName, current: true },
+      { $set: { current: false } },
+      (err, result) => {
+        if (err) {
+          res.json({
+            code: 400,
+            message: err.message,
+            result: {},
+            success: false
+          })
+          return
+        }
       }
-    })
-
-    // TODO: when authentication server is integrated, ensure that given workspaces
-    // matches one in the database created by the director
+    )
 
     const cycle = new Cycle({
       term: newTerm,
@@ -118,10 +118,9 @@ router.post(
     })
     await cycle.save()
 
-    code = 200
     res.json({
-      code,
-      message: response,
+      code: 200,
+      message: 'Cycle Created Successfully',
       result: {},
       success: true
     })

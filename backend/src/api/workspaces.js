@@ -1,16 +1,14 @@
 const express = require('express')
-const { Workspace } = require('../models')
+const { User, Workspace } = require('../models')
 const { directorsOnly, errorWrap } = require('../middleware')
 const router = express.Router()
 
-// Get all workspaces
-// TODO: when authentication server is integrated, only show the workspace that
-// belong to the caller of this endpoint.
+// Get all workspaces belonging to whoever called the endpoint.
 router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaces = await Workspace.find()
+    const workspaces = await Workspace.find({ owner: req._user })
     res.json({
       code: 200,
       result: workspaces,
@@ -19,14 +17,12 @@ router.get(
   })
 )
 
-// Find workspace by name
-// TODO: when authentication server is integrated, only show the workspace if it
-// belongs to the caller of this endpoint.
+// Find workspace by name, if they belong to the caller.
 router.get(
   '/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspace = await Workspace.find({ name: req.params.workspaceName })
+    const workspace = await Workspace.find({ name: req.params.workspaceName, owner: req._user })
 
     res.json({
       code: 200,
@@ -41,7 +37,7 @@ router.post(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const owner = req.body.owner
+    const owner = req._user
     const workspaceName = req.body.name
     if (!owner || !workspaceName) {
       return res.json({
@@ -57,6 +53,12 @@ router.post(
     })
     await workspace.save()
 
+    // add the workspace to the list of workspaces for a user
+    await User.findOneAndUpdate(
+      { email: req._user.email },
+      { $push: { workspaceIds: workspaceName } }
+    )
+
     res.json({
       code: 200,
       message: 'Successfully created workspace',
@@ -65,28 +67,80 @@ router.post(
   })
 )
 
+router.put(
+  '/addUser',
+  [directorsOnly],
+  errorWrap(async (req, res) => {
+    const userEmail = req.body.userEmail
+    const workspaceName = req.body.workspaceIds
+
+    if (!userEmail || !workspaceName) {
+      return res.json({
+        code: 400,
+        message: 'malformed request',
+        success: false
+      })
+    }
+
+    if (!req._user.workspaceIds.includes(workspaceName)) {
+      return res.json({
+        code: 403,
+        message: 'unauthorized',
+        success: false
+      })
+    }
+
+    // adds the workspace to the user's list of workspaces
+    await User.findOneAndUpdate(
+      { email: userEmail },
+      { $push: { workspaceIds: workspaceName } },
+      err => {
+        if (err) {
+          return res.json({
+            code: 404,
+            message: 'user not found',
+            result: {},
+            success: false
+          })
+        }
+      }
+    )
+
+    res.json({
+      code: 200,
+      success: true,
+      message: 'added user to new workspace!'
+    })
+  })
+)
 // Transfer ownership of a workspace to someone else
 router.put(
   '/transfer/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const newOwner = req.body.owner
-    const workspaceName = req.params.workspaceName
-
-    if (!newOwner || !workspaceName) {
+    const newOwner = (await User.find({ email: req.body.userEmail }))[0]
+    const workspace = req.params.workspaceName
+    if (!newOwner || !workspace) {
       return res.json({
         code: 400,
-        message: newOwner ? 'Invalid workspace name' : 'Invalid owner name',
+        message: 'malformed request',
         success: false
       })
     }
 
-    // todo: ensure that new owner is a director & belongs in the same org
-    await Workspace.findOneAndUpdate({ name: workspaceName }, { $set: { owner: newOwner } })
+    if (!newOwner.workspaceIds.includes(workspace) || newOwner.role != 'Director') {
+      return res.json({
+        code: 400,
+        message: 'Invalid permissions for new owner',
+        success: false
+      })
+    }
+
+    await Workspace.findOneAndUpdate({ name: workspace }, { $set: { owner: newOwner } })
 
     res.json({
       code: 200,
-      message: `Successfully transferred ownership for Workspace ${workspaceName}`,
+      message: `Successfully transferred ownership for Workspace ${workspace}`,
       success: true
     })
   })
