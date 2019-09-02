@@ -7,7 +7,7 @@ const Attendee = new mongoose.Schema({
   attendedEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   lateEvents: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   candidateId: { type: mongoose.Schema.Types.ObjectId },
-  workspaceId: { type: String }
+  cycleId: { type: mongoose.Schema.Types.ObjectId }
 })
 
 module.exports = mongoose.model('Attendee', Attendee)

@@ -16,6 +16,54 @@ const API_URL =
 
 const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'
 
+function createWorkspace(workspace) {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
+    body: JSON.stringify({
+      name: workspace.name,
+      owner: workspace.owner,
+    }),
+    headers: {
+      'content-type': 'application/json',
+    },
+    method: 'POST',
+    mode: 'cors',
+  }).then(res => res.json())
+}
+
+function getWorkspaces() {
+  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
+}
+
+function setCurrentCycle(cycleId, workspaceName) {
+  return fetch(`${API_URL}/cycle/setCurrent/${workspaceName}/${cycleId}?key=${getKey()}`, {
+    headers: {
+      'content-type': 'application/json',
+    },
+    method: 'PUT',
+    mode: 'cors',
+  }).then(res => res.json())
+}
+
+function createCycle(cycle) {
+  return fetch(`${API_URL}/cycle?key=${getKey()}`, {
+    body: JSON.stringify({
+      term: cycle.term,
+      workspaceName: cycle.workspaceName,
+    }),
+    headers: {
+      'content-type': 'application/json',
+    },
+    method: 'POST',
+    mode: 'cors',
+  }).then(res => res.json())
+}
+
+function getCyclesByWorkspace(workspaceName) {
+  return fetch(`${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}`).then(res =>
+    res.json()
+  )
+}
+
 function getAllEvents() {
   return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
 }
@@ -187,6 +235,7 @@ function getPastInterviews(interviewerKey: string) {
     res.json()
   )
 }
+
 function getCandidateInterviews(candidateId: string) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`).then(res =>
     res.json()
@@ -307,9 +356,10 @@ function deleteReferral(candidateID: string) {
 }
 
 function getAllUsers() {
-  return fetch(`${API_URL}/user/?key=${getKey()}`, { method: 'GET', mode: 'cors' }).then(res =>
-    res.json()
-  )
+  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+    method: 'GET',
+    mode: 'cors',
+  }).then(res => res.json())
 }
 
 function addUser(firstName: string, lastName: string, userId: string, email: string, role: string) {
@@ -403,28 +453,14 @@ function loginGoogleUser(tokenId: string) {
   }).then(res => res.json())
 }
 
-function getWorkspaces() {
-  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
-}
-
-function createWorkspace(workspace) {
-  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
-    body: JSON.stringify({
-      owner: workspace.owner,
-      name: workspace.name,
-    }),
-
-    headers: {
-      'content-type': 'application/json',
-    },
-    method: 'POST',
-    mode: 'cors',
-  }).then(res => res.json())
-}
-
 export {
+  createWorkspace,
+  getWorkspaces,
+  getCyclesByWorkspace,
+  createCycle,
   getAllEvents,
   createEvent,
+  setCurrentCycle,
   addInterviewerSchedules,
   addCandidateSchedules,
   eventCheckin,
@@ -463,6 +499,4 @@ export {
   addUser,
   updateUserRole,
   updateServerUserRole,
-  getWorkspaces,
-  createWorkspace,
 }
