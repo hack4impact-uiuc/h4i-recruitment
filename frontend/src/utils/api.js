@@ -58,7 +58,6 @@ function createCycle(cycle) {
 }
 
 function getCyclesByWorkspace(workspaceName, current) {
-  console.log(`${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}&current=${current}`)
   return fetch(
     `${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}&current=${current}`
   ).then(res => res.json())
