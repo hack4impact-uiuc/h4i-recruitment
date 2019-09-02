@@ -60,11 +60,6 @@ const newWorkspaceFields = [
     name: 'name',
     placeholder: 'i.e. Hack4Impact University of Illinois at Urbana-Champaign',
   },
-  {
-    label: 'Owner',
-    name: 'owner',
-    placeholder: 'THIS IS TEMPORARY',
-  },
 ]
 
 const newCycleFields = [

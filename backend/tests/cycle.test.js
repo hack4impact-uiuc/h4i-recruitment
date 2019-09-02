@@ -68,8 +68,7 @@ describe('POST /cycle more than once', () => {
     const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
 
     const workspace = new Workspace({
-      name: workspaceName,
-      owner: 'Owner'
+      name: workspaceName
     })
     await request(app)
       .post(`/workspaces?key=${KEY}`)
@@ -94,9 +93,8 @@ describe('POST /cycle more than once', () => {
       )
 
     const newCycle = await request(app)
-      .get(`/cycle/workspace?key=${KEY}`)
+      .get(`/cycle/workspace/${workspaceName}?key=${KEY}`)
       .send({ current: true })
-
     newCycleId = newCycle.body.result[0]._id
 
     const res = await request(app)
@@ -107,7 +105,7 @@ describe('POST /cycle more than once', () => {
     expect(res.body.result.term).to.eq('SP19')
 
     const oldCycle = await request(app)
-      .get(`/cycle/workspace?key=${KEY}`)
+      .get(`/cycle/workspace/${workspaceName}?key=${KEY}`)
       .send({ current: false })
     expect(oldCycle.body.result[0].term).to.eq('FA18')
   })

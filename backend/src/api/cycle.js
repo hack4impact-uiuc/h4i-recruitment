@@ -50,25 +50,24 @@ router.get(
   })
 )
 
-// get all cycles belonging to the workspace that a user belongs to (either current, outdated, or both)
+// get all cycles belonging to a workspace that a user belongs to (either current, outdated, or both)
 router.get(
-  '/workspace',
+  '/workspace/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaceNames = req._user.workspaceIds
-    const current = req.body.current
-
-    if (!workspaceNames || workspaceNames.length == 0) {
+    const workspace = req.params.workspaceName
+    const current = req.query.current
+    if (!workspace || !req._user.workspaceIds.includes(workspace)) {
       return res.json({
         code: 400,
         message: 'malformed request',
         success: false
       })
     }
-    const cycles =
-      current === null
-        ? await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
-        : await Cycle.find({ workspaceName: { $in: req._user.workspaceIds }, current })
+
+    const cycles = current
+      ? await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
+      : await Cycle.find({ workspaceName: { $in: req._user.workspaceIds }, current })
 
     res.json({
       code: 200,
@@ -95,16 +94,28 @@ router.post(
     }
 
     // set the last current cycle to not-current
-    Cycle.findOneAndUpdate({ workspaceName, current: true }, { $set: { current: false } }, err => {
-      if (err) {
-        return res.json({
-          code: 400,
-          message: err.message,
-          result: {},
-          success: false
-        })
+    Cycle.findOneAndUpdate(
+      { workspaceName, current: true },
+      { $set: { current: false } },
+      (err, result) => {
+        if (!result) {
+          return res.json({
+            code: 404,
+            message: 'Workspace not found',
+            result: {},
+            success: false
+          })
+        }
+        if (err) {
+          return res.json({
+            code: 400,
+            message: err.message,
+            result: {},
+            success: false
+          })
+        }
       }
-    })
+    )
 
     const cycle = new Cycle({
       term: newTerm,

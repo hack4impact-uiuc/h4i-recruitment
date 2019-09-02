@@ -39,7 +39,8 @@ class Workspaces extends Component {
         })
       }
 
-      const cycleRes = await getCyclesByWorkspace(this.state.selectedWorkspace)
+      const cycleRes = await getCyclesByWorkspace(this.state.selectedWorkspace, false)
+      console.log(cycleRes)
       if (cycleRes) {
         this.setState({
           cycles: cycleRes.result,
@@ -63,7 +64,6 @@ class Workspaces extends Component {
   createWorkspace = async () => {
     const workspace = {
       name: this.state.name,
-      owner: this.state.owner,
     }
     const response = await createWorkspace(workspace)
     return response
@@ -81,7 +81,7 @@ class Workspaces extends Component {
   setCurrentCycle = async (cycle, workspaceName) => {
     const response = await setCurrentCycle(cycle, workspaceName)
     if (response.success) {
-      const cycleRes = await getCyclesByWorkspace(this.state.selectedWorkspace)
+      const cycleRes = await getCyclesByWorkspace(this.state.selectedWorkspace, false)
       if (cycleRes) {
         this.setState({
           cycles: cycleRes.result,
@@ -105,7 +105,7 @@ class Workspaces extends Component {
   handleSelectWorkspaceChange = e => {
     this.setState({ selectedWorkspace: e.target.value })
 
-    getCyclesByWorkspace(e.target.value).then(cycleRes => {
+    getCyclesByWorkspace(e.target.value, false).then(cycleRes => {
       this.setState({
         cycles: cycleRes.result,
       })

@@ -20,7 +20,6 @@ function createWorkspace(workspace) {
   return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
     body: JSON.stringify({
       name: workspace.name,
-      owner: workspace.owner,
     }),
     headers: {
       'content-type': 'application/json',
@@ -58,10 +57,11 @@ function createCycle(cycle) {
   }).then(res => res.json())
 }
 
-function getCyclesByWorkspace(workspaceName) {
-  return fetch(`${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}`).then(res =>
-    res.json()
-  )
+function getCyclesByWorkspace(workspaceName, current) {
+  console.log(`${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}&current=${current}`)
+  return fetch(
+    `${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}&current=${current}`
+  ).then(res => res.json())
 }
 
 function getAllEvents() {
