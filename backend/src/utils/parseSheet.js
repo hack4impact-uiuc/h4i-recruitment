@@ -35,25 +35,25 @@ async function parseStuff() {
     }
     let year = null
     switch (candidate['Graduation Date']) {
-      case gradEnum.SP19:
+      case gradEnum.SP20:
         year = yearsEnum.SENIOR
         break
-      case gradEnum.FA19:
-        year = yearsEnum.JUNIOR
-        break
-      case gradEnum.SP20:
-        year = yearsEnum.JUNIOR
-        break
       case gradEnum.FA20:
-        year = yearsEnum.SOPHOMORE
+        year = yearsEnum.JUNIOR
         break
       case gradEnum.SP21:
-        year = yearsEnum.SOPHOMORE
+        year = yearsEnum.JUNIOR
         break
       case gradEnum.FA21:
         year = yearsEnum.SOPHOMORE
         break
       case gradEnum.SP22:
+        year = yearsEnum.SOPHOMORE
+        break
+      case gradEnum.FA22:
+        year = yearsEnum.SOPHOMORE
+        break
+      case gradEnum.SP23:
         year = yearsEnum.FRESHMAN
         break
     }
@@ -68,7 +68,7 @@ async function parseStuff() {
       major: candidate.Major,
       minor: candidate['Minor(s)'],
       resumeID: candidate.Resume,
-      github: candidate['Github Link'],
+      github: candidate['Github Link (or Portfolio if Product Designer)'],
       linkedIn: candidate.LinkedIn,
       website: candidate.Website,
       role: candidate['Which role(s) are you applying for? '].split(', '),

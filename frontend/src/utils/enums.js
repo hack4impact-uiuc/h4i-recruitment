@@ -15,6 +15,7 @@ export const gradEnum = {
   SP22: 'Spring 2022',
   FA22: 'Fall 2022',
   SP23: 'Spring 2023',
+  FA23: 'Fall 2023',
 }
 
 export const statusEnum = {
@@ -49,7 +50,7 @@ export const rolesEnum = {
   SWE: 'Software Developer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
-  UI: 'UI/UX Designer',
+  UI: 'Product Designer',
 }
 
 export const permissionRolesEnum = {
