@@ -119,9 +119,9 @@ class RegisterPage extends Component {
         <Head />
         <Nav />
         <Container>
-          <Card className="login-card">
+          <Card className="register-card">
             <CardTitle>
-              <h3 className="login-title">Register</h3>
+              <h3 className="register-center-content">Register</h3>
             </CardTitle>
             <CardBody>
               <Form>
@@ -169,33 +169,37 @@ class RegisterPage extends Component {
                     required
                   />
                 </FormGroup>
-                <Button
-                  color="success"
-                  size="lg"
-                  onClick={this.handleSubmit}
-                  style={{ float: 'left', width: '48%' }}
-                >
-                  Register
-                </Button>
+                <div className="register-center-content">
+                  <Button
+                    color="success"
+                    size="lg"
+                    onClick={this.handleSubmit}
+                    style={{ float: 'left', width: '48%' }}
+                  >
+                    Register
+                  </Button>
+                </div>
               </Form>
-              <GoogleLogin
+              {/* <GoogleLogin
                 className="btn-lg sign-in-btn"
                 clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
                 responseType="id_token"
                 scope="https://www.googleapis.com/auth/userinfo.email"
                 onSuccess={this.handleGoogle}
                 buttonText="Register with Google"
-              />
+              /> */}
             </CardBody>
           </Card>
-          <Button
-            color="outline-primary"
-            onClick={() => {
-              Router.push('/')
-            }}
-          >
-            {'Already have an account? Login here.'}
-          </Button>
+          <div className="register-center-content">
+            <Button
+              color="outline-primary"
+              onClick={() => {
+                Router.push('/')
+              }}
+            >
+              {'Already have an account? Login here.'}
+            </Button>
+          </div>
           <Modal autoFocus={false} isOpen={showInvalidRequestModal}>
             <ModalHeader>{'Your request was invalid.'}</ModalHeader>
             <ModalBody>{errorMessage || 'There was an error in your request.'}</ModalBody>

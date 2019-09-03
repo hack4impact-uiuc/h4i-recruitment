@@ -87,64 +87,66 @@ class LoginPage extends Component {
       <>
         <Head />
         <Nav />
-        <Container>
-          <Card className="login-card">
-            <CardTitle>
-              <h3 className="login-title">Login</h3>
-            </CardTitle>
-            <CardBody>
-              <Form>
-                <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
-                  <Input
-                    type="email"
-                    name="email"
-                    maxLength="64"
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="examplePassword">Password</Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    minLength="8"
-                    maxLength="64"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </FormGroup>
+        <Card className="login-card">
+          <CardTitle>
+            <h3 className="register-center-content">Login</h3>
+          </CardTitle>
+          <CardBody>
+            <Form>
+              <FormGroup>
+                <Label for="exampleEmail">Email</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  maxLength="64"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="examplePassword">Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  minLength="8"
+                  maxLength="64"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  required
+                />
+              </FormGroup>
+              <div className="register-center-content">
                 <Button color="outline-secondary" onClick={this.handleSubmit}>
                   Submit
                 </Button>
-              </Form>
+              </div>
+            </Form>
 
-              <GoogleLogin
+            {/* <GoogleLogin
                 className="btn sign-in-btn"
                 clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
                 responseType="id_token"
                 buttonText={this.props.role}
                 scope="https://www.googleapis.com/auth/userinfo.email"
                 onSuccess={this.handleGoogle}
-              />
-            </CardBody>
-          </Card>
+              /> */}
+          </CardBody>
+        </Card>
+        <div className="register-center-content">
           <Button color="outline-primary" onClick={() => Router.push('/register')}>
             {"Don't have an account? Register here!"}
           </Button>
-          <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
-            <ModalHeader>{'There was an error in your request.'}</ModalHeader>
-            <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
-            <ModalFooter>
-              <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </Container>
+        </div>
+        <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
+          <ModalHeader>{'There was an error in your request.'}</ModalHeader>
+          <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
+          <ModalFooter>
+            <Button onClick={this.handleInvalidRequestModalClose} color="secondary">
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
       </>
     )
   }

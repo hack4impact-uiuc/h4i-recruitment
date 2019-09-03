@@ -232,8 +232,28 @@ p > b {
 }
 
 .login-card {
-  width: '400px';
-  height: '60%';
+  width: 40%;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.register-card {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.register-center-content {
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-title {
