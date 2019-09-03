@@ -6,11 +6,8 @@ const moment = require('moment')
 const csv = require('csv-array')
 const { errorWrap, membersOnly } = require('../middleware')
 const { FutureInterview, InterviewAvailability } = require('../models')
-const keyPath =
-  process.env.NODE_ENV === 'test' ? '../../tests/artifacts/test-keys.json' : process.env.KEY_JSON
 const schedulerUrl = process.env.SCHEDULER_URL
 const schedulerApiKey = process.env.SCHEDULER_API_KEY
-const keyData = require(keyPath)
 const router = express.Router()
 
 const listType = {

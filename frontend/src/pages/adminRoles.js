@@ -64,7 +64,7 @@ class AdminRoles extends React.Component {
     updateServerUserRole(users[selectedUser].email, newRole, adminPassword).then(resp => {
       console.log(resp)
       if (resp.status != 400) {
-        updateUserRole(userEmail, newRole).then(resp => {
+        updateUserRole(users[selectedUser].email, newRole).then(resp => {
           if (resp.success) {
             this.setState({ newRole: -1, selectedUser: -1, showPasswordModal: false })
             this.getUsers()

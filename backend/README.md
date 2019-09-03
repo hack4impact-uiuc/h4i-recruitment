@@ -11,26 +11,11 @@ In `.env`:
 MONGO_UURL=mongodb://mongouser:mykey@somedb.mlab.com:port/db
 MONGO_DURL=mongodb://mongouser:mykey@somedb.mlab.com:port/db
 MONGO_URL=mongodb://mongouser:mykey@somedb.mlab.com:port/db
-LEAD_SUFFIX=l
-DIRECTOR_SUFFIX=d
-KEY_JSON=../../keys.json
 SCHEDULER_URL=https://scheduler-URI.amazonaws.com/endpoint
 SCHEDULER_API_KEY=abcd1234
 ```
 
-In `keys.json`:
-```
-{
-  "keys": [
-    {
-      "name": "Director 1",
-      "key": "1234"
-    }
-  ]
-}
-```
-
-However, `keys.json` is no longer used as part of the login. We use the following accounts as test logins:
+We use the following accounts as test logins:
 
   * member@test.com
   * lead@test.com
@@ -83,8 +68,6 @@ For development, you would need docker, or you must spin up a mongodb instance l
 
 ```env
 MONGO_URL=mongodb://mongoadmin:secret@localhost:27017/admin
-LEAD_SUFFIX=l
-KEY_JSON=../../keys.json
 ```
 
 Afterwards, run `recreate_db.sh`:
