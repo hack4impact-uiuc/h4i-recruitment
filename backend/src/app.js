@@ -18,7 +18,7 @@ const app = express()
 // must be before routes
 app.use(helmet())
 app.use(cors())
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '50MB' }))
 
 // Setup logging
 const logDirectory = path.join(__dirname, 'logs')
