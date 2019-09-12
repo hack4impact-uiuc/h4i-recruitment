@@ -25,38 +25,25 @@ const compareByAvgInterviewScore = (candidate1, candidate2) => {
   return 0
 }
 const getNumOfInterviews = interviews => {
-  let total = 0
-  for (var i = 0; i < interviews.length; i++) {
-    if (
-      interviews[i].overall_score !== undefined ||
-      typeof interviews[i].overall_score === 'number'
-    ) {
-      total += 1
-    }
-  }
-  return total
+  // Not a super necessary method to have but could be potentially used to change if we only say "scored" interviews,
+  // for example, count for the number displayed on the dashboard.
+  return interviews.length
 }
+
+const getScoredInterviews = interviews => {
+  return interviews.filter(interview => interview.scored)
+}
+
 const avgInterviewScore = interviews => {
-  if (interviews == undefined || !interviews || interviews.length === 0) {
+  if (!interviews || getScoredInterviews(interviews) == 0) {
     return 'N/A'
   }
 
-  let avgs = 0
-  let good_interviews = interviews.length // to prevent bad interviews from affecting it.
-  for (var i = 0; i < interviews.length; i++) {
-    if (
-      interviews[i].overall_score !== undefined ||
-      (typeof interviews[i].overall_score === 'number' && interviews[i].scored)
-    ) {
-      avgs += interviews[i].overall_score
-    } else {
-      good_interviews -= 1
-    }
-  }
-  if (good_interviews != 0) {
-    avgs = avgs / good_interviews
-  }
-  return avgs.toFixed(3)
+  let sum = getScoredInterviews(interviews).reduce((total, i) => total + i.overall_score, 0)
+  let scoredInterviews = getScoredInterviews(interviews).length
+  console.log(sum)
+
+  return (sum / scoredInterviews).toFixed(3)
 }
 
 const interviewGetCategorySection = interview => {
@@ -79,5 +66,6 @@ export {
   compareByAvgInterviewScore,
   convertUTCToLocal,
   getNumOfInterviews,
+  getScoredInterviews,
   interviewGetCategorySection,
 }
