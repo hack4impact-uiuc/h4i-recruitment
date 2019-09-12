@@ -25,17 +25,9 @@ const compareByAvgInterviewScore = (candidate1, candidate2) => {
   return 0
 }
 const getNumOfInterviews = interviews => {
-  let total = 0
-  for (var i = 0; i < interviews.length; i++) {
-    if (
-      interviews[i].overall_score !== undefined ||
-      typeof interviews[i].overall_score === 'number'
-    ) {
-      total += 1
-    }
-  }
-  return total
+  return interviews.filter(interview => typeof interview.overall_score === 'number').length
 }
+
 const avgInterviewScore = interviews => {
   if (interviews == undefined || !interviews || interviews.length === 0) {
     return 'N/A'
@@ -44,10 +36,7 @@ const avgInterviewScore = interviews => {
   let avgs = 0
   let good_interviews = interviews.length // to prevent bad interviews from affecting it.
   for (var i = 0; i < interviews.length; i++) {
-    if (
-      interviews[i].overall_score !== undefined ||
-      (typeof interviews[i].overall_score === 'number' && interviews[i].scored)
-    ) {
+    if (typeof interviews[i].overall_score === 'number' && interviews[i].scored) {
       avgs += interviews[i].overall_score
     } else {
       good_interviews -= 1
