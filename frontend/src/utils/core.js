@@ -25,7 +25,7 @@ const compareByAvgInterviewScore = (candidate1, candidate2) => {
   return 0
 }
 const getNumOfInterviews = interviews => {
-  return interviews.filter(interview => typeof interview.overall_score === 'number').length
+  return interviews.filter(interview => interview.scored).length
 }
 
 const avgInterviewScore = interviews => {
