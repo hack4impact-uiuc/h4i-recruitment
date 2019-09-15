@@ -24,14 +24,20 @@ const compareByAvgInterviewScore = (candidate1, candidate2) => {
   }
   return 0
 }
+
+const getValidInterviews = interviews => {
+  // filter down by interviews that are valid since there are some interview entries
+  // which have "round" as the empty string, or some falsy value
+  return interviews.filter(interview => interview.round)
+}
+
 const getNumOfInterviews = interviews => {
-  // Not a super necessary method to have but could be potentially used to change if we only say "scored" interviews,
-  // for example, count for the number displayed on the dashboard.
-  return interviews.length
+  // used by the dashboard to retrieve the interview count
+  return getValidInterviews(interviews).length
 }
 
 const getScoredInterviews = interviews => {
-  return interviews.filter(interview => interview.scored)
+  return getValidInterviews(interviews).filter(interview => interview.scored)
 }
 
 const avgInterviewScore = interviews => {
@@ -41,7 +47,6 @@ const avgInterviewScore = interviews => {
 
   let sum = getScoredInterviews(interviews).reduce((total, i) => total + i.overall_score, 0)
   let scoredInterviews = getScoredInterviews(interviews).length
-  console.log(sum)
 
   return (sum / scoredInterviews).toFixed(3)
 }
