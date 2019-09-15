@@ -28,7 +28,7 @@ const compareByAvgInterviewScore = (candidate1, candidate2) => {
 const getValidInterviews = interviews => {
   // filter down by interviews that are valid since there are some interview entries
   // which have "round" as the empty string, or some falsy value
-  return interviews.filter(interview=>interview.round)
+  return interviews.filter(interview => interview.round)
 }
 
 const getNumOfInterviews = interviews => {
