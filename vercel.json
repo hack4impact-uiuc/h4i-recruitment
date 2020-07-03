@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "regions": ["iad1"],
+  "name": "h4i-recruitment",
+  "alias": "h4i-recruitment.now.sh",
+  "builds": [
+    {
+      "src": "backend/src/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@now/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/$1",
+      "continue": true
+    }
+  ],
+  "env": {
+    "MONGO_URL": "@h4i-recruitment-mongo-uri",
+    "SCHEDULER_URL": "@h4i-recruitment-scheduler-uri",
+    "SCHEDULER_API_KEY": "@h4i-recruitment-scheduler-api-key"
+  },
+  "build": {
+    "env": {
+    }
+  }
+}

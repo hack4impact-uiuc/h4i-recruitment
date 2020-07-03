@@ -36,7 +36,7 @@ app.use(morgan('dev'))
 // verifies user
 app.use(auth)
 
-app.use('/', routes)
+app.use('/api/', routes)
 
 // must be at the end
 app.use(errorHandler)

@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "next src",
-    "build": "next build src",
-    "start": "next start src",
+    "dev": "next",
+    "build": "next build && next export -o dist",
+    "start": "next start",
     "format": "prettier --write '{src,test,data}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,test,data}/**/*.js\"",
     "flow": "flow"
