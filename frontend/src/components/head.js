@@ -38,13 +38,6 @@ const Head = props => (
     />
 
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
-    <style jsx global>{`
-      body {
-        line-height: 1.3;
-        font-weight: 400;
-        font-family: 'Lato', sans-serif;
-      }
-    `}</style>
   </NextHead>
 )
 

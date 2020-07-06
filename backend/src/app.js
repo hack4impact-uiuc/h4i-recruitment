@@ -10,15 +10,25 @@ const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
 const helmet = require('helmet')
+const passport = require('passport')
 const { errorHandler, auth } = require('./middleware')
 const routes = require('./routes')
+const loginRoute = require('./api/login')
+// Configure PassportJS
+require('./middleware/passport')
 
 const app = express()
 
 // must be before routes
 app.use(helmet())
 app.use(cors())
+app.use(require('cookie-parser')())
 app.use(bodyParser.json({ limit: '50MB' }))
+app.use(
+  require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true })
+)
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Setup logging
 const logDirectory = path.join(__dirname, 'logs')
@@ -33,6 +43,7 @@ var accessLogStream = fs.createWriteStream(path.join(logDirectory, 'h4i-recruitm
 app.use(morgan('combined', { stream: accessLogStream }))
 // STDOUT log
 app.use(morgan('dev'))
+app.use('/login', loginRoute)
 // verifies user
 app.use(auth)
 
