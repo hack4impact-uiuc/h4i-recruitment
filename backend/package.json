@@ -11,7 +11,7 @@
     "format": "prettier --write '{src,tests}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,tests}/**/*.js\"",
     "test": "NODE_ENV=test mocha tests --opts ./tests/mocha.opts",
-    "populatedb": "dotenv node src/utils/populate.js"
+    "populatedb": "docker-compose run backend node src/utils/populate.js"
   },
   "dependencies": {
     "body-parser": "1.18.2",
