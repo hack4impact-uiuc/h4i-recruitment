@@ -4,12 +4,12 @@
 
 In order to have all the secret keys set up properly, you must create a `.env` file and a `keys.json` file to the root of this directory (`./backend`).
 
-Example setup:
+Example setup
 
 In `.env`:
 
 ```
-MONGO_URL=mongodb://db:27017/endpoint
+MONGO_URL=mongodb://db:27017/default-db-name
 SCHEDULER_URL=https://scheduler-URI.amazonaws.com/endpoint
 SCHEDULER_API_KEY=abcd1234
 ```
