@@ -20,17 +20,19 @@ app.use(helmet())
 app.use(cors())
 app.use(bodyParser.json({ limit: '50MB' }))
 
-// Setup logging
-const logDirectory = path.join(__dirname, 'logs')
-// ensure log directory exists
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
-// create a write stream (in append mode)
-var accessLogStream = fs.createWriteStream(path.join(logDirectory, 'h4i-recruitment.log'), {
-  flags: 'a'
-})
+if (process.env.NODE_ENV !== 'production') {
+  // Setup logging
+  const logDirectory = path.join(__dirname, 'logs')
+  // ensure log directory exists
+  fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+  // create a write stream (in append mode)
+  var accessLogStream = fs.createWriteStream(path.join(logDirectory, 'h4i-recruitment.log'), {
+    flags: 'a'
+  })
+  // rotating file log
+  app.use(morgan('combined', { stream: accessLogStream }))
+}
 
-// rotating file log
-app.use(morgan('combined', { stream: accessLogStream }))
 // STDOUT log
 app.use(morgan('dev'))
 // verifies user
