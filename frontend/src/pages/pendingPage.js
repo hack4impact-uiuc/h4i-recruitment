@@ -18,7 +18,7 @@ class PendingPage extends Component {
           <CardTitle>Your account is pending approval.</CardTitle>
           <CardBody>Refresh this page when access is granted.</CardBody>
           <a>
-            <img height="200" src="../static/loading.gif" />
+            <img height="200" src="../loading.gif" />
           </a>
         </Card>
       </>
