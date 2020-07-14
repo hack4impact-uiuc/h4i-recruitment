@@ -10,18 +10,35 @@ To start:
 
 ### Docker
 
-To run with [Docker](https://www.docker.com/) (and start the frontend and backend all at once with one command):
+To run with [Docker](https://www.docker.com/) (and start the frontend, backend, and database all at once with one command):
+
 ```
 docker-compose up
 ```
 
 And when you're done, you can run:
+
+```
+docker-compose down
+```
+
+to stop and remove all docker containers, or
+
 ```
 docker-compose down -v
 ```
 
-Note that if there's a change in the `package.json` file (such as a new module added into the repository), instead of running `yarn add` to re-install, just run `docker-compose up --build`. 
+to remove all docker volumes, which also deletes all the data stored in the database.
 
+If you previously ran `docker-compose down -v` or just cloned the repo, you'll also need to run:
+
+```
+./recreate_db.sh
+```
+
+which repopulates the database with mock data.
+
+Note that if there's a change in the `package.json` file (such as a new module added into the repository), instead of running `yarn add` to re-install, just run `docker-compose up --build`.
 
 ### Manual
 
@@ -30,8 +47,6 @@ yarn
 yarn dev
 ```
 
-
-
 Before every commit, you will need to run prettier or the build will fail.
 
 ```sh
@@ -39,11 +54,12 @@ yarn format
 ```
 
 To start your own authentication server, run these commands:
-```sh 
-npm i -g auth-infra 
+
+```sh
+npm i -g auth-infra
 auth-infra setup
 ```
 
-You will be prompted from the command line to enter information set up your server. To be compliant with this repository, the roles you should use are [Director, Lead, Member, Pending]. 
+You will be prompted from the command line to enter information set up your server. To be compliant with this repository, the roles you should use are [Director, Lead, Member, Pending].
 
-For troubleshooting and more information about the server, our authentication server documentation is here: https://my-docz-project-codebrew28.hack4impact1.now.sh/ 
+For troubleshooting and more information about the server, our authentication server documentation is here: https://my-docz-project-codebrew28.hack4impact1.now.sh/

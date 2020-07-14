@@ -2,11 +2,13 @@
 version: "3"
 services:
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile-dev
     ports:
       - 8080:8080
+    depends_on:
+      - db
     env_file:
       - backend/.env
     environment:
@@ -27,6 +29,7 @@ services:
       - 3000:3000
     depends_on:
       - backend
+      - db
     environment:
       - DEBUG_REDUX=false
       - BACKEND_PORT=8080
@@ -40,6 +43,14 @@ services:
     command: yarn dev
     tty: true
 
+  db:
+    image: "mongo"
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
 volumes:
   fe_modules:
   be_modules:
+  mongo_data:
