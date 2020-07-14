@@ -5,7 +5,7 @@
   "alias": "h4i-recruitment.now.sh",
   "builds": [
     {
-      "src": "backend/src/index.js",
+      "src": "backend/src/app.js",
       "use": "@vercel/node"
     },
     {
@@ -19,7 +19,7 @@
       "headers": {
         "cache-control": "s-maxage=0"
       },
-      "dest": "backend/index.js"
+      "dest": "backend/src/app.js"
     },
     {
       "src": "/(.*)",
@@ -33,7 +33,6 @@
     "SCHEDULER_API_KEY": "@h4i-recruitment-scheduler-api-key"
   },
   "build": {
-    "env": {
-    }
+    "env": {}
   }
 }
