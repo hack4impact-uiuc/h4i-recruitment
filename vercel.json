@@ -5,7 +5,7 @@
   "alias": "h4i-recruitment.now.sh",
   "builds": [
     {
-      "src": "backend/src/app.js",
+      "src": "backend/src/index.js",
       "use": "@vercel/node"
     },
     {
@@ -19,7 +19,7 @@
       "headers": {
         "cache-control": "s-maxage=0"
       },
-      "dest": "backend/src/app.js"
+      "dest": "backend/src/index.js"
     },
     {
       "src": "/(.*)",
