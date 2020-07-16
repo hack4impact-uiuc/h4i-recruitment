@@ -13,7 +13,7 @@ beforeEach(async () => {
 describe('App can run', done => {
   it('returns status 200', async () => {
     const res = await request(app)
-      .get(`/?key=${KEY}`)
+      .get(`/api/?key=${KEY}`)
       .expect(200)
   })
 })
@@ -21,7 +21,7 @@ describe('App can run', done => {
 describe('GET /events', () => {
   it('should get all events', async () => {
     const res = await request(app)
-      .get(`/events?key=${KEY}`)
+      .get(`/api/events?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.be.an('array')
   })
@@ -41,7 +41,7 @@ describe('GET /events/:eventId', () => {
     })
     await event.save()
     const res = await request(app)
-      .get(`/events/${event._id}?key=${KEY}`)
+      .get(`/api/events/${event._id}?key=${KEY}`)
       .expect(200)
     expect(res.body.result.name).to.eq('Alices Event')
   })
@@ -61,7 +61,7 @@ describe('POST /events/:eventId', () => {
     })
 
     await request(app)
-      .post(`/events?key=${KEY}`)
+      .post(`/api/events?key=${KEY}`)
       .send(event)
       .expect(200)
   })
@@ -85,7 +85,7 @@ describe('PUT /events', () => {
       description: 'its not lit'
     }
     await request(app)
-      .put(`/events/${event._id}?key=${KEY}`)
+      .put(`/api/events/${event._id}?key=${KEY}`)
       .send(body_params)
       .expect(200)
 
@@ -109,7 +109,7 @@ describe('DELETE /events', () => {
     await event.save()
 
     await request(app)
-      .delete(`/events/${event._id}/?key=${KEY}`)
+      .delete(`/api/events/${event._id}/?key=${KEY}`)
       .expect(200)
     const deletedEvent = await Event.findById(event._id)
     expect(deletedEvent).to.be.null

@@ -15,7 +15,7 @@ describe('GET /matchCandidates', () => {
   it('should return json with 2 candidates and matchID when exactly 2 candidates have min', async () => {
     await createCandidates([5, 5, 6, 6, 6], [0, 0, 0, 0, 0])
     const res = await request(app)
-      .get(`/matchCandidates?key=${KEY}`)
+      .get(`/api/matchCandidates?key=${KEY}`)
       .expect(200)
     const matched_candidates = [candidateIds(0), candidateIds(1)]
     expect(matched_candidates).to.contain.members([res.body.result.candidate1._id])
@@ -30,7 +30,7 @@ describe('GET /matchCandidates', () => {
   it('should return json with 2 candidates and matchID when 1 candidate has min', async () => {
     await createCandidates([5, 6, 7, 7, 7], [0, 0, 0, 0, 0])
     const res = await request(app)
-      .get(`/matchCandidates?key=${KEY}`)
+      .get(`/api/matchCandidates?key=${KEY}`)
       .expect(200)
     expect(res.body.result.candidate1._id).to.eq(candidateIds(0))
     expect(res.body.result.candidate2._id).to.eq(candidateIds(1))
@@ -44,7 +44,7 @@ describe('GET /matchCandidates', () => {
     await createCandidates([5, 5, 6, 7, 7], [0, 0, 0, 0, 0])
     await createMatches([[0, 1]])
     const res = await request(app)
-      .get(`/matchCandidates?key=${KEY}`)
+      .get(`/api/matchCandidates?key=${KEY}`)
       .expect(200)
     const matched_candidates = [candidateIds(0), candidateIds(1)]
     expect(matched_candidates).to.contain.members([res.body.result.candidate1._id])
@@ -61,7 +61,7 @@ describe('GET /matchCandidates', () => {
   //   await cand1.save()
   //   console.log(await Candidate.find())
   //   const res = await request(app)
-  //     .get(`/matchCandidates?key=${KEY}`)
+  //     .get(`/api/matchCandidates?key=${KEY}`)
   //     .expect(200)
   //   expect(res.body.result.candidate1._id).to.eq(candidateIds(3))
   //   expect(res.body.result.candidate2._id).to.eq(candidateIds(2))
@@ -81,7 +81,7 @@ describe('POST /matchCandidates', () => {
       matchID: matchIds(0)
     }
     await request(app)
-      .post(`/matchCandidates?key=${KEY}`)
+      .post(`/api/matchCandidates?key=${KEY}`)
       .send(frontend_payload)
       .expect(200)
     const cand1 = await Candidate.findById(candidateIds(0))
@@ -100,7 +100,7 @@ describe('POST /matchCandidates', () => {
       matchID: matchIds(0)
     }
     await request(app)
-      .post(`/matchCandidates?key=${KEY}`)
+      .post(`/api/matchCandidates?key=${KEY}`)
       .send(frontend_payload)
       .expect(200)
     const cand1 = await Candidate.findById(candidateIds(0))
@@ -119,7 +119,7 @@ describe('POST /matchCandidates', () => {
       matchID: matchIds(0)
     }
     await request(app)
-      .post(`/matchCandidates?key=${KEY}`)
+      .post(`/api/matchCandidates?key=${KEY}`)
       .send(frontend_payload)
       .expect(200)
     const match = await Match.findById(matchIds(0))

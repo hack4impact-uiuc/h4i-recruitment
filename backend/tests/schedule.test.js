@@ -13,7 +13,7 @@ beforeEach(async () => {
 describe('App can run', done => {
   it('returns status 200', async () => {
     const res = await request(app)
-      .get(`/?key=${KEY}`)
+      .get(`/api/?key=${KEY}`)
       .expect(200)
   })
 })
@@ -21,7 +21,7 @@ describe('App can run', done => {
 describe('GET /interviews', () => {
   it('should get (an empty list of) all interviews', async () => {
     const res = await request(app)
-      .get(`/schedule/?key=${KEY}`)
+      .get(`/api/schedule/?key=${KEY}`)
       .expect(200)
     expect(res.body.result.interviews).to.be.an('array')
     expect(res.body.result.interviews).to.have.length(0)
@@ -31,7 +31,7 @@ describe('GET /interviews', () => {
 describe('DELETE /interviews', () => {
   it('should successfully delete the (empty list of) interviews', async () => {
     const res = await request(app)
-      .delete(`/schedule/?key=${KEY}`)
+      .delete(`/api/schedule/?key=${KEY}`)
       .expect(200)
     expect(res.body.message).to.contain('Deleted')
   })
@@ -41,28 +41,28 @@ describe('DELETE /interviews', () => {
 describe('Mock future interviews', () => {
   it('should populate with some mock data', async () => {
     const res = await request(app)
-      .post(`/schedule/populateTest/?key=${KEY}`)
+      .post(`/api/schedule/populateTest/?key=${KEY}`)
       .expect(200)
     expect(res.body.message).to.contain('Populated')
   })
 
   it('should get a non-empty list of interviews', async () => {
     const res = await request(app)
-      .get(`/schedule/?key=${KEY}`)
+      .get(`/api/schedule/?key=${KEY}`)
       .expect(200)
     expect(res.body.result.interviews).to.have.length(2)
   })
 
   it('should successfully delete the nonempty list', async () => {
     const res = await request(app)
-      .delete(`/schedule/?key=${KEY}`)
+      .delete(`/api/schedule/?key=${KEY}`)
       .expect(200)
     expect(res.body.message).to.contain('Deleted')
   })
 
   it('should get an empty list of interviews', async () => {
     const res = await request(app)
-      .get(`/schedule/?key=${KEY}`)
+      .get(`/api/schedule/?key=${KEY}`)
       .expect(200)
     expect(res.body.result.interviews).to.have.length(0)
   })
