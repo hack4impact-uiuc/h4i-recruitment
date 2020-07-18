@@ -7,9 +7,9 @@ mongoose.connect(
   process.env.MONGO_URL,
   { useNewUrlParser: true }
 )
-mongoose.Promise = global.Promise
+
 mongoose.connection
-  .once('open', () => console.log('Connected to MongoLab instance.'))
+  .once('open', () => console.log('Connected to Mongo instance.'))
   .on('error', error => console.log('Error connecting to MongoLab:', error))
 
 const API_PORT = process.env.PORT === undefined ? 8080 : process.env.PORT
@@ -21,3 +21,5 @@ process.on('unhandledRejection', error => {
   console.error('ERROR: unhandledRejection, did you run `dotenv` before yarn dev?', error.message)
   process.exit(1)
 })
+
+module.exports = app

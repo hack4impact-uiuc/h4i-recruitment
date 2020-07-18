@@ -8,3 +8,6 @@ package.json
 backend/yarn-error.log
 frontend/yarn-error.log
 yarn-error.log
+keys-old.json
+.vercel
+.env

@@ -20,7 +20,7 @@ describe('GET verify_member/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interviews/verify_member?key=directo`)
+    const res = await request(app).get(`/api/interviews/verify_member?key=directo`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -30,7 +30,7 @@ describe('GET verify_member/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interviews/verify_member?key=directorr`)
+    const res = await request(app).get(`/api/interviews/verify_member?key=directorr`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -45,7 +45,7 @@ describe('GET verify_member/:key', () => {
         email: 'd@t.com'
       }
     })
-    const res = await request(app).get(`/interviews/verify_member?key=${KEY}`)
+    const res = await request(app).get(`/api/interviews/verify_member?key=${KEY}`)
     expect(200).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -55,7 +55,7 @@ describe('GET verify_member/:key', () => {
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/interviews/verify_member?key=notkey`)
+    const res = await request(app).get(`/api/interviews/verify_member?key=notkey`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
@@ -105,7 +105,7 @@ describe('POST /candidates/:candidateId/interviews', () => {
       general_notes: 'Candidate is average'
     }
     const res = await request(app)
-      .post(`/candidates/${candidate._id}/interviews?key=${KEY}`)
+      .post(`/api/candidates/${candidate._id}/interviews?key=${KEY}`)
       .send(interview)
       .expect(200)
   })
@@ -114,7 +114,7 @@ describe('POST /candidates/:candidateId/interviews', () => {
 describe('GET /interviews', () => {
   it('should get all interviews', async () => {
     const res = await request(app)
-      .get(`/interviews?key=${KEY}`)
+      .get(`/api/interviews?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.be.an('array')
   })
@@ -122,7 +122,7 @@ describe('GET /interviews', () => {
   // shouldnt be like this b/c tests should be idempotent
   // it('should get one interview', async () => {
   //   const res = await request(app)
-  //     .get(`/interview?key=${KEY}`)
+  //     .get(`/api/interview?key=${KEY}`)
   //     .expect(200)
   //   expect(res.body.result.interviews[0].interviewer_key).to.eq('CaptainMeg')
   //   interview_id = res.body.result.interviews[0]._id
@@ -144,7 +144,7 @@ describe('PUT /interviews', () => {
       general_notes: 'Candidate is amazing'
     }
     const res = await request(app)
-      .put(`/interviews/${interview._id}?key=${KEY}`)
+      .put(`/api/interviews/${interview._id}?key=${KEY}`)
       .send(body_params)
       .expect(200)
 
@@ -165,7 +165,7 @@ describe('DELETE /interviews', () => {
     await interview.save()
 
     await request(app)
-      .delete(`/interviews/${interview._id}/?key=${KEY}`)
+      .delete(`/api/interviews/${interview._id}/?key=${KEY}`)
       .expect(200)
     const deleted_candidate = await Interview.findById(interview._id)
   })

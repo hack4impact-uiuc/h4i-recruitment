@@ -152,7 +152,7 @@ class CandidateBox extends Component {
                         <td>
                           <Link href="/interview/[interviewID]" as={`/interview/${interview._id}`}>
                             <a className="ml-2" style={{ marginBottom: '3px' }}>
-                              <img height="10" src="/static/icons/external-icon.png" />
+                              <img height="10" src="icons/external-icon.png" />
                             </a>
                           </Link>
                         </td>

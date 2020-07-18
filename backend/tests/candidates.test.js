@@ -12,7 +12,7 @@ require('./mongo_utils')
 describe('App can run', done => {
   it('returns status 200', async () => {
     const res = await request(app)
-      .get(`/?key=${KEY}`)
+      .get(`/api/?key=${KEY}`)
       .expect(200)
   })
 })
@@ -33,7 +33,7 @@ describe('GET /candidates', done => {
     ])
 
     const res = await request(app)
-      .get(`/candidates?key=${KEY}`)
+      .get(`/api/candidates?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.have.lengthOf(2)
     expect(res.body.result[0].name).equal('Tim')
@@ -43,7 +43,7 @@ describe('GET /candidates', done => {
     sinon.stub(Candidate, 'find').resolves([])
 
     const res = await request(app)
-      .get(`/candidates?key=${KEY}`)
+      .get(`/api/candidates?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.have.lengthOf(0)
   })
@@ -57,7 +57,7 @@ describe('GET /candidates', done => {
     ])
 
     const res = await request(app)
-      .get(`/candidates?status=pending&&key=${KEY}`)
+      .get(`/api/candidates?status=pending&&key=${KEY}`)
       .expect(200)
     // checks whether Candidate.find() was called with arguments {status: 'pending}
     expect(candidateFindStub.getCall(0).args).to.deep.include({
@@ -77,7 +77,7 @@ describe('GET /candidates/:candidateId', async () => {
 
   it('should call findById with the correct Parameters', async () => {
     const candidateFindStub = sinon.stub(Candidate, 'findById').resolves(expected)
-    const res = await request(app).get(`/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
+    const res = await request(app).get(`/api/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
     expect(candidateFindStub.getCall(0).args)
       .to.be.an('array')
       .that.does.include('5abf3dcf1d567955609d2bd4')
@@ -87,7 +87,7 @@ describe('GET /candidates/:candidateId', async () => {
   it('should return a Candidate', async () => {
     const candidateFindStub = sinon.stub(Candidate, 'findById').resolves(expected)
     const res = await request(app)
-      .get(`/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
+      .get(`/api/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
       .expect(200)
     expect(res.body).to.be.an('object')
     candidateFindStub.restore()
@@ -102,7 +102,7 @@ describe('GET /candidates/:candidateId', async () => {
 //     // Needs to stub Candidate.prototype's save, not Candidate's save
 //     // because `save` belongs to the instance of a Candidate
 //     const candidateSaveStub = sinon.stub(Candidate.prototype, 'save').resolves('True')
-//     const res = await request(app).post(`/candidates?key=${KEY}`)
+//     const res = await request(app).post(`/api/candidates?key=${KEY}`)
 //     expect(candidateSaveStub.calledOnce).equal(true)
 
 //     // reset stub
@@ -126,7 +126,7 @@ describe('POST /candidates/:id/comments', async () => {
 
   it('should add a comment', async () => {
     await request(app)
-      .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
+      .post(`/api/candidates/${candidate._id}/comments?key=${KEY}`)
       .send({
         comment: 'test comment'
       })
@@ -135,7 +135,7 @@ describe('POST /candidates/:id/comments', async () => {
 
   it('should return 400 if comment was not provided', async () => {
     await request(app)
-      .post(`/candidates/${candidate._id}/comments?key=${KEY}`)
+      .post(`/api/candidates/${candidate._id}/comments?key=${KEY}`)
       .expect(400)
   })
 })
@@ -155,7 +155,7 @@ describe('POST /candidates/:id/status', async () => {
 
   it('should change the status', async () => {
     const res = await request(app)
-      .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)
+      .post(`/api/candidates/${candidateStatus._id}/status?key=${KEY}`)
       .send({
         status: 'Accepted'
       })
@@ -164,7 +164,7 @@ describe('POST /candidates/:id/status', async () => {
 
   it('should return 403 if key does not end in lead suffix', async () => {
     const res = await request(app)
-      .post(`/candidates/${candidateStatus._id}/status?key=${'Pending'}`)
+      .post(`/api/candidates/${candidateStatus._id}/status?key=${'Pending'}`)
       .send({
         status: 'Accepted'
       })
@@ -173,7 +173,7 @@ describe('POST /candidates/:id/status', async () => {
 
   it('should return 400 if status is not an accepted Status', async () => {
     const res = await request(app)
-      .post(`/candidates/${candidateStatus._id}/status?key=${KEY}`)
+      .post(`/api/candidates/${candidateStatus._id}/status?key=${KEY}`)
       .send({
         status: 'Weird Status'
       })
