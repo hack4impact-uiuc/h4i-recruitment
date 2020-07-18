@@ -3,7 +3,10 @@ const app = require('./app')
 const mongoose = require('mongoose')
 
 // connect to mongoose
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
+mongoose.connect(
+  process.env.MONGO_URL,
+  { useNewUrlParser: true }
+)
 
 mongoose.connection
   .once('open', () => console.log('Connected to Mongo instance.'))
