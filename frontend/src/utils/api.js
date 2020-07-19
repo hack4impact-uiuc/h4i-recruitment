@@ -2,6 +2,7 @@
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import { getCookie } from './cookieUtils'
+import * as vercelJson from '../../vercel.json'
 const { publicRuntimeConfig } = getConfig()
 
 const getKey = () => localStorage.getItem('memberId')
@@ -10,8 +11,8 @@ const API_PORT = publicRuntimeConfig.BACKEND_PORT
 
 const API_URL =
   process.env.NODE_ENV === 'production'
-    ? 'https://hack4impact-recruitment-backend.now.sh'
-    : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
+    ? `${vercelJson.alias}/api`
+    : `http://localhost:${API_PORT}/api` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
 const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'
