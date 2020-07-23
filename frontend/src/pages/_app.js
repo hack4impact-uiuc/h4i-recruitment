@@ -5,6 +5,8 @@ import withRedux from 'next-redux-wrapper'
 import { PageTransition } from 'next-page-transitions'
 import configureStore from '../store/appStore'
 import { ErrorMessage } from '../components/common'
+import '@hack4impact-uiuc/bridge/dist/styles.css'
+import '../css/filterComponent.css'
 
 export default withRedux(configureStore, {
   debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true',
