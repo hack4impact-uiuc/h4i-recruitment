@@ -14,7 +14,9 @@ import {
   selectByEnum,
 } from '../utils/enums'
 import { Button } from 'reactstrap'
-import { Checkbox } from '@hack4impact-uiuc/bridge'
+import { Checkbox, Box } from '@hack4impact-uiuc/bridge'
+
+import styles from '../css/filterComponent.module.css'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -56,6 +58,7 @@ const FilterComponent = (props: Props) => {
   })
 
   const handleSortChange = useCallback(async event => {
+    console.log(event)
     if (event.target.checked) {
       props.filters.sortBy.map(value => props.removeFilter(event.target.name, value))
       props.addFilter(event.target.name, event.target.value)
@@ -76,6 +79,32 @@ const FilterComponent = (props: Props) => {
     props.resetFilters()
   })
 
+  const generateCheckboxGroup = useCallback((name, enumArray, filter) => {
+    return (
+      <Checkbox.Group vertical>
+        {enumArray.map((el, idx) => {
+          return (
+            <Checkbox
+              id={el}
+              name={name}
+              value={el}
+              checked={filter.includes(el)}
+              onChange={handleChange}
+              pb="0em"
+              mb="0em"
+            >
+              {
+                <div className={`state ${styles['bridge-checkbox-label']}`}>
+                  <label htmlFor={el}>{el}</label>
+                </div>
+              }
+            </Checkbox>
+          )
+        })}
+      </Checkbox.Group>
+    )
+  })
+
   const years = enumToArray(yearsEnum)
   const roles = enumToArray(rolesEnum)
   const statuses = enumToArray(statusEnum)
@@ -92,7 +121,8 @@ const FilterComponent = (props: Props) => {
     yearFilter = [],
     gradFilter = [],
     workspaceFilter = [],
-    selectByFilter = []
+    selectByFilter = [],
+    sortByFilter = []
   if (props.filters) {
     statusFilter = props.filters.statuses
     referralFilter = props.filters.referrals
@@ -104,28 +134,11 @@ const FilterComponent = (props: Props) => {
   }
 
   return (
-    <div className="filter-box">
+    <Box className="filter-box">
       <h3>Query Panel</h3>
       <h5>Selects</h5>
-      <Checkbox.Group vertical pl="1px">
-        {selectBy.map((el, idx) => {
-          return (
-            <Checkbox
-              id={el}
-              name="selectBy"
-              value={el}
-              checked={selectByFilter.includes(el)}
-              onChange={handleChange}
-            >
-              {
-                <div className="state bridge-checkbox-label">
-                  <label htmlFor={el}>{el}</label>
-                </div>
-              }
-            </Checkbox>
-          )
-        })}
-      </Checkbox.Group>
+      {generateCheckboxGroup('selectBy', selectBy, selectByFilter)}
+
       <h4>Filters</h4>
       {/* todo: #305 conditional rendering if user is director */}
       {hasMultipleWorkspaces && (
@@ -147,119 +160,28 @@ const FilterComponent = (props: Props) => {
         </>
       )}
       <h5>Status</h5>
-      <Checkbox.Group vertical>
-        {statuses.map((el, idx) => {
-          return (
-            <Checkbox
-              id={el}
-              name="statuses"
-              value={el}
-              checked={statusFilter.includes(el)}
-              onChange={handleChange}
-            >
-              <div className="state bridge-checkbox-label">
-                <label htmlFor={el}>{el}</label>
-              </div>
-            </Checkbox>
-          )
-        })}
-      </Checkbox.Group>
+      {generateCheckboxGroup('statuses', statuses, statusFilter)}
 
       <h5 className="mt-2">Referrals</h5>
-      <Checkbox.Group vertical>
-        {referrals.map((el, idx) => {
-          return (
-            <Checkbox
-              id={el}
-              name="referrals"
-              value={el}
-              checked={referralFilter.includes(el)}
-              onChange={handleChange}
-            >
-              <div className="state  bridge-checkbox-label">
-                <label htmlFor={el}>{el}</label>
-              </div>
-            </Checkbox>
-          )
-        })}
-      </Checkbox.Group>
+      {generateCheckboxGroup('referrals', referrals, referralFilter)}
+
       <h5 className="mt-2">Year</h5>
-      <Checkbox.Group vertical>
-        {years.map((el, idx) => {
-          return (
-            <Checkbox
-              id={el}
-              name="years"
-              value={el}
-              checked={yearFilter.includes(el)}
-              onChange={handleChange}
-            >
-              <div className="state bridge-checkbox-label">
-                <label htmlFor={el}>{el}</label>
-              </div>
-            </Checkbox>
-          )
-        })}
-      </Checkbox.Group>
+      {generateCheckboxGroup('years', years, yearFilter)}
+
       <h5 className="mt-2">Roles</h5>
-      <Checkbox.Group vertical>
-        {roles.map((el, idx) => {
-          return (
-            <Checkbox
-              id={el}
-              name="roles"
-              value={el}
-              checked={rolesFilter.includes(el)}
-              onChange={handleChange}
-            >
-              <div className="state bridge-checkbox-label">
-                <label htmlFor={el}>{el}</label>
-              </div>
-            </Checkbox>
-          )
-        })}
-      </Checkbox.Group>
+      {generateCheckboxGroup('roles', roles, rolesFilter)}
+
       <h5 className="mt-2">Graduation Date:</h5>
-      <Checkbox.Group vertical>
-        {gradDates.map((el, idx) => {
-          return (
-            <Checkbox
-              id={el}
-              name="gradDates"
-              value={el}
-              checked={gradFilter.includes(el)}
-              onChange={handleChange}
-            >
-              <div className="state bridge-checkbox-label">
-                <label htmlFor={el}>{el}</label>
-              </div>
-            </Checkbox>
-          )
-        })}
-      </Checkbox.Group>
+      {generateCheckboxGroup('gradDates', gradDates, gradFilter)}
+
       <h4 className="mt-2">Sorts</h4>
-      <Checkbox.Group vertical>
-        {sortBy.map((el, idx) => {
-          return (
-            <Checkbox
-              id={el}
-              name="sortBy"
-              value={el}
-              checked={sortByFilter.includes(el)}
-              onChange={handleSortChange}
-            >
-              <div className="state">
-                <label htmlFor={el}>{el}</label>
-              </div>
-            </Checkbox>
-          )
-        })}
-      </Checkbox.Group>
+      {generateCheckboxGroup('sortBy', sortBy, sortByFilter)}
+
       <>
         <p> </p>
         <Button onClick={handleClick}>Reset Filters</Button>
       </>
-    </div>
+    </Box>
   )
 }
 
