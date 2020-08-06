@@ -4,13 +4,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Link from 'next/link'
 import { bindActionCreators } from 'redux'
-import { Row, Col, Table, Button } from 'reactstrap'
+import { Row, Col, Table, Button, ButtonDropdown, DropdownToggle, DropdownMenu } from 'reactstrap'
 import { setCandidateStatus } from '../../utils/api'
 import { setStatus } from '../../actions/actionCreators'
 import CandidateStatus from '../../components/candidateStatus'
 import CandidateLinks from '../../components/candidateLinks'
 import { ErrorMessage, ChangeStatus } from '../../components/common'
 import { avgInterviewScore, interviewGetCategorySection } from '../../utils/core'
+
+import styles from '../../css/candidateBox.module.css'
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -58,7 +60,30 @@ class CandidateBox extends Component {
           <Col md={6}>
             <h3>{candidate.name}</h3>
           </Col>
-          <Col md={6} className="text-right">
+        </Row>
+        <Row className="divider-bottom">
+          <Col md={6}>
+            <h3>
+              <CandidateStatus status={this.state.status} />
+            </h3>
+          </Col>
+          <Col md={2} className="text-right">
+            <ButtonDropdown isOpen={false} toggle={() => {}}>
+              <DropdownToggle caret color="info">
+                Actions
+              </DropdownToggle>
+              <DropdownMenu></DropdownMenu>
+            </ButtonDropdown>
+          </Col>
+          <Col md={4} className="text-left">
+            {/* {!this.props.hideStatus && (
+              <a>
+                <p className="mt-2">
+                  Change Status:{' '}
+                  <ChangeStatus status={this.state.status} handleChange={this.handleChange} />
+                </p>
+              </a>
+            )} */}
             <CandidateLinks link={candidate.resumeID} text="Resume" />
             <CandidateLinks link={candidate.website} text="Website" />
             <CandidateLinks link={candidate.linkedIn} text="LinkedIn" />
@@ -66,29 +91,12 @@ class CandidateBox extends Component {
           </Col>
         </Row>
 
-        <Row className="divider-bottom">
-          <Col md={6}>
-            <h3>
-              <CandidateStatus status={this.state.status} />
-            </h3>
-          </Col>
-          <Col md={6} className="text-right">
-            {!this.props.hideStatus && (
-              <a>
-                <p className="mt-2">
-                  Change Status:{' '}
-                  <ChangeStatus status={this.state.status} handleChange={this.handleChange} />
-                </p>
-              </a>
-            )}
-          </Col>
-        </Row>
-
         <Row>
           <Col md={8}>
-            <p>
-              <b>Applied Role:</b> {candidate.role.join(', ')}
-            </p>
+            <div className={`${styles.candidateEntry}`}>
+              <p className={`${styles.candidateEntryTitle}`}>Applied Role</p>
+              <p>{candidate.role.join(', ')}</p>
+            </div>
             <p>
               <b>Role Reason:</b> {candidate.roleReason}
             </p>

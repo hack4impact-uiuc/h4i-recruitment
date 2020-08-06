@@ -1,0 +1,12 @@
+.candidateEntry {
+  margin: none;
+  padding: none;
+  margin-bottom: 1em;
+}
+
+.candidateEntryTitle {
+  font-weight: 700;
+  font-size: 1em;
+  margin-bottom: 0em;
+  padding-bottom: 0em;
+}
