@@ -1,4 +1,22 @@
+.navbar {
+  background-color: #155da1;
+  width: 100%;
+}
+
 .nav-container {
   display: flex;
   justify-content: space-between;
+}
+
+.nav-bar-link {
+  font-size: 10pt;
+  color: #dddddde7 !important;
+  text-decoration: none !important;
+}
+.nav-bar-link:hover {
+  color: #ffffff !important;
+}
+
+.nav-bar-link:visited {
+  color: #fff !important;
 }

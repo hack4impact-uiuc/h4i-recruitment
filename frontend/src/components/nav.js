@@ -1,5 +1,5 @@
 // @flow
-import { Component } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Navbar, Nav, NavbarBrand, NavbarToggler, Collapse, NavItem } from 'reactstrap'
@@ -8,6 +8,8 @@ import { validateKey, getKey, getRound } from '../utils/api'
 import roundData from '../data/roundData.js'
 import { setRoundRedux } from '../actions'
 import { bindActionCreators } from 'redux'
+
+import styles from '../css/nav.module.css'
 
 const mapStateToProps = state => ({
   round: state.round,
@@ -22,167 +24,151 @@ const mapDispatchToProps = dispatch => {
   )
 }
 
-class NavigationBar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      role: 'Pending',
-      loggedIn: false,
-      username: null,
-    }
-  }
+export const NavigationBar = props => {
+  const [role, setRole] = useState('Pending')
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [username, setUsername] = useState(null)
 
-  logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem('memberId')
     localStorage.removeItem('memberName')
 
-    this.setState({ loggedIn: false })
+    setLoggedIn(false)
     alert('Logged Out!')
     Router.push('/')
-  }
+  })
 
-  async componentDidMount() {
+  // componentDidMount
+  useEffect(async () => {
     if (localStorage.getItem('memberId')) {
-      this.setState({
-        loggedIn: true,
-      })
+      setLoggedIn(true)
     }
     const { success, result } = await validateKey(getKey())
     if (success) {
       localStorage.setItem('memberName', result.name)
 
-      this.setState({
-        role: result.role,
-        loggedIn: true,
-        username: result.name,
-      })
+      setRole(result.role)
+      setLoggedIn(true)
+      setUsername(result.name)
     }
 
     // get interview round data
     const round = await getRound()
     if (round.result) {
-      this.props.setRoundRedux(round.result.round)
+      props.setRoundRedux(round.result.round)
     } else {
-      this.props.setRoundRedux(0)
+      props.setRoundRedux(0)
     }
-  }
+  }, [])
 
   // handles when user presses "Enter" when input is focused
-  _handleKeyPress = e => {
+  const _handleKeyPress = useCallback(e => {
     if (e.key === 'Enter') {
-      this.handleSubmit()
+      handleSubmit()
     }
-  }
+  })
 
-  render() {
-    return (
-      <>
-        <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="md">
-          <NavbarBrand className="ml-3">
-            <Link href={this.state.loggedIn ? '/dashboard' : '/'}>
-              <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
-            </Link>
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <div
-            className="nav-container"
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <Nav navbar className="ml-auto">
-              {this.state.loggedIn && (
+  return (
+    <>
+      <Navbar light className={`${styles.navbar} fixed p-3`} expand="md">
+        <NavbarBrand className="ml-3">
+          <Link href={loggedIn ? '/dashboard' : '/'}>
+            <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
+          </Link>
+        </NavbarBrand>
+        <div className="nav-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Nav navbar className="ml-auto">
+            {loggedIn && (
+              <NavItem>
+                <div className="nav-bar-name pr-3">Welcome {username ? username : null}!</div>
+              </NavItem>
+            )}
+            <NavItem>
+              <Link href="/dashboard">
+                <a className="nav-bar-link">Dashboard</a>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link href="/table">
+                <a className="nav-bar-link pl-3">Table View</a>
+              </Link>
+            </NavItem>
+            {role != 'Pending' && (
+              <>
                 <NavItem>
-                  <div className="nav-bar-name pr-3 pt-1">
-                    Welcome {this.state.username ? this.state.username : null}!
-                  </div>
+                  <Link href="/eventOverview">
+                    <a className="nav-bar-link pl-3">Events</a>
+                  </Link>
                 </NavItem>
-              )}
-              <NavItem>
-                <Link href="/dashboard">
-                  <a className="nav-bar-link">Dashboard</a>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link href="/table">
-                  <a className="nav-bar-link pl-3">Table View</a>
-                </Link>
-              </NavItem>
-              {this.state.role != 'Pending' && (
-                <>
-                  <NavItem>
-                    <Link href="/eventOverview">
-                      <a className="nav-bar-link pl-3">Events</a>
-                    </Link>
-                  </NavItem>
 
-                  <NavItem>
-                    <Link href="/interviewportal">
-                      <a className="nav-bar-link pl-3">Your Interviews</a>
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link
-                      href={
-                        roundData.rounds[this.props.round].type == 'interview'
-                          ? '/interviewportal'
-                          : '/facemash'
-                      }
-                    >
-                      <a className="nav-bar-link pl-3">{roundData.rounds[this.props.round].name}</a>
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link href="/interviewschedule">
-                      <a className="nav-bar-link pl-3">Interview Schedule</a>
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link href="/stats">
-                      <a className="nav-bar-link pl-3">Emails/Stats</a>
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link href="/analytics">
-                      <a className="nav-bar-link pl-3">Analytics</a>
-                    </Link>
-                  </NavItem>
-                  {this.state.role === 'Director' && (
-                    <>
-                      <NavItem>
-                        <Link href="/workspaces">
-                          <a className="nav-bar-link pl-3">Workspaces</a>
-                        </Link>
-                      </NavItem>
-                      <NavItem>
-                        <Link href="/rounds">
-                          <a className="nav-bar-link pl-3">Rounds</a>
-                        </Link>
-                      </NavItem>
-                      <NavItem>
-                        <Link href="/adminRoles">
-                          <a className="nav-bar-link pl-3">Admin</a>
-                        </Link>
-                      </NavItem>
-                    </>
-                  )}
-                </>
-              )}
-              <NavItem>
-                {!this.state.loggedIn ? (
-                  <a className="nav-bar-link pl-3" href="#" onClick={() => Router.push('/#')}>
-                    Login
-                  </a>
-                ) : (
-                  <a className="nav-bar-link pl-3" href="#" onClick={this.logout}>
-                    Logout
-                  </a>
+                <NavItem>
+                  <Link href="/interviewportal">
+                    <a className="nav-bar-link pl-3">Your Interviews</a>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link
+                    href={
+                      roundData.rounds[props.round].type == 'interview'
+                        ? '/interviewportal'
+                        : '/facemash'
+                    }
+                  >
+                    <a className="nav-bar-link pl-3">{roundData.rounds[props.round].name}</a>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/interviewschedule">
+                    <a className="nav-bar-link pl-3">Interview Schedule</a>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/stats">
+                    <a className="nav-bar-link pl-3">Emails/Stats</a>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/analytics">
+                    <a className="nav-bar-link pl-3">Analytics</a>
+                  </Link>
+                </NavItem>
+                {role === 'Director' && (
+                  <>
+                    <NavItem>
+                      <Link href="/workspaces">
+                        <a className="nav-bar-link pl-3">Workspaces</a>
+                      </Link>
+                    </NavItem>
+                    <NavItem>
+                      <Link href="/rounds">
+                        <a className="nav-bar-link pl-3">Rounds</a>
+                      </Link>
+                    </NavItem>
+                    <NavItem>
+                      <Link href="/adminRoles">
+                        <a className="nav-bar-link pl-3">Admin</a>
+                      </Link>
+                    </NavItem>
+                  </>
                 )}
-              </NavItem>
-            </Nav>
-          </div>
-        </Navbar>
-      </>
-    )
-  }
+              </>
+            )}
+            <NavItem>
+              {!loggedIn ? (
+                <a className="nav-bar-link pl-3" href="#" onClick={() => Router.push('/#')}>
+                  Login
+                </a>
+              ) : (
+                <a className="nav-bar-link pl-3" href="#" onClick={logout}>
+                  Logout
+                </a>
+              )}
+            </NavItem>
+          </Nav>
+        </div>
+      </Navbar>
+    </>
+  )
 }
 
 export default connect(

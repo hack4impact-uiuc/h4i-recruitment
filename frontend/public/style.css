@@ -60,7 +60,19 @@ p > b {
   text-decoration: none !important;
 }
 .nav-bar-link:hover {
-  color: #ffffff;
+  color: #ffffff !important;
+}
+
+.nav-bar-link:visited {
+  color: #fff !important;
+}
+
+.nav-bar-link:link {
+  color: #fff !important;
+}
+
+.nav-bar-link:active {
+  color: #fff !important;
 }
 
 .card-title {
@@ -228,6 +240,7 @@ p > b {
 }
 
 .nav-bar-name {
+  display: inline-block;
   font-size: 10pt;
   color: #ffffff !important;
   text-decoration: none !important;
