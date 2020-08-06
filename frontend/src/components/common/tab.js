@@ -1,11 +1,16 @@
-// import React, {useState} from 'react';
-// import { connect } from 'react-redux'
+import React, { useState, useCallback } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-// const Tab = () => {
-//   return (
-//     <>
-//     </>
-//   )
-// };
+const Tab = props => {
+  const { component, label } = props
 
-// export default Tab;
+  return <></>
+}
+
+Tab.propTypes = {
+  component: PropTypes.element.isRequired,
+  label: PropTypes.string.isRequired,
+}
+
+export default Tab

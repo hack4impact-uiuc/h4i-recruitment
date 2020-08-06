@@ -2,9 +2,9 @@ import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 const TabList = props => {
-  const { children } = props
+  const { children, selectedTab } = props
 
-  const [activeTab, setActiveTab] = useState(null)
+  const [activeTab, setActiveTab] = useState(selectedTab)
 
   const onTabClick = useCallback(e => {
     setActiveTab(e.target)
@@ -23,6 +23,7 @@ const TabList = props => {
 
 TabList.propTypes = {
   children: PropTypes.element.isRequired,
+  selectedTab: PropTypes.number,
 }
 
 export default TabList

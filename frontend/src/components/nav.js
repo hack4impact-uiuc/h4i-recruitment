@@ -24,7 +24,9 @@ const mapDispatchToProps = dispatch => {
   )
 }
 
-export const NavigationBar = props => {
+const NavigationBar = props => {
+  const { setRoundRedux, round } = props
+
   const [role, setRole] = useState('Pending')
   const [loggedIn, setLoggedIn] = useState(false)
   const [username, setUsername] = useState(null)
@@ -38,8 +40,7 @@ export const NavigationBar = props => {
     Router.push('/')
   })
 
-  // componentDidMount
-  useEffect(async () => {
+  const componentDidMount = async () => {
     if (localStorage.getItem('memberId')) {
       setLoggedIn(true)
     }
@@ -55,16 +56,21 @@ export const NavigationBar = props => {
     // get interview round data
     const round = await getRound()
     if (round.result) {
-      props.setRoundRedux(round.result.round)
+      setRoundRedux(round.result.round)
     } else {
-      props.setRoundRedux(0)
+      setRoundRedux(0)
     }
+  }
+
+  // componentDidMount
+  useEffect(() => {
+    componentDidMount()
   }, [])
 
   // handles when user presses "Enter" when input is focused
   const _handleKeyPress = useCallback(e => {
     if (e.key === 'Enter') {
-      handleSubmit()
+      // handleSubmit()
     }
   })
 
@@ -109,12 +115,10 @@ export const NavigationBar = props => {
                 <NavItem>
                   <Link
                     href={
-                      roundData.rounds[props.round].type == 'interview'
-                        ? '/interviewportal'
-                        : '/facemash'
+                      roundData.rounds[round].type == 'interview' ? '/interviewportal' : '/facemash'
                     }
                   >
-                    <a className="nav-bar-link pl-3">{roundData.rounds[props.round].name}</a>
+                    <a className="nav-bar-link pl-3">{roundData.rounds[round].name}</a>
                   </Link>
                 </NavItem>
                 <NavItem>
