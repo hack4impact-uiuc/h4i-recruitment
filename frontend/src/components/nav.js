@@ -77,14 +77,17 @@ class NavigationBar extends Component {
   render() {
     return (
       <>
-        <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="sm">
+        <Navbar style={{ backgroundColor: '#155DA1' }} light className="fixed p-3" expand="md">
           <NavbarBrand className="ml-3">
             <Link href={this.state.loggedIn ? '/dashboard' : '/'}>
               <img id="logo-img" height="35" width="200" src="https://h4i-white-logo.now.sh" />
             </Link>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.showLoginModal} navbar>
+          <div
+            className="nav-container"
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Nav navbar className="ml-auto">
               {this.state.loggedIn && (
                 <NavItem>
@@ -95,7 +98,7 @@ class NavigationBar extends Component {
               )}
               <NavItem>
                 <Link href="/dashboard">
-                  <a className="nav-bar-link pl-3">Dashboard</a>
+                  <a className="nav-bar-link">Dashboard</a>
                 </Link>
               </NavItem>
               <NavItem>
@@ -175,7 +178,7 @@ class NavigationBar extends Component {
                 )}
               </NavItem>
             </Nav>
-          </Collapse>
+          </div>
         </Navbar>
       </>
     )
