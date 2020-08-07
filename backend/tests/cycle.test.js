@@ -13,7 +13,7 @@ beforeEach(async () => {
 describe('App can run', done => {
   it('returns status 200', async () => {
     await request(app)
-      .get(`/?key=${KEY}`)
+      .get(`/api/?key=${KEY}`)
       .expect(200)
   })
 })
@@ -21,7 +21,7 @@ describe('App can run', done => {
 describe('GET /cycle', () => {
   it('should get all cycles', async () => {
     const res = await request(app)
-      .get(`/cycle?key=${KEY}`)
+      .get(`/api/cycle?key=${KEY}`)
       .expect(200)
     expect(res.body.result).to.be.an('array')
   })
@@ -35,7 +35,7 @@ describe('GET /cycle/id/:cycleId', () => {
     })
     await cycle.save()
     const res = await request(app)
-      .get(`/cycle/id/${cycle._id}?key=${KEY}`)
+      .get(`/api/cycle/id/${cycle._id}?key=${KEY}`)
       .expect(200)
     expect(res.body.result.term).to.eq('FA19')
   })
@@ -50,11 +50,11 @@ describe('POST /cycle', () => {
       owner: 'Owner'
     })
     await request(app)
-      .post(`/workspaces?key=${KEY}`)
+      .post(`/api/workspaces?key=${KEY}`)
       .send(workspace)
 
     await request(app)
-      .post(`/cycle?key=${KEY}`)
+      .post(`/api/cycle?key=${KEY}`)
       .send({
         term: 'FA19',
         workspaceName: 'abc'
@@ -71,11 +71,11 @@ describe('POST /cycle more than once', () => {
       name: workspaceName
     })
     await request(app)
-      .post(`/workspaces?key=${KEY}`)
+      .post(`/api/workspaces?key=${KEY}`)
       .send(workspace)
 
     await request(app)
-      .post(`/cycle?key=${KEY}`)
+      .post(`/api/cycle?key=${KEY}`)
       .send(
         new Cycle({
           term: 'FA18',
@@ -84,7 +84,7 @@ describe('POST /cycle more than once', () => {
       )
 
     await request(app)
-      .post(`/cycle?key=${KEY}`)
+      .post(`/api/cycle?key=${KEY}`)
       .send(
         new Cycle({
           term: 'SP19',
@@ -93,17 +93,17 @@ describe('POST /cycle more than once', () => {
       )
 
     const newCycle = await request(app).get(
-      `/cycle/workspace/${workspaceName}?key=${KEY}&current=true`
+      `/api/cycle/workspace/${workspaceName}?key=${KEY}&current=true`
     )
     newCycleId = newCycle.body.result[0]._id
     const res = await request(app)
-      .get(`/cycle/id/${newCycleId}?key=${KEY}`)
+      .get(`/api/cycle/id/${newCycleId}?key=${KEY}`)
       .expect(200)
     expect(res.body.result.current).to.eq(true)
     expect(res.body.result.term).to.eq('SP19')
 
     const oldCycle = await request(app)
-      .get(`/cycle/workspace/${workspaceName}?key=${KEY}&current=false`)
+      .get(`/api/cycle/workspace/${workspaceName}?key=${KEY}&current=false`)
       .send({ current: false })
     expect(oldCycle.body.result[0].term).to.eq('FA18')
   })

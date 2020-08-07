@@ -10,8 +10,8 @@ const API_PORT = publicRuntimeConfig.BACKEND_PORT
 
 const API_URL =
   process.env.NODE_ENV === 'production'
-    ? 'https://hack4impact-recruitment-backend.now.sh'
-    : `http://localhost:${API_PORT}` // make sure your backend is running on this port.
+    ? 'https://h4i-recruitment.now.sh/api'
+    : `http://localhost:${API_PORT}/api` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
 
 const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'

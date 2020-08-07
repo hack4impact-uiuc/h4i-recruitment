@@ -30,24 +30,26 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Setup logging
-const logDirectory = path.join(__dirname, 'logs')
-// ensure log directory exists
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
-// create a write stream (in append mode)
-var accessLogStream = fs.createWriteStream(path.join(logDirectory, 'h4i-recruitment.log'), {
-  flags: 'a'
-})
+if (process.env.NODE_ENV !== 'production') {
+  // Setup logging
+  const logDirectory = path.join(__dirname, 'logs')
+  // ensure log directory exists
+  fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+  // create a write stream (in append mode)
+  var accessLogStream = fs.createWriteStream(path.join(logDirectory, 'h4i-recruitment.log'), {
+    flags: 'a'
+  })
+  // rotating file log
+  app.use(morgan('combined', { stream: accessLogStream }))
+}
 
-// rotating file log
-app.use(morgan('combined', { stream: accessLogStream }))
 // STDOUT log
 app.use(morgan('dev'))
 app.use('/login', loginRoute)
 // verifies user
 app.use(auth)
 
-app.use('/', routes)
+app.use('/api/', routes)
 
 // must be at the end
 app.use(errorHandler)

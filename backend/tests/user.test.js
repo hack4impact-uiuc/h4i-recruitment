@@ -8,7 +8,7 @@ require('./mongo_utils')
 describe('App can run', done => {
   it('returns status 200', async () => {
     await request(app)
-      .get(`/?key=${KEY}`)
+      .get(`/api/?key=${KEY}`)
       .expect(200)
   })
 })
@@ -24,7 +24,7 @@ describe('GET /user/', () => {
     })
     await newUser.save()
     const res = await request(app)
-      .get(`/user/?key=${KEY}`)
+      .get(`/api/user/?key=${KEY}`)
       .expect(200)
     expect(res.body.result[0].email).to.eq('m@t.com')
   })
@@ -41,7 +41,7 @@ describe('POST /user/', () => {
     })
 
     await request(app)
-      .post(`/user/?key=${KEY}`)
+      .post(`/api/user/?key=${KEY}`)
       .send(newUser)
       .expect(200)
 
@@ -57,7 +57,7 @@ describe('PUT /user/', () => {
       role: 'Member'
     }
     await request(app)
-      .put(`/user/?key=${KEY}`)
+      .put(`/api/user/?key=${KEY}`)
       .send(reqBody)
       .expect(200)
   })
