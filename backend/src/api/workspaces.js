@@ -8,7 +8,7 @@ router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspaces = await Workspace.find({ owner: req._user })
+    const workspaces = await Workspace.find({ owner: req.user })
     res.json({
       code: 200,
       result: workspaces,
@@ -22,7 +22,7 @@ router.get(
   '/:workspaceName',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const workspace = await Workspace.find({ name: req.params.workspaceName, owner: req._user })
+    const workspace = await Workspace.find({ name: req.params.workspaceName, owner: req.user })
 
     res.json({
       code: 200,
@@ -37,7 +37,7 @@ router.post(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const owner = req._user
+    const owner = req.user
     const workspaceName = req.body.name
     if (!owner || !workspaceName) {
       return res.json({
@@ -55,7 +55,7 @@ router.post(
 
     // add the workspace to the list of workspaces for a user
     await User.findOneAndUpdate(
-      { email: req._user.email },
+      { email: req.user.email },
       { $push: { workspaceIds: workspaceName } }
     )
 
@@ -82,7 +82,7 @@ router.put(
       })
     }
 
-    if (!req._user.workspaceIds.includes(workspaceName)) {
+    if (!req.user.workspaceIds.includes(workspaceName)) {
       return res.json({
         code: 403,
         message: 'unauthorized',

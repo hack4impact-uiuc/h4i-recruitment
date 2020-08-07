@@ -14,28 +14,24 @@ const auth = async (req, res, next) => {
     if (req.method === 'POST' && req.url.includes('/user/')) {
       return next()
     } else if (key) {
-      const foundUser = await User.findOne({ userId: key })
-      if (foundUser != null) {
-        req._key_name = foundUser.firstName // set the user's name of the key that was used to make the request
+      if (req.user != null) {
+        req._key_name = req.user.firstName // set the user's name of the key that was used to make the request
         req._key = key
 
         // check whether key is a director's, lead's, or member's key
         // this is used by the directorsOnly and membersOnly middleware
-        if (foundUser.role === 'Director') {
+        if (req.user.role === 'Director') {
           req._is_director = true
           req._is_lead = true
           req._is_member = true
-          req._user = foundUser
-        } else if (foundUser.role === 'Lead') {
+        } else if (req.user.role === 'Lead') {
           req._is_director = false
           req._is_lead = true
           req._is_member = true
-          req._user = foundUser
-        } else if (foundUser.role === 'Member') {
+        } else if (req.user.role === 'Member') {
           req._is_director = false
           req._is_lead = false
           req._is_member = true
-          req._user = foundUser
         } else {
           req._is_director = false
           req._is_lead = false
