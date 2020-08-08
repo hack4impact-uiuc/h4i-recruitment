@@ -33,6 +33,5 @@ router.use('/events', events)
 router.use('/attendees', attendees)
 router.use('/workspaces', workspaces)
 router.use('/user', userRoles)
-router.use('/login', login)
 
 module.exports = router

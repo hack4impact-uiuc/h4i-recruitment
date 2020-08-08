@@ -2,12 +2,11 @@ const passport = require('passport')
 const router = require('express').Router()
 
 // Defines the endpoint which will be serialized in state
-const CALLBACK_ENDPOINT = '/login/callback'
+const CALLBACK_ENDPOINT = '/api/login/callback'
 // Where to go after a success
 const LOGIN_SUCCESS_REDIRECT = 'http://localhost:3000/'
 
 router.get('/', (req, res, next) => {
-  console.log(passport.authenticate)
   // Construct the "callback" url by concatenating the current base URL (host) with the callback URL
   // Anything we put into Passport's state can be accessed after the login is successful, as it gets encoded in the URL
   const callbackUrl = `${req.protocol}://${req.get('host')}${CALLBACK_ENDPOINT}`
@@ -19,7 +18,6 @@ router.get('/', (req, res, next) => {
     state
   })
   auth(req, res, next)
-  //   next()
 })
 
 /* Serves as a middle point workaround for Google OAuth only allowing one callback URL
