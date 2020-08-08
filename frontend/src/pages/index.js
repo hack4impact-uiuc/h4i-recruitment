@@ -1,7 +1,7 @@
 import React from 'react'
 import { Component } from 'react'
 import Router from 'next/router'
-import { loginUser, loginGoogleUser, validateKey } from '../utils/api'
+import { loginGoogleUser, validateKey } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { GoogleLogin } from 'react-google-login'
@@ -60,24 +60,6 @@ class LoginPage extends Component {
     this.setState({ [name]: value })
   }
 
-  handleSubmit = () => {
-    const { email, password } = this.state
-    console.log(`Logging in ${email}`)
-    loginUser(email, password).then(response => {
-      if (response.status != 200) {
-        this.setState({ showInvalidRequestModal: true })
-      } else {
-        setCookie('token', response.token)
-        localStorage.setItem('memberId', response.uid)
-        if (response.permission === permissionRolesEnum.PENDING) {
-          Router.push('/pendingPage')
-        } else {
-          Router.push('/dashboard')
-        }
-      }
-    })
-  }
-
   handleInvalidRequestModalClose = () => {
     this.setState({ showInvalidRequestModal: false })
   }
@@ -92,45 +74,14 @@ class LoginPage extends Component {
             <h3 className="register-center-content">Login</h3>
           </CardTitle>
           <CardBody>
-            <Form>
-              <FormGroup>
-                <Label for="exampleEmail">Email</Label>
-                <Input
-                  type="email"
-                  name="email"
-                  maxLength="64"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="examplePassword">Password</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  minLength="8"
-                  maxLength="64"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  required
-                />
-              </FormGroup>
-              <div className="register-center-content">
-                <Button color="outline-secondary" onClick={this.handleSubmit}>
-                  Submit
-                </Button>
-              </div>
-            </Form>
-
-            {/* <GoogleLogin
-                className="btn sign-in-btn"
-                clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
-                responseType="id_token"
-                buttonText={this.props.role}
-                scope="https://www.googleapis.com/auth/userinfo.email"
-                onSuccess={this.handleGoogle}
-              /> */}
+            <GoogleLogin
+              className="btn sign-in-btn"
+              clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
+              responseType="id_token"
+              buttonText={this.props.role}
+              scope="https://www.googleapis.com/auth/userinfo.email"
+              onSuccess={this.handleGoogle}
+            />
           </CardBody>
         </Card>
         <div className="register-center-content">

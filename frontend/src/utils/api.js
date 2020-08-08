@@ -424,31 +424,10 @@ function registerUser(email: string, password: string, role: string) {
   }).then(res => res.json())
 }
 
-function loginUser(email: string, password: string) {
-  console.log(`Logging in user ${email}`)
-  return fetch(`${AUTH_API_URL}/login`, {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-    headers: {
-      'content-type': 'application/json',
-    },
-  }).then(res => res.json())
-}
-
-function loginGoogleUser(tokenId: string) {
-  console.log(`Logging in user ${tokenId} with Google Auth`)
-  return fetch(`${AUTH_API_URL}/google`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      tokenId: tokenId,
-      role: 'Pending',
-    }),
+function loginGoogleUser() {
+  console.log(`Logging in user with Google Auth`)
+  return fetch(`${API_URL}/login`, {
+    method: 'GET',
   }).then(res => res.json())
 }
 
@@ -492,7 +471,6 @@ export {
   deleteAllSchedules,
   getAllInterviewingCandidateInterviews,
   registerUser,
-  loginUser,
   loginGoogleUser,
   getAllUsers,
   addUser,
