@@ -1,7 +1,6 @@
 import React from 'react'
 import { Component } from 'react'
 import Router from 'next/router'
-import { loginGoogleUser, validateKey } from '../utils/api'
 import Nav from '../components/nav'
 import Head from '../components/head'
 import { GoogleLogin } from 'react-google-login'
@@ -22,6 +21,7 @@ import {
 } from 'reactstrap'
 import { setCookie } from '../utils/cookieUtils'
 import { permissionRolesEnum } from '../utils/enums'
+import { getURLForEndpoint } from '../utils/apiHelpers'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -31,26 +31,6 @@ class LoginPage extends Component {
       password: '',
       errorMessage: '',
       showInvalidRequestModal: false,
-    }
-  }
-
-  handleGoogle = async e => {
-    const response = await loginGoogleUser(e.tokenId)
-    console.log(response)
-    if (response.status != 200) {
-      this.setState({ errorMessage: response.message, showInvalidRequestModal: true })
-    } else {
-      // set token value so google can access it
-      setCookie('token', e.tokenId)
-      // set google to true so server knows to send the request to google
-      setCookie('google', true)
-      // set localStorage value so it's valid across the whole site
-      localStorage.setItem('memberId', response.uid)
-      if (response.permission === permissionRolesEnum.PENDING) {
-        Router.push('/pendingPage')
-      } else {
-        Router.push('/dashboard')
-      }
     }
   }
 
@@ -74,14 +54,9 @@ class LoginPage extends Component {
             <h3 className="register-center-content">Login</h3>
           </CardTitle>
           <CardBody>
-            <GoogleLogin
-              className="btn sign-in-btn"
-              clientId="850663969204-cuc9to9sgmodbdc0d3jbkadiq1bc4s7e.apps.googleusercontent.com"
-              responseType="id_token"
-              buttonText={this.props.role}
-              scope="https://www.googleapis.com/auth/userinfo.email"
-              onSuccess={this.handleGoogle}
-            />
+            <a className="action-button blue" href={getURLForEndpoint('api/login')}>
+              Google Login
+            </a>
           </CardBody>
         </Card>
         <div className="register-center-content">
