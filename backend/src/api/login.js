@@ -4,7 +4,7 @@ const router = require('express').Router()
 // Defines the endpoint which will be serialized in state
 const CALLBACK_ENDPOINT = '/api/login/callback'
 // Where to go after a success
-const LOGIN_SUCCESS_REDIRECT = 'http://localhost:3000/'
+const LOGIN_SUCCESS_REDIRECT = process.env.FE_URL ? process.env.FE_URL : '/'
 
 router.get('/', (req, res, next) => {
   // Construct the "callback" url by concatenating the current base URL (host) with the callback URL
