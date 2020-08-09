@@ -4,8 +4,6 @@ import getConfig from 'next/config'
 import { getCookie } from './cookieUtils'
 const { publicRuntimeConfig } = getConfig()
 
-const getKey = () => localStorage.getItem('memberId')
-
 const API_PORT = publicRuntimeConfig.BACKEND_PORT
 
 const API_URL =
@@ -17,7 +15,7 @@ const API_URL =
 const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'
 
 function createWorkspace(workspace) {
-  return fetch(`${API_URL}/workspaces?key=${getKey()}`, {
+  return fetch(`${API_URL}/workspaces`, {
     body: JSON.stringify({
       name: workspace.name,
     }),
@@ -30,11 +28,11 @@ function createWorkspace(workspace) {
 }
 
 function getWorkspaces() {
-  return fetch(`${API_URL}/workspaces?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/workspaces`).then(res => res.json())
 }
 
 function setCurrentCycle(cycleId, workspaceName) {
-  return fetch(`${API_URL}/cycle/setCurrent/${workspaceName}/${cycleId}?key=${getKey()}`, {
+  return fetch(`${API_URL}/cycle/setCurrent/${workspaceName}/${cycleId}`, {
     headers: {
       'content-type': 'application/json',
     },
@@ -44,7 +42,7 @@ function setCurrentCycle(cycleId, workspaceName) {
 }
 
 function createCycle(cycle) {
-  return fetch(`${API_URL}/cycle?key=${getKey()}`, {
+  return fetch(`${API_URL}/cycle`, {
     body: JSON.stringify({
       term: cycle.term,
       workspaceName: cycle.workspaceName,
@@ -58,17 +56,17 @@ function createCycle(cycle) {
 }
 
 function getCyclesByWorkspace(workspaceName, current) {
-  return fetch(
-    `${API_URL}/cycle/workspace/${workspaceName}?key=${getKey()}&current=${current}`
-  ).then(res => res.json())
+  return fetch(`${API_URL}/cycle/workspace/${workspaceName}&current=${current}`).then(res =>
+    res.json()
+  )
 }
 
 function getAllEvents() {
-  return fetch(`${API_URL}/events?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/events`).then(res => res.json())
 }
 
 function createEvent(event) {
-  return fetch(`${API_URL}/events?key=${getKey()}`, {
+  return fetch(`${API_URL}/events`, {
     body: JSON.stringify({
       name: event.name,
       date: event.date,
@@ -87,7 +85,7 @@ function createEvent(event) {
 }
 
 function eventCheckin(attendee, id: string) {
-  return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`, {
+  return fetch(`${API_URL}/events/${id}/attendees`, {
     body: JSON.stringify({
       name: attendee.name,
       email: attendee.email,
@@ -102,16 +100,16 @@ function eventCheckin(attendee, id: string) {
 }
 
 function getEventById(id: string) {
-  return fetch(`${API_URL}/events/${id}?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/events/${id}`).then(res => res.json())
 }
 
 function getEventAttendees(id: string) {
-  return fetch(`${API_URL}/events/${id}/attendees?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/events/${id}/attendees`).then(res => res.json())
 }
 
 async function addInterviewerSchedules(file: File) {
   const scheduleString = await readUploadedFile(file)
-  return fetch(`${API_URL}/schedule/uploadInterviewers/?key=${getKey()}`, {
+  return fetch(`${API_URL}/schedule/uploadInterviewers/`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -122,7 +120,7 @@ async function addInterviewerSchedules(file: File) {
 
 async function addCandidateSchedules(file: File) {
   const scheduleString = await readUploadedFile(file)
-  return fetch(`${API_URL}/schedule/uploadCandidates/?key=${getKey()}`, {
+  return fetch(`${API_URL}/schedule/uploadCandidates/`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -148,37 +146,35 @@ const readUploadedFile = inputFile => {
 }
 
 function generateSchedules() {
-  return fetch(`${API_URL}/schedule/generateSchedules?key=${getKey()}`, { method: 'POST' }).then(
-    res => res.json()
-  )
+  return fetch(`${API_URL}/schedule/generateSchedules`, { method: 'POST' }).then(res => res.json())
 }
 
 function getInterviewSchedule() {
-  return fetch(`${API_URL}/schedule?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/schedule`).then(res => res.json())
 }
 
 function deleteAllSchedules() {
-  return fetch(`${API_URL}/schedule?key=${getKey()}`, { method: 'DELETE' }).then(res => res.json())
+  return fetch(`${API_URL}/schedule`, { method: 'DELETE' }).then(res => res.json())
 }
 
 function getCandidateById(id: string) {
-  return fetch(`${API_URL}/candidates/${id}?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
 }
 
 function getCandidateMatch() {
-  return fetch(`${API_URL}/matchCandidates?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/matchCandidates`).then(res => res.json())
 }
 
 function getCandidates() {
-  return fetch(`${API_URL}/candidates?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates`).then(res => res.json())
 }
 
 function getInterviewingCandidates() {
-  return fetch(`${API_URL}/candidates?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates`).then(res => res.json())
 }
 
 function setCandidateStatus(id: string, status: string) {
-  return fetch(`${API_URL}/candidates/${id}/status?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${id}/status`, {
     body: JSON.stringify({
       id: id,
       status: status,
@@ -196,7 +192,7 @@ function getCandidatesByStatus(status: string) {
 }
 
 function setMatchWinner(candidate1: string, candidate2: string, winnerID: string, matchID: string) {
-  return fetch(`${API_URL}/matchCandidates?key=${getKey()}`, {
+  return fetch(`${API_URL}/matchCandidates`, {
     body: JSON.stringify({
       candidate1,
       candidate2,
@@ -213,7 +209,7 @@ function setMatchWinner(candidate1: string, candidate2: string, winnerID: string
 
 function addCommentToCandidate(candidateID: string, comment: string) {
   console.log(`Adding Comment to ${candidateID}: ${comment}`)
-  return fetch(`${API_URL}/candidates/${candidateID}/comments?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${candidateID}/comments`, {
     body: JSON.stringify({
       comment,
     }),
@@ -225,20 +221,16 @@ function addCommentToCandidate(candidateID: string, comment: string) {
   }).then(res => res.json())
 }
 
-function validateKey(key: string) {
-  return fetch(`${API_URL}/interviews/verify_member?key=${key}`).then(res => res.json())
+function validateUser() {
+  return fetch(`${API_URL}/interviews/verify_member`).then(res => res.json())
 }
 
 function getPastInterviews(interviewerKey: string) {
-  return fetch(`${API_URL}/interviews/interviewer/${interviewerKey}?key=${getKey()}`).then(res =>
-    res.json()
-  )
+  return fetch(`${API_URL}/interviews/interviewer/${interviewerKey}`).then(res => res.json())
 }
 
 function getCandidateInterviews(candidateId: string) {
-  return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`).then(res =>
-    res.json()
-  )
+  return fetch(`${API_URL}/candidates/${candidateId}/interviews`).then(res => res.json())
 }
 
 function addInterview(
@@ -251,7 +243,7 @@ function addInterview(
   round: string,
   scored: boolean
 ) {
-  return fetch(`${API_URL}/candidates/${candidateId}/interviews?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${candidateId}/interviews`, {
     body: JSON.stringify({
       interviewerKey,
       candidateId,
@@ -276,7 +268,7 @@ function editInterview(
   overallScore: number,
   generalNotes: string
 ) {
-  return fetch(`${API_URL}/interviews/${interviewId}?key=${getKey()}`, {
+  return fetch(`${API_URL}/interviews/${interviewId}`, {
     body: JSON.stringify({
       sections,
       overallScore,
@@ -291,34 +283,34 @@ function editInterview(
 }
 
 function getAllInterviews() {
-  return fetch(`${API_URL}/interviews?key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/interviews`).then(res => res.json())
 }
 
 function getInterviewByID(id) {
-  return fetch(`${API_URL}/interviews/${id}?key=${getKey()}`)
+  return fetch(`${API_URL}/interviews/${id}`)
     .then(res => (res.ok ? res : Promise.reject(res)))
     .then(res => res.json())
 }
 
 function getAllInterviewingCandidateInterviews() {
-  return fetch(`${API_URL}/interviews?notRejected=True&&key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/interviews?notRejected=True`).then(res => res.json())
 }
 
 function deleteInterview(candidateId: string, interviewId: string) {
-  return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}`, {
     method: 'DELETE',
     mode: 'cors',
   }).then(res => res.json())
 }
 
 function getRound() {
-  return fetch(`${API_URL}/structure?key=${getKey()}`, {
+  return fetch(`${API_URL}/structure`, {
     method: 'GET',
   }).then(res => res.json())
 }
 
 function setRound(round: number) {
-  return fetch(`${API_URL}/structure?key=${getKey()}`, {
+  return fetch(`${API_URL}/structure`, {
     body: JSON.stringify({
       round,
     }),
@@ -332,7 +324,7 @@ function setRound(round: number) {
 
 function addReferral(candidateID: string) {
   console.log(`Adding referral for ${candidateID}`)
-  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals`, {
     method: 'POST',
     mode: 'cors',
   }).then(res => res.json())
@@ -340,7 +332,7 @@ function addReferral(candidateID: string) {
 
 function addStrongReferral(candidateID: string) {
   console.log(`Adding strong referral for ${candidateID}`)
-  return fetch(`${API_URL}/candidates/${candidateID}/strongReferrals?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${candidateID}/strongReferrals`, {
     method: 'POST',
     mode: 'cors',
   }).then(res => res.json())
@@ -348,14 +340,14 @@ function addStrongReferral(candidateID: string) {
 
 function deleteReferral(candidateID: string) {
   console.log(`Deleting referral for ${candidateID}`)
-  return fetch(`${API_URL}/candidates/${candidateID}/referrals?key=${getKey()}`, {
+  return fetch(`${API_URL}/candidates/${candidateID}/referrals`, {
     method: 'DELETE',
     mode: 'cors',
   }).then(res => res.json())
 }
 
 function getAllUsers() {
-  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+  return fetch(`${API_URL}/user/`, {
     method: 'GET',
     mode: 'cors',
   }).then(res => res.json())
@@ -363,7 +355,7 @@ function getAllUsers() {
 
 function addUser(firstName: string, lastName: string, userId: string, email: string, role: string) {
   console.log(`Writing user ${email} to internal database`)
-  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+  return fetch(`${API_URL}/user/`, {
     method: 'POST',
     body: JSON.stringify({
       firstName,
@@ -380,7 +372,7 @@ function addUser(firstName: string, lastName: string, userId: string, email: str
 }
 
 function updateUserRole(email: string, newRole: string) {
-  return fetch(`${API_URL}/user/?key=${getKey()}`, {
+  return fetch(`${API_URL}/user/`, {
     method: 'PUT',
     body: JSON.stringify({
       email,
@@ -448,7 +440,7 @@ export {
   getPastInterviews,
   getCandidateInterviews,
   generateSchedules,
-  validateKey,
+  validateUser,
   addInterview,
   editInterview,
   getCandidateById,
@@ -457,7 +449,6 @@ export {
   setCandidateStatus,
   getCandidatesByStatus,
   addCommentToCandidate,
-  getKey,
   getCandidates,
   getInterviewingCandidates,
   getAllInterviews,

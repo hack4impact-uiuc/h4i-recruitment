@@ -7,32 +7,22 @@ const { User } = require('../models')
 
 const router = express.Router()
 
-router.get(
-  '/verify_member',
-  errorWrap(async (req, res) => {
-    let keyVerified = false
-    const key = req.query.key
-    let foundUser = null
-    // removed && key.length === 11)
-    if (key) {
-      foundUser = await User.findOne({ userId: key })
-      keyVerified = foundUser.email != null
+router.get('/verify_member', (req, res) => {
+  console.log(req.user)
+  let statusCode = req.user ? 200 : 403
+  let message = req.user ? 'User is verified' : 'User did not pass verification'
+  res.status(statusCode).json({
+    code: statusCode,
+    message: message,
+    success: req.user !== undefined,
+    result: {
+      name: req.user ? req.user.firstName : undefined,
+      role: req.user ? req.user.role : undefined,
+      memberId: req.user ? req.user.memberId : undefined,
+      email: req.user ? req.user.email : undefined
     }
-    let statusCode = keyVerified ? 200 : 403
-    let message = keyVerified ? 'key is verified' : 'key did not pass verification'
-    res.status(statusCode).json({
-      code: statusCode,
-      message: message,
-      success: keyVerified,
-      result: {
-        name: foundUser.firstName,
-        role: foundUser.role,
-        memberId: foundUser.memberId,
-        email: foundUser.email
-      }
-    })
   })
-)
+})
 // useful route to get all interviews
 router.get(
   '/',
