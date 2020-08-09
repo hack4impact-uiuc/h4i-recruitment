@@ -11,10 +11,21 @@ const path = require('path')
 const fs = require('fs')
 const helmet = require('helmet')
 const passport = require('passport')
+const session = require('express-session');
+const connectMongo = require('connect-mongo')(session);
+
 const { errorHandler, auth } = require('./middleware')
 const routes = require('./routes')
 const loginRoute = require('./api/login')
+const MongoConnection = require('./mongoConnection')
+
 // Configure PassportJS
+mongoConnection = new MongoConnection()
+const appSession = session({
+  secret: process.env.SECRET,
+  store: new connectMongo({ mongooseConnection: mongoConnection.connection })
+});
+
 require('./middleware/passport')
 
 const app = express()
@@ -27,6 +38,7 @@ app.use(bodyParser.json({ limit: '50MB' }))
 app.use(
   require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true })
 )
+app.use(appSession);
 app.use(passport.initialize())
 app.use(passport.session())
 

@@ -1,16 +1,8 @@
 // this file connects to mongo and starts the express server
 const app = require('./app')
-const mongoose = require('mongoose')
+const MongoConnection = require('./mongoConnection')
 
-// connect to mongoose
-mongoose.connect(
-  process.env.MONGO_URL,
-  { useNewUrlParser: true }
-)
-
-mongoose.connection
-  .once('open', () => console.log('Connected to Mongo instance.'))
-  .on('error', error => console.log('Error connecting to MongoLab:', error))
+mongoConnection = new MongoConnection()
 
 const API_PORT = process.env.PORT === undefined ? 8080 : process.env.PORT
 // start server
