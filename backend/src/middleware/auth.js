@@ -9,8 +9,6 @@ const auth = async (req, res, next) => {
   // Can add this rule if wanted
 
   // check to see if URL is for register, since the key would not be recorded yet
-  console.log('heeeo')
-  console.log(req.user)
   if (req.method === 'POST' && req.url.includes('/user/')) {
     return next()
   } else if (req.user) {
