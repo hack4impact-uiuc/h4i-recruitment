@@ -222,7 +222,10 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 }
 
 function validateUser() {
-  return fetch(`${API_URL}/interviews/verify_member`).then(res => res.json())
+  return fetch(`${API_URL}/interviews/verify_member`, {
+    credentials: 'include',
+    mode: 'cors',
+  }).then(res => res.json())
 }
 
 function getPastInterviews(interviewerKey: string) {
