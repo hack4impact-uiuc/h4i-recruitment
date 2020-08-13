@@ -188,7 +188,7 @@ function setCandidateStatus(id: string, status: string) {
 }
 
 function getCandidatesByStatus(status: string) {
-  return fetch(`${API_URL}/candidates?status=${status}&&key=${getKey()}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates?status=${status}`).then(res => res.json())
 }
 
 function setMatchWinner(candidate1: string, candidate2: string, winnerID: string, matchID: string) {
