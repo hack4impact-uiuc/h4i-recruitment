@@ -9,7 +9,7 @@ import InterviewDetails from '../../components/interview/interviewDetails'
 import VerificationModal from '../../components/verificationModal'
 import Nav from '../../components/nav'
 import Head from '../../components/head'
-import { getKey, deleteInterview } from '../../utils/api'
+import { deleteInterview } from '../../utils/api'
 
 class InterviewDetailPage extends Component {
   constructor(props) {
@@ -79,7 +79,7 @@ class InterviewDetailPage extends Component {
         </>
       )
     }
-    const userKey = getKey()
+
     return (
       <>
         <Head
@@ -119,11 +119,9 @@ class InterviewDetailPage extends Component {
               <InterviewDetails interview={interview} />
             </Col>
             <Col md="3">
-              {userKey === interview.interviewer_key && (
-                <Button className="ml-2" color="danger" onClick={this.handleDeleteClick}>
-                  Delete
-                </Button>
-              )}
+              <Button className="ml-2" color="danger" onClick={this.handleDeleteClick}>
+                Delete
+              </Button>
             </Col>
           </Row>
         </Container>

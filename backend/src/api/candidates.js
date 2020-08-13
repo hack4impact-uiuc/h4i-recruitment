@@ -308,16 +308,25 @@ router.delete(
   '/:candidateId/interviews/:interviewId',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const response = 'Interview Deleted Sucessfully'
     const candidate = await Candidate.findById(req.params.candidateId)
-    await candidate.interviews.id(req.params.interviewId).remove()
-    await candidate.save() // save cascades down to subdocument
-    res.json({
-      code: 200,
-      message: response,
-      result: {},
-      success: true
-    })
+    const interview = await candidate.interviews.id(req.params.interviewId)
+    if (interview.interviewer_key === req._key) {
+      await interview.remove()
+      await candidate.save() // save cascades down to subdocument
+      res.json({
+        code: 200,
+        message: 'Interview Deleted Sucessfully',
+        result: {},
+        success: true
+      })
+    } else {
+      res.json({
+        code: 403,
+        message: 'You cannot delete this interview!',
+        result: {},
+        success: false
+      })
+    }
   })
 )
 
