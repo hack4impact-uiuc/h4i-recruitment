@@ -448,28 +448,6 @@ function updateServerUserRole(userEmail: string, newRole: string, password: stri
   })
 }
 
-function registerUser(email: string, password: string, role: string) {
-  console.log(`Creating new user: ${email}`)
-  return fetch(`${AUTH_API_URL}/register`, {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password,
-      role,
-    }),
-    headers: {
-      'content-type': 'application/json',
-    },
-  }).then(res => res.json())
-}
-
-function loginGoogleUser() {
-  console.log(`Logging in user with Google Auth`)
-  return fetch(`${API_URL}/login`, {
-    method: 'GET',
-  }).then(res => res.json())
-}
-
 export {
   createWorkspace,
   getWorkspaces,
@@ -508,8 +486,6 @@ export {
   deleteReferral,
   deleteAllSchedules,
   getAllInterviewingCandidateInterviews,
-  registerUser,
-  loginGoogleUser,
   getAllUsers,
   addUser,
   updateUserRole,
