@@ -59,11 +59,6 @@ class LoginPage extends Component {
             </a>
           </CardBody>
         </Card>
-        <div className="register-center-content">
-          <Button color="outline-primary" onClick={() => Router.push('/register')}>
-            {"Don't have an account? Register here!"}
-          </Button>
-        </div>
         <Modal autoFocus={false} isOpen={this.state.showInvalidRequestModal}>
           <ModalHeader>{'There was an error in your request.'}</ModalHeader>
           <ModalBody>{this.state.errorMessage || 'There was an error in your request'}</ModalBody>
