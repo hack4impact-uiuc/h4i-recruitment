@@ -228,8 +228,8 @@ function validateUser() {
   }).then(res => res.json())
 }
 
-function getPastInterviews(interviewerKey: string) {
-  return fetch(`${API_URL}/interviews/interviewer/${interviewerKey}`).then(res => res.json())
+function getPastInterviews() {
+  return fetch(`${API_URL}/interviews/interviewer/`).then(res => res.json())
 }
 
 function getCandidateInterviews(candidateId: string) {
