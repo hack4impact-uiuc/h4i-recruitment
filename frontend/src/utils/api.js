@@ -23,12 +23,15 @@ function createWorkspace(workspace) {
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
 
 function getWorkspaces() {
-  return fetch(`${API_URL}/workspaces`).then(res => res.json())
+  return fetch(`${API_URL}/workspaces`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function setCurrentCycle(cycleId, workspaceName) {
@@ -37,6 +40,7 @@ function setCurrentCycle(cycleId, workspaceName) {
       'content-type': 'application/json',
     },
     method: 'PUT',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
@@ -51,18 +55,21 @@ function createCycle(cycle) {
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
 
 function getCyclesByWorkspace(workspaceName, current) {
-  return fetch(`${API_URL}/cycle/workspace/${workspaceName}&current=${current}`).then(res =>
-    res.json()
-  )
+  return fetch(`${API_URL}/cycle/workspace/${workspaceName}&current=${current}`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function getAllEvents() {
-  return fetch(`${API_URL}/events`).then(res => res.json())
+  return fetch(`${API_URL}/events`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function createEvent(event) {
@@ -80,6 +87,7 @@ function createEvent(event) {
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
@@ -95,22 +103,28 @@ function eventCheckin(attendee, id: string) {
       'content-type': 'application/json',
     },
     method: 'PUT',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
 
 function getEventById(id: string) {
-  return fetch(`${API_URL}/events/${id}`).then(res => res.json())
+  return fetch(`${API_URL}/events/${id}`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function getEventAttendees(id: string) {
-  return fetch(`${API_URL}/events/${id}/attendees`).then(res => res.json())
+  return fetch(`${API_URL}/events/${id}/attendees`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 async function addInterviewerSchedules(file: File) {
   const scheduleString = await readUploadedFile(file)
   return fetch(`${API_URL}/schedule/uploadInterviewers/`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
     },
@@ -122,6 +136,7 @@ async function addCandidateSchedules(file: File) {
   const scheduleString = await readUploadedFile(file)
   return fetch(`${API_URL}/schedule/uploadCandidates/`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
     },
@@ -146,31 +161,41 @@ const readUploadedFile = inputFile => {
 }
 
 function generateSchedules() {
-  return fetch(`${API_URL}/schedule/generateSchedules`, { method: 'POST' }).then(res => res.json())
+  return fetch(`${API_URL}/schedule/generateSchedules`, {
+    method: 'POST',
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function getInterviewSchedule() {
-  return fetch(`${API_URL}/schedule`).then(res => res.json())
+  return fetch(`${API_URL}/schedule`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function deleteAllSchedules() {
-  return fetch(`${API_URL}/schedule`, { method: 'DELETE' }).then(res => res.json())
+  return fetch(`${API_URL}/schedule`, {
+    method: 'DELETE',
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function getCandidateById(id: string) {
-  return fetch(`${API_URL}/candidates/${id}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates/${id}`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function getCandidateMatch() {
-  return fetch(`${API_URL}/matchCandidates`).then(res => res.json())
+  return fetch(`${API_URL}/matchCandidates`, { credentials: 'include' }).then(res => res.json())
 }
 
 function getCandidates() {
-  return fetch(`${API_URL}/candidates`).then(res => res.json())
+  return fetch(`${API_URL}/candidates`, { credentials: 'include' }).then(res => res.json())
 }
 
 function getInterviewingCandidates() {
-  return fetch(`${API_URL}/candidates`).then(res => res.json())
+  return fetch(`${API_URL}/candidates`, { credentials: 'include' }).then(res => res.json())
 }
 
 function setCandidateStatus(id: string, status: string) {
@@ -183,12 +208,15 @@ function setCandidateStatus(id: string, status: string) {
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
 
 function getCandidatesByStatus(status: string) {
-  return fetch(`${API_URL}/candidates?status=${status}`).then(res => res.json())
+  return fetch(`${API_URL}/candidates?status=${status}`, { credentials: 'include' }).then(res =>
+    res.json()
+  )
 }
 
 function setMatchWinner(candidate1: string, candidate2: string, winnerID: string, matchID: string) {
@@ -203,6 +231,7 @@ function setMatchWinner(candidate1: string, candidate2: string, winnerID: string
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
@@ -217,6 +246,7 @@ function addCommentToCandidate(candidateID: string, comment: string) {
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
@@ -224,16 +254,19 @@ function addCommentToCandidate(candidateID: string, comment: string) {
 function validateUser() {
   return fetch(`${API_URL}/interviews/verify_member`, {
     credentials: 'include',
-    mode: 'cors',
   }).then(res => res.json())
 }
 
 function getPastInterviews() {
-  return fetch(`${API_URL}/interviews/interviewer/`).then(res => res.json())
+  return fetch(`${API_URL}/interviews/interviewer/`, {
+    credentials: 'include',
+  }).then(res => res.json())
 }
 
 function getCandidateInterviews(candidateId: string) {
-  return fetch(`${API_URL}/candidates/${candidateId}/interviews`).then(res => res.json())
+  return fetch(`${API_URL}/candidates/${candidateId}/interviews`, { credentials: 'include' }).then(
+    res => res.json()
+  )
 }
 
 function addInterview(
@@ -258,6 +291,7 @@ function addInterview(
     headers: {
       'content-type': 'application/json',
     },
+    credentials: 'include',
     method: 'POST',
     mode: 'cors',
   }).then(res => res.json())
@@ -279,34 +313,39 @@ function editInterview(
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
 
 function getAllInterviews() {
-  return fetch(`${API_URL}/interviews`).then(res => res.json())
+  return fetch(`${API_URL}/interviews`, { credentials: 'include' }).then(res => res.json())
 }
 
 function getInterviewByID(id) {
-  return fetch(`${API_URL}/interviews/${id}`)
+  return fetch(`${API_URL}/interviews/${id}`, { credentials: 'include' })
     .then(res => (res.ok ? res : Promise.reject(res)))
     .then(res => res.json())
 }
 
 function getAllInterviewingCandidateInterviews() {
-  return fetch(`${API_URL}/interviews?notRejected=True`).then(res => res.json())
+  return fetch(`${API_URL}/interviews?notRejected=True`, { credentials: 'include' }).then(res =>
+    res.json()
+  )
 }
 
 function deleteInterview(candidateId: string, interviewId: string) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews/${interviewId}`, {
     method: 'DELETE',
     mode: 'cors',
+    credentials: 'include',
   }).then(res => res.json())
 }
 
 function getRound() {
   return fetch(`${API_URL}/structure`, {
     method: 'GET',
+    credentials: 'include',
   }).then(res => res.json())
 }
 
@@ -319,6 +358,7 @@ function setRound(round: number) {
       'content-type': 'application/json',
     },
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
@@ -327,6 +367,7 @@ function addReferral(candidateID: string) {
   console.log(`Adding referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/referrals`, {
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
@@ -335,6 +376,7 @@ function addStrongReferral(candidateID: string) {
   console.log(`Adding strong referral for ${candidateID}`)
   return fetch(`${API_URL}/candidates/${candidateID}/strongReferrals`, {
     method: 'POST',
+    credentials: 'include',
     mode: 'cors',
   }).then(res => res.json())
 }
@@ -344,6 +386,7 @@ function deleteReferral(candidateID: string) {
   return fetch(`${API_URL}/candidates/${candidateID}/referrals`, {
     method: 'DELETE',
     mode: 'cors',
+    credentials: 'include',
   }).then(res => res.json())
 }
 
@@ -351,6 +394,7 @@ function getAllUsers() {
   return fetch(`${API_URL}/user/`, {
     method: 'GET',
     mode: 'cors',
+    credentials: 'include',
   }).then(res => res.json())
 }
 
@@ -369,6 +413,7 @@ function addUser(firstName: string, lastName: string, userId: string, email: str
       'content-type': 'application/json',
     },
     mode: 'cors',
+    credentials: 'include',
   }).then(res => res.json())
 }
 
@@ -383,6 +428,7 @@ function updateUserRole(email: string, newRole: string) {
       'content-type': 'application/json',
     },
     mode: 'cors',
+    credentials: 'include',
   }).then(res => res.json())
 }
 

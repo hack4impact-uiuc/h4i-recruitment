@@ -17,6 +17,7 @@ const auth = async (req, res, next) => {
     // check whether key is a director's, lead's, or member's key
     // this is used by the directorsOnly and membersOnly middleware
     if (req.user.role === 'Director') {
+      console.log('HI')
       req._is_director = true
       req._is_lead = true
       req._is_member = true
