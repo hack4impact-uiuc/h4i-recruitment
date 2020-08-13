@@ -13,7 +13,7 @@ const auth = async (req, res, next) => {
     return next()
   } else if (req.user) {
     req._key_name = req.user.firstName // set the user's name of the key that was used to make the request
-
+    req._key = req.user.userId
     // check whether key is a director's, lead's, or member's key
     // this is used by the directorsOnly and membersOnly middleware
     if (req.user.role === 'Director') {
