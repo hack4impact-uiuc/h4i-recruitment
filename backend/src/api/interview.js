@@ -8,7 +8,6 @@ const { User } = require('../models')
 const router = express.Router()
 
 router.get('/verify_member', (req, res) => {
-  console.log(req.user)
   let statusCode = req.user ? 200 : 403
   let message = req.user ? 'User is verified' : 'User did not pass verification'
   res.status(statusCode).json({

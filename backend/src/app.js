@@ -20,7 +20,7 @@ const loginRoute = require('./api/login')
 const MongoConnection = require('./mongoConnection')
 
 // Configure PassportJS
-mongoConnection = new MongoConnection()
+const mongoConnection = new MongoConnection()
 
 require('./middleware/passport')
 
