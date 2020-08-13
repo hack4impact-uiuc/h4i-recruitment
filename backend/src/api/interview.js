@@ -91,14 +91,14 @@ router.get(
 
 // get interviews based on interviewer
 router.get(
-  '/interviewer/:interviewer_key',
+  '/interviewer',
   errorWrap(async (req, res) => {
     let interviews = []
     const candidates = await Candidate.find()
     for (var idx = 0; idx < candidates.length; idx++) {
       if (candidates[idx].interviews.length !== 0) {
         const filtered = candidates[idx].interviews.filter(
-          interview => interview.interviewer_key === req.params.interviewer_key
+          interview => interview.interviewer_key === req._key
         )
         interviews.push(...filtered)
       }
@@ -132,12 +132,10 @@ router.get(
 )
 
 router.get(
-  '/past-interviews/:interviewer_key',
+  '/past-interviews',
   errorWrap(async (req, res) => {
     const interviews = await Interview.find()
-    const retInterviews = interviews.filter(
-      interview => interview.interviewer_key === req.params.interviewer_key
-    )
+    const retInterviews = interviews.filter(interview => interview.interviewer_key === req._key)
 
     let statusCode = retInterviews ? 200 : 400
 
