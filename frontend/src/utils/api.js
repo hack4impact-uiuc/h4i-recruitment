@@ -237,7 +237,6 @@ function getCandidateInterviews(candidateId: string) {
 }
 
 function addInterview(
-  interviewerKey: string,
   candidateId: string,
   candidateName: string,
   overallScore: number,
@@ -248,7 +247,6 @@ function addInterview(
 ) {
   return fetch(`${API_URL}/candidates/${candidateId}/interviews`, {
     body: JSON.stringify({
-      interviewerKey,
       candidateId,
       candidateName,
       overallScore,

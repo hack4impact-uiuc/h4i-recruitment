@@ -24,7 +24,7 @@ import { ErrorMessage } from '../components/common'
 import InterviewSectionCard from '../components/interview/interviewSectionCard'
 import VerificationModal from '../components/verificationModal'
 import InterviewSectionModular from '../components/interviewSectionModular'
-import { getKey, addInterview, getCandidates } from '../utils/api'
+import { addInterview, getCandidates } from '../utils/api'
 import roundData from '../data/roundData'
 import Nav from '../components/nav'
 import Head from '../components/head'
@@ -113,7 +113,6 @@ class Interview extends Component<Props> {
       alert(msg)
     } else {
       await addInterview(
-        getKey(),
         this.props.candidateId,
         this.props.candidateName,
         overallScore,

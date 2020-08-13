@@ -195,7 +195,7 @@ router.post(
     const data = req.body
     let response = 'Interview Added Sucessfully'
     let code = 404
-    let interviewerKey = data.interviewerKey
+    let interviewerKey = req._key
     let reqSections = data.sections
     let candidateId = data.candidateId
     let candidateName = data.candidateName
