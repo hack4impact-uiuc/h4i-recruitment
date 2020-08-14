@@ -1,7 +1,6 @@
 //@flow
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
-import { getCookie } from './cookieUtils'
 const { publicRuntimeConfig } = getConfig()
 
 const API_PORT = publicRuntimeConfig.BACKEND_PORT
@@ -11,8 +10,6 @@ const API_URL =
     ? 'https://h4i-recruitment.now.sh/api'
     : `http://localhost:${API_PORT}/api` // make sure your backend is running on this port.
 // if your frontend can't connect, try the normal IP
-
-const AUTH_API_URL = 'https://h4i-portal-infra-server.now.sh'
 
 function createWorkspace(workspace) {
   return fetch(`${API_URL}/workspaces`, {
@@ -432,22 +429,6 @@ function updateUserRole(email: string, newRole: string) {
   }).then(res => res.json())
 }
 
-function updateServerUserRole(userEmail: string, newRole: string, password: string) {
-  return fetch(`${AUTH_API_URL}/roleschange`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      token: getCookie('token'),
-      google: false,
-    },
-    body: JSON.stringify({
-      password,
-      userEmail,
-      newRole,
-    }),
-  })
-}
-
 export {
   createWorkspace,
   getWorkspaces,
@@ -489,5 +470,4 @@ export {
   getAllUsers,
   addUser,
   updateUserRole,
-  updateServerUserRole,
 }

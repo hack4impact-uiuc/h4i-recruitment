@@ -59,19 +59,12 @@ class AdminRoles extends React.Component {
   }
 
   handlePasswordComplete = () => {
-    const { users, selectedUser, newRole, adminPassword } = this.state
+    const { users, selectedUser, newRole } = this.state
 
-    updateServerUserRole(users[selectedUser].email, newRole, adminPassword).then(resp => {
-      console.log(resp)
-      if (resp.status != 400) {
-        updateUserRole(users[selectedUser].email, newRole).then(resp => {
-          if (resp.success) {
-            this.setState({ newRole: -1, selectedUser: -1, showPasswordModal: false })
-            this.getUsers()
-          } else {
-            this.setState({ error: resp.message })
-          }
-        })
+    updateUserRole(users[selectedUser].email, newRole).then(resp => {
+      if (resp.success) {
+        this.setState({ newRole: -1, selectedUser: -1, showPasswordModal: false })
+        this.getUsers()
       } else {
         this.setState({ error: resp.message })
       }
@@ -79,15 +72,7 @@ class AdminRoles extends React.Component {
   }
 
   render() {
-    const {
-      users,
-      isEditing,
-      newRole,
-      selectedUser,
-      adminPassword,
-      showPasswordModal,
-      error,
-    } = this.state
+    const { users, isEditing, newRole, selectedUser, showPasswordModal, error } = this.state
     return (
       <>
         <Head title="Home" />
@@ -159,28 +144,8 @@ class AdminRoles extends React.Component {
           </CardBody>
         </Card>
         <Modal autoFocus={false} isOpen={showPasswordModal}>
-          <ModalHeader>{'Please enter your password.'}</ModalHeader>
           <ModalBody>
-            <Form>
-              <FormGroup>
-                <Label for="examplePassword">Password</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  value={adminPassword}
-                  onChange={this.handleChange}
-                  required
-                />
-              </FormGroup>
-            </Form>
-            {error != '' && (
-              <>
-                <p>There was an error with your request. Please try again.</p>
-                <p>{error}</p>
-              </>
-            )}
-          </ModalBody>
-          <ModalFooter>
+            <h2>Are you sure you want to change their role?</h2>
             <Button
               color="success"
               size="sm"
@@ -197,9 +162,9 @@ class AdminRoles extends React.Component {
               }
               color="secondary"
             >
-              x
+              Cancel
             </Button>
-          </ModalFooter>
+          </ModalBody>
         </Modal>
       </>
     )
