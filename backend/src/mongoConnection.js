@@ -8,7 +8,10 @@ class MongoConnection {
     MongoConnection._instance = this
 
     // connect to mongoose
-    mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
+    mongoose.connect(
+      process.env.MONGO_URL,
+      { useNewUrlParser: true }
+    )
 
     this.connection = mongoose.connection
 
