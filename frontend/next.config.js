@@ -9,7 +9,4 @@ module.exports = {
   publicRuntimeConfig: {
     BACKEND_PORT: process.env.BACKEND_PORT === undefined ? 8080 : process.env.BACKEND_PORT,
   },
-  env: {
-    REACT_APP_API_URI: 'http://localhost:8080',
-  },
 }
