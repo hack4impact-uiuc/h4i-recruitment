@@ -54,7 +54,7 @@ class LoginPage extends Component {
             <h3 className="register-center-content">Login</h3>
           </CardTitle>
           <CardBody>
-            <a className="action-button blue" href={getURLForEndpoint('api/login')}>
+            <a className="action-button blue" href={getURLForEndpoint('/login')}>
               Google Login
             </a>
           </CardBody>

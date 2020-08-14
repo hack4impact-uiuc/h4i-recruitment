@@ -1,6 +1,6 @@
 // import urljoin from 'url-join'
-
-const API_URI = process.env.REACT_APP_API_URI ? process.env.REACT_APP_API_URI : '/'
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
 
 // export const getURLForEndpoint = endpoint => urljoin(API_URI, endpoint)
-export const getURLForEndpoint = endpoint => `${API_URI}${endpoint}`
+export const getURLForEndpoint = endpoint => `${publicRuntimeConfig.API_URL}${endpoint}`

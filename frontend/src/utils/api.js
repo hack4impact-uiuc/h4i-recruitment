@@ -4,12 +4,7 @@ import getConfig from 'next/config'
 const { publicRuntimeConfig } = getConfig()
 
 const API_PORT = publicRuntimeConfig.BACKEND_PORT
-
-const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://h4i-recruitment.now.sh/api'
-    : `http://localhost:${API_PORT}/api` // make sure your backend is running on this port.
-// if your frontend can't connect, try the normal IP
+const API_URL = publicRuntimeConfig.API_URL
 
 function createWorkspace(workspace) {
   return fetch(`${API_URL}/workspaces`, {
