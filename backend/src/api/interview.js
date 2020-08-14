@@ -57,6 +57,31 @@ router.get(
   })
 )
 
+// get interviews based on interviewer
+router.get(
+  '/interviewer',
+  errorWrap(async (req, res) => {
+    let interviews = []
+    const candidates = await Candidate.find()
+    for (var idx = 0; idx < candidates.length; idx++) {
+      if (candidates[idx].interviews.length !== 0) {
+        const filtered = candidates[idx].interviews.filter(
+          interview => interview.interviewer_key === req._key
+        )
+        interviews.push(...filtered)
+      }
+    }
+    let statusCode = interviews ? 200 : 400
+
+    res.status(statusCode).json({
+      code: statusCode,
+      message: '',
+      result: interviews,
+      success: true
+    })
+  })
+)
+
 // get interview based on id
 router.get(
   '/:interview_id',
@@ -89,30 +114,6 @@ router.get(
   })
 )
 
-// get interviews based on interviewer
-router.get(
-  '/interviewer',
-  errorWrap(async (req, res) => {
-    let interviews = []
-    const candidates = await Candidate.find()
-    for (var idx = 0; idx < candidates.length; idx++) {
-      if (candidates[idx].interviews.length !== 0) {
-        const filtered = candidates[idx].interviews.filter(
-          interview => interview.interviewer_key === req._key
-        )
-        interviews.push(...filtered)
-      }
-    }
-    let statusCode = interviews ? 200 : 400
-
-    res.status(statusCode).json({
-      code: statusCode,
-      message: '',
-      result: interviews,
-      success: true
-    })
-  })
-)
 // BELOW ARE LEGACY ENDPOINTS - they still work but will be removed shortly
 router.get(
   '/candidate-interviews/:candidate_id',
