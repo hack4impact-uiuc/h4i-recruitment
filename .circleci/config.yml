@@ -2,7 +2,7 @@ version: 2
 jobs:
   frontend_lint:
     docker:
-      - image: node:14.5.0
+      - image: circleci/node:14.5.0
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
