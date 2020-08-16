@@ -424,6 +424,11 @@ function updateUserRole(email: string, newRole: string) {
   }).then(res => res.json())
 }
 
+function logout() {
+  return fetch(`${API_URL}/logout`, { credentials: 'include', method: 'POST' }).then(res =>
+    res.json()
+  )
+}
 export {
   createWorkspace,
   getWorkspaces,
@@ -465,4 +470,5 @@ export {
   getAllUsers,
   addUser,
   updateUserRole,
+  logout,
 }

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { Navbar, Nav, NavbarBrand, NavbarToggler, Collapse, NavItem } from 'reactstrap'
 import { connect } from 'react-redux'
-import { validateUser, getRound } from '../utils/api'
+import { validateUser, getRound, logout } from '../utils/api'
 import roundData from '../data/roundData.js'
 import { setRoundRedux } from '../actions'
 import { bindActionCreators } from 'redux'
@@ -32,7 +32,8 @@ class NavigationBar extends Component {
     }
   }
 
-  logout = () => {
+  logout = async () => {
+    await logout()
     this.setState({ loggedIn: false })
     alert('Logged Out!')
     Router.push('/')

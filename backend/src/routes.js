@@ -12,7 +12,7 @@ const {
   attendees,
   workspaces,
   userRoles,
-  login
+  logout
 } = require('./api')
 var XLSX = require('xlsx')
 
@@ -33,5 +33,6 @@ router.use('/events', events)
 router.use('/attendees', attendees)
 router.use('/workspaces', workspaces)
 router.use('/user', userRoles)
+router.use('/logout', logout)
 
 module.exports = router
