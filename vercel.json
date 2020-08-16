@@ -3,7 +3,6 @@
   "regions": ["iad1"],
   "name": "h4i-recruitment",
   "alias": "h4i-recruitment.now.sh",
-  "cleanUrls": true,
   "builds": [
     {
       "src": "backend/src/index.js",
@@ -24,8 +23,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/$1",
-      "continue": true
+      "dest": "frontend/$1"
     }
   ],
   "env": {
