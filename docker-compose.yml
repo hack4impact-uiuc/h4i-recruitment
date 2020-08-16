@@ -21,6 +21,7 @@ services:
       # note that when reinstalling modules, we need to remove this volume
       - be_modules:/usr/src/app/node_modules
     command: yarn dev
+    restart: always
     tty: true
 
   frontend:
@@ -43,6 +44,7 @@ services:
       # note that when reinstalling modules, we need to remove this volume
       - fe_modules:/usr/src/app/node_modules
     command: yarn dev
+    restart: always
     tty: true
 
   db:

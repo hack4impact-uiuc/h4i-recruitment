@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js --watch src  --ignore src/logs",
+    "dev": "nodemon -L src/index.js --watch src  --ignore src/logs",
     "parse": "node src/utils/parseSheet.js",
     "format": "prettier --write '{src,tests}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,tests}/**/*.js\"",
