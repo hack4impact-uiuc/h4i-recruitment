@@ -30,22 +30,19 @@ const populateAuthFieldsForReq = req => {
   req._key = req.user.userId
   // check whether key is a director's, lead's, or member's key
   // this is used by the directorsOnly and membersOnly middleware
-  if (req.user.role === 'Director') {
+  req._is_director = false
+  req._is_lead = false
+  req._is_member = false
+
+  if (req.user.role === 'Member') {
+    req._is_member = true
+  } else if (req.user.role === 'Lead') {
+    req._is_lead = true
+    req._is_member = true
+  } else if (req.user.role === 'Director') {
     req._is_director = true
     req._is_lead = true
     req._is_member = true
-  } else if (req.user.role === 'Lead') {
-    req._is_director = false
-    req._is_lead = true
-    req._is_member = true
-  } else if (req.user.role === 'Member') {
-    req._is_director = false
-    req._is_lead = false
-    req._is_member = true
-  } else {
-    req._is_director = false
-    req._is_lead = false
-    req._is_member = false
   }
 }
 

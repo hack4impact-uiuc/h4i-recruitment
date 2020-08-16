@@ -61,17 +61,17 @@ router.get(
 router.get(
   '/interviewer',
   errorWrap(async (req, res) => {
-    let interviews = []
+    const interviews = []
     const candidates = await Candidate.find()
-    for (var idx = 0; idx < candidates.length; idx++) {
-      if (candidates[idx].interviews.length !== 0) {
-        const filtered = candidates[idx].interviews.filter(
+    candidates.forEach(candidate => {
+      if (candidate.interviews.length !== 0) {
+        const filtered = candidate.interviews.filter(
           interview => interview.interviewer_key === req._key
         )
         interviews.push(...filtered)
       }
-    }
-    let statusCode = interviews ? 200 : 400
+    })
+    const statusCode = interviews ? 200 : 400
 
     res.status(statusCode).json({
       code: statusCode,
