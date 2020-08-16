@@ -1,8 +1,4 @@
-const request = require('supertest')
-const app = require('../src/app')
-const sinon = require('sinon')
-const { Candidate } = require('../src/models')
-const { expect, assert } = require('chai')
+const { assert } = require('chai')
 const { getGithubContributions } = require('../src/utils/gitScraper')
 
 describe('getGithubContributions', () => {

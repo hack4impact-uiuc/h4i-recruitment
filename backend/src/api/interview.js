@@ -7,32 +7,21 @@ const { User } = require('../models')
 
 const router = express.Router()
 
-router.get(
-  '/verify_member',
-  errorWrap(async (req, res) => {
-    let keyVerified = false
-    const key = req.query.key
-    let foundUser = null
-    // removed && key.length === 11)
-    if (key) {
-      foundUser = await User.findOne({ userId: key })
-      keyVerified = foundUser.email != null
+router.get('/verify_member', (req, res) => {
+  let statusCode = req.user ? 200 : 403
+  let message = req.user ? 'User is verified' : 'User did not pass verification'
+  res.status(statusCode).json({
+    code: statusCode,
+    message: message,
+    success: req.user !== undefined,
+    result: {
+      name: req.user ? req.user.firstName : undefined,
+      role: req.user ? req.user.role : undefined,
+      memberId: req.user ? req.user.memberId : undefined,
+      email: req.user ? req.user.email : undefined
     }
-    let statusCode = keyVerified ? 200 : 403
-    let message = keyVerified ? 'key is verified' : 'key did not pass verification'
-    res.status(statusCode).json({
-      code: statusCode,
-      message: message,
-      success: keyVerified,
-      result: {
-        name: foundUser.firstName,
-        role: foundUser.role,
-        memberId: foundUser.memberId,
-        email: foundUser.email
-      }
-    })
   })
-)
+})
 // useful route to get all interviews
 router.get(
   '/',
@@ -61,6 +50,31 @@ router.get(
 
     res.json({
       code: 200,
+      message: '',
+      result: interviews,
+      success: true
+    })
+  })
+)
+
+// get interviews based on interviewer
+router.get(
+  '/interviewer',
+  errorWrap(async (req, res) => {
+    const interviews = []
+    const candidates = await Candidate.find()
+    candidates.forEach(candidate => {
+      if (candidate.interviews.length !== 0) {
+        const filtered = candidate.interviews.filter(
+          interview => interview.interviewer_key === req._key
+        )
+        interviews.push(...filtered)
+      }
+    })
+    const statusCode = interviews ? 200 : 400
+
+    res.status(statusCode).json({
+      code: statusCode,
       message: '',
       result: interviews,
       success: true
@@ -100,30 +114,6 @@ router.get(
   })
 )
 
-// get interviews based on interviewer
-router.get(
-  '/interviewer/:interviewer_key',
-  errorWrap(async (req, res) => {
-    let interviews = []
-    const candidates = await Candidate.find()
-    for (var idx = 0; idx < candidates.length; idx++) {
-      if (candidates[idx].interviews.length !== 0) {
-        const filtered = candidates[idx].interviews.filter(
-          interview => interview.interviewer_key === req.params.interviewer_key
-        )
-        interviews.push(...filtered)
-      }
-    }
-    let statusCode = interviews ? 200 : 400
-
-    res.status(statusCode).json({
-      code: statusCode,
-      message: '',
-      result: interviews,
-      success: true
-    })
-  })
-)
 // BELOW ARE LEGACY ENDPOINTS - they still work but will be removed shortly
 router.get(
   '/candidate-interviews/:candidate_id',
@@ -143,12 +133,10 @@ router.get(
 )
 
 router.get(
-  '/past-interviews/:interviewer_key',
+  '/past-interviews',
   errorWrap(async (req, res) => {
     const interviews = await Interview.find()
-    const retInterviews = interviews.filter(
-      interview => interview.interviewer_key === req.params.interviewer_key
-    )
+    const retInterviews = interviews.filter(interview => interview.interviewer_key === req._key)
 
     let statusCode = retInterviews ? 200 : 400
 

@@ -1,22 +1,8 @@
 const mongoose = require('mongoose')
-const { MongoMemoryServer } = require('mongodb-memory-server')
 const { User } = require('../src/models')
 
-let mongoServer
-
 before(async () => {
-  mongoServer = new MongoMemoryServer()
-  const mongoUri = await mongoServer.getConnectionString()
-  await mongoose.connect(
-    mongoUri,
-    {},
-    err => {
-      if (err) {
-        return
-      }
-    }
-  )
-
+  await User.deleteMany({})
   await User.insertMany([
     {
       firstName: 'Member',
@@ -58,5 +44,4 @@ before(async () => {
 
 after(() => {
   mongoose.disconnect()
-  mongoServer.stop()
 })

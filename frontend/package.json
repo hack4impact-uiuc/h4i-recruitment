@@ -33,7 +33,8 @@
     "reactstrap": "^8.0.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
-    "sort-json-array": "^0.1.7"
+    "sort-json-array": "^0.1.7",
+    "url-join": "^4.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
@@ -48,10 +49,5 @@
     "husky": "^3.0.3",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.11.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   }
 }

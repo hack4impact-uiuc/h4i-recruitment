@@ -10,15 +10,37 @@ const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
 const helmet = require('helmet')
+const passport = require('passport')
+const session = require('express-session')
+const connectMongo = require('connect-mongo')(session)
+
 const { errorHandler, auth } = require('./middleware')
 const routes = require('./routes')
+const loginRoute = require('./api/login')
+const MongoConnection = require('./mongoConnection')
+
+// Configure PassportJS
+const mongoConnection = new MongoConnection()
+
+require('./middleware/passport')
 
 const app = express()
 
 // must be before routes
 app.use(helmet())
-app.use(cors())
+app.use(cors({ origin: /localhost:\d{4}/, credentials: true }))
+app.use(require('cookie-parser')())
 app.use(bodyParser.json({ limit: '50MB' }))
+app.use(
+  require('express-session')({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    store: new connectMongo({ mongooseConnection: mongoConnection.connection })
+  })
+)
+app.use(passport.initialize())
+app.use(passport.session())
 
 if (process.env.NODE_ENV !== 'production') {
   // Setup logging
@@ -35,8 +57,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 // STDOUT log
 app.use(morgan('dev'))
+app.use('/api/login', loginRoute)
 // verifies user
-app.use(auth)
+app.use((req, res, next) => auth.validateRequest(req, res, next))
 
 app.use('/api/', routes)
 

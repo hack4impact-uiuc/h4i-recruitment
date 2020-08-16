@@ -9,6 +9,8 @@ const events = require('./events')
 const attendees = require('./attendees')
 const workspaces = require('./workspaces')
 const userRoles = require('./userRoles')
+const login = require('./login')
+const logout = require('./logout')
 
 module.exports = {
   candidates,
@@ -21,5 +23,7 @@ module.exports = {
   events,
   attendees,
   workspaces,
-  userRoles
+  userRoles,
+  login,
+  logout
 }

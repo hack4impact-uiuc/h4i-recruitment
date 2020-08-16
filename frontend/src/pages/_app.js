@@ -5,6 +5,7 @@ import withRedux from 'next-redux-wrapper'
 import { PageTransition } from 'next-page-transitions'
 import configureStore from '../store/appStore'
 import { ErrorMessage } from '../components/common'
+import '../../public/style.css'
 
 export default withRedux(configureStore, {
   debug: process.env.DEBUG_REDUX === undefined ? false : process.env.DEBUG_REDUX === 'true',
@@ -32,7 +33,7 @@ export default withRedux(configureStore, {
     render() {
       const { Component, pageProps, store } = this.props
       return (
-        <Container>
+        <>
           <Provider store={store}>
             <>
               {this.state.hasError ? (
@@ -65,7 +66,7 @@ export default withRedux(configureStore, {
               }
             `}
           </style>
-        </Container>
+        </>
       )
     }
   }

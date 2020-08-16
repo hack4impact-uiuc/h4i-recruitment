@@ -1,4 +1,7 @@
-const { Candidate, Match } = require('../src/models')
+const sinon = require('sinon')
+const auth = require('../src/middleware/auth')
+const { Candidate, Match, User } = require('../src/models')
+const { populateAuthFieldsForReq } = require('../src/middleware/auth')
 
 const KEY = 'director'
 const NONLEAD_KEY = 'member'
@@ -12,6 +15,17 @@ const candidateIds = num => {
 // Build unique mongo ObjectId for match given index of match
 const matchIds = num => {
   return (num + 1 + '00000000000000000000000').slice(0, 24)
+}
+
+const stubAuthUser = usr => {
+  const currentUser = new User({ role: 'Director', ...usr })
+  const myStub = sinon.stub(auth, 'validateRequest')
+  myStub.callsFake((req, res, next) => {
+    req.user = currentUser
+    populateAuthFieldsForReq(req)
+    next()
+  })
+  return currentUser
 }
 
 // Creates n candidates given 2 arrays of length n which contain the number of
@@ -50,9 +64,6 @@ const createMatches = async matches => {
   await Match.insertMany(query)
 }
 
-const getAuthMiddlewareRequestStub = key => ({ query: { key: key }, url: '' })
-const getLeadsOnlyMiddlewareRequestStub = (key, isLead) => ({ _key: key, _is_lead: isLead })
-
 module.exports = {
   candidateIds,
   createCandidates,
@@ -60,6 +71,5 @@ module.exports = {
   matchIds,
   KEY,
   NONLEAD_KEY,
-  getAuthMiddlewareRequestStub,
-  getLeadsOnlyMiddlewareRequestStub
+  stubAuthUser
 }
