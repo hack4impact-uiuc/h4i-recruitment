@@ -53,7 +53,7 @@ const populateDB = async () => {
       'I chose software developer because I want to focus on programming and improve my skills, while also learning more about the design process. I am a good fit for this role because I have taken all the essential programming courses and have had industry experience in building a web app from the ground up using current technologies and practices.',
     joinReason: 'I hope learn while also being able to give back.',
     timeCommitment: 'Hack Illinois',
-    techExperience: 'Partial(https://github.com/ahmedammar841/Partial), CS 125, CS 126',
+    techExperience: 'Partial(link), CS 125, CS 126',
     howTheyKnowUs: 'Info Session',
     additionalComments: ''
   })
@@ -81,7 +81,7 @@ const populateDB = async () => {
       "Up to now most of my projects are personal projects, which means it's the end of story when they were finished. I want to build things that people will actually use as products, that will have real-world impact. I hope my communication and cooperation skills will be improved through the team work at Hack4Impact.",
     timeCommitment: 'Class: CS425, CS374, CS411, CS543, Org: CESA project committee member',
     techExperience:
-      "Classes taken: CS125, CS126, CS173, CS225, CS233, CS241, CS296-41, CS357, CS446, STAT400, STAT410 Projects: DSSHFS - a distributed ssh file system.link: https://github.com/zd-project/sshfs_cs241honor UIUC Course Review - an Android app for looking up course info and write / read course reviews.no link available Reddit Score Predictor - a predictive model for scores of reddit posts based on posts' content. link: https://github.com/andyclee/redditSentiment Fake News Detection - a classification model for classifying news as agree, disagree, discuss and unrelated based on news body and news title.no link available. RideFinder - currently developing a ride finder mini - program based on weChat, the most popular social app in China.no link available.",
+      "Classes taken: CS125, CS126, CS173, CS225, CS233, CS241, CS296-41, CS357, CS446, STAT400, STAT410 Projects: DSSHFS - a distributed ssh file system.link: (link) UIUC Course Review - an Android app for looking up course info and write / read course reviews.no link available Reddit Score Predictor - a predictive model for scores of reddit posts based on posts' content. link: (link) Fake News Detection - a classification model for classifying news as agree, disagree, discuss and unrelated based on news body and news title.no link available. RideFinder - currently developing a ride finder mini - program based on weChat, the most popular social app in China.no link available.",
     howTheyKnowUs: 'Facebook',
     additionalComments: "I'm ok with web projects but would prefer data science projects. "
   })
@@ -191,7 +191,7 @@ const populateDB = async () => {
     joinReason: 'I would like to learn as much as I can and gain all the experience I can.',
     timeCommitment: 'HackIllinois and CS 125 CA',
     techExperience:
-      "Classes: - CS 125 -CS 126 -CS 173 -CS 196 Projects: XCram: a study plan app that compiles a week's worth of content given a topic to study for. BackBeat: a new take on the metronome, with features that tell the user exactly where they deviate from the needed tempo. Keyboard Hero: A web version of GuitarHero where the user can program their own song. HomEats: A web application that connects local home cooks to hungry individuals.Utilizing the Google maps API for web we created a user interface through React.js and retain user information, we connected our project to FireBase. - https://k-ravuri.github.io/",
+      "Classes: - CS 125 -CS 126 -CS 173 -CS 196 Projects: XCram: a study plan app that compiles a week's worth of content given a topic to study for. BackBeat: a new take on the metronome, with features that tell the user exactly where they deviate from the needed tempo. Keyboard Hero: A web version of GuitarHero where the user can program their own song. HomEats: A web application that connects local home cooks to hungry individuals.Utilizing the Google maps API for web we created a user interface through React.js and retain user information, we connected our project to FireBase. - (link)",
     howTheyKnowUs: 'Friend/Word of mouth',
     additionalComments: ''
   })
@@ -276,7 +276,7 @@ const populateDB = async () => {
       'I have always been interested in the overlap of technology and humanitarian work. Computer science is a powerful tool that can be utilized to help others and I would like to be a part of this. I was an active volunteer for multiple organizations in high school and I would like to continue making positive change in college. I am passionate about both technology and making a positive difference in the lives of others, and there is no reason those should be mutually exclusive. Hack4Impact is a great way to opportunity to pursue my goal, and also allows me to interact with other experienced individuals to learn more about computer science. ',
     timeCommitment: 'Classes: CS 126, CS 173, Math 241, PHYS 212,  Clubs: ACM (ADSA Projects)  ',
     techExperience:
-      'AP Computer Science (High School), Internship with DigiSight Technologies, Virtual Reality Education Project, NBA Player Comparison Tool, Liddup Music App,  https://github.com/gauravsharma1999',
+      'AP Computer Science (High School), Internship with DigiSight Technologies, Virtual Reality Education Project, NBA Player Comparison Tool, Liddup Music App,  (link)',
     howTheyKnowUs: 'Friend/Word of mouth',
     additionalComments: ''
   })
@@ -504,7 +504,7 @@ const populateDB = async () => {
     timeCommitment:
       'Current Classes: CS 173, CS 126, STAT 400, MATH 415, HIST 120 (16 Hours Total) Leadership Positions: NOBE(Technology Chair), SASE(Affiliate Committee Representative)',
     techExperience:
-      'Technical Classes Taken: CS 125, CS 196 Internships: Benison Technologies, IITGuide(Partial code available on GitHub) Other Projects: SchoolHub, gAIme(Available on GitHub) Personal Portfolio: https://ashankv.github.io/personal_website/',
+      'Technical Classes Taken: CS 125, CS 196 Internships: Benison Technologies, IITGuide(Partial code available on GitHub) Other Projects: SchoolHub, gAIme(Available on GitHub) Personal Portfolio: (link)',
     howTheyKnowUs: 'Info Session',
     additionalComments: ''
   })
@@ -875,7 +875,7 @@ const populateDB = async () => {
 //       timeCommitment:
 //       'I am currently a CA and Lab Assistant for CS 125. This is a 5 hour/week commitment.',
 //       techExperience:
-//       'CS 125 CS 196 AP CS CMSC 122(Web Development at University of Maryland) personal website built from scratch: rishumusic.com CS 125 class project, snakes and ladders: https://github.com/rbagga/SnakesLadders',
+//       'CS 125 CS 196 AP CS CMSC 122(Web Development at University of Maryland) personal website built from scratch: rishumusic.com CS 125 class project, snakes and ladders: (link)',
 //       howTheyKnowUs: 'Info Session',
 //       additionalComments: 'Very excited to join this club, if accepted!'
 //   })
@@ -903,7 +903,7 @@ const populateDB = async () => {
 //       '2. I want to join Hack4Impact because I desire to join an organization that is focused on building web applications in a real life setting. Being able to join a community of students working towards useful projects for nonprofits really appeals to me. I hope to become a more experienced software developer while working on a team towards a full project. I feel that being around like-minded students will allow me to become a better developer and help me in the future.',
 //       timeCommitment: 'ECE 385, ECE 313, INFO 490',
 //       techExperience:
-//       'ECE 120, ECE 220, CS 225, CS 173, World Adventures, To-do list, https://github.com/vsrivatsan53',
+//       'ECE 120, ECE 220, CS 225, CS 173, World Adventures, To-do list, (link)',
 //       howTheyKnowUs: 'Facebook',
 //       additionalComments: ''
 //   })
@@ -932,7 +932,7 @@ const populateDB = async () => {
 //       timeCommitment:
 //       '14 credit hours. Siebel Center for Design Intern.  Interviewing with Design For America.  ',
 //       techExperience:
-//       'Classes: IS 351 Design Info Interfaces, Intro to Graphic Design, and Typography. Currently in TE 333 Creativity, Innovation, and Vision Side Projects: Mostly mobile.On portfolio. Portfolio: https://suryaamurali.voog.com/design  ',
+//       'Classes: IS 351 Design Info Interfaces, Intro to Graphic Design, and Typography. Currently in TE 333 Creativity, Innovation, and Vision Side Projects: Mostly mobile.On portfolio. Portfolio: (link)  ',
 //       howTheyKnowUs: 'Hack4Impact event @ Airbnb ',
 //       additionalComments: 'Hope to hear back soon! This org is cool ! :D'
 //   })
@@ -1160,7 +1160,7 @@ const populateDB = async () => {
 //       timeCommitment:
 //       "No classes, just graduate research and writing my MS thesis. I'll eventually be interviewing while looking for a full time job.",
 //       techExperience:
-//       'Facebook CUMTD transit chatbot: https://github.com/alex-wuu/cumtd-chatbot Droprecognition used to measure drop during condensation.Currently used in my graduate research: https://github.com/alex-wuu/detect-drop',
+//       'Facebook CUMTD transit chatbot: (link) Droprecognition used to measure drop during condensation.Currently used in my graduate research: (link)',
 //       howTheyKnowUs: 'Authorized Agent #1',
 //       additionalComments: "I haven't taken CS125/ECE220, but I can cook."
 //   })
@@ -1388,7 +1388,7 @@ const populateDB = async () => {
 //     timeCommitment:
 //       'Classes currently: Stat 410, Math 416, Stat 200, Atms 120, Kin 142 Extracurricular currently: Involved in Illini Statistics Club',
 //     techExperience:
-//       'Judlau Contracting Incorporated - Engineering Intern (SQL) Baller Runners Application(https://github.com/aarnika/BallerRunnersApp) Technical classes: CS 125, 126, 173',
+//       'Judlau Contracting Incorporated - Engineering Intern (SQL) Baller Runners Application(link) Technical classes: CS 125, 126, 173',
 //     howTheyKnowUs: 'Timothy Ko',
 //     additionalComments: ''
 //   })
