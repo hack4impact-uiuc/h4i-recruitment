@@ -1,4 +1,7 @@
+const sinon = require('sinon')
+const auth = require('../src/middleware/auth')
 const { Candidate, Match } = require('../src/models')
+const { populateAuthFieldsForReq } = require('../src/middleware/auth')
 
 const KEY = 'director'
 const NONLEAD_KEY = 'member'
@@ -12,6 +15,16 @@ const candidateIds = num => {
 // Build unique mongo ObjectId for match given index of match
 const matchIds = num => {
   return (num + 1 + '00000000000000000000000').slice(0, 24)
+}
+
+const stubAuthUser = user => {
+  const { role = 'Director' } = user || {}
+  const myStub = sinon.stub(auth, 'validateRequest')
+  myStub.callsFake((req, res, next) => {
+    req.user = { role }
+    populateAuthFieldsForReq(req)
+    next()
+  })
 }
 
 // Creates n candidates given 2 arrays of length n which contain the number of
@@ -61,5 +74,6 @@ module.exports = {
   KEY,
   NONLEAD_KEY,
   getAuthMiddlewareRequestStub,
-  getLeadsOnlyMiddlewareRequestStub
+  getLeadsOnlyMiddlewareRequestStub,
+  stubAuthUser
 }

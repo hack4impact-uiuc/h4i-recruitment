@@ -12,27 +12,7 @@ const validateRequest = async (req, res, next) => {
   if (req.method === 'POST' && req.url.includes('/user/')) {
     return next()
   } else if (req.user) {
-    req._key_name = req.user.firstName // set the user's name of the key that was used to make the request
-    req._key = req.user.userId
-    // check whether key is a director's, lead's, or member's key
-    // this is used by the directorsOnly and membersOnly middleware
-    if (req.user.role === 'Director') {
-      req._is_director = true
-      req._is_lead = true
-      req._is_member = true
-    } else if (req.user.role === 'Lead') {
-      req._is_director = false
-      req._is_lead = true
-      req._is_member = true
-    } else if (req.user.role === 'Member') {
-      req._is_director = false
-      req._is_lead = false
-      req._is_member = true
-    } else {
-      req._is_director = false
-      req._is_lead = false
-      req._is_member = false
-    }
+    populateAuthFieldsForReq(req)
     return next()
   }
 
@@ -44,4 +24,29 @@ const validateRequest = async (req, res, next) => {
   })
 }
 
-module.exports = { validateRequest }
+const populateAuthFieldsForReq = req => {
+  // Ported for backward compatibility with key-based auth
+  req._key_name = req.user.firstName // set the user's name of the key that was used to make the request
+  req._key = req.user.userId
+  // check whether key is a director's, lead's, or member's key
+  // this is used by the directorsOnly and membersOnly middleware
+  if (req.user.role === 'Director') {
+    req._is_director = true
+    req._is_lead = true
+    req._is_member = true
+  } else if (req.user.role === 'Lead') {
+    req._is_director = false
+    req._is_lead = true
+    req._is_member = true
+  } else if (req.user.role === 'Member') {
+    req._is_director = false
+    req._is_lead = false
+    req._is_member = true
+  } else {
+    req._is_director = false
+    req._is_lead = false
+    req._is_member = false
+  }
+}
+
+module.exports = { validateRequest, populateAuthFieldsForReq }
