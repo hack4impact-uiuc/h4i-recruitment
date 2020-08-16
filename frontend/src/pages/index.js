@@ -51,11 +51,11 @@ class LoginPage extends Component {
         <Nav />
         <Card className="login-card">
           <CardTitle>
-            <h3 className="register-center-content">Login</h3>
+            <h3 className="register-center-content">Welcome</h3>
           </CardTitle>
           <CardBody>
-            <a className="action-button blue" href={getURLForEndpoint('/login')}>
-              Google Login
+            <a id="login-button" href={getURLForEndpoint('/login')}>
+              <span>Sign in with Google</span>
             </a>
           </CardBody>
         </Card>

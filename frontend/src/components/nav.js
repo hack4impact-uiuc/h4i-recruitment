@@ -3,11 +3,12 @@ import { Component } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Navbar, Nav, NavbarBrand, NavbarToggler, Collapse, NavItem } from 'reactstrap'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { validateUser, getRound, logout } from '../utils/api'
 import roundData from '../data/roundData.js'
 import { setRoundRedux } from '../actions'
-import { bindActionCreators } from 'redux'
+import { getURLForEndpoint } from '../utils/apiHelpers'
 
 const mapStateToProps = state => ({
   round: state.round,
@@ -35,7 +36,6 @@ class NavigationBar extends Component {
   logout = async () => {
     await logout()
     this.setState({ loggedIn: false })
-    alert('Logged Out!')
     Router.push('/')
   }
 
@@ -49,13 +49,14 @@ class NavigationBar extends Component {
         username: result.name,
       })
     }
-
-    // get interview round data
-    const round = await getRound()
-    if (round.result) {
-      this.props.setRoundRedux(round.result.round)
-    } else {
-      this.props.setRoundRedux(0)
+    if (this.state.loggedIn) {
+      // get interview round data
+      const round = await getRound()
+      if (round.result) {
+        this.props.setRoundRedux(round.result.round)
+      } else {
+        this.props.setRoundRedux(0)
+      }
     }
   }
 
@@ -79,22 +80,24 @@ class NavigationBar extends Component {
           <Collapse isOpen={this.state.showLoginModal} navbar>
             <Nav navbar className="ml-auto">
               {this.state.loggedIn && (
-                <NavItem>
-                  <div className="nav-bar-name pr-3 pt-1">
-                    Welcome {this.state.username ? this.state.username : null}!
-                  </div>
-                </NavItem>
+                <>
+                  <NavItem>
+                    <div className="nav-bar-name pr-3 pt-1">
+                      Welcome {this.state.username ? this.state.username : null}!
+                    </div>
+                  </NavItem>
+                  <NavItem>
+                    <Link href="/dashboard">
+                      <a className="nav-bar-link pl-3">Dashboard</a>
+                    </Link>
+                  </NavItem>
+                  <NavItem>
+                    <Link href="/table">
+                      <a className="nav-bar-link pl-3">Table View</a>
+                    </Link>
+                  </NavItem>
+                </>
               )}
-              <NavItem>
-                <Link href="/dashboard">
-                  <a className="nav-bar-link pl-3">Dashboard</a>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link href="/table">
-                  <a className="nav-bar-link pl-3">Table View</a>
-                </Link>
-              </NavItem>
               {this.state.role != 'Pending' && (
                 <>
                   <NavItem>
@@ -157,7 +160,7 @@ class NavigationBar extends Component {
               )}
               <NavItem>
                 {!this.state.loggedIn ? (
-                  <a className="nav-bar-link pl-3" href="#" onClick={() => Router.push('/#')}>
+                  <a className="nav-bar-link pl-3" href={getURLForEndpoint('/login')}>
                     Login
                   </a>
                 ) : (
