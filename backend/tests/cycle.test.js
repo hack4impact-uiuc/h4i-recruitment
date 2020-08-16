@@ -2,27 +2,19 @@ const request = require('supertest')
 const sinon = require('sinon')
 const { expect } = require('chai')
 const app = require('../src/app')
-const auth = require('../src/middleware/auth')
 const { Cycle, Workspace } = require('../src/models')
 const { KEY } = require('./utils.js')
+const { stubAuthUser } = require('./utils')
 require('./mongo_utils')
 
 beforeEach(async () => {
   await Cycle.deleteMany()
   await Workspace.deleteMany()
-  console.log('Hello world')
-})
-
-describe('App can run', done => {
-  it('returns status 200', async () => {
-    await request(app)
-      .get(`/api/?key=${KEY}`)
-      .expect(200)
-  })
 })
 
 describe('GET /cycle', () => {
   it('should get all cycles', async () => {
+    stubAuthUser({ workspaceIds: 'abc' })
     const res = await request(app)
       .get(`/api/cycle?key=${KEY}`)
       .expect(200)
@@ -32,6 +24,7 @@ describe('GET /cycle', () => {
 
 describe('GET /cycle/id/:cycleId', () => {
   it('should get a cycle by ID', async () => {
+    stubAuthUser({ workspaceIds: ['abc'] })
     const cycle = new Cycle({
       term: 'FA19',
       workspaceName: 'abc'
@@ -46,6 +39,7 @@ describe('GET /cycle/id/:cycleId', () => {
 
 describe('POST /cycle', () => {
   it('should create a cycle', async () => {
+    stubAuthUser({ workspaceIds: 'abc' })
     const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
 
     const workspace = new Workspace({
@@ -69,7 +63,7 @@ describe('POST /cycle', () => {
 describe('POST /cycle more than once', () => {
   it('should update the current attribute for cycles to when a new cycle is created', async () => {
     const workspaceName = 'Hack4Impact University of Illinois at Urbana-Champaign'
-
+    stubAuthUser({ workspaceIds: workspaceName })
     const workspace = new Workspace({
       name: workspaceName
     })
@@ -98,7 +92,8 @@ describe('POST /cycle more than once', () => {
     const newCycle = await request(app).get(
       `/api/cycle/workspace/${workspaceName}?key=${KEY}&current=true`
     )
-    newCycleId = newCycle.body.result[0]._id
+
+    const newCycleId = newCycle.body.result[0]._id
     const res = await request(app)
       .get(`/api/cycle/id/${newCycleId}?key=${KEY}`)
       .expect(200)

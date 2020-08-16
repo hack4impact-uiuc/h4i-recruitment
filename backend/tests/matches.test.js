@@ -2,8 +2,14 @@ const request = require('supertest')
 const { expect } = require('chai')
 const app = require('../src/app')
 const { Candidate, Match } = require('../src/models')
-const { candidateIds, createCandidates, createMatches, matchIds, KEY } = require('./utils.js')
-const { statusEnum } = require('../src/utils/enums')
+const {
+  candidateIds,
+  createCandidates,
+  createMatches,
+  matchIds,
+  KEY,
+  stubAuthUser
+} = require('./utils.js')
 require('./mongo_utils')
 
 beforeEach(async () => {
@@ -13,6 +19,7 @@ beforeEach(async () => {
 
 describe('GET /matchCandidates', () => {
   it('should return json with 2 candidates and matchID when exactly 2 candidates have min', async () => {
+    stubAuthUser()
     await createCandidates([5, 5, 6, 6, 6], [0, 0, 0, 0, 0])
     const res = await request(app)
       .get(`/api/matchCandidates?key=${KEY}`)
@@ -28,6 +35,7 @@ describe('GET /matchCandidates', () => {
   })
 
   it('should return json with 2 candidates and matchID when 1 candidate has min', async () => {
+    stubAuthUser()
     await createCandidates([5, 6, 7, 7, 7], [0, 0, 0, 0, 0])
     const res = await request(app)
       .get(`/api/matchCandidates?key=${KEY}`)
@@ -41,6 +49,7 @@ describe('GET /matchCandidates', () => {
   })
 
   it('should not pick an existing match', async () => {
+    stubAuthUser()
     await createCandidates([5, 5, 6, 7, 7], [0, 0, 0, 0, 0])
     await createMatches([[0, 1]])
     const res = await request(app)
@@ -72,6 +81,7 @@ describe('GET /matchCandidates', () => {
 
 describe('POST /matchCandidates', () => {
   it('should raise candidate1 elo and lower candidate2 elo', async () => {
+    stubAuthUser()
     await createCandidates([1, 1], [1200, 1000])
     await createMatches([[0, 1]])
     const frontend_payload = {
@@ -91,6 +101,7 @@ describe('POST /matchCandidates', () => {
   })
 
   it('should raise candidate2 elo and lower candidate1 elo', async () => {
+    stubAuthUser()
     await createCandidates([1, 1], [1200, 1000])
     await createMatches([[0, 1]])
     const frontend_payload = {
@@ -110,9 +121,10 @@ describe('POST /matchCandidates', () => {
   })
 
   it('should save person who saved the match', async () => {
+    stubAuthUser({ firstName: 'Jane', lastName: 'Doe', userId: '123' })
     await createCandidates([1, 1], [1200, 1000])
     await createMatches([[0, 1]])
-    const frontend_payload = {
+    const frontendPayload = {
       candidate1: candidateIds(0),
       candidate2: candidateIds(1),
       winnerID: candidateIds(1),
@@ -120,11 +132,11 @@ describe('POST /matchCandidates', () => {
     }
     await request(app)
       .post(`/api/matchCandidates?key=${KEY}`)
-      .send(frontend_payload)
+      .send(frontendPayload)
       .expect(200)
     const match = await Match.findById(matchIds(0))
-    expect(match.submittedBy).to.eq('Director')
-    expect(match.submittedByKey).to.eq(KEY)
+    expect(match.submittedBy).to.eq('Jane')
+    expect(match.submittedByKey).to.eq('123')
   })
 })
 // TODO: test utility functions

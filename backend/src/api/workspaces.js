@@ -23,7 +23,6 @@ router.get(
   [directorsOnly],
   errorWrap(async (req, res) => {
     const workspace = await Workspace.find({ name: req.params.workspaceName, owner: req.user })
-
     res.json({
       code: 200,
       result: workspace,
@@ -40,7 +39,7 @@ router.post(
     const owner = req.user
     const workspaceName = req.body.name
     if (!owner || !workspaceName) {
-      return res.json({
+      return res.status(400).json({
         code: 400,
         message: owner ? 'Invalid workspace name' : 'Invalid owner name',
         success: false
@@ -75,7 +74,7 @@ router.put(
     const workspaceName = req.body.workspaceIds
 
     if (!userEmail || !workspaceName) {
-      return res.json({
+      return res.status(400).json({
         code: 400,
         message: 'malformed request',
         success: false
@@ -83,7 +82,7 @@ router.put(
     }
 
     if (!req.user.workspaceIds.includes(workspaceName)) {
-      return res.json({
+      return res.status(403).json({
         code: 403,
         message: 'unauthorized',
         success: false
@@ -96,7 +95,7 @@ router.put(
       { $push: { workspaceIds: workspaceName } },
       err => {
         if (err) {
-          return res.json({
+          return res.status(404).json({
             code: 404,
             message: 'user not found',
             result: {},
@@ -121,7 +120,7 @@ router.put(
     const newOwner = (await User.find({ email: req.body.userEmail }))[0]
     const workspace = req.params.workspaceName
     if (!newOwner || !workspace) {
-      return res.json({
+      return res.status(400).json({
         code: 400,
         message: 'malformed request',
         success: false
@@ -129,7 +128,7 @@ router.put(
     }
 
     if (!newOwner.workspaceIds.includes(workspace) || newOwner.role != 'Director') {
-      return res.json({
+      return res.status(400).json({
         code: 400,
         message: 'Invalid permissions for new owner',
         success: false

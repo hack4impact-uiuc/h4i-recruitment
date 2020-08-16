@@ -3,20 +3,8 @@ const sinon = require('sinon')
 const { expect } = require('chai')
 const app = require('../src/app')
 const { Candidate } = require('../src/models')
-const { KEY, NONLEAD_KEY } = require('./utils')
-const { statusEnums } = require('../src/utils/enums')
-const auth = require('../src/middleware/auth')
+const { stubAuthUser } = require('./utils')
 require('./mongo_utils')
-
-beforeEach(() => {
-  const myStub = sinon.stub(auth, 'validateRequest')
-  myStub.callsFake((req, res, next) => {
-    req._is_director = true
-    req._is_lead = true
-    req._is_member = true
-    next()
-  })
-})
 
 afterEach(() => {
   sinon.restore()
@@ -25,8 +13,9 @@ afterEach(() => {
 // for different ways to stub/mock/spy on functions, look into sinon
 describe('App can run', done => {
   it('returns status 200', async () => {
-    const res = await request(app)
-      .get(`/api/?key=${KEY}`)
+    stubAuthUser()
+    await request(app)
+      .get(`/api/`)
       .expect(200)
   })
 })
@@ -36,6 +25,7 @@ describe('GET /candidates', done => {
     Candidate.find.restore()
   })
   it('should return array of Objects', async () => {
+    stubAuthUser()
     // stub the find() function of Candidates and make it return a Promise that resolves to the array specified inside
     sinon.stub(Candidate, 'find').resolves([
       {
@@ -47,22 +37,24 @@ describe('GET /candidates', done => {
     ])
 
     const res = await request(app)
-      .get(`/api/candidates?key=${KEY}`)
+      .get(`/api/candidates`)
       .expect(200)
     expect(res.body.result).to.have.lengthOf(2)
     expect(res.body.result[0].name).equal('Tim')
   })
 
   it('should return an empty array when mongo returns empty', async () => {
+    stubAuthUser()
     sinon.stub(Candidate, 'find').resolves([])
 
     const res = await request(app)
-      .get(`/api/candidates?key=${KEY}`)
+      .get(`/api/candidates`)
       .expect(200)
     expect(res.body.result).to.have.lengthOf(0)
   })
 
   it('should call Candidate.find() with status parameters when `status` args is passed in', async () => {
+    stubAuthUser()
     const candidateFindStub = sinon.stub(Candidate, 'find').resolves([
       {
         name: 'Tim',
@@ -70,8 +62,8 @@ describe('GET /candidates', done => {
       }
     ])
 
-    const res = await request(app)
-      .get(`/api/candidates?status=pending&&key=${KEY}`)
+    await request(app)
+      .get(`/api/candidates?status=pending`)
       .expect(200)
     // checks whether Candidate.find() was called with arguments {status: 'pending}
     expect(candidateFindStub.getCall(0).args).to.deep.include({
@@ -90,8 +82,9 @@ describe('GET /candidates/:candidateId', async () => {
   })
 
   it('should call findById with the correct Parameters', async () => {
+    stubAuthUser()
     const candidateFindStub = sinon.stub(Candidate, 'findById').resolves(expected)
-    const res = await request(app).get(`/api/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
+    await request(app).get(`/api/candidates/5abf3dcf1d567955609d2bd4`)
     expect(candidateFindStub.getCall(0).args)
       .to.be.an('array')
       .that.does.include('5abf3dcf1d567955609d2bd4')
@@ -99,30 +92,15 @@ describe('GET /candidates/:candidateId', async () => {
   })
 
   it('should return a Candidate', async () => {
+    stubAuthUser()
     const candidateFindStub = sinon.stub(Candidate, 'findById').resolves(expected)
     const res = await request(app)
-      .get(`/api/candidates/5abf3dcf1d567955609d2bd4?key=${KEY}`)
+      .get(`/api/candidates/5abf3dcf1d567955609d2bd4`)
       .expect(200)
     expect(res.body).to.be.an('object')
     candidateFindStub.restore()
   })
 })
-
-// No need for now
-// describe('POST /candidates', async () => {
-//   // TODO: Fix this when POST /candidates is working properly
-//   it('should call Candidate.save() once', async () => {
-//     // should resolve nothing
-//     // Needs to stub Candidate.prototype's save, not Candidate's save
-//     // because `save` belongs to the instance of a Candidate
-//     const candidateSaveStub = sinon.stub(Candidate.prototype, 'save').resolves('True')
-//     const res = await request(app).post(`/api/candidates?key=${KEY}`)
-//     expect(candidateSaveStub.calledOnce).equal(true)
-
-//     // reset stub
-//     candidateSaveStub.restore()
-//   })
-// })
 
 describe('POST /candidates/:id/comments', async () => {
   let candidate
@@ -139,8 +117,9 @@ describe('POST /candidates/:id/comments', async () => {
   })
 
   it('should add a comment', async () => {
+    stubAuthUser()
     await request(app)
-      .post(`/api/candidates/${candidate._id}/comments?key=${KEY}`)
+      .post(`/api/candidates/${candidate._id}/comments`)
       .send({
         comment: 'test comment'
       })
@@ -148,8 +127,9 @@ describe('POST /candidates/:id/comments', async () => {
   })
 
   it('should return 400 if comment was not provided', async () => {
+    stubAuthUser()
     await request(app)
-      .post(`/api/candidates/${candidate._id}/comments?key=${KEY}`)
+      .post(`/api/candidates/${candidate._id}/comments`)
       .expect(400)
   })
 })
@@ -168,8 +148,9 @@ describe('POST /candidates/:id/status', async () => {
   })
 
   it('should change the status', async () => {
-    const res = await request(app)
-      .post(`/api/candidates/${candidateStatus._id}/status?key=${KEY}`)
+    stubAuthUser()
+    await request(app)
+      .post(`/api/candidates/${candidateStatus._id}/status`)
       .send({
         status: 'Accepted'
       })
@@ -177,8 +158,9 @@ describe('POST /candidates/:id/status', async () => {
   })
 
   it('should return 403 if key does not end in lead suffix', async () => {
-    const res = await request(app)
-      .post(`/api/candidates/${candidateStatus._id}/status?key=${'Pending'}`)
+    stubAuthUser({ role: 'Pending' })
+    await request(app)
+      .post(`/api/candidates/${candidateStatus._id}/status`)
       .send({
         status: 'Accepted'
       })
@@ -186,8 +168,9 @@ describe('POST /candidates/:id/status', async () => {
   })
 
   it('should return 400 if status is not an accepted Status', async () => {
-    const res = await request(app)
-      .post(`/api/candidates/${candidateStatus._id}/status?key=${KEY}`)
+    stubAuthUser()
+    await request(app)
+      .post(`/api/candidates/${candidateStatus._id}/status`)
       .send({
         status: 'Weird Status'
       })

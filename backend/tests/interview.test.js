@@ -1,7 +1,7 @@
 const request = require('supertest')
 const { expect, assert } = require('chai')
 const app = require('../src/app')
-const { KEY } = require('./utils')
+const { KEY, stubAuthUser } = require('./utils')
 const { Interview, Candidate } = require('../src/models')
 require('./mongo_utils')
 
@@ -14,55 +14,37 @@ beforeEach(async () => {
 })
 
 describe('GET verify_member/:key', () => {
-  it('should return false when the key is a substring of the real key', async () => {
+  it('should return false when not stubbed out', async () => {
     const expected = JSON.stringify({
       code: 403,
       message: 'Bad Key',
       success: false
     })
-    const res = await request(app).get(`/api/interviews/verify_member?key=directo`)
-    expect(403).to.eq(res.status)
-    expect(res.text).to.eq(expected)
-  })
-  it('should return false when the key contains a substring that is the real key', async () => {
-    const expected = JSON.stringify({
-      code: 403,
-      message: 'Bad Key',
-      success: false
-    })
-    const res = await request(app).get(`/api/interviews/verify_member?key=directorr`)
+    const res = await request(app).get(`/api/interviews/verify_member`)
     expect(403).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
   it('should return true when the key matches a key in the db', async () => {
+    stubAuthUser({ firstName: 'Test Name', role: 'Pending', email: 'a@b.com' })
     const expected = JSON.stringify({
       code: 200,
-      message: 'key is verified',
+      message: 'User is verified',
       success: true,
       result: {
-        name: 'Director',
-        role: 'Director',
-        email: 'd@t.com'
+        name: 'Test Name',
+        role: 'Pending',
+        email: 'a@b.com'
       }
     })
     const res = await request(app).get(`/api/interviews/verify_member?key=${KEY}`)
     expect(200).to.eq(res.status)
     expect(res.text).to.eq(expected)
   })
-  it('should return false when the key is the same length as keys in db but is not in the db', async () => {
-    const expected = JSON.stringify({
-      code: 403,
-      message: 'Bad Key',
-      success: false
-    })
-    const res = await request(app).get(`/api/interviews/verify_member?key=notkey`)
-    expect(403).to.eq(res.status)
-    expect(res.text).to.eq(expected)
-  })
 })
 
 describe('POST /candidates/:candidateId/interviews', () => {
   it('creates one interview', async () => {
+    stubAuthUser()
     const candidate = new Candidate({
       name: 'TimInterview1',
       email: 'someemailunique',
@@ -113,6 +95,7 @@ describe('POST /candidates/:candidateId/interviews', () => {
 
 describe('GET /interviews', () => {
   it('should get all interviews', async () => {
+    stubAuthUser()
     const res = await request(app)
       .get(`/api/interviews?key=${KEY}`)
       .expect(200)
@@ -131,6 +114,7 @@ describe('GET /interviews', () => {
 
 describe('PUT /interviews', () => {
   it('should edit an interview', async () => {
+    stubAuthUser()
     let interview = new Interview({
       interviewer_key: 'CaptainMeg',
       sections: [],
@@ -155,6 +139,7 @@ describe('PUT /interviews', () => {
 
 describe('DELETE /interviews', () => {
   it('delete an interview', async () => {
+    stubAuthUser()
     let interview = new Interview({
       interviewer_key: 'CaptainMeg',
       sections: [],

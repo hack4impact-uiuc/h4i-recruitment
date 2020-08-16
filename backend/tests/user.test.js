@@ -2,19 +2,12 @@ const request = require('supertest')
 const { expect } = require('chai')
 const app = require('../src/app')
 const { User } = require('../src/models')
-const { KEY } = require('./utils.js')
+const { KEY, stubAuthUser } = require('./utils.js')
 require('./mongo_utils')
-
-describe('App can run', done => {
-  it('returns status 200', async () => {
-    await request(app)
-      .get(`/api/?key=${KEY}`)
-      .expect(200)
-  })
-})
 
 describe('GET /user/', () => {
   it('should get all users', async () => {
+    stubAuthUser()
     const newUser = new User({
       firstName: 'fake',
       lastName: 'name',
@@ -32,6 +25,7 @@ describe('GET /user/', () => {
 
 describe('POST /user/', () => {
   it('should create a new user', async () => {
+    stubAuthUser()
     const newUser = new User({
       firstName: 'fake',
       lastName: 'name',
@@ -52,6 +46,7 @@ describe('POST /user/', () => {
 
 describe('PUT /user/', () => {
   it('should update user to have new role', async () => {
+    stubAuthUser()
     const reqBody = {
       email: 'fakeemail@gmail.com',
       role: 'Member'
