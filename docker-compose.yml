@@ -20,7 +20,7 @@ services:
       # show it again
       # note that when reinstalling modules, we need to remove this volume
       - be_modules:/usr/src/app/node_modules
-    command: yarn dev_docker
+    command: yarn dev
     restart: always
     tty: true
 
