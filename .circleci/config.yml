@@ -28,6 +28,7 @@ jobs:
     working_directory: /home/h4i-recruitment
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           command: |
             docker-compose run backend yarn test
