@@ -23,8 +23,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/$1",
-      "continue": true
+      "dest": "frontend/$1"
     }
   ],
   "env": {

@@ -2,6 +2,7 @@
  * must be called AFTER the auth middleware
  */
 const membersOnly = (req, res, next) => {
+  console.log('AWFHWOEGGH')
   if (!req._is_member) {
     const msg = `The key '${
       req._key

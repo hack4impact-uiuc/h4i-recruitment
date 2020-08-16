@@ -1,0 +1,23 @@
+# docker-compose.yml
+version: "3"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-dev
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
+      - MONGO_URL=mongodb://db:27017/greets
+      - GOOGLE_CLIENT_ID=1
+      - GOOGLE_CLIENT_SECRET=1
+    command: yarn test
+    tty: true
+
+  db:
+    image: "mongo"
+    ports:
+      - "27017:27017"

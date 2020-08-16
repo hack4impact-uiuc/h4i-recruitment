@@ -7,6 +7,7 @@ const User = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   userId: { type: String, required: true, unique: true },
+  propicUrl: { type: String },
   email: { type: String, required: true, unique: true },
   key: { type: String },
   role: { type: String, required: true },

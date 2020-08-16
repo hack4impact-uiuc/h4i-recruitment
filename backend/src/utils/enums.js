@@ -39,6 +39,13 @@ const rolesEnum = {
   UI: 'UI/UX Designer'
 }
 
+const permissionRolesEnum = {
+  PENDING: 'Pending',
+  MEMBER: 'Member',
+  LEAD: 'Lead',
+  DIRECTOR: 'Director'
+}
+
 const enumToArray = e => {
   return Object.keys(e).map(key => {
     return e[key]
@@ -51,5 +58,6 @@ module.exports = {
   statusEnum,
   referralEnum,
   rolesEnum,
-  enumToArray
+  enumToArray,
+  permissionRolesEnum
 }

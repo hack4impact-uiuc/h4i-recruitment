@@ -1,25 +1,18 @@
-const mongoose = require('mongoose')
 const request = require('supertest')
 const { expect } = require('chai')
 const app = require('../src/app')
 const { Event } = require('../src/models')
 const { KEY } = require('./utils.js')
+const { stubAuthUser } = require('./utils')
 require('./mongo_utils')
 
 beforeEach(async () => {
   await Event.deleteMany()
 })
 
-describe('App can run', done => {
-  it('returns status 200', async () => {
-    const res = await request(app)
-      .get(`/api/?key=${KEY}`)
-      .expect(200)
-  })
-})
-
 describe('GET /events', () => {
   it('should get all events', async () => {
+    stubAuthUser()
     const res = await request(app)
       .get(`/api/events?key=${KEY}`)
       .expect(200)
@@ -29,6 +22,7 @@ describe('GET /events', () => {
 
 describe('GET /events/:eventId', () => {
   it('should get all events', async () => {
+    stubAuthUser()
     const event = new Event({
       name: 'Alices Event',
       date: '2019-06-30',
@@ -49,6 +43,7 @@ describe('GET /events/:eventId', () => {
 
 describe('POST /events/:eventId', () => {
   it('creates one event', async () => {
+    stubAuthUser()
     const event = new Event({
       name: 'Alices Event',
       date: '2019-06-30',
@@ -69,6 +64,7 @@ describe('POST /events/:eventId', () => {
 
 describe('PUT /events', () => {
   it('should edit an event', async () => {
+    stubAuthUser()
     let event = new Event({
       name: 'Alices Event',
       date: '2019-06-30',
@@ -81,12 +77,12 @@ describe('PUT /events', () => {
     })
     await event.save()
 
-    body_params = {
+    const bodyParams = {
       description: 'its not lit'
     }
     await request(app)
       .put(`/api/events/${event._id}?key=${KEY}`)
-      .send(body_params)
+      .send(bodyParams)
       .expect(200)
 
     const changedEvent = await Event.findById(event._id)
@@ -96,6 +92,7 @@ describe('PUT /events', () => {
 
 describe('DELETE /events', () => {
   it('delete an event', async () => {
+    stubAuthUser()
     let event = new Event({
       name: 'Alices Event',
       date: '2019-06-30',

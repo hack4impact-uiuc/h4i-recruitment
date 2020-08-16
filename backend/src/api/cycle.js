@@ -8,7 +8,7 @@ router.get(
   '/',
   [directorsOnly],
   errorWrap(async (req, res) => {
-    const cycles = await Cycle.find({ workspaceName: { $in: req._user.workspaceIds } })
+    const cycles = await Cycle.find({ workspaceName: { $in: req.user.workspaceIds } })
     res.json({
       code: 200,
       result: cycles,
@@ -34,7 +34,7 @@ router.get(
     }
 
     // cycle exists but is under a different workspace
-    if (!req._user.workspaceIds.includes(cycle.workspaceName)) {
+    if (!req.user.workspaceIds.includes(cycle.workspaceName)) {
       return res.json({
         code: 403,
         message: 'Unauthorized',
@@ -57,7 +57,7 @@ router.get(
   errorWrap(async (req, res) => {
     const workspace = req.params.workspaceName
     const current = req.query.current
-    if (!workspace || !req._user.workspaceIds.includes(workspace)) {
+    if (!workspace || !req.user.workspaceIds.includes(workspace)) {
       res.json({
         code: 400,
         message: 'malformed request',
@@ -86,7 +86,7 @@ router.post(
     const newTerm = req.body.term
     const workspaceName = req.body.workspaceName
 
-    if (!newTerm || !workspaceName || !req._user.workspaceIds.includes(workspaceName)) {
+    if (!newTerm || !workspaceName || !req.user.workspaceIds.includes(workspaceName)) {
       res.json({
         code: 400,
         message: 'Malformed Request',
