@@ -2,7 +2,8 @@
 const app = require('./app')
 const MongoConnection = require('./mongoConnection')
 
-mongoConnection = new MongoConnection()
+// eslint-disable-next-line no-unused-vars
+const mongoConnection = new MongoConnection()
 
 const API_PORT = process.env.PORT === undefined ? 8080 : process.env.PORT
 // start server

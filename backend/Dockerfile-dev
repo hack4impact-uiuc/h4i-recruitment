@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 # (i.e. no rebuild necessary if these don't change) 
 COPY package.json . 
 COPY yarn.lock .
-RUN yarn install
+CMD [ "yarn" ]
 COPY . .
 
