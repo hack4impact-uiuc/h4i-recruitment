@@ -1,6 +1,8 @@
 const request = require('supertest')
+const sinon = require('sinon')
 const { expect } = require('chai')
 const app = require('../src/app')
+const auth = require('../src/middleware/auth')
 const { Cycle, Workspace } = require('../src/models')
 const { KEY } = require('./utils.js')
 require('./mongo_utils')
@@ -8,6 +10,7 @@ require('./mongo_utils')
 beforeEach(async () => {
   await Cycle.deleteMany()
   await Workspace.deleteMany()
+  console.log('Hello world')
 })
 
 describe('App can run', done => {

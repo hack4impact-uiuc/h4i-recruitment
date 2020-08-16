@@ -59,7 +59,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(morgan('dev'))
 app.use('/api/login', loginRoute)
 // verifies user
-app.use(auth)
+app.use((req, res, next) => auth.validateRequest(req, res, next))
 
 app.use('/api/', routes)
 

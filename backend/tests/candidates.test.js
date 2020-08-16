@@ -5,8 +5,22 @@ const app = require('../src/app')
 const { Candidate } = require('../src/models')
 const { KEY, NONLEAD_KEY } = require('./utils')
 const { statusEnums } = require('../src/utils/enums')
+const auth = require('../src/middleware/auth')
 require('./mongo_utils')
 
+beforeEach(() => {
+  const myStub = sinon.stub(auth, 'validateRequest')
+  myStub.callsFake((req, res, next) => {
+    req._is_director = true
+    req._is_lead = true
+    req._is_member = true
+    next()
+  })
+})
+
+afterEach(() => {
+  sinon.restore()
+})
 // for expects/assertions, look at chai
 // for different ways to stub/mock/spy on functions, look into sinon
 describe('App can run', done => {

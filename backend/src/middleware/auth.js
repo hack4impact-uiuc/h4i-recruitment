@@ -4,7 +4,7 @@ const { User } = require('../models')
 // checks whether key passed in through the query parameters
 // are one of the keys listed in the json file.
 // Passes name, key, is a lead boolean to the request object with the attributes: _key_name, _key, _is_lead
-const auth = async (req, res, next) => {
+const validateRequest = async (req, res, next) => {
   // removed && key.length === 11
   // Can add this rule if wanted
 
@@ -17,7 +17,6 @@ const auth = async (req, res, next) => {
     // check whether key is a director's, lead's, or member's key
     // this is used by the directorsOnly and membersOnly middleware
     if (req.user.role === 'Director') {
-      console.log('HI')
       req._is_director = true
       req._is_lead = true
       req._is_member = true
@@ -45,4 +44,4 @@ const auth = async (req, res, next) => {
   })
 }
 
-module.exports = auth
+module.exports = { validateRequest }
