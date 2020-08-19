@@ -46,7 +46,11 @@ class LoginPage extends Component {
   }
 
   componentDidMount = () => {
-    validateUser().then(console.log)
+    validateUser().then(res => {
+      if (res.success) {
+        Router.push('/dashboard')
+      }
+    })
   }
 
   render() {
