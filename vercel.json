@@ -10,7 +10,7 @@
     },
     {
       "src": "frontend/package.json",
-      "use": "@now/static-build"
+      "use": "@now/next"
     }
   ],
   "routes": [
