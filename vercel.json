@@ -10,7 +10,7 @@
     },
     {
       "src": "frontend/package.json",
-      "use": "@now/static-build"
+      "use": "@now/next"
     }
   ],
   "routes": [
@@ -20,10 +20,6 @@
         "cache-control": "s-maxage=0"
       },
       "dest": "backend/src/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
     }
   ],
   "env": {

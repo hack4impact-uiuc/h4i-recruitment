@@ -21,6 +21,7 @@ import {
 } from 'reactstrap'
 import { setCookie } from '../utils/cookieUtils'
 import { permissionRolesEnum } from '../utils/enums'
+import { validateUser } from '../utils/api'
 import { getURLForEndpoint } from '../utils/apiHelpers'
 
 class LoginPage extends Component {
@@ -42,6 +43,14 @@ class LoginPage extends Component {
 
   handleInvalidRequestModalClose = () => {
     this.setState({ showInvalidRequestModal: false })
+  }
+
+  componentDidMount = () => {
+    validateUser().then(res => {
+      if (res.success) {
+        Router.push('/dashboard')
+      }
+    })
   }
 
   render() {
