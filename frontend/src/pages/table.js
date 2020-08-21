@@ -61,8 +61,7 @@ class TablePage extends Component {
                   <th>Status</th>
                   <th>Graduation Date</th>
                   <th>Links</th>
-                  <th>Strong Referrals</th>
-                  <th>Referrals</th>
+                  <th>Contacts</th>
                   <th>FaceMash Score</th>
                   <th>Matches</th>
                   <th>Change Status</th>
@@ -88,7 +87,6 @@ class TablePage extends Component {
                         <CandidateLinksBadge link={candidate.github} text="Github" />
                         <CandidateLinksBadge link={candidate.website} text="Website" />
                       </td>
-                      <td>{candidate.strongReferrals.length}</td>
                       <td>{candidate.referrals.length}</td>
                       <td>
                         {candidate.facemashRankings != undefined

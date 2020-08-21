@@ -175,7 +175,7 @@ class FilterComponent extends Component<Props> {
           })}
         </>
 
-        <h5 className="mt-2">Referrals</h5>
+        <h5 className="mt-2">Contacts</h5>
         <>
           {referrals.map((el, idx) => {
             return (
