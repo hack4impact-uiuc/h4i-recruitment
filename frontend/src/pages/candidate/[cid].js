@@ -14,7 +14,6 @@ import { ErrorMessage } from '../../components/common'
 import Nav from '../../components/nav'
 import {
   addReferral,
-  addStrongReferral,
   deleteReferral,
   getCandidateById,
   addCommentToCandidate,
@@ -99,13 +98,6 @@ class CandidatePage extends Component {
     this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
   }
 
-  // adds strong referral
-  async handleStrongReferral(candidateId) {
-    const { result } = await addStrongReferral(candidateId)
-    this.setState({ candidate: { ...this.state.candidate, strongReferrals: result[0] } })
-    this.setState({ candidate: { ...this.state.candidate, referrals: result[1] } })
-  }
-
   // removes referral
   async handleRemoveReferral(candidateId) {
     const { result } = await deleteReferral(candidateId)
@@ -152,20 +144,14 @@ class CandidatePage extends Component {
               <Button outline color="primary" className="margin-sm-all" onClick={this.toggle}>
                 Add Comment
               </Button>
-              <Button
-                outline
-                color="primary"
-                onClick={() => this.handleStrongReferral(candidate._id)}
-              >
-                Strong Refer
-              </Button>
+
               <Button
                 outline
                 color="primary"
                 className="ml-3"
                 onClick={() => this.handleReferral(candidate._id)}
               >
-                Refer
+                Add contact
               </Button>
               <Button
                 outline
@@ -173,7 +159,7 @@ class CandidatePage extends Component {
                 className="ml-3"
                 onClick={() => this.handleRemoveReferral(candidate._id)}
               >
-                Delete Refer
+                Remove contact
               </Button>
             </Col>
             <Col md={4}>

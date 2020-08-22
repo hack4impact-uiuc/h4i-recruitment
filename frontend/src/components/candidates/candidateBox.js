@@ -212,15 +212,8 @@ class CandidateBox extends Component {
             </Row>
             <Row>
               <Col md={12}>
-                <h4 className="text-info pt-3">Referrals</h4>
-                <p>
-                  <b>Strong Referrals: </b>
-                  {candidate.strongReferrals && candidate.strongReferrals.join(', ')}
-                </p>
-                <p>
-                  <b>Referrals: </b>
-                  {candidate.referrals && candidate.referrals.join(', ')}
-                </p>
+                <h4 className="text-info pt-3">Contacts</h4>
+                <p>{candidate.referrals && candidate.referrals.join(', ')}</p>
               </Col>
             </Row>
           </Col>
