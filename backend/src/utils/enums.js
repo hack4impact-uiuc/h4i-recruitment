@@ -6,15 +6,14 @@ const yearsEnum = {
 }
 
 const gradEnum = {
-  SP19: 'Spring 2019',
-  FA19: 'Fall 2019',
-  SP20: 'Spring 2020',
   FA20: 'Fall 2020',
   SP21: 'Spring 2021',
   FA21: 'Fall 2021',
   SP22: 'Spring 2022',
   FA22: 'Fall 2022',
-  SP23: 'Spring 2023'
+  SP23: 'Spring 2023',
+  FA23: 'Fall 2023',
+  SP24: 'Spring 2024'
 }
 
 const statusEnum = {
