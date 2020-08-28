@@ -12,7 +12,7 @@ import CandidateLinks from '../../components/candidateLinks'
 import { ErrorMessage, ChangeStatus } from '../../components/common'
 import { avgInterviewScore, interviewGetCategorySection } from '../../utils/core'
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       setStatus,
@@ -31,7 +31,7 @@ class CandidateBox extends Component {
     }
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     setCandidateStatus(this.props.candidate._id, e.target.value)
     this.props.setStatus(this.props.candidate._id, e.target.value)
     this.setState({ status: e.target.value })
@@ -138,7 +138,7 @@ class CandidateBox extends Component {
               {this.state.interviews.length > 0 ? (
                 <Table borderless className="seventy-percent-width">
                   <tbody>
-                    {this.state.interviews.map((interview) => (
+                    {this.state.interviews.map(interview => (
                       <tr key={interview._id}>
                         <td>{interview.round}</td>
                         <td>
@@ -227,4 +227,7 @@ class CandidateBox extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(CandidateBox)
+export default connect(
+  null,
+  mapDispatchToProps
+)(CandidateBox)
