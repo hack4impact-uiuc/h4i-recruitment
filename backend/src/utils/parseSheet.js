@@ -77,7 +77,7 @@ async function parseStuff() {
       github: candidate['Github Link (or Portfolio if Product Designer)'],
       linkedIn: candidate.LinkedIn,
       website: candidate.Website,
-      role: candidate['Which role are you applying for? '],
+      role: [candidate['Which role are you applying for? ']],
       githubContributions: githubContributions,
       year: year,
       classesTaken:

@@ -17,7 +17,7 @@ const Candidate = new mongoose.Schema(
     githubContributions: { type: String },
     linkedIn: { type: String },
     website: { type: String },
-    role: { type: String, required: true },
+    role: [{ type: String, required: true }],
     roleReason: { type: String },
     joinReason: { type: String },
     timeCommitment: { type: String },
