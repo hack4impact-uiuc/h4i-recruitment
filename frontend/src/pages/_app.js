@@ -15,14 +15,6 @@ export default withRedux(configureStore, {
       super(props)
       this.state = { hasError: false }
     }
-    static async getInitialProps({ Component, ctx }) {
-      return {
-        pageProps: {
-          // Call page-level getInitialProps
-          ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
-        },
-      }
-    }
 
     componentDidCatch(error, errorInfo) {
       console.error('Page Error Boundary: ', error)
