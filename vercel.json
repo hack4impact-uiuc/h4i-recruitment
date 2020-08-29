@@ -20,6 +20,10 @@
         "cache-control": "s-maxage=0"
       },
       "dest": "backend/src/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/$1"
     }
   ],
   "env": {
