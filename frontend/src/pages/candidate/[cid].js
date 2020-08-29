@@ -196,14 +196,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CandidatePage)
-
-export function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true,
-  }
-}
-
-export function getStaticProps() {
-  return { props: {} }
-}
