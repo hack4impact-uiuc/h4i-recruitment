@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next src",
-    "build": "next build && next export -o dist",
+    "build": "next build",
     "start": "next start",
     "format": "prettier --write '{src,test,data}/**/*.{js,jsx,json,css}'",
     "format:check": "prettier --list-different \"{src,test,data}/**/*.js\"",
