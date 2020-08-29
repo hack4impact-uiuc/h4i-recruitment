@@ -26,8 +26,7 @@ function sleep(ms) {
 
 async function parseStuff() {
   await sleep(3000)
-  for (let i = 0; i < jsonSheet.length; i++) {
-    let candidate = jsonSheet[i]
+  for (const candidate of jsonSheet) {
     console.log(candidate.Name)
     let githubContributions = 'N/A'
     let github = candidate['Github Link (or Portfolio if Product Designer)']
