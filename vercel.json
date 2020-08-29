@@ -20,7 +20,7 @@
         "cache-control": "s-maxage=0"
       },
       "dest": "backend/src/index.js"
-    }
+    },
     {
       "src": "/candidate/(.*)",
       "dest": "/candidate/[cid]"
