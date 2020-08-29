@@ -21,6 +21,10 @@
       },
       "dest": "backend/src/index.js"
     }
+    {
+      "src": "/candidate/(.*)",
+      "dest": "/candidate/[cid]"
+    }
   ],
   "env": {
     "MONGO_URL": "@h4i-recruitment-mongo-uri",
