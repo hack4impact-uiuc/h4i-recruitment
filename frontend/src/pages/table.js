@@ -107,7 +107,7 @@ class TablePage extends Component {
                       <td>
                         <Link href="/candidate/[cid]" as={`/candidate/${candidate._id}`}>
                           <a>
-                            <img height="10" src="icons/external-icon.png" />
+                            <img height="10" src="/icons/external-icon.png" />
                           </a>
                         </Link>
                       </td>

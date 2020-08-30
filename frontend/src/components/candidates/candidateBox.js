@@ -104,7 +104,11 @@ class CandidateBox extends Component {
             <p>
               <b>Classes Taken:</b>
               {candidate.classesTaken != undefined ? candidate.classesTaken.join(', ') : null}
-            </p>{' '}
+            </p>
+            <p>
+              <b>Classes Taken:</b>
+              {candidate.classesTaking != undefined ? candidate.classesTaking.join(', ') : null}
+            </p>
             <p>
               <b>How They know us:</b> {candidate.howTheyKnowUs}
             </p>
@@ -152,7 +156,7 @@ class CandidateBox extends Component {
                         <td>
                           <Link href="/interview/[interviewID]" as={`/interview/${interview._id}`}>
                             <a className="ml-2" style={{ marginBottom: '3px' }}>
-                              <img height="10" src="icons/external-icon.png" />
+                              <img height="10" src="/icons/external-icon.png" />
                             </a>
                           </Link>
                         </td>

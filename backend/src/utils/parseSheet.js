@@ -26,34 +26,39 @@ function sleep(ms) {
 
 async function parseStuff() {
   await sleep(3000)
-  for (let i = 0; i < jsonSheet.length; i++) {
-    let candidate = jsonSheet[i]
+  for (const candidate of jsonSheet) {
     console.log(candidate.Name)
     let githubContributions = 'N/A'
-    if (candidate['Github Link']) {
-      githubContributions = await getGithubContributions(candidate['Github Link'])
+    let github = candidate['Github Link (or Portfolio if Product Designer)']
+    if (github !== undefined && github.startsWith('https://github')) {
+      githubContributions = await getGithubContributions(
+        candidate['Github Link (or Portfolio if Product Designer)']
+      )
     }
     let year = null
     switch (candidate['Graduation Date']) {
-      case gradEnum.SP20:
+      case gradEnum.FA20:
         year = yearsEnum.SENIOR
         break
-      case gradEnum.FA20:
-        year = yearsEnum.JUNIOR
-        break
       case gradEnum.SP21:
-        year = yearsEnum.JUNIOR
+        year = yearsEnum.SENIOR
         break
       case gradEnum.FA21:
-        year = yearsEnum.SOPHOMORE
+        year = yearsEnum.JUNIOR
         break
       case gradEnum.SP22:
-        year = yearsEnum.SOPHOMORE
+        year = yearsEnum.JUNIOR
         break
       case gradEnum.FA22:
         year = yearsEnum.SOPHOMORE
         break
       case gradEnum.SP23:
+        year = yearsEnum.SOPHOMORE
+        break
+      case gradEnum.FA23:
+        year = yearsEnum.FRESHMAN
+        break
+      case gradEnum.SP24:
         year = yearsEnum.FRESHMAN
         break
     }
@@ -71,29 +76,41 @@ async function parseStuff() {
       github: candidate['Github Link (or Portfolio if Product Designer)'],
       linkedIn: candidate.LinkedIn,
       website: candidate.Website,
-      role: candidate['Which role(s) are you applying for? '].split(', '),
+      role: [candidate['Which role are you applying for? ']],
       githubContributions: githubContributions,
       year: year,
       classesTaken:
-        candidate['Which classes have you taken?'] != undefined
-          ? candidate['Which classes have you taken?'].split(', ')
+        candidate[
+          'List all classes you have ALREADY TAKEN at UIUC that pertain to the role that you are applying to'
+        ] != undefined
+          ? candidate[
+              'List all classes you have ALREADY TAKEN at UIUC that pertain to the role that you are applying to'
+            ].split(', ')
+          : [],
+      classesTaking:
+        candidate[
+          'List all classes you ARE TAKING this semester at UIUC that pertain to the role that you are applying to'
+        ] != undefined
+          ? candidate[
+              'List all classes you ARE TAKING this semester at UIUC that pertain to the role that you are applying to'
+            ].split(', ')
           : [],
       roleReason:
         candidate[
-          'For each role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
+          'For the role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
         ],
       joinReason:
         candidate['Why do you want to join Hack4Impact, and what do you hope to gain from it?'],
-      timeCommitment: candidate['Please list your time commitments'],
+      timeCommitment: candidate['Please list your time commitments this semester'],
       techExperience:
         candidate[
           'List technical/design experience (side projects, internships, class projects, portfolio link, additional classes)'
         ],
-      howTheyKnowUs: candidate['How did you hear about us?'],
+      howTheyKnowUs: candidate['How did you first hear about us?'],
       additionalComments: candidate['What else should we know about you?'],
       interviews: [
         {
-          timeCommitmentNotes: candidate['Please list your time commitments'],
+          timeCommitmentNotes: candidate['Please list your time commitments this semester'],
           dedicationToCommunityNotes: candidate['Dedication to Community'],
           techCompetenceNotes: candidate['Technical Competence '],
           otherNotes: candidate.Notes,
