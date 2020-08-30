@@ -175,9 +175,6 @@ class Dashboard extends Component {
                 <Col lg="9" md="8">
                   <Container>
                     <Row>
-                      <UpdateAlert />
-                    </Row>
-                    <Row>
                       <Col sm={7}>
                         <FormGroup>
                           <Label htmlFor="search" />
