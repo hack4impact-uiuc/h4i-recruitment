@@ -49,8 +49,6 @@ class LoginPage extends Component {
     validateUser().then(res => {
       if (res.success) {
         Router.push(res.result.role !== 'Pending' ? '/dashboard' : 'pendingPage')
-      } else {
-        this.setState({ showInvalidRequestModal: true })
       }
     })
   }
