@@ -48,7 +48,7 @@ class LoginPage extends Component {
   componentDidMount = () => {
     validateUser().then(res => {
       if (res.success) {
-        Router.push(res.result.role !== 'Pending' ? '/dashboard' : 'pendingPage')
+        Router.push(res.result.role !== 'Pending' ? '/dashboard' : '/pendingPage')
       }
     })
   }
