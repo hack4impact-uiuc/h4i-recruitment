@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Container, Button, Row, Col } from 'reactstrap'
-import { useRouter } from 'next/router'
+import Router from 'next/router'
 import Head from '../../components/head'
 import { bindActionCreators } from 'redux'
 import Candidate from '../../components/candidates/candidateBox'
@@ -45,9 +45,7 @@ class CandidatePage extends Component {
     }
   }
   async componentDidMount() {
-    const { router } = this.props
-
-    const query = router.query
+    const query = Router.query
     const { result } = await getCandidateById(query.cid)
     this.setState({
       candidate: result,
@@ -74,9 +72,7 @@ class CandidatePage extends Component {
   }
 
   goBack = () => {
-    const { router } = this.props
-
-    router.back()
+    Router.back()
   }
 
   // handles the click to show all interviews. Modal pops up
@@ -90,9 +86,9 @@ class CandidatePage extends Component {
 
   // goes to add the interview
   async handleAddInterview(candidateId, candidateName) {
-    const { addInterviewCandidate, router } = this.props
+    const { addInterviewCandidate } = this.props
     await addInterviewCandidate(candidateId, candidateName)
-    router.push('/interview')
+    Router.push('/interview')
   }
 
   // adds referral
@@ -196,12 +192,7 @@ class CandidatePage extends Component {
   }
 }
 
-const WrappedComponent = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CandidatePage)
-
-export default function CandidatePageHoc(props) {
-  const router = useRouter()
-  return <WrappedComponent {...props} router={router} />
-}
