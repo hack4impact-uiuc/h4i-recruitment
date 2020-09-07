@@ -118,6 +118,7 @@ const roundData = {
           ),
           type: 'notes',
           response: {},
+        },
         {
           title: 'Category',
           description: [
