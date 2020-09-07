@@ -110,6 +110,16 @@ const roundData = {
           response: {},
         },
         {
+          title: 'Academy Interview',
+          prompt: (
+            <b>
+              Only fill out this section if you interviewed an Academy candidate! Rubric and notes template is attached to the Academy Interview guide, so just paste over your answers from there.
+            </b>
+          ),
+          type: 'notes',
+          response: {},
+        },
+        {
           title: 'Category',
           description: [
             <b>
@@ -122,6 +132,9 @@ const roundData = {
           dropdownPrompt: 'Pick a Category',
           type: 'dropdown',
           textOptions: [
+            'Academy - no',
+            'Academy - maybe',
+            'Academy - yes',
             'Freshman - maybe',
             'Freshman - with lack of experience but high potential and initiative',
             'Freshman - yes',
