@@ -33,7 +33,7 @@
     "passport-google-oauth20": "^2.0.0",
     "request": "2.87.0",
     "request-promise": "4.2.2",
-    "xlsx": "^0.14.3"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
