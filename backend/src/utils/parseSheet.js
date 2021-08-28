@@ -66,7 +66,7 @@ async function parseStuff() {
       console.log(`WEIRD GRAD DATE ${candidate.Name}`)
     }
     let newCandidate = new Candidate({
-      name: candidate.Name,
+      name: candidate['Full Name'],
       email: candidate['Email Address'],
       graduationDate: candidate['Graduation Date'],
       status: statusEnum.PENDING,
@@ -81,26 +81,28 @@ async function parseStuff() {
       year: year,
       classesTaken:
         candidate[
-          'List all classes you have ALREADY TAKEN at UIUC that pertain to the role that you are applying to'
+          'List all classes you have already taken that pertain to the role that you are applying to'
         ] != undefined
           ? candidate[
-              'List all classes you have ALREADY TAKEN at UIUC that pertain to the role that you are applying to'
+              'List all classes you have already taken that pertain to the role that you are applying to'
             ].split(', ')
           : [],
       classesTaking:
         candidate[
-          'List all classes you ARE TAKING this semester at UIUC that pertain to the role that you are applying to'
+          'List all classes you are taking this semester at UIUC that pertain to the role that you are applying to'
         ] != undefined
           ? candidate[
-              'List all classes you ARE TAKING this semester at UIUC that pertain to the role that you are applying to'
+              'List all classes you are taking this semester at UIUC that pertain to the role that you are applying to'
             ].split(', ')
           : [],
       roleReason:
         candidate[
-          'For the role you have selected, please elaborate why you are applying for that role and why you would be a good fit.'
+          'For the role you have selected, please elaborate why you are applying for that role and why you would be a good fit. (Please keep your response within 1000-1500 characters)'
         ],
       joinReason:
-        candidate['Why do you want to join Hack4Impact, and what do you hope to gain from it?'],
+        candidate[
+          'Why do you want to join Hack4Impact, and what do you hope to gain from it? (Please keep your response within 1000-1500 characters)'
+        ],
       timeCommitment: candidate['Please list your time commitments this semester'],
       techExperience:
         candidate[
