@@ -197,6 +197,13 @@ export default connect(
   mapDispatchToProps
 )(CandidatePage)
 
+export function getStaticPaths() {
+  return {
+    fallback: false,
+    paths: [].map(cid => ({ params: { cid } })),
+  }
+}
+
 export function getStaticProps() {
   return { props: {} }
 }
