@@ -196,3 +196,7 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CandidatePage)
+
+export function getStaticProps() {
+  return { props: {} }
+}

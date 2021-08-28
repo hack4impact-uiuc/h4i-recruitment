@@ -6,16 +6,14 @@ export const yearsEnum = {
 }
 
 export const gradEnum = {
-  SP19: 'Spring 2019',
-  FA19: 'Fall 2019',
-  SP20: 'Spring 2020',
-  FA20: 'Fall 2020',
-  SP21: 'Spring 2021',
   FA21: 'Fall 2021',
   SP22: 'Spring 2022',
   FA22: 'Fall 2022',
   SP23: 'Spring 2023',
   FA23: 'Fall 2023',
+  SP24: 'Spring 2024',
+  FA24: 'Fall 2024',
+  SP25: 'Spring 2025',
 }
 
 export const statusEnum = {
@@ -28,7 +26,6 @@ export const statusEnum = {
 }
 
 export const referralEnum = {
-  STRONG_REFERRAL: 'Strong Referral',
   REFERRAL: 'Referral',
   NO_REFERRAL: 'No Referral',
 }
@@ -47,7 +44,9 @@ export const categoryEnum = {
 }
 
 export const rolesEnum = {
+  AM: 'Academy Member',
   SWE: 'Software Developer',
+  AMSWE: 'Software Developer/Academy Member (we will put you in one of these tracks)',
   PM: 'Product Manager',
   TL: 'Tech Lead',
   UI: 'Product Designer',

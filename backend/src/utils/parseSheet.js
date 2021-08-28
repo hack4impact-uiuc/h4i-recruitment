@@ -14,7 +14,7 @@ mongoose.connection
   .once('open', () => console.log('Connected to MongoLab instance.'))
   .on('error', error => console.log('Error connecting to MongoLab:', error))
 
-const wb = XLSX.readFile(__dirname + '/candidates.xlsx')
+const wb = XLSX.readFile(__dirname + '/candidates4.xlsx')
 const ws = wb.Sheets[wb.SheetNames[0]]
 
 const jsonSheet = XLSX.utils.sheet_to_json(ws)
@@ -37,28 +37,28 @@ async function parseStuff() {
     }
     let year = null
     switch (candidate['Graduation Date']) {
-      case gradEnum.FA20:
-        year = yearsEnum.SENIOR
-        break
-      case gradEnum.SP21:
-        year = yearsEnum.SENIOR
-        break
       case gradEnum.FA21:
-        year = yearsEnum.JUNIOR
+        year = yearsEnum.SENIOR
         break
       case gradEnum.SP22:
-        year = yearsEnum.JUNIOR
+        year = yearsEnum.SENIOR
         break
       case gradEnum.FA22:
-        year = yearsEnum.SOPHOMORE
+        year = yearsEnum.JUNIOR
         break
       case gradEnum.SP23:
-        year = yearsEnum.SOPHOMORE
+        year = yearsEnum.JUNIOR
         break
       case gradEnum.FA23:
-        year = yearsEnum.FRESHMAN
+        year = yearsEnum.SOPHOMORE
         break
       case gradEnum.SP24:
+        year = yearsEnum.SOPHOMORE
+        break
+      case gradEnum.FA24:
+        year = yearsEnum.FRESHMAN
+        break
+      case gradEnum.SP25:
         year = yearsEnum.FRESHMAN
         break
     }
@@ -108,15 +108,7 @@ async function parseStuff() {
         ],
       howTheyKnowUs: candidate['How did you first hear about us?'],
       additionalComments: candidate['What else should we know about you?'],
-      interviews: [
-        {
-          timeCommitmentNotes: candidate['Please list your time commitments this semester'],
-          dedicationToCommunityNotes: candidate['Dedication to Community'],
-          techCompetenceNotes: candidate['Technical Competence '],
-          otherNotes: candidate.Notes,
-          interviewer: candidate.Interviewers
-        }
-      ]
+      interviews: []
     })
     // save errors out if candidate doesn't match the schema
     const res = await newCandidate.save()

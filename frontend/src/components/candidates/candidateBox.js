@@ -106,7 +106,7 @@ class CandidateBox extends Component {
               {candidate.classesTaken != undefined ? candidate.classesTaken.join(', ') : null}
             </p>
             <p>
-              <b>Classes Taken:</b>
+              <b>Classes Currently Taking:</b>
               {candidate.classesTaking != undefined ? candidate.classesTaking.join(', ') : null}
             </p>
             <p>

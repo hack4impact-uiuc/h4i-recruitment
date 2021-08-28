@@ -190,7 +190,7 @@ class FilterComponent extends Component<Props> {
                     onChange={this.handleChange}
                   />
                   <div className="state">
-                    <label htmlFor={el}>{el}</label>
+                    <label htmlFor={el}>{el.replace("Referral", "Contact")}</label>
                   </div>
                 </div>
               </div>
