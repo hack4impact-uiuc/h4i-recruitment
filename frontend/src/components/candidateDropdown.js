@@ -66,17 +66,10 @@ class CandidateDropdown extends Component<Props, State> {
   render() {
     const { selectedOption } = this.state
     const { candidates } = this.props
-    var candidate_names = []
-    for (var i = 0; i < candidates.length; i++) {
-      let curr_cand = this.props.candidates[i]
-      let curr_name_label = { value: curr_cand.name.toString(), label: curr_cand.name.toString() }
-      candidate_names.push(curr_name_label)
-    }
 
     return (
       <Select
-        defaultValue={candidate_names[0]}
-        options={candidate_names}
+        options={candidates.map(candidate => ({ value: candidate.name, label: candidate.name }))}
         onChange={this.handleChange}
         value={selectedOption}
       />

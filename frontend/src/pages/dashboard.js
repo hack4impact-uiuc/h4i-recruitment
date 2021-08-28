@@ -202,7 +202,7 @@ class Dashboard extends Component {
                             {selects.includes('Major') && <th>Major</th>}
                             {selects.includes('Hours') && <th>Hours</th>}
                             {selects.includes('Links') && <th>Links</th>}
-                            {selects.includes('Contacts') && <th>Contacts</th>}
+                            {selects.includes('Referrals') && <th>Contacts</th>}
                             {selects.includes('Avg Interview Score') && (
                               <th>Avg Interview Score</th>
                             )}
@@ -269,7 +269,7 @@ class Dashboard extends Component {
                                   </td>
                                 )}
 
-                                {selects.includes('Contacts') && (
+                                {selects.includes('Referrals') && (
                                   <>
                                     <td>
                                       <span id={`refer-${key}`}>{candidate.referrals.length}</span>

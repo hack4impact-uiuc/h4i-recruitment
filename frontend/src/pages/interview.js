@@ -165,6 +165,7 @@ class Interview extends Component<Props> {
   render() {
     let { error, filters } = this.props
     let { candidates } = this.state
+
     if (error) {
       console.error(error)
       return (
@@ -177,22 +178,7 @@ class Interview extends Component<Props> {
         </>
       )
     }
-    const statusFilter = filters.statuses
     const { sections } = this.state
-    let candidate = null
-    if (candidates != undefined) {
-      candidates = candidates.filter(candidate => {
-        return statusFilter.includes(candidate.status)
-      })
-      const filtered_candidates = candidates.filter(
-        candidate => candidate._id == this.props.candidateId
-      )
-      if (filtered_candidates.length != 0) {
-        candidate = filtered_candidates[0]
-      }
-    } else {
-      candidates = []
-    }
 
     return (
       <>
@@ -214,15 +200,6 @@ class Interview extends Component<Props> {
                 </ToastHeader>
                 <ToastBody>Just in case, so you won't lose any of your notes.</ToastBody>
               </Toast>
-            </Col>
-          </Row>
-          <Row>
-            <Col md="6">
-              <InterviewQuickLinks
-                candidateName={this.props.candidateName}
-                candidateID={this.props.candidateId}
-                interviewGuideLink={roundData.rounds[this.props.round].interviewGuide}
-              />
             </Col>
           </Row>
           <VerificationModal

@@ -82,11 +82,10 @@ const roundData = {
           response: {},
         },
         {
-          title: 'Resume and Tech Knowledge (3 points)',
+          title: 'Resume and Tech/Applicable Knowledge (3 points)',
           description: (
             <b>
               Do they have projects? Internships? Do they actually know what they are talking about?
-              Do they understand the underlying technologies they’ve used? Do they know Web Dev?
             </b>
           ),
           type: 'notes',
@@ -98,15 +97,31 @@ const roundData = {
           title: 'Technical Challenge (5 points)',
           prompt: (
             <b>
-              Look at the Github gist for the list of stuff we look for. Sensibility with data
+              Dev: Look at the Github gist for the list of stuff we look for. Sensibility with data
               structures and functions, communication (clarifying, explaining), systematically
-              narrow bugs, familiar with language are the main things we look for
+              narrow bugs, familiar with language are the main things we look for. Designer: We are
+              looking for people who aren't just focused on UI and aesthetics but also have a UX
+              mindset. Ability to ask clarifying questions and apply empathy to the problem, focus
+              on understanding the client and painpoints before designing, and strong communication
+              are some of the things we look for.
             </b>
           ),
           prompt: 'Please note down the part they ended in/finished etc.',
           type: 'notes',
           notesPrompt:
-            'Which part did they end in? Did they give the optimal solutions? Were they communicative and sensible with data structures and functions they use?',
+            "Dev: Which part did they end in? Did they give the optimal solutions? Were they communicative and sensible with data structures and functions they use? Design: What clarifying questions did they ask? Are they intentional with understanding who's the nonprofit partner and what are their painpoints before jumping into any design? Were they communicative and sensible with their user research plan?",
+          response: {},
+        },
+        {
+          title: 'Academy Interview',
+          prompt: (
+            <b>
+              Only fill out this section if you interviewed an Academy candidate! Rubric and notes
+              template is attached to the Academy Interview guide, so just paste over your answers
+              from there.
+            </b>
+          ),
+          type: 'notes',
           response: {},
         },
         {
@@ -122,6 +137,9 @@ const roundData = {
           dropdownPrompt: 'Pick a Category',
           type: 'dropdown',
           textOptions: [
+            'Academy - no',
+            'Academy - maybe',
+            'Academy - yes',
             'Freshman - maybe',
             'Freshman - with lack of experience but high potential and initiative',
             'Freshman - yes',

@@ -6,14 +6,14 @@ const yearsEnum = {
 }
 
 const gradEnum = {
-  FA20: 'Fall 2020',
-  SP21: 'Spring 2021',
   FA21: 'Fall 2021',
   SP22: 'Spring 2022',
   FA22: 'Fall 2022',
   SP23: 'Spring 2023',
   FA23: 'Fall 2023',
-  SP24: 'Spring 2024'
+  SP24: 'Spring 2024',
+  FA24: 'Fall 2024',
+  SP25: 'Spring 2025'
 }
 
 const statusEnum = {
@@ -32,6 +32,8 @@ const referralEnum = {
 }
 
 const rolesEnum = {
+  AM: 'Academy Member',
+  AMSWE: 'Software Developer/Academy Member (we will put you in one of these tracks)',
   SWE: 'Software Developer',
   PM: 'Product Manager',
   TL: 'Tech Lead',
